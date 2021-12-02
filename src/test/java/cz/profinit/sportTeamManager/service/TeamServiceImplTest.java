@@ -68,9 +68,9 @@ public class TeamServiceImplTest {
     public void addNewSubgroup() {
         String subgroupName = "Players";
         Team team = teamService.getTeamByName("B team");
-        team = teamService.addSubgroup(team,subgroupName);
-        assertEquals(4,team.getListOfSubgroups().size());
-        assertEquals(subgroupName,team.getListOfSubgroups().get(3).getName());
+        team = teamService.addSubgroup(team, subgroupName);
+        assertEquals(4, team.getListOfSubgroups().size());
+        assertEquals(subgroupName, team.getListOfSubgroups().get(3).getName());
     }
 
     /**
@@ -80,12 +80,12 @@ public class TeamServiceImplTest {
     public void deleteSubgroup() {
         String subgroupName = "Empty subgroup";
         Team team = teamService.getTeamByName("B team");
-        team = teamService.deleteSubgroup(team,subgroupName);
-        assertEquals(2,team.getListOfSubgroups().size());
-        try{
+        team = teamService.deleteSubgroup(team, subgroupName);
+        assertEquals(2, team.getListOfSubgroups().size());
+        try {
             team.getTeamSubgroup(subgroupName);
         } catch (Exception e) {
-            assertEquals(e.getMessage(),"No subgroup found");
+            assertEquals(e.getMessage(), "No subgroup found");
         }
     }
 
@@ -137,7 +137,7 @@ public class TeamServiceImplTest {
         try {
             teamService.addUserToSubgroup(team, "Coaches", user);
         } catch (Exception e) {
-            assertEquals(e.getMessage(),"user is already in subgroup");
+            assertEquals(e.getMessage(), "user is already in subgroup");
         }
     }
 
@@ -158,7 +158,7 @@ public class TeamServiceImplTest {
     @Test
     public void deleteUserFromSubgroup() {
         Team team = teamService.getTeamByName("B team");
-        team = teamService.deleteUserFromSubgroup(team,"Coaches",loggedUser);
+        team = teamService.deleteUserFromSubgroup(team, "Coaches", loggedUser);
         assertFalse(team.getTeamSubgroup("Coaches").isUserInList(loggedUser));
     }
 }

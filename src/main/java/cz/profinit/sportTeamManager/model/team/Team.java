@@ -44,7 +44,7 @@ public class Team extends Entity {
     public Subgroup getTeamSubgroup(String subgroupName) {
         for (Subgroup subgroup : listOfSubgroups) {
             if (subgroup.getName().equals(subgroupName)) {
-              return subgroup;
+                return subgroup;
             }
         }
         throw new RuntimeException("No subgroup found");

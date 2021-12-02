@@ -30,8 +30,8 @@ public class Subgroup extends Entity {
      * @param name name of the subgroup
      */
     public Subgroup(String name) {
-     this.name = name;
-     this.userList = new ArrayList<>();
+        this.name = name;
+        this.userList = new ArrayList<>();
     }
 
 

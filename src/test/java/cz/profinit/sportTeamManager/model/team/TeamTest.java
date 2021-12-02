@@ -46,7 +46,7 @@ public class TeamTest {
         subgroup.setUserList(userList);
         subgroupList.add(subgroup);
 
-        team = new Team("A team","Vodní lyžování",subgroupList,user1);
+        team = new Team("A team", "Vodní lyžování", subgroupList, user1);
     }
 
     /**
@@ -55,8 +55,8 @@ public class TeamTest {
     @Test
     public void addNewSubgroup() {
         team.addNewSubgroup("Beginners");
-        assertEquals(2,team.getListOfSubgroups().size());
-        assertEquals("Beginners",team.getListOfSubgroups().get(1).getName());
+        assertEquals(2, team.getListOfSubgroups().size());
+        assertEquals("Beginners", team.getListOfSubgroups().get(1).getName());
     }
 
     /**
@@ -64,11 +64,11 @@ public class TeamTest {
      */
     @Test
     public void getTeamSubgroup() {
-        assertEquals(subgroup,team.getTeamSubgroup("Players"));
+        assertEquals(subgroup, team.getTeamSubgroup("Players"));
         try {
             team.getTeamSubgroup("A");
         } catch (Exception e) {
-            assertEquals("No subgroup found",e.getMessage());
+            assertEquals("No subgroup found", e.getMessage());
         }
     }
 
@@ -78,11 +78,11 @@ public class TeamTest {
     @Test
     public void deleteSubgroup() {
         team.deleteSubgroup("Players");
-        assertEquals(0,team.getListOfSubgroups().size());
+        assertEquals(0, team.getListOfSubgroups().size());
         try {
             team.deleteSubgroup("A");
         } catch (Exception e) {
-            assertEquals("No subgroup found",e.getMessage());
+            assertEquals("No subgroup found", e.getMessage());
         }
     }
 }

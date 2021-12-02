@@ -66,7 +66,7 @@ public class SubgroupTest {
         try {
             subgroup.removeUser(user2);
         } catch (Exception e) {
-            assertEquals("no user in list",e.getMessage());
+            assertEquals("no user in list", e.getMessage());
         }
     }
 

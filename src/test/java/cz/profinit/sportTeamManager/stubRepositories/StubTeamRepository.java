@@ -34,18 +34,18 @@ public class StubTeamRepository implements TeamRepository {
      * @return created stub team
      */
     public Team findTeamByName(String teamName) {
-            User owner = new RegistredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
-            List<Subgroup> subgroupList = new ArrayList<>();
-            Subgroup allUsersSubgroup = new Subgroup(allUsersSubgroupName);
-            allUsersSubgroup.addUser(owner);
-            Subgroup coachesSubgroup = new Subgroup(coachesSubgroupName);
-            coachesSubgroup.addUser(owner);
-            Subgroup emptySubgroup = new Subgroup("Empty subgroup");
-            subgroupList.add(allUsersSubgroup);
-            subgroupList.add(coachesSubgroup);
-            subgroupList.add(emptySubgroup);
-            logger.info("STUB: Creating team");
-            return new Team("B team", "sipky", subgroupList, owner);
+        User owner = new RegistredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        List<Subgroup> subgroupList = new ArrayList<>();
+        Subgroup allUsersSubgroup = new Subgroup(allUsersSubgroupName);
+        allUsersSubgroup.addUser(owner);
+        Subgroup coachesSubgroup = new Subgroup(coachesSubgroupName);
+        coachesSubgroup.addUser(owner);
+        Subgroup emptySubgroup = new Subgroup("Empty subgroup");
+        subgroupList.add(allUsersSubgroup);
+        subgroupList.add(coachesSubgroup);
+        subgroupList.add(emptySubgroup);
+        logger.info("STUB: Creating team");
+        return new Team("B team", "sipky", subgroupList, owner);
     }
 
     /**

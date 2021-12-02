@@ -41,8 +41,8 @@ public class TeamServiceImpl implements TeamService {
      * Team is created with two default subgroups: "All users" and "Coaches". Owner is added to both subgroups.
      *
      * @param teamName name of created team
-     * @param sport name of sport what team practice
-     * @param owner creator of the team and its owner
+     * @param sport    name of sport what team practice
+     * @param owner    creator of the team and its owner
      * @return newly created team with two default subgroups
      */
     public Team createNewTeam(String teamName, String sport, User owner) {
@@ -74,9 +74,9 @@ public class TeamServiceImpl implements TeamService {
      * Checks if the added user is in the default subgroup "All users". If not, user is also added to this subgroup.
      * If the user is in the subgroup, throws Exception.
      *
-     * @param team team where is a subgroup
+     * @param team         team where is a subgroup
      * @param subgroupName name of subgroup where we want to add
-     * @param user user which we want to add to the subgroup
+     * @param user         user which we want to add to the subgroup
      * @return team with updated subgroup now including added user
      */
     public Team addUserToSubgroup(Team team, String subgroupName, User user) {
@@ -101,7 +101,7 @@ public class TeamServiceImpl implements TeamService {
      * Adds a user to the team by adding it to the default subgroup "All users".
      * Checks if the user is already in the subgroup. If the user is in the subgroup, throws Exception.
      *
-     * @param team  team where user should be added
+     * @param team team where user should be added
      * @param user user which should be added
      * @return updated team with added user
      */
@@ -118,7 +118,7 @@ public class TeamServiceImpl implements TeamService {
     /**
      * Adds a new subgroup of selected name to the determined team. Team is selected by its name.
      *
-     * @param team team where the subgroup should be added
+     * @param team         team where the subgroup should be added
      * @param subgroupName name of the new subgroup
      * @return team with including added subgroup
      */
@@ -131,7 +131,7 @@ public class TeamServiceImpl implements TeamService {
     /**
      * Removes a subgroup of determined name from the team.
      *
-     * @param team team name from which subgroup should be removed
+     * @param team         team name from which subgroup should be removed
      * @param subgroupName name of the subgroup what should be removed
      * @return team excluding removed subgroup
      */
@@ -144,9 +144,9 @@ public class TeamServiceImpl implements TeamService {
     /**
      * Removes a user from subgroup determined by name.
      *
-     * @param team name of team containing a subgroup from which user should be removed
+     * @param team         name of team containing a subgroup from which user should be removed
      * @param subgroupName name of the subgroup from which user should be removed
-     * @param user user which should be removed
+     * @param user         user which should be removed
      * @return team with updated subgroup excluding a removed user
      */
     public Team deleteUserFromSubgroup(Team team, String subgroupName, User user) {
