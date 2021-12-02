@@ -1,2 +1,4 @@
-package cz.profinit.sportTeamManager.model.d;public class Place {
+package cz.profinit.sportTeamManager.model.event;
+
+public class Place {
 }

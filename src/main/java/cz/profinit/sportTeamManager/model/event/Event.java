@@ -1,4 +1,4 @@
-package cz.profinit.sportTeamManager.model.d;
+package cz.profinit.sportTeamManager.model.event;
 
 public class Event {
 }

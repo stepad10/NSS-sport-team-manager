@@ -1,2 +1,6 @@
-package cz.profinit.sportTeamManager.stubRepositories;public class StubSubgroupRepository {
+package cz.profinit.sportTeamManager.stubRepositories;
+
+import cz.profinit.sportTeamManager.repositories.SubgroupRepository;
+
+public class StubSubgroupRepository implements SubgroupRepository {
 }

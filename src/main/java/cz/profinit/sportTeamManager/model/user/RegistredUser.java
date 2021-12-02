@@ -1,7 +1,14 @@
-package cz.profinit.sportTeamManager.model;
+package cz.profinit.sportTeamManager.model.user;
 
-public class RegistredUser implements User{
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class RegistredUser extends User {
+    private String name;
     private String surname;
     private String password;
     private String email;
+    private RoleEnum role;
 }

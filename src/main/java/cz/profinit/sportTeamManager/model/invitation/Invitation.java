@@ -1,2 +1,4 @@
-package cz.profinit.sportTeamManager.model.invitation;public class Invitation {
+package cz.profinit.sportTeamManager.model.invitation;
+
+public class Invitation {
 }

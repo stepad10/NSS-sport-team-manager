@@ -1,4 +1,4 @@
-package cz.profinit.sportTeamManager.model;
+package cz.profinit.sportTeamManager.model.user;
 
 public enum RoleEnum {
     ADMIN,

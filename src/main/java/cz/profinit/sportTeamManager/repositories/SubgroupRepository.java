@@ -1,2 +1,4 @@
-package cz.profinit.sportTeamManager.repositories;public interface SubgroupRepository {
+package cz.profinit.sportTeamManager.repositories;
+
+public interface SubgroupRepository {
 }

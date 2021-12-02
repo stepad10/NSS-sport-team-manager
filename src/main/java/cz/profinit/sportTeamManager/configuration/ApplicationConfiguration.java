@@ -1,2 +1,9 @@
-package cz.profinit.sportTeamManager.configuration;public class ApplicationConfiguration {
+package cz.profinit.sportTeamManager.configuration;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan
+public class ApplicationConfiguration {
 }
