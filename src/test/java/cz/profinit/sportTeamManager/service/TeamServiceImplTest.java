@@ -1,3 +1,11 @@
+/*
+ * TeamServiceImplTest
+ *
+ * 0.1
+ *
+ * Author: J. Janský
+ */
+
 package cz.profinit.sportTeamManager.service;
 
 import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
@@ -20,14 +28,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+
+/**
+ * Unit tests for Team service implementation
+ */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 public class TeamServiceImplTest {
     private TeamServiceImpl teamService;
     private User loggedUser;
 
+    /**
+     * Before a test create new TeamServiceImpl using stub repositories and new user.
+     */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         SubgroupRepository subgroupRepository = new StubSubgroupRepository();
         UserRepository userRepository = new StubUserRepository();
@@ -37,12 +52,18 @@ public class TeamServiceImplTest {
         loggedUser = new RegistredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
     }
 
+    /**
+     * Tests creation of a new team
+     */
     @Test
     public void createNewTeam() {
         Team team = teamService.createNewTeam("A team", "golf", loggedUser);
         assertEquals(loggedUser, team.getOwner());
     }
 
+    /**
+     * Tests of adding a new subgroup to the specific team.
+     */
     @Test
     public void addNewSubgroup() {
         String subgroupName = "Players";
@@ -52,6 +73,9 @@ public class TeamServiceImplTest {
         assertEquals(subgroupName,team.getListOfSubgroups().get(3).getName());
     }
 
+    /**
+     * Tests removing a subgroup from a team
+     */
     @Test
     public void deleteSubgroup() {
         String subgroupName = "Empty subgroup";
@@ -65,6 +89,9 @@ public class TeamServiceImplTest {
         }
     }
 
+    /**
+     * Tests adding new user to the team.
+     */
     @Test
     public void addUserToTeam() {
         User user = new RegistredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
@@ -73,7 +100,9 @@ public class TeamServiceImplTest {
         assertEquals(user, team.getListOfSubgroups().get(0).getUserList().get(1));
     }
 
-
+    /**
+     * Tests adding new user to the subgroup which is not in already in a team.
+     */
     @Test
     public void addUserToSubgroupWhoIsNotInAllUsers() {
         User user = new RegistredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
@@ -84,6 +113,10 @@ public class TeamServiceImplTest {
         assertEquals(user, team.getListOfSubgroups().get(0).getUserList().get(1));
     }
 
+
+    /**
+     * Tests adding a new user to the subgroup.
+     */
     @Test
     public void addUserToSubgroupWhoIsInAllUsers() {
         Team team = teamService.getTeamByName("B team");
@@ -94,6 +127,9 @@ public class TeamServiceImplTest {
     }
 
 
+    /**
+     * Tests adding a user to the subgroup who is already in a subgroup.
+     */
     @Test
     public void addAlreadyAddedUser() {
         User user = new RegistredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
@@ -105,6 +141,9 @@ public class TeamServiceImplTest {
         }
     }
 
+    /**
+     * Tests deleting a user from a team and all subgroups.
+     */
     @Test
     public void deleteUser() {
         Team team = teamService.getTeamByName("B team");
@@ -113,6 +152,9 @@ public class TeamServiceImplTest {
         assertFalse(team.getTeamSubgroup("Coaches").isUserInList(loggedUser));
     }
 
+    /**
+     * Tests deleting a user from a subgroup.
+     */
     @Test
     public void deleteUserFromSubgroup() {
         Team team = teamService.getTeamByName("B team");
