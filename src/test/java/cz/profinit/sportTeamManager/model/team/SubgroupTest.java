@@ -8,7 +8,7 @@
 package cz.profinit.sportTeamManager.model.team;
 
 import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
-import cz.profinit.sportTeamManager.model.user.RegistredUser;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import org.junit.Before;
@@ -39,8 +39,8 @@ public class SubgroupTest {
     public void setUp() {
         List<User> userList = new ArrayList<>();
 
-        user1 = new RegistredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
-        user2 = new RegistredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
+        user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        user2 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
         userList.add(user1);
         subgroup = new Subgroup("Players");
         subgroup.setUserList(userList);

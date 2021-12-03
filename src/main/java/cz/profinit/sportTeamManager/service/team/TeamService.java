@@ -5,9 +5,10 @@
  *
  * Author: J. Janský
  */
-package cz.profinit.sportTeamManager.service;
+package cz.profinit.sportTeamManager.service.team;
 
 
+import cz.profinit.sportTeamManager.dto.TeamDto;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.User;
 
@@ -19,12 +20,10 @@ public interface TeamService {
      * Create a new team with entered name and sport owned by currently logged registered user.
      * Team is created with two default subgroups: "All users" and "Coaches". Owner is added to both subgroups.
      *
-     * @param teamName name of created team
-     * @param sport    name of sport what team practice
-     * @param owner    creator of the team and its owner
+     * @param teamDto name of created team
      * @return newly created team with two default subgroups
      */
-    Team createNewTeam(String teamName, String sport, User owner);
+    Team createNewTeam(TeamDto teamDto);
 
     /**
      * Calls a repository to found a team in database by team name.

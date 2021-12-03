@@ -5,8 +5,11 @@
  *
  * Author: J. Janský
  */
-package cz.profinit.sportTeamManager.service;
+package cz.profinit.sportTeamManager.service.team;
 
+import cz.profinit.sportTeamManager.dto.TeamDto;
+import cz.profinit.sportTeamManager.exceptions.UserIsInSubgroupException;
+import cz.profinit.sportTeamManager.mappers.TeamMapper;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.User;
@@ -16,7 +19,6 @@ import cz.profinit.sportTeamManager.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,27 +34,26 @@ public class TeamServiceImpl implements TeamService {
     private TeamRepository teamRepository;
     private UserRepository userRepository;
     private SubgroupRepository subgroupRepository;
+    private TeamMapper teamMapper;
 
-    private final String allUsersSubgroupName = "All Users";
-    private final String coachesSubgroupName = "Coaches";
+    private final String ALL_USER_SUBGROUP = "All Users";
+    private final String COACHES_SUBGROUP = "Coaches";
+
 
     /**
      * Create a new team with entered name and sport owned by currently logged registered user.
      * Team is created with two default subgroups: "All users" and "Coaches". Owner is added to both subgroups.
      *
-     * @param teamName name of created team
-     * @param sport    name of sport what team practice
-     * @param owner    creator of the team and its owner
+     * @param teamDto name of created team
      * @return newly created team with two default subgroups
      */
-    public Team createNewTeam(String teamName, String sport, User owner) {
-        List<Subgroup> subgroupList = new ArrayList<>();
-        Team team = new Team(teamName, sport, subgroupList, owner);
-        team.addNewSubgroup(allUsersSubgroupName);
-        team.getListOfSubgroups().get(0).addUser(owner);
-        team.addNewSubgroup(coachesSubgroupName);
-        team.getListOfSubgroups().get(1).addUser(owner);
-        teamRepository.updateTeam(team);
+    public Team createNewTeam(TeamDto teamDto) {
+        Team team = teamMapper.mapTeamDtoToTeam(teamDto);
+        team.addNewSubgroup(ALL_USER_SUBGROUP);
+        team.getListOfSubgroups().get(0).addUser(team.getOwner());
+        team.addNewSubgroup(COACHES_SUBGROUP);
+        team.getListOfSubgroups().get(1).addUser(team.getOwner());
+        teamRepository.saveTeam(team);
 
         return team;
 
@@ -68,6 +69,16 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.findTeamByName(teamName);
     }
 
+    /**
+     * Gets Team from Team data transfer object
+     *
+     * @param teamDto Team data transfer object
+     * @return mapped team
+     */
+    public Team getTeamFromTeamDto(TeamDto teamDto) {
+        return teamMapper.mapTeamDtoToTeam(teamDto);
+    }
+
 
     /**
      * Adds a new user to the subgroup in certain team.
@@ -79,16 +90,16 @@ public class TeamServiceImpl implements TeamService {
      * @param user         user which we want to add to the subgroup
      * @return team with updated subgroup now including added user
      */
-    public Team addUserToSubgroup(Team team, String subgroupName, User user) {
+    public Team addUserToSubgroup(Team team, String subgroupName, User user) throws UserIsInSubgroupException {
         List<Subgroup> subgroupList = team.getListOfSubgroups();
         Subgroup subgroup = team.getTeamSubgroup(subgroupName);
 
-        if (!team.getTeamSubgroup(allUsersSubgroupName).isUserInList(user)) {
+        if (!team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) {
             team = addUserToTeam(team, user);
         }
 
         if (subgroup.isUserInList(user)) {
-            throw new RuntimeException("user is already in subgroup");
+            throw new UserIsInSubgroupException("User is already in subgroup");
         } else {
             team.getTeamSubgroup(subgroupName).addUser(user);
         }
@@ -106,10 +117,10 @@ public class TeamServiceImpl implements TeamService {
      * @return updated team with added user
      */
     public Team addUserToTeam(Team team, User user) {
-        if (team.getTeamSubgroup(allUsersSubgroupName).isUserInList(user)) {
+        if (team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) {
             throw new RuntimeException("user is already in team");
         } else {
-            team.getTeamSubgroup(allUsersSubgroupName).addUser(user);
+            team.getTeamSubgroup(ALL_USER_SUBGROUP).addUser(user);
             teamRepository.updateTeam(team);
         }
         return team;

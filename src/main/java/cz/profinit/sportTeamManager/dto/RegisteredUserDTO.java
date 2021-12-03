@@ -1,11 +1,12 @@
-package cz.profinit.sportTeamManager.model.user;
+package cz.profinit.sportTeamManager.dto;
 
+import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RegistredUser extends User {
+public class RegisteredUserDTO {
     private String name;
     private String surname;
     private String password;

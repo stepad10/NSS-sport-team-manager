@@ -8,7 +8,7 @@
 package cz.profinit.sportTeamManager.model.team;
 
 import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
-import cz.profinit.sportTeamManager.model.user.RegistredUser;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import org.junit.Before;
@@ -40,7 +40,7 @@ public class TeamTest {
         List<User> userList = new ArrayList<>();
         List<Subgroup> subgroupList = new ArrayList<>();
 
-        user1 = new RegistredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         userList.add(user1);
         subgroup = new Subgroup("Players");
         subgroup.setUserList(userList);

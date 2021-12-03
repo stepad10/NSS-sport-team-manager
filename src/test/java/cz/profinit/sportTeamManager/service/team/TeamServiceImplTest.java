@@ -6,11 +6,14 @@
  * Author: J. Janský
  */
 
-package cz.profinit.sportTeamManager.service;
+package cz.profinit.sportTeamManager.service.team;
 
 import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
+import cz.profinit.sportTeamManager.dto.TeamDto;
+import cz.profinit.sportTeamManager.mappers.TeamMapper;
+import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
-import cz.profinit.sportTeamManager.model.user.RegistredUser;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.SubgroupRepository;
@@ -25,6 +28,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -37,9 +43,10 @@ import static org.junit.Assert.assertFalse;
 public class TeamServiceImplTest {
     private TeamServiceImpl teamService;
     private User loggedUser;
+    private TeamDto teamDto;
 
     /**
-     * Before a test create new TeamServiceImpl using stub repositories and new user.
+     * Before a test create new TeamServiceImpl using stub repositories, TeamDto and new user.
      */
     @Before
     public void setUp() {
@@ -47,9 +54,12 @@ public class TeamServiceImplTest {
         SubgroupRepository subgroupRepository = new StubSubgroupRepository();
         UserRepository userRepository = new StubUserRepository();
         TeamRepository teamRepository = new StubTeamRepository();
+        TeamMapper teamMapper = new TeamMapper();
+        List<Subgroup> subgroupList = new ArrayList<>();
 
-        teamService = new TeamServiceImpl(teamRepository, userRepository, subgroupRepository);
-        loggedUser = new RegistredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        teamService = new TeamServiceImpl(teamRepository, userRepository, subgroupRepository,teamMapper);
+        loggedUser = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        teamDto = new TeamDto("A team", "golf",subgroupList, loggedUser);
     }
 
     /**
@@ -57,9 +67,13 @@ public class TeamServiceImplTest {
      */
     @Test
     public void createNewTeam() {
-        Team team = teamService.createNewTeam("A team", "golf", loggedUser);
+        Team team = teamService.createNewTeam(teamDto);
         assertEquals(loggedUser, team.getOwner());
-    }
+        assertEquals(teamDto.getName(),team.getName());
+        assertEquals(teamDto.getSport(),team.getSport());
+        assertEquals(teamDto.getOwner(),team.getOwner());
+        assertEquals(teamDto.getListOfSubgroups(),team.getListOfSubgroups());
+            }
 
     /**
      * Tests of adding a new subgroup to the specific team.
@@ -94,7 +108,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void addUserToTeam() {
-        User user = new RegistredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
+        User user = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
         Team team = teamService.getTeamByName("B team");
         team = teamService.addUserToTeam(team, user);
         assertEquals(user, team.getListOfSubgroups().get(0).getUserList().get(1));
@@ -105,7 +119,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void addUserToSubgroupWhoIsNotInAllUsers() {
-        User user = new RegistredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
+        User user = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
         Team team = teamService.getTeamByName("B team");
         team = teamService.addUserToSubgroup(team, "Coaches", user);
         System.out.println(team.toString());
@@ -132,12 +146,12 @@ public class TeamServiceImplTest {
      */
     @Test
     public void addAlreadyAddedUser() {
-        User user = new RegistredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        User user = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         Team team = teamService.getTeamByName("B team");
         try {
             teamService.addUserToSubgroup(team, "Coaches", user);
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "user is already in subgroup");
+            assertEquals(e.getMessage(), "User is already in subgroup");
         }
     }
 

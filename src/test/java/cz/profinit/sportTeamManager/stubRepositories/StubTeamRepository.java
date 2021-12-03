@@ -9,7 +9,7 @@ package cz.profinit.sportTeamManager.stubRepositories;
 
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
-import cz.profinit.sportTeamManager.model.user.RegistredUser;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.TeamRepository;
@@ -34,7 +34,7 @@ public class StubTeamRepository implements TeamRepository {
      * @return created stub team
      */
     public Team findTeamByName(String teamName) {
-        User owner = new RegistredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        User owner = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         List<Subgroup> subgroupList = new ArrayList<>();
         Subgroup allUsersSubgroup = new Subgroup(allUsersSubgroupName);
         allUsersSubgroup.addUser(owner);
@@ -56,6 +56,12 @@ public class StubTeamRepository implements TeamRepository {
     @Override
     public void updateTeam(Team team) {
         logger.info("STUB: Updating team");
+    }
+
+    @Override
+    public Team saveTeam(Team team) {
+        logger.info("STUB: Saving team");
+        return team;
     }
 
 
