@@ -39,4 +39,14 @@ public class Event extends Entity {
             listOfMessages.add(message);
         }
     }
+
+    /**
+     * Adds new invitation to the Event
+     * @param invitation Invitation that needs to be saved.
+     */
+    public void addNewInvitation (Invitation invitation){
+        if(!listOfInvitation.contains(invitation)){
+            listOfInvitation.add(invitation);
+        }
+    }
 }

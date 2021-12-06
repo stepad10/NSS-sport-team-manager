@@ -11,6 +11,7 @@ import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
+import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.user.User;
 
 import java.util.List;
@@ -25,6 +26,5 @@ public interface EventService {
     Event findEventById(Long id) throws EntityNotFoundException;
     Event addNewMessage (User user, String messageStr, Event event);
     List<Message> getAllMessages (Event event);
-
-
+    Event addNewInvitation(Event event, Invitation invitation);
 }

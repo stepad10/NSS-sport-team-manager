@@ -12,6 +12,7 @@ import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
+import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.EventRepository;
 import lombok.AllArgsConstructor;
@@ -95,7 +96,7 @@ public class EventServiceImpl implements EventService{
     }
 
     /**
-     * Returns all messages related to selected event.
+     * Returns all messages related to given event.
      *
      * @param event which from we want to get messages.
      * @return List of messages.
@@ -103,4 +104,26 @@ public class EventServiceImpl implements EventService{
     public List<Message> getAllMessages (Event event)  {
         return event.getListOfMessages();
     }
+
+    /**
+     * Adds new Invitation to the Event
+     * @param event to which we want to add Invitation
+     * @param invitation Invitation which we want to add to the event
+     * @return updated event
+     */
+    public Event addNewInvitation(Event event, Invitation invitation) {
+        event.addNewInvitation(invitation);
+        eventRepository.updateEvent(event);
+        return event;
+    }
+
+    /**
+     * Returns all invitation related to given Event
+     * @param event for which we are getting Invitations
+     * @return List of Invitations
+     */
+    public List<Invitation> getAllInvitations (Event event)  {
+        return event.getListOfInvitation();
+    }
+
 }
