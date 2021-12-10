@@ -25,7 +25,7 @@ public class EventMapper {
      * @param event Event that needs to be mapped.
      * @return EventDto representing given Event
      */
-    public EventDto toDto(Event event) {
+    public static EventDto toDto(Event event) {
         return new EventDto(event.getDate(), event.getPlace(), event.getMaxPersonAttendance(), event.getCreatedBy(),event.getIsCanceled());
     }
 
@@ -34,7 +34,7 @@ public class EventMapper {
      * @param eventDto EventDto that needs to be mapped.
      * @return Event representing given EventDto
      */
-    public Event toEvent(EventDto eventDto) {
+    public static Event toEvent(EventDto eventDto) {
         return new Event(eventDto.getDate(),eventDto.getPlace(),eventDto.getMaxPersonAttendance(),eventDto.getIsCanceled(),eventDto.getCreatedBy(), new ArrayList<>(),new ArrayList<>());
     }
 }

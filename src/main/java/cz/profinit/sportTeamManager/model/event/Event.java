@@ -4,7 +4,9 @@
  * 0.1
  *
  * Author: M. Halamka
- */package cz.profinit.sportTeamManager.model.event;
+ */
+
+package cz.profinit.sportTeamManager.model.event;
 
 import cz.profinit.sportTeamManager.model.entity.Entity;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;

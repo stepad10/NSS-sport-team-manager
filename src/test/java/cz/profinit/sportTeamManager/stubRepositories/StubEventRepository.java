@@ -1,3 +1,12 @@
+/*
+ * StubEventRepository
+ *
+ * 0.1
+ *
+ * Author: M. Halamka
+ */
+
+
 package cz.profinit.sportTeamManager.stubRepositories;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;

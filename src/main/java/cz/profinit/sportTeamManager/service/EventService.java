@@ -8,6 +8,7 @@
 package cz.profinit.sportTeamManager.service;
 
 import cz.profinit.sportTeamManager.dto.EventDto;
+import cz.profinit.sportTeamManager.dto.MessageDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
@@ -22,9 +23,11 @@ import java.util.List;
 public interface EventService {
 
     Event createNewEvent(EventDto eventDto);
-    Event updateEvent (EventDto eventDto, Event event);
+    Event updateEvent (EventDto eventDto, Long eventId) throws EntityNotFoundException;
     Event findEventById(Long id) throws EntityNotFoundException;
-    Event addNewMessage (User user, String messageStr, Event event);
-    List<Message> getAllMessages (Event event);
-    Event addNewInvitation(Event event, Invitation invitation);
+    Event addNewMessage (User user, String messageStr, Long eventId) throws EntityNotFoundException;
+    List<MessageDto> getAllMessages (Long eventId) throws EntityNotFoundException;
+    Event changeEventStatus (Long eventId) throws EntityNotFoundException;
+    Event addNewInvitation(Long eventId, Invitation invitation) throws EntityNotFoundException;
+    List<Invitation> getAllInvitations (Long eventId) throws EntityNotFoundException;
 }

@@ -7,9 +7,11 @@
  */
 package cz.profinit.sportTeamManager.service;
 
+import cz.profinit.sportTeamManager.dto.MessageDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
+import cz.profinit.sportTeamManager.mappers.MessageMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
@@ -19,6 +21,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,14 +46,16 @@ public class EventServiceImpl implements EventService{
         return eventRepository.createNewEvent(eventMapper.toEvent(eventDto));
     }
 
+
     /**
-     * Updates existing event, with data stored in EventDto
      *
      * @param eventDto EvenDto class, from which is Event updated.
-     * @param event Event that has been updated
+     * @param eventId Id of event that should be updated
      * @return Updated event
+     * @throws EntityNotFoundException if event was not found
      */
-    public Event updateEvent (EventDto eventDto, Event event) {
+    public Event updateEvent (EventDto eventDto, Long eventId) throws EntityNotFoundException {
+        Event event = findEventById(eventId);
         event.setDate(eventDto.getDate());
         event.setPlace(eventDto.getPlace());
         event.setMaxPersonAttendance(eventDto.getMaxPersonAttendance());
@@ -66,17 +71,17 @@ public class EventServiceImpl implements EventService{
      * @throws EntityNotFoundException if entity is not found.
      */
     public Event findEventById(Long id) throws EntityNotFoundException {
-        Event event = eventRepository.findEventById(id);
-        return event;
+        return eventRepository.findEventById(id);
     }
 
     /**
      * Changes event status isCanceled. If event is going to be Canceled method changes isCanceled boolean to true;
      *
-     * @param event that is going to be changed
+     * @param eventId ID if event that is going to be changed
      * @return changed Event
      */
-    public Event changeEventStatus (Event event) {
+    public Event changeEventStatus (Long eventId) throws EntityNotFoundException {
+        Event event = findEventById(eventId);
         event.setIsCanceled(!event.getIsCanceled());
         return eventRepository.updateEvent(event);
     }
@@ -86,10 +91,11 @@ public class EventServiceImpl implements EventService{
      *
      * @param user who is sender of the message
      * @param messageStr sended message
-     * @param event where message will be stored
+     * @param eventId ID of event where message will be stored
      * @return updated event
      */
-    public Event addNewMessage (User user, String messageStr, Event event){
+    public Event addNewMessage (User user, String messageStr, Long eventId) throws EntityNotFoundException {
+        Event event =  findEventById(eventId);
         Message message = new Message(user,messageStr,LocalDateTime.now());
         event.addNewMessage(message);
         return eventRepository.updateEvent(event);
@@ -98,20 +104,28 @@ public class EventServiceImpl implements EventService{
     /**
      * Returns all messages related to given event.
      *
-     * @param event which from we want to get messages.
-     * @return List of messages.
+     * @param eventId ID of event which from we want to get messages.
+     * @return List of DTO of message.
      */
-    public List<Message> getAllMessages (Event event)  {
-        return event.getListOfMessages();
+    public List<MessageDto> getAllMessages (Long eventId) throws EntityNotFoundException {
+        List<Message> listOfMessages = findEventById(eventId).getListOfMessages();
+        List <MessageDto> messageDtoList = new ArrayList<>();
+
+        for (Message message : listOfMessages) {
+            messageDtoList.add(MessageMapper.toDto(message));
+        }
+
+        return messageDtoList;
     }
 
     /**
      * Adds new Invitation to the Event
-     * @param event to which we want to add Invitation
+     * @param eventId ID of event to which we want to add Invitation
      * @param invitation Invitation which we want to add to the event
      * @return updated event
      */
-    public Event addNewInvitation(Event event, Invitation invitation) {
+    public Event addNewInvitation(Long eventId, Invitation invitation) throws EntityNotFoundException {
+        Event event = findEventById(eventId);
         event.addNewInvitation(invitation);
         eventRepository.updateEvent(event);
         return event;
@@ -119,10 +133,11 @@ public class EventServiceImpl implements EventService{
 
     /**
      * Returns all invitation related to given Event
-     * @param event for which we are getting Invitations
+     * @param eventId ID of event for which we are getting Invitations
      * @return List of Invitations
      */
-    public List<Invitation> getAllInvitations (Event event)  {
+    public List<Invitation> getAllInvitations (Long eventId) throws EntityNotFoundException {
+        Event event = findEventById(eventId);
         return event.getListOfInvitation();
     }
 

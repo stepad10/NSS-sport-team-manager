@@ -1,6 +1,16 @@
+/*
+ * StubInvitationRepository
+ *
+ * 0.1
+ *
+ * Author: M. Halamka
+ */
+
+
 package cz.profinit.sportTeamManager.stubRepositories;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -32,6 +42,23 @@ public class StubInvitationRepository implements InvitationRepository {
         } else {
             throw new EntityNotFoundException("Invitation entity not found!");
         }
+    }
+
+    @Override
+    public boolean deleteInvitation(User user, Event event) {
+        if (user.getName() != loggedUser.getName() || event.getEntityId() != 0L){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean isUserPresent(User user, Event event) {
+        if (user.getName() == "Pavel") {
+            return true;
+        }
+        return false;
     }
 
     @Override

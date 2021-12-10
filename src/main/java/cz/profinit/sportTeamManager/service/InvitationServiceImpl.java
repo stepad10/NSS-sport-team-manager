@@ -1,10 +1,24 @@
+/*
+ * InvitationServiceImpl
+ *
+ * 0.1
+ *
+ * Author: M. Halamka
+ */
+
+
 package cz.profinit.sportTeamManager.service;
 
+import cz.profinit.sportTeamManager.dto.InvitationDto;
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.InvitationRepository;
+import cz.profinit.sportTeamManager.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +32,28 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class InvitationServiceImpl {
+public class InvitationServiceImpl implements InvitationService{
 
     InvitationRepository invitationRepository;
     EventService eventService;
+    UserService userService;
 
     /**
      * Creates now invitation and saves it to repository.
-     * @param user user who gets invitation
-     * @param event for which is new invitation is created
+     * @param email email of user who gets invitation
+     * @param eventId ID of event for which is new invitation is created
      * @return created invitation
      */
-    public Invitation createNewInvitation(User user, Event event){
+    public Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
+        Event event = eventService.findEventById(eventId);
+        User user = userService.findUserByEmail(email);
+        if (!invitationRepository.isUserPresent(user, event)) {
         Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,user));
-        eventService.addNewInvitation(event, invitation);
+        eventService.addNewInvitation(eventId, invitation);
         return invitation;
+        } else {
+            throw new UserIsAlreadyInEventException("User is already present!!");
+        }
     }
 
     /**
@@ -50,42 +71,40 @@ public class InvitationServiceImpl {
     /**
      * Creates invitations from user list
      * @param userList Users who get invitation
-     * @param event to which they will be invited
+     * @param eventId ID of event to which they will be invited
      * @return List of created invitations
      */
-    public List<Invitation> createNewInvitationsFromList (List<User> userList, Event event){
+    public List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
         List<Invitation> invitationList = new ArrayList<>();
-        for(User user: userList){
-            invitationList.add(createNewInvitation(user,event));
+        for(RegisteredUser user: userList){
+            invitationList.add(createNewInvitation(user.getEmail(),eventId));
         }
         return invitationList;
     }
 
     /**
-     * Sort invitation list according to "changed" date from oldest to newest
-     * @param invitationList List that is going to be sorted
-     * @return new sorted list
+     * Methods deletes user invitation for selected event.
+     * @param email emaiů of user whose invitation will be deleted
+     * @param eventId ID of event on which invitation will be deleted
      */
-    public List<Invitation> getOrderedListOfInvitationsByDate (List<Invitation> invitationList){
-        List<Invitation> result = new ArrayList();
-        for(Invitation invitation : invitationList){
-            result.add(invitation);
-        }
-        Collections.sort(result);
-        return invitationList;
+    public boolean deleteInvitation (String email, Long eventId) throws EntityNotFoundException {
+        User user = userService.findUserByEmail(email);
+        Event event = eventService.findEventById(eventId);
+
+        return invitationRepository.deleteInvitation(user,event);
     }
 
     /**
      * Filter invitation list by status and sort it according to "changed" date from oldest to newest
-     * @param invitationList List that is going to be sorted
+     * @param invitationDtoList List that is going to be sorted
      * @param status according to which list will be filtered
      * @return Sorted and filtered list
      */
-    public List<Invitation> getOrderedListOfInvitationByDateForSpecificStatus (List<Invitation> invitationList, StatusEnum status){
-        List<Invitation> result = new ArrayList<>();
-        for (Invitation invitation : invitationList){
-            if(invitation.getStatus() == status){
-                result.add(invitation);
+    public List<InvitationDto> OrderListOfInvitationByDateForSpecificStatus (List<InvitationDto> invitationDtoList, StatusEnum status){
+        List<InvitationDto> result = new ArrayList<>();
+        for (InvitationDto invitationDto : invitationDtoList){
+            if(invitationDto.getStatus() == status){
+                result.add(invitationDto);
             }
         }
         Collections.sort(result);

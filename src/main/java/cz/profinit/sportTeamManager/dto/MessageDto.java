@@ -12,7 +12,7 @@ import cz.profinit.sportTeamManager.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 /**
@@ -25,6 +25,6 @@ public class MessageDto {
     //TODO Remove User and add UserDto
     private final User user;
     private final String message;
-    private final LocalDate date;
+    private final LocalDateTime date;
 
 }
