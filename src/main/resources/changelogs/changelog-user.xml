@@ -9,7 +9,53 @@
             http://www.liquibase.org/xml/ns/pro
             http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd
             http://www.liquibase.org/xml/ns/dbchangelog
-            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd" changeLogId="4a354514-5a28-4ff0-aae2-bfc19243a732">
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
-
+    <!-- ROLE_ENUM -->
+    <!--
+    1=ADMIN
+    2=USER
+    3=GUEST
+    -->
+    <changeSet id="1_1-1" author="dstepanek">
+        <createTable tableName="role_enum">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="role_enum_pk"/>
+            </column>
+            <column name="enum" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <insert tableName="role_enum">
+            <column name="enum" value="ADMIN"/>
+        </insert>
+        <insert tableName="role_enum">
+            <column name="enum" value="USER"/>
+        </insert>
+        <insert tableName="role_enum">
+            <column name="enum" value="GUEST"/>
+        </insert>
+    </changeSet>
+    
+    <!-- USER -->
+    <changeSet id="1-1" author="dstepanek">
+        <createTable tableName="user">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="user_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="CHAR(60)"/>
+            <column name="email" type="VARCHAR(320)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="role" type="INT">
+                <constraints nullable="false" foreignKeyName="role_enum_fk" references="role_enum(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
