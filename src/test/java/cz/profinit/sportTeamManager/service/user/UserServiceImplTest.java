@@ -8,19 +8,19 @@
 
 package cz.profinit.sportTeamManager.service.user;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
-import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
+import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.UserRepository;
-import cz.profinit.sportTeamManager.stubRepositories.StubUserRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.StubUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -30,11 +30,12 @@ import static org.junit.Assert.*;
  * Unit tests for User service implementation
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfiguration.class)
+@ContextConfiguration(classes = ApplicationConfigurationTest.class)
+@ActiveProfiles("stub")
 public class UserServiceImplTest {
     private UserServiceImpl userService;
-    private RegisteredUserDTO userDto;
-    private RegisteredUserDTO userDto2;
+    private RegisteredUser user;
+    private RegisteredUser user2;
 
     @Autowired
     private ApplicationContext context;
@@ -47,9 +48,9 @@ public class UserServiceImplTest {
         UserRepository userRepository = new StubUserRepository();
         UserMapper userMapper = new UserMapper();
         PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
-        userService = new UserServiceImpl(passwordEncoder,userMapper,userRepository);
-        userDto = new RegisteredUserDTO("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
-        userDto2 = new RegisteredUserDTO("Tomas", "Smutny", "pass", "ab@gmail.com", RoleEnum.USER);
+        userService = new UserServiceImpl(passwordEncoder,userRepository);
+        user = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        user2 = new RegisteredUser("Tomas", "Smutny", "pass", "ab@gmail.com", RoleEnum.USER);
     }
 
     /**
@@ -57,12 +58,12 @@ public class UserServiceImplTest {
      */
     @Test
     public void newUserRegistration() {
-        RegisteredUser user = userService.newUserRegistration(userDto);
-        assertEquals(userDto.getName(),user.getName());
-        assertEquals(userDto.getSurname(),user.getSurname());
-        assertEquals(userDto.getEmail(),userDto.getEmail());
-        assertEquals(userDto.getRole(),user.getRole());
-        assertNotEquals(userDto.getPassword(),user.getPassword());
+        RegisteredUser newUser = userService.newUserRegistration(user2);
+        assertEquals(user2.getName(),newUser.getName());
+        assertEquals(user2.getSurname(),newUser.getSurname());
+        assertEquals(user2.getEmail(),newUser.getEmail());
+        assertEquals(user2.getRole(),newUser.getRole());
+        assertNotEquals(user2.getPassword(),newUser.getPassword());
     }
 
     /**
@@ -71,9 +72,9 @@ public class UserServiceImplTest {
     @Test
     public void registrationOfExistingUser() {
         try {
-            RegisteredUser user = userService.newUserRegistration(userDto2);
+             user = userService.newUserRegistration(user);
         } catch (Exception e) {
-            assertEquals("Account with e-mail address " + userDto2.getEmail() + "already exists.",e.getMessage());
+            assertEquals("Account with e-mail address " + user.getEmail() + "already exists.",e.getMessage());
         }
     }
 

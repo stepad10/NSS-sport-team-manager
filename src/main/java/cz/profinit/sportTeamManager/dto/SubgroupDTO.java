@@ -1,21 +1,23 @@
 /*
- * RegisteredUserDTO
+ * SubgroupDTO
  *
  * 0.1
  *
  * Author: J. Janský
  */
+
 package cz.profinit.sportTeamManager.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Data transfer object for Registered user entity.
@@ -25,17 +27,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NoArgsConstructor
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RegisteredUserDTO {
-
-    @NotNull
-    @XmlElement(name = "name")
+public class SubgroupDTO {
     private String name;
+    private List<RegisteredUserDTO> userList;
 
-    @NotNull
-    private String surname;
+    public SubgroupDTO(String name) {
+        this.name = name;
+        this.userList = new ArrayList<>();
+    }
 
-    @NotNull
-    private String email;
-
-
+    /**
+     * Adds user to the user list.
+     *
+     * @param user user which should be added
+     */
+    public void addUser(RegisteredUserDTO user) {
+        userList.add(user);
+    }
 }

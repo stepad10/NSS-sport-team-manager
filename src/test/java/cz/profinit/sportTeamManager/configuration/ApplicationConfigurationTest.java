@@ -1,5 +1,5 @@
 /*
- * ApplicationConfiguration
+ * ApplicationConfigurationTest
  *
  * 0.1
  *
@@ -15,16 +15,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * Basic configuration of an application.
+ * Basic configuration of an application for tests.
  */
 @Configuration
-@Profile("Main")
+@Profile("stub")
 @ComponentScan
-public class ApplicationConfiguration {
-
+public class ApplicationConfigurationTest {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

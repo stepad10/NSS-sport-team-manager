@@ -8,9 +8,10 @@
 package cz.profinit.sportTeamManager.model.team;
 
 import cz.profinit.sportTeamManager.model.entity.Entity;
-import cz.profinit.sportTeamManager.model.user.User;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -19,11 +20,12 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Team extends Entity {
     private String name;
     private String sport;
     private List<Subgroup> listOfSubgroups;
-    private User owner;
+    private RegisteredUser owner;
 
 
     /**
@@ -58,5 +60,20 @@ public class Team extends Entity {
     public void deleteSubgroup(String subgroupName) {
         Subgroup subgroup = getTeamSubgroup(subgroupName);
         listOfSubgroups.remove(subgroup);
+    }
+
+    /**
+     * Checks if a subgroup is in team by subgroup name.
+     *
+     * @param subgroupName string of subgroup name
+     * @return true if subgroup of selected name is in team, false otherwise
+     */
+    public boolean isSubgroupInTeam(String subgroupName) {
+        try {
+            this.getTeamSubgroup(subgroupName);
+        } catch (Exception e) {
+            return  !(e.getMessage().equals("No subgroup found"));
+        }
+        return true;
     }
 }

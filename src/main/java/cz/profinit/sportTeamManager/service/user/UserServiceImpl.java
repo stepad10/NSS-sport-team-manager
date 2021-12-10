@@ -1,5 +1,5 @@
 /*
- * UserServiceImplTest
+ * UserServiceImpl
  *
  * 0.1
  *
@@ -7,15 +7,17 @@
  */
 package cz.profinit.sportTeamManager.service.user;
 
-import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserOrPasswordNotMatchException;
-import cz.profinit.sportTeamManager.mappers.UserMapper;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
+import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.UserRepository;
+import liquibase.pro.packaged.E;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +27,11 @@ import org.springframework.stereotype.Service;
  * credentials corresponds to any user in database.
  */
 @Service
+@Profile("Main")
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
-    private UserMapper userMapper;
     private UserRepository userRepository;
 
 
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService {
      * @return registered user
      * @throws EmailExistsException thrown, when given email is already in database
      */
-    public RegisteredUser newUserRegistration(RegisteredUserDTO newUser) throws EmailExistsException {
+    public RegisteredUser newUserRegistration(RegisteredUser newUser) throws EmailExistsException {
         if (emailExists(newUser.getEmail())) {
             throw new EmailExistsException(
                     "Account with e-mail address " + newUser.getEmail() + "already exists.");
@@ -59,15 +61,28 @@ public class UserServiceImpl implements UserService {
         return userRepository.saveRegistredUser(registeredUser);
     }
 
+    /**
+     * Finds if user exists in database by email.
+     *
+     * @param email user email
+     * @return true if user is in database, false otherwise
+     */
     private boolean emailExists(String email) {
-        return userRepository.emailExistsInDatabase(email);
+        try{
+            findUserByEmail(email);
+        } catch (Exception e) {
+            if (e.getMessage().equals("User not found")) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
      * Checks if the given logging credentials match any user in the database. If not, throws an exception.
      *
      * @param userEmail logging email address
-     * @param password logging password
+     * @param password  logging password
      * @return Logged user if successful
      * @throws UserOrPasswordNotMatchException if the logging credentials do not match any user in the database
      */
@@ -87,6 +102,24 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserOrPasswordNotMatchException();
         }
+    }
+
+
+    /**
+     * Gets a user form database sought by email.
+     *
+     * @param email user email
+     * @return found user
+     * @throws EntityNotFoundException thrown if user is not found in database
+     */
+    public RegisteredUser findUserByEmail(String email) throws EntityNotFoundException {
+        return userRepository.findUserByEmail(email);
+    }
+
+    //TODO
+    @Override
+    public RegisteredUser getLogedUser() {
+        return null;
     }
 
 

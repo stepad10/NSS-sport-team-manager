@@ -1,16 +1,16 @@
 /*
- * RegisteredUserDTO
+ * UserDetailsDTO
  *
  * 0.1
  *
  * Author: J. Janský
  */
+
 package cz.profinit.sportTeamManager.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,24 +18,25 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Data transfer object for Registered user entity.
+ * Data transfer object for UserDetails entity.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @XmlRootElement
+@AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RegisteredUserDTO {
-
-    @NotNull
+@NoArgsConstructor
+public class UserDetailsDTO {
     @XmlElement(name = "name")
     private String name;
+    @XmlElement(name = "password")
+    private String password;
+    @XmlElement
+    private String userName;
+    @XmlElement
+    private String Surname;
 
-    @NotNull
-    private String surname;
-
-    @NotNull
-    private String email;
-
-
+    public UserDetailsDTO(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
 }
