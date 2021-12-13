@@ -13,6 +13,7 @@ import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.TeamRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
 /**
  * Stub Team repository for Unit testing.
  */
-
+@Profile("stub_team_testing")
 @Repository
 public class StubTeamRepository implements TeamRepository {
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));

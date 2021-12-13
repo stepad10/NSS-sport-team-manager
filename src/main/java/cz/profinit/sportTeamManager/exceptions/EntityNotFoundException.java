@@ -8,13 +8,10 @@
 package cz.profinit.sportTeamManager.exceptions;
 
 /**
- * Exception used when any entity do not match any record in the database.
+ * EntityNotFoundException is thrown when entity is not found in database.
  */
 public class EntityNotFoundException extends Exception {
 
-    /**
-     * @param errorMessage message specifying an entity
-     */
     public EntityNotFoundException(String errorMessage) {
         super(errorMessage);
     }

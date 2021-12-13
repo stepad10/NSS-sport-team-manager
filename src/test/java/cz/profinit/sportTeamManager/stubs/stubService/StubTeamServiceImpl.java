@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  * Stub Team service for Unit tests.
  */
 @Service
-@Profile("stub")
+@Profile("stub_team_testing")
 public class StubTeamServiceImpl implements TeamService {
 
     @Autowired

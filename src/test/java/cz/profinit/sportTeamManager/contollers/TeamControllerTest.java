@@ -47,7 +47,7 @@ import static org.hamcrest.Matchers.containsString;
 @ContextConfiguration(classes = WebApplicationConfigurationUnitTests.class)
 @WebAppConfiguration
 @AutoConfigureMockMvc
-@ActiveProfiles({"stub", "webStub"})
+@ActiveProfiles({"stub", "webStub","stub_team_testing"})
 public class TeamControllerTest {
     @Autowired
     private MockMvc mockMvc;

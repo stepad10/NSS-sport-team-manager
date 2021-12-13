@@ -1,26 +1,28 @@
 /*
- * Message
+ * MessageDto
  *
  * 0.1
  *
  * Author: M. Halamka
  */
-package cz.profinit.sportTeamManager.model.event;
 
-import cz.profinit.sportTeamManager.model.entity.Entity;
+package cz.profinit.sportTeamManager.dto;
+
 import cz.profinit.sportTeamManager.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
+
 /**
- * Class representing Message entity. Contains user, who sent message, message itself, and date when message was send.
+ * Data transfer object represents Message entity. Contains user, message and date.
  */
 @Data
 @AllArgsConstructor
-public class Message extends Entity {
+public class MessageDto {
 
+    //TODO Remove User and add UserDto
     private final User user;
     private final String message;
     private final LocalDateTime date;

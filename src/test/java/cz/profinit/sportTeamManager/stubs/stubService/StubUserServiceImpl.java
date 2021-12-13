@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * Stub User service for Unit tests.
  */
 @Service
-@Profile("stub")
+@Profile("stub_team_testing")
 public class StubUserServiceImpl implements UserService {
 
     /**
