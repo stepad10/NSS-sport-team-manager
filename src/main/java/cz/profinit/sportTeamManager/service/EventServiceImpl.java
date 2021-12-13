@@ -95,7 +95,7 @@ public class EventServiceImpl implements EventService{
      *
      * @param email of user who is a sender of the message
      * @param messageStr sent message
-     * @param eventId ID of event where message will be stored
+     * @param eventId ID of event where message will be store
      * @return updated event
      */
     public Event addNewMessage (String email, String messageStr, Long eventId) throws EntityNotFoundException {
