@@ -11,7 +11,10 @@ package cz.profinit.sportTeamManager.stubRepositories;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.event.Event;
+import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.event.Place;
+import cz.profinit.sportTeamManager.model.invitation.Invitation;
+import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
@@ -19,27 +22,24 @@ import cz.profinit.sportTeamManager.repositories.EventRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StubEventRepository implements EventRepository {
 
-    List <Event> events;
     Event event;
     User loggedUser;
 
-
-
     public StubEventRepository() {
-        events = new ArrayList<>();
         Place place = new Place("Profinit","Tychonova 2");
         event = new Event(LocalDateTime.now(),place,6,false,loggedUser,new ArrayList<>(),new ArrayList<>());
         event.setEntityId(0L);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com",RoleEnum.USER);
+        event.getListOfMessages().add(new Message(loggedUser,"Testuji",LocalDateTime.now()));
+        event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser));
     }
 
     @Override
     public Event createNewEvent(Event event) {
-        events.add(event);
+        this.event = event;
         return event;
     }
 
@@ -54,8 +54,7 @@ public class StubEventRepository implements EventRepository {
 
     @Override
     public Event updateEvent(Event event) {
-        Integer i = (int) (long) event.getEntityId();
-        events.add(i,event);
-        return events.get(i);
+        this.event = event;
+        return event;
     }
 }

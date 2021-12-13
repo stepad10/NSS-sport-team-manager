@@ -45,9 +45,9 @@ public class StubInvitationRepository implements InvitationRepository {
     }
 
     @Override
-    public boolean deleteInvitation(User user, Event event) {
+    public boolean deleteInvitation(User user, Event event) throws EntityNotFoundException {
         if (user.getName() != loggedUser.getName() || event.getEntityId() != 0L){
-            return false;
+            throw new EntityNotFoundException("Invitation entity not found!");
         } else {
             return true;
         }

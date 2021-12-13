@@ -10,21 +10,28 @@ package cz.profinit.sportTeamManager.service;
 
 import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
 import cz.profinit.sportTeamManager.dto.EventDto;
+import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.dto.MessageDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
-import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.event.Place;
+import cz.profinit.sportTeamManager.model.invitation.Invitation;
+import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.EventRepository;
+import cz.profinit.sportTeamManager.service.user.UserService;
+import cz.profinit.sportTeamManager.service.user.UserServiceImpl;
 import cz.profinit.sportTeamManager.stubRepositories.StubEventRepository;
+import cz.profinit.sportTeamManager.stubRepositories.StubUserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -41,8 +48,13 @@ public class EventServiceImplTest {
 
     private EventServiceImpl eventService;
     private EventRepository eventRepository;
+    private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private User loggedUser;
     private Place place;
+
 
     /**
      * Initialization of services and repositories used in tests
@@ -50,7 +62,8 @@ public class EventServiceImplTest {
     @Before
     public void setUp() {
         eventRepository = new StubEventRepository();
-        eventService = new EventServiceImpl(eventRepository, new EventMapper());
+        userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
+        eventService = new EventServiceImpl(eventRepository, new EventMapper(),userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         place = new Place("Profinit","Tychonova 2");
     }
@@ -81,6 +94,16 @@ public class EventServiceImplTest {
     }
 
     /**
+     * Testing if update of non-existing entity will throw appropriate exception.
+     * @throws EntityNotFoundException thrown when Entity is not found.
+     */
+    @Test (expected = EntityNotFoundException.class)
+    public void updateNonExistingEventThrowsEntityNotFound() throws EntityNotFoundException {
+        EventDto eventDtoUpdated = new EventDto(LocalDateTime.now(),place,6,loggedUser,false);
+        eventService.updateEvent(eventDtoUpdated, 1L);
+    }
+
+    /**
      * Testing changeEventStatus will change event status.
      * @throws EntityNotFoundException thrown when Entity is not found.
      */
@@ -92,32 +115,6 @@ public class EventServiceImplTest {
     }
 
     /**
-     * Testing adding of new messages to an event.
-     * @throws EntityNotFoundException thrown when Entity is not found.
-     */
-    @Test
-    public void addMessagesAddsMessageToEvent() throws EntityNotFoundException {
-        eventService.addNewMessage(loggedUser,"Ahoj",0L);
-
-        List<MessageDto> messages = eventService.getAllMessages(0L);
-
-       Assert.assertEquals(messages.get(0).getMessage(),"Ahoj");
-       Assert.assertEquals(messages.get(0).getUser(),loggedUser);
-
-    }
-
-    /**
-     * Testing if update of non existing entity will throw appropriate exception.
-     * @throws EntityNotFoundException thrown when Entity is not found.
-     */
-    @Test (expected = EntityNotFoundException.class)
-    public void updateNonExistingEventThrowsEntityNotFound() throws EntityNotFoundException {
-        EventDto eventDtoUpdated = new EventDto(LocalDateTime.now(),place,6,loggedUser,false);
-
-        eventService.updateEvent(eventDtoUpdated, 1L);
-    }
-
-    /**
      * Testing changeEventStatus will throw exception when event is not found.
      * @throws EntityNotFoundException thrown when Entity is not found.
      */
@@ -126,14 +123,107 @@ public class EventServiceImplTest {
         eventService.changeEventStatus(1L);
     }
 
+    /**
+     * Testing adding of new messages to an event.
+     * @throws EntityNotFoundException thrown when Entity is not found.
+     */
+    @Test
+    public void addMessagesAddsMessageToEvent() throws EntityNotFoundException {
+        eventService.addNewMessage("is@gmail.com","Ahoj",0L);
+
+        Event event = eventRepository.findEventById(0L);
+
+       Assert.assertEquals(event.getListOfMessages().get(1).getMessage(),"Ahoj");
+       Assert.assertEquals(event.getListOfMessages().get(1).getUser(),loggedUser);
+
+    }
 
     /**
      * Testing if addMessage throws EntityNotFoundException when Event is not existing
      * @throws EntityNotFoundException thrown when Entity is not found
      */
-    @Test (expected = EntityNotFoundException.class)
-    public void AddsMessageToNonExistingEventThrowsEntityNotFoundException() throws EntityNotFoundException {
-        eventService.addNewMessage(loggedUser,"Ahoj",1L);
+    @Test
+    public void AddsMessageToNonExistingEventThrowsEntityNotFoundException() {
+        try {
+            eventService.addNewMessage("is@gmail.com","Ahoj",1L);
+        } catch (EntityNotFoundException e){
+            Assert.assertEquals("Event entity not found!",e.getMessage());
+        }
     }
 
+    /**
+     * Testing if addMessage throws EntityNotFoundException when User is not existing
+     * @throws EntityNotFoundException thrown when Entity is not found
+     */
+    @Test
+    public void AddsMessageByNonExistingUserThrowsEntityNotFoundException() {
+        try {
+            eventService.addNewMessage("is@gmai.com","Ahoj",0L);
+        } catch (EntityNotFoundException e){
+            Assert.assertEquals("User entity not found!",e.getMessage());
+        }
+    }
+
+    /**
+     * Testing getMessage from event
+     * @throws EntityNotFoundException thrown when Entity is not found.
+     */
+    @Test
+    public void getMessagesGetsAllMessagesFromEvent() throws EntityNotFoundException {
+        List<MessageDto> messages = eventService.getAllMessages(0L);
+
+        Assert.assertEquals(messages.get(0).getMessage(),"Testuji");
+        Assert.assertEquals(messages.get(0).getUser(),loggedUser);
+    }
+
+    /**
+     * Testing getMessage from event from non-existing event
+     * @throws EntityNotFoundException thrown when Entity is not existing.
+     */
+    @Test (expected = EntityNotFoundException.class)
+    public void getMessagesFromNonExistingEventThrowsEntityNotFoundException() throws EntityNotFoundException {
+        List<MessageDto> messages = eventService.getAllMessages(1L);
+    }
+
+    /**
+     * Testing AddNewInvitation to event
+     * @throws EntityNotFoundException thrown when Entity is not found.
+     */
+    @Test
+    public void AddNewInvitationAddsNewInvitation() throws EntityNotFoundException {
+        Invitation invitation = new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser);
+        eventService.addNewInvitation(0L,invitation);
+        Assert.assertEquals(invitation,eventRepository.findEventById(0L).getListOfInvitation().get(0));
+    }
+
+    /**
+     * Testing AddNewInvitation to a non-existing event throws EntityNotFoundException
+     * @throws EntityNotFoundException thrown when Entity is not found.
+     */
+    @Test (expected = EntityNotFoundException.class)
+    public void AddNewInvitationToANonExistentEventThrowsEntityNotFoundException() throws EntityNotFoundException {
+        Invitation invitation = new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser);
+        eventService.addNewInvitation(1L,invitation);
+    }
+
+    /**
+     * Testing getInvitation from event
+     * @throws EntityNotFoundException thrown when Entity is not found.
+     */
+    @Test
+    public void getInvitationsGetsInvitationFromGivenEvent() throws EntityNotFoundException {
+        List<InvitationDto> invitations = eventService.getAllInvitations(0L);
+
+        Assert.assertEquals(loggedUser,invitations.get(0).getIsFor());
+        Assert.assertEquals(StatusEnum.PENDING,invitations.get(0).getStatus());
+    }
+
+    /**
+     * Testing getInvitation from non-existent event throws EntityNotFoundException
+     * @throws EntityNotFoundException thrown when Entity is not found.
+     */
+    @Test (expected = EntityNotFoundException.class)
+    public void getInvitationsFromNonExistentEventThrowsEntityNotFoundException() throws EntityNotFoundException {
+        List<InvitationDto> invitations = eventService.getAllInvitations(1L);
+    }
 }

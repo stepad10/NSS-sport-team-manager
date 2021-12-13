@@ -10,7 +10,7 @@ public interface InvitationRepository {
     Invitation createNewInvitation(Invitation invitation);
     Invitation updateInvitation(Invitation invitation);
     Invitation getInvitationById(Long id) throws EntityNotFoundException;
-    boolean deleteInvitation(User user, Event event);
+    boolean deleteInvitation(User user, Event event) throws EntityNotFoundException;
     boolean isUserPresent(User user, Event event);
 
 }

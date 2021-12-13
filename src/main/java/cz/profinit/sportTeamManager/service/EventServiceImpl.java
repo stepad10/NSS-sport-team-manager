@@ -7,16 +7,19 @@
  */
 package cz.profinit.sportTeamManager.service;
 
+import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.dto.MessageDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
+import cz.profinit.sportTeamManager.mappers.InvitationMapper;
 import cz.profinit.sportTeamManager.mappers.MessageMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.EventRepository;
+import cz.profinit.sportTeamManager.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +38,7 @@ public class EventServiceImpl implements EventService{
 
     private EventRepository eventRepository;
     private EventMapper eventMapper;
+    private UserService userService;
 
     /**
      * Adds a new Event into database created from EventDto object.
@@ -89,12 +93,13 @@ public class EventServiceImpl implements EventService{
     /**
      * Adds new message to the database and to the event
      *
-     * @param user who is sender of the message
-     * @param messageStr sended message
+     * @param email of user who is a sender of the message
+     * @param messageStr sent message
      * @param eventId ID of event where message will be stored
      * @return updated event
      */
-    public Event addNewMessage (User user, String messageStr, Long eventId) throws EntityNotFoundException {
+    public Event addNewMessage (String email, String messageStr, Long eventId) throws EntityNotFoundException {
+        User user = userService.findUserByEmail(email);
         Event event =  findEventById(eventId);
         Message message = new Message(user,messageStr,LocalDateTime.now());
         event.addNewMessage(message);
@@ -136,9 +141,14 @@ public class EventServiceImpl implements EventService{
      * @param eventId ID of event for which we are getting Invitations
      * @return List of Invitations
      */
-    public List<Invitation> getAllInvitations (Long eventId) throws EntityNotFoundException {
+    public List<InvitationDto> getAllInvitations (Long eventId) throws EntityNotFoundException {
         Event event = findEventById(eventId);
-        return event.getListOfInvitation();
-    }
+        List<InvitationDto> invitationDtoList = new ArrayList<>();
 
+        for (Invitation invitation : event.getListOfInvitation()){
+            invitationDtoList.add(InvitationMapper.toDto(invitation));
+        }
+
+        return invitationDtoList;
+    }
 }
