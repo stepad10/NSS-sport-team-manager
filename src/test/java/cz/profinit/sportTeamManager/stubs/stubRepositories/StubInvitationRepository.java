@@ -7,7 +7,7 @@
  */
 
 
-package cz.profinit.sportTeamManager.stubRepositories;
+package cz.profinit.sportTeamManager.stubs.stubRepositories;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.event.Event;
@@ -17,9 +17,11 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.InvitationRepository;
+import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDateTime;
 
+@Profile("stub_event_testing")
 public class StubInvitationRepository implements InvitationRepository {
 
     Invitation invitation;

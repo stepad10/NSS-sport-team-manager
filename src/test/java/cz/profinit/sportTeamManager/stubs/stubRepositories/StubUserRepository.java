@@ -1,5 +1,5 @@
 /*
- * StubUserRepository
+ * TODOMERGEStubUserRepository
  *
  * 0.1
  *
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * Stub User repository for Unit testing.
  */
 @Repository
-@Profile("stub")
+@Profile("stub_team_testing")
 public class StubUserRepository implements UserRepository {
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
 

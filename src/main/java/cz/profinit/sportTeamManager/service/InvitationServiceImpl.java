@@ -21,6 +21,7 @@ import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.InvitationRepository;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,6 +34,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
+@Profile("Main")
 public class InvitationServiceImpl implements InvitationService{
 
     InvitationRepository invitationRepository;

@@ -6,9 +6,9 @@
  * Author: M. Halamka
  */
 
-package cz.profinit.sportTeamManager.service;
+package cz.profinit.sportTeamManager.service.invitation;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
+import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
 import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
@@ -20,17 +20,22 @@ import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.InvitationRepository;
+import cz.profinit.sportTeamManager.service.EventServiceImpl;
+import cz.profinit.sportTeamManager.service.InvitationService;
+import cz.profinit.sportTeamManager.service.InvitationServiceImpl;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import cz.profinit.sportTeamManager.service.user.UserServiceImpl;
-import cz.profinit.sportTeamManager.stubRepositories.StubEventRepository;
-import cz.profinit.sportTeamManager.stubRepositories.StubInvitationRepository;
-import cz.profinit.sportTeamManager.stubRepositories.StubUserRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.TODOMERGEStubUserRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.StubEventRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.StubInvitationRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -42,7 +47,8 @@ import java.util.List;
  * Tests testing Invitation business logic
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfiguration.class)
+@ContextConfiguration(classes = ApplicationConfigurationTest.class)
+@ActiveProfiles({"stub","stub_event_testing"})
 public class InvitationServiceImplTest {
 
     private InvitationService invitationService;
@@ -51,14 +57,14 @@ public class InvitationServiceImplTest {
     private UserService userService;
     private RegisteredUser loggedUser;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private ApplicationContext context;
 
     /**
      * Initialization of services and repositories used in tests
      */
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
+        userService = new UserServiceImpl(context.getBean(PasswordEncoder.class), new TODOMERGEStubUserRepository());
         eventService = new EventServiceImpl(new StubEventRepository(), new EventMapper(),userService);
         invitationRepository = new StubInvitationRepository();
         invitationService = new InvitationServiceImpl(invitationRepository,eventService,userService);

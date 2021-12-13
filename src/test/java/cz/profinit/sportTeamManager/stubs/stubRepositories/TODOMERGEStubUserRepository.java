@@ -1,11 +1,13 @@
-package cz.profinit.sportTeamManager.stubRepositories;
+package cz.profinit.sportTeamManager.stubs.stubRepositories;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.UserRepository;
+import org.springframework.context.annotation.Profile;
 
-public class StubUserRepository implements UserRepository {
+@Profile("stub_event_testing")
+public class TODOMERGEStubUserRepository implements UserRepository {
 
     private RegisteredUser loggedUser1 =  new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
     private RegisteredUser loggedUser2 = new RegisteredUser("Pavel", "Smutny", "pass", "is@seznam.cz", RoleEnum.USER);
@@ -16,6 +18,16 @@ public class StubUserRepository implements UserRepository {
     @Override
     public RegisteredUser saveRegistredUser(RegisteredUser registeredUser) {
         return loggedUser1;
+    }
+
+    @Override
+    public boolean emailExistsInDatabase(String email) {
+        return false;
+    }
+
+    @Override
+    public RegisteredUser findUserById(long id) {
+        return null;
     }
 
     @Override

@@ -38,7 +38,7 @@ import static org.junit.Assert.assertFalse;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ApplicationConfigurationTest.class)
-@ActiveProfiles("stub")
+@ActiveProfiles({"stub","stub_team_testing"})
 public class TeamServiceImplTest {
     private TeamServiceImpl teamService;
     private RegisteredUser loggedUser;

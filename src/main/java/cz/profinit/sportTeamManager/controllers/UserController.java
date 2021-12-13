@@ -5,7 +5,7 @@
  *
  * Author: J. Janský
  */
-package cz.profinit.sportTeamManager.contollers;
+package cz.profinit.sportTeamManager.controllers;
 
 import cz.profinit.sportTeamManager.dto.UserDetailsDTO;
 import cz.profinit.sportTeamManager.mappers.UserMapper;

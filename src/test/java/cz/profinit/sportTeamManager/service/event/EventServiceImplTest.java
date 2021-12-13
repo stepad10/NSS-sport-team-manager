@@ -6,9 +6,9 @@
  * Author: M. Halamka
  */
 
-package cz.profinit.sportTeamManager.service;
+package cz.profinit.sportTeamManager.service.event;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
+import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
 import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.dto.MessageDto;
@@ -22,16 +22,19 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.EventRepository;
+import cz.profinit.sportTeamManager.service.EventServiceImpl;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import cz.profinit.sportTeamManager.service.user.UserServiceImpl;
-import cz.profinit.sportTeamManager.stubRepositories.StubEventRepository;
-import cz.profinit.sportTeamManager.stubRepositories.StubUserRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.TODOMERGEStubUserRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.StubEventRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -43,14 +46,15 @@ import java.util.concurrent.TimeUnit;
  * Tests testing Event business logic
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfiguration.class)
+@ContextConfiguration(classes = ApplicationConfigurationTest.class)
+@ActiveProfiles({"stub","stub_event_testing"})
 public class EventServiceImplTest {
 
     private EventServiceImpl eventService;
     private EventRepository eventRepository;
     private UserService userService;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private ApplicationContext context;
 
     private User loggedUser;
     private Place place;
@@ -62,7 +66,7 @@ public class EventServiceImplTest {
     @Before
     public void setUp() {
         eventRepository = new StubEventRepository();
-        userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
+        userService = new UserServiceImpl(context.getBean(PasswordEncoder.class), new TODOMERGEStubUserRepository());
         eventService = new EventServiceImpl(eventRepository, new EventMapper(),userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         place = new Place("Profinit","Tychonova 2");
