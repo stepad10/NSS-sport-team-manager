@@ -12,7 +12,6 @@ import cz.profinit.sportTeamManager.configuration.WebApplicationConfigurationUni
 import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.SubgroupDTO;
 import cz.profinit.sportTeamManager.dto.TeamDTO;
-import cz.profinit.sportTeamManager.model.team.Team;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +47,7 @@ import static org.hamcrest.Matchers.containsString;
 @ContextConfiguration(classes = WebApplicationConfigurationUnitTests.class)
 @WebAppConfiguration
 @AutoConfigureMockMvc
-@ActiveProfiles({"stub","webStub"})
+@ActiveProfiles({"stub", "webStub"})
 public class TeamControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -63,17 +62,17 @@ public class TeamControllerTest {
      */
     @Before
     public void setUp() throws JAXBException {
-        user = new RegisteredUserDTO("Adam","Stastny","email@gmail.com");
+        user = new RegisteredUserDTO("Adam", "Stastny", "email@gmail.com");
         List<RegisteredUserDTO> userList1 = new ArrayList<>();
         userList1.add(user);
         List<RegisteredUserDTO> userList2 = new ArrayList<>();
         userList2.add(user);
-        subgroupA = new SubgroupDTO("All Users",userList1);
-        subgroupC = new SubgroupDTO("Coaches",userList2);
+        subgroupA = new SubgroupDTO("All Users", userList1);
+        subgroupC = new SubgroupDTO("Coaches", userList2);
         List<SubgroupDTO> subgroupList = new ArrayList<>();
         subgroupList.add(subgroupA);
         subgroupList.add(subgroupC);
-        team = new TeamDTO(10L,"Ateam","golf",subgroupList,user);
+        team = new TeamDTO(10L, "Ateam", "golf", subgroupList, user);
     }
 
     /**
@@ -88,10 +87,46 @@ public class TeamControllerTest {
         String teamXml = sw.toString();
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/team/createTeam/Ateam/golf")).
+                        MockMvcRequestBuilders.post("/team/createTeam/Ateam/golf")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(teamXml));
     }
+
+    /**
+     * Tests refreshing of team
+     */
+    @Test
+    public void refreshTeam() throws Exception {
+        JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        StringWriter sw = new StringWriter();
+        jaxbMarshaller.marshal(team, sw);
+        String teamXml = sw.toString();
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/team/10")).
+                andExpect(MockMvcResultMatchers.status().isOk()).
+                andExpect(MockMvcResultMatchers.content().string(teamXml));
+    }
+
+
+    /**
+     * Tests refreshing of non-existent team
+     */
+    @Test
+    public void refreshNotExistentTeam() throws Exception {
+        JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        StringWriter sw = new StringWriter();
+        jaxbMarshaller.marshal(team, sw);
+        String teamXml = sw.toString();
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/team/30")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+    }
+
 
     /**
      * Tests changing name of a team.
@@ -111,6 +146,13 @@ public class TeamControllerTest {
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(newTeamXml));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.
+                                put("/team/30/teamName/Novy tym").
+                                header("Content-Type", "application/xml")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
 
     }
 
@@ -132,6 +174,11 @@ public class TeamControllerTest {
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(newTeamXml));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/team/30/teamSport/Rugby")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
 
     }
 
@@ -157,6 +204,11 @@ public class TeamControllerTest {
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(newTeamXml));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/team/30/teamOwner/ts@gmail.com")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
 
     }
 
@@ -197,6 +249,11 @@ public class TeamControllerTest {
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(addedSubgroupXml));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/team/30/subgroup/Empty")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
     }
 
     /**
@@ -233,6 +290,11 @@ public class TeamControllerTest {
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(addedSubgroupXml));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/team/30/subgroup/Coaches")).
+                                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
     }
 
     /**
@@ -267,6 +329,13 @@ public class TeamControllerTest {
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(addedSubgroupXml));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.
+                                put("/team/30/subgroup/Coaches/Empty").
+                                header("Content-Type", "application/xml")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
     }
 
     /**
@@ -287,7 +356,7 @@ public class TeamControllerTest {
      */
     @Test
     public void addUserToTeam() throws Exception {
-        RegisteredUserDTO user2 = new RegisteredUserDTO("Tomas","Smutny","ts@gmail.com");
+        RegisteredUserDTO user2 = new RegisteredUserDTO("Tomas", "Smutny", "ts@gmail.com");
         team.getTeamSubgroup("All Users").addUser(user2);
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -301,6 +370,13 @@ public class TeamControllerTest {
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(addedSubgroupXml));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.
+                                put("/team/30/user/ts@gmail.com").
+                                header("Content-Type", "application/xml")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
     }
 
     /**
@@ -323,6 +399,35 @@ public class TeamControllerTest {
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(addedSubgroupXml));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.
+                                delete("/team/30/user/email@gmail.com").
+                                header("Content-Type", "application/xml")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+    }
+
+    /**
+     * Tests to remove a user who is not in team.
+     */
+    @Test
+    public void deleteUserFromTeamWhoisNotInTeam() throws Exception {
+
+        team.getTeamSubgroup("All Users").getUserList().remove(user);
+        team.getTeamSubgroup("Coaches").getUserList().remove(user);
+        JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        StringWriter sw = new StringWriter();
+        jaxbMarshaller.marshal(team, sw);
+        String addedSubgroupXml = sw.toString();
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.
+                                delete("/team/10/user/ts@gmail.com").
+                                header("Content-Type", "application/xml")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("User is not in team"));
     }
 
     /**
@@ -412,7 +517,7 @@ public class TeamControllerTest {
      */
     @Test
     public void addUserToSubgroup() throws Exception {
-        RegisteredUserDTO user2 = new RegisteredUserDTO("Tomas","Smutny","ts@gmail.com");
+        RegisteredUserDTO user2 = new RegisteredUserDTO("Tomas", "Smutny", "ts@gmail.com");
         team.getTeamSubgroup("All Users").addUser(user2);
         team.getTeamSubgroup("Coaches").addUser(user2);
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
@@ -427,6 +532,13 @@ public class TeamControllerTest {
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(addedSubgroupXml));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.
+                                put("/team/30/Coaches/user/ts@gmail.com").
+                                header("Content-Type", "application/xml")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
     }
 
     /**
@@ -468,10 +580,6 @@ public class TeamControllerTest {
                                 .status().
                                 reason((containsString("User not found"))));
     }
-
-
-
-
 
 
 }

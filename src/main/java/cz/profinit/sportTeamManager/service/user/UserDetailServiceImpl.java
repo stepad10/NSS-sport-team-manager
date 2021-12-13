@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
  * Implementation of UserDetailsService from spring security for DaoAuthenticationProvider.
  */
 @Service
-@Profile({"stub","Main"})
+@Profile({"stub", "Main"})
 @AllArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
@@ -49,6 +49,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
             }
         }
 
-        return new UserDetailsImpl(user.getEmail(),user.getPassword());
+        return new UserDetailsImpl(user.getEmail(), user.getPassword());
     }
 }

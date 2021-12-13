@@ -23,6 +23,7 @@ import java.util.Collection;
 public class UserDetailsImpl implements UserDetails {
     private String username;
     private String password;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

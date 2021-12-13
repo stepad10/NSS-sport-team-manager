@@ -7,7 +7,6 @@
  */
 package cz.profinit.sportTeamManager.model.team;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
 import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;

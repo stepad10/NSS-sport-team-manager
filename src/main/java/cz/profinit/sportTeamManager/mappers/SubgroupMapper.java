@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * Maps a subgroup data transfer object to subgroup entity and back.
  */
 @Component
-@Profile({"stub","Main"})
+@Profile({"stub", "Main"})
 public class SubgroupMapper {
     @Autowired
     private static UserMapper userMapper;
@@ -36,7 +36,7 @@ public class SubgroupMapper {
      */
     public static Subgroup mapSubgroupDTOToSubgroup(SubgroupDTO subgroupDTO) {
         Subgroup subgroup = new Subgroup(subgroupDTO.getName());
-        subgroup.setUserList(userMapper.mapRegistredUserDTOListToRegistredUserList(subgroupDTO.getUserList()));
+        subgroup.setUserList(UserMapper.mapRegistredUserDTOListToRegistredUserList(subgroupDTO.getUserList()));
         return subgroup;
     }
 
@@ -48,7 +48,7 @@ public class SubgroupMapper {
      */
     public static SubgroupDTO mapSubgroupToSubgroupDTO(Subgroup subgroup) {
         SubgroupDTO subgroupDTO = new SubgroupDTO(subgroup.getName());
-        subgroupDTO.setUserList(userMapper.mapRegistredUserListToRegistredUserDTOList(subgroup.getUserList()));
+        subgroupDTO.setUserList(UserMapper.mapRegistredUserListToRegistredUserDTOList(subgroup.getUserList()));
         return subgroupDTO;
     }
 

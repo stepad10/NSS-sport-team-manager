@@ -13,7 +13,6 @@ package cz.profinit.sportTeamManager.exceptions;
 public class EntityNotFoundException extends Exception {
 
     /**
-     * 
      * @param errorMessage message specifying an entity
      */
     public EntityNotFoundException(String errorMessage) {

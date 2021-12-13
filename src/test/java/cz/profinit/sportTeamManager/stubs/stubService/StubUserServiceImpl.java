@@ -52,11 +52,12 @@ public class StubUserServiceImpl implements UserService {
 
     /**
      * /TODO badly implemented feature
+     *
      * @return
      */
     @Override
     public RegisteredUser getLogedUser() {
-        return new RegisteredUser("Adam","Stastny","pass","email@gmail.com",RoleEnum.USER);
+        return new RegisteredUser("Adam", "Stastny", "pass", "email@gmail.com", RoleEnum.USER);
     }
 
     /**

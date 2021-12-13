@@ -7,6 +7,7 @@
  */
 package cz.profinit.sportTeamManager.stubs.stubRepositories;
 
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -24,7 +25,7 @@ import java.util.logging.Logger;
 
 @Repository
 public class StubTeamRepository implements TeamRepository {
-    private Logger logger = Logger.getLogger(String.valueOf(getClass()));
+    private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
     private final String allUsersSubgroupName = "All Users";
     private final String coachesSubgroupName = "Coaches";
 
@@ -97,7 +98,7 @@ public class StubTeamRepository implements TeamRepository {
      * @return team
      */
     @Override
-    public Team findTeamById(Long teamId) {
+    public Team findTeamById(Long teamId) throws EntityNotFoundException {
         Team team = findTeamByName("B team");
         return team;
     }

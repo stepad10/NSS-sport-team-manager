@@ -14,6 +14,7 @@ import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.service.team.TeamService;
 import cz.profinit.sportTeamManager.service.user.UserService;
+import liquibase.pro.packaged.E;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
@@ -36,15 +37,24 @@ public class TeamController {
     private TeamMapper teamMapper;
 
     /**
-     * Returns a updated team selected by id.
+     * Returns an updated team selected by id. If team does not exist throws exception.
      *
      * @param teamId team identification to retrieve team from database
      * @return updated team in form of data transfer object
      */
     @GetMapping("team/{teamId}")
     public TeamDTO refreshTeam(@PathVariable Long teamId) {
-        Team team = teamService.getTeamById(teamId);
-        return teamMapper.mapTeamToTeamDto(team);
+        Team team = new Team();
+        try {
+            team = teamService.getTeamById(teamId);
+        } catch (Exception e) {
+            if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            }
+        }
+
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
 
@@ -60,7 +70,7 @@ public class TeamController {
         RegisteredUser user = userService.getLogedUser();
         Team newTeam = new Team(name, sport, new ArrayList<>(), user);
         newTeam = teamService.createNewTeam(newTeam);
-        return teamMapper.mapTeamToTeamDto(newTeam);
+        return TeamMapper.mapTeamToTeamDto(newTeam);
     }
 
 
@@ -84,9 +94,12 @@ public class TeamController {
             if (e.getMessage().equals("Subgroup already exists")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            }  else if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
-        return teamMapper.mapTeamToTeamDto(team);
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
     /**
@@ -115,10 +128,13 @@ public class TeamController {
             } else if (e.getMessage().equals("No subgroup found")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            } else  if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
 
-        return teamMapper.mapTeamToTeamDto(team);
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
     /**
@@ -139,10 +155,13 @@ public class TeamController {
             if (e.getMessage().equals("No subgroup found")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            } else  if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
 
-        return teamMapper.mapTeamToTeamDto(team);
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
     /**
@@ -175,10 +194,13 @@ public class TeamController {
             if (e.getMessage().equals("User is already in team")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            } else  if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
 
-        return teamMapper.mapTeamToTeamDto(team);
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
     /**
@@ -205,13 +227,16 @@ public class TeamController {
         try {
             team = teamService.deleteUserFromTeam(teamId, user);
         } catch (Exception e) {
-            if (e.getMessage().equals("User is not found")) {
+            if (e.getMessage().equals("User is not in team")) {
                 throw new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, e.getMessage(), e);
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            } else  if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
 
-        return teamMapper.mapTeamToTeamDto(team);
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
     /**
@@ -245,10 +270,13 @@ public class TeamController {
             if (e.getMessage().equals("No subgroup found")) {
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, e.getMessage(), e);
+            } else  if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
 
-        return teamMapper.mapTeamToTeamDto(team);
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
     /**
@@ -284,10 +312,13 @@ public class TeamController {
             if (e.getMessage().equals("User is already in subgroup")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            } else  if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
 
-        return teamMapper.mapTeamToTeamDto(team);
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
 
@@ -298,7 +329,14 @@ public class TeamController {
      */
     @DeleteMapping("team/{teamId}")
     public void deleteTeam(@PathVariable Long teamId) {
-        teamService.deleteTeam(teamId);
+        try {
+            teamService.deleteTeam(teamId);
+        } catch (Exception e) {
+            if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            }
+        }
     }
 
     /**
@@ -310,8 +348,16 @@ public class TeamController {
      */
     @PutMapping("team/{teamId}/teamName/{newName}")
     public TeamDTO changeTeamName(@PathVariable Long teamId, @PathVariable String newName) {
-        Team team = teamService.changeTeamName(teamId, newName);
-        return teamMapper.mapTeamToTeamDto(team);
+        Team team = new Team();
+        try {
+            team = teamService.changeTeamName(teamId, newName);
+        } catch (Exception e) {
+            if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            }
+        }
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
     /**
@@ -323,8 +369,16 @@ public class TeamController {
      */
     @PutMapping("team/{teamId}/teamSport/{newSport}")
     public TeamDTO changeTeamSport(@PathVariable Long teamId, @PathVariable String newSport) {
-        Team team = teamService.changeTeamSport(teamId, newSport);
-        return teamMapper.mapTeamToTeamDto(team);
+        Team team = new Team();
+        try {
+            team = teamService.changeTeamSport(teamId, newSport);
+        } catch (Exception e) {
+            if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            }
+        }
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
     /**
@@ -335,7 +389,7 @@ public class TeamController {
      * If user is not in Coaches subgroup, he is automatically added.
      *
      * @param teamId        team identification to retrieve team from database
-     * @param newOwnerEmail
+     * @param newOwnerEmail email address of new owner user
      * @return updated team in form of data transfer object
      */
     @PutMapping("team/{teamId}/teamOwner/{newOwnerEmail}")
@@ -357,10 +411,13 @@ public class TeamController {
             if (e.getMessage().equals("User is not in team")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            } else  if (e.getMessage().equals("Team is not found")) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
         }
 
-        return teamMapper.mapTeamToTeamDto(team);
+        return TeamMapper.mapTeamToTeamDto(team);
     }
 
 

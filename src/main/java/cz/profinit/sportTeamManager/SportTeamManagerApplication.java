@@ -10,13 +10,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @ContextConfiguration(classes = WebApplicationConfiguration.class)
 @ActiveProfiles("Main")
 public class SportTeamManagerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SportTeamManagerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SportTeamManagerApplication.class, args);
+    }
 
 }

@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class TeamMapperTest {
     private Subgroup subgroup1;
@@ -43,11 +43,11 @@ public class TeamMapperTest {
         registeredUserDTOList2.add(registeredUserDTO1);
         subgroup1 = new Subgroup("Players");
         subgroup1.setUserList(registeredUserList);
-        subgroup2  = new Subgroup("Coaches");
+        subgroup2 = new Subgroup("Coaches");
         subgroup2.setUserList(registeredUserList2);
         subgroupDTO1 = new SubgroupDTO("Players");
         subgroupDTO1.setUserList(registeredUserDTOList);
-        subgroupDTO2  = new SubgroupDTO("Coaches");
+        subgroupDTO2 = new SubgroupDTO("Coaches");
         subgroupDTO2.setUserList(registeredUserDTOList2);
         subgroupList = new ArrayList<>();
         subgroupList.add(subgroup1);
@@ -55,17 +55,18 @@ public class TeamMapperTest {
         subgroupDTOList = new ArrayList<>();
         subgroupDTOList.add(subgroupDTO1);
         subgroupDTOList.add(subgroupDTO2);
-        team = new Team("A team","golf",subgroupList,registeredUser1);
+        team = new Team("A team", "golf", subgroupList, registeredUser1);
         team.setEntityId(10L);
-        teamDTO = new TeamDTO(10L,"A team","golf",subgroupDTOList,registeredUserDTO1);
+        teamDTO = new TeamDTO(10L, "A team", "golf", subgroupDTOList, registeredUserDTO1);
     }
+
     @Test
     public void mapTeamDtoToTeam() {
-        assertEquals(team,TeamMapper.mapTeamDtoToTeam(teamDTO));
+        assertEquals(team, TeamMapper.mapTeamDtoToTeam(teamDTO));
     }
 
     @Test
     public void mapTeamToTeamDto() {
-        assertEquals(teamDTO,TeamMapper.mapTeamToTeamDto(team));
+        assertEquals(teamDTO, TeamMapper.mapTeamToTeamDto(team));
     }
 }

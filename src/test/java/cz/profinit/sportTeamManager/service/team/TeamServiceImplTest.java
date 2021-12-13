@@ -55,14 +55,14 @@ public class TeamServiceImplTest {
         TeamMapper teamMapper = new TeamMapper();
         List<Subgroup> subgroupList = new ArrayList<>();
 
-        teamService = new TeamServiceImpl(teamRepository, userRepository,teamMapper);
+        teamService = new TeamServiceImpl(teamRepository, userRepository, teamMapper);
         loggedUser = new RegisteredUser(
                 "Ivan",
                 "Stastny",
                 "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
                 "is@gmail.com",
                 RoleEnum.USER);
-        team = new Team("A team", "golf",subgroupList, loggedUser);
+        team = new Team("A team", "golf", subgroupList, loggedUser);
     }
 
     /**
@@ -72,17 +72,37 @@ public class TeamServiceImplTest {
     public void createNewTeam() {
         Team newTeam = teamService.createNewTeam(team);
         assertEquals(loggedUser, newTeam.getOwner());
-        assertEquals(team.getName(),newTeam.getName());
-        assertEquals(team.getSport(),newTeam.getSport());
-        assertEquals(team.getOwner(),newTeam.getOwner());
-        assertEquals(team.getListOfSubgroups(),newTeam.getListOfSubgroups());
-            }
+        assertEquals(team.getName(), newTeam.getName());
+        assertEquals(team.getSport(), newTeam.getSport());
+        assertEquals(team.getOwner(), newTeam.getOwner());
+        assertEquals(team.getListOfSubgroups(), newTeam.getListOfSubgroups());
+    }
+
+    /**
+     * Tests of getting team by id
+     */
+    @Test
+    public void getsTeam() throws EntityNotFoundException {
+            teamService.getTeamById(10L);
+    }
+
+    /**
+     * Tests creation of getting non-existent team
+     */
+    @Test
+    public void getsNonExistentTeam() {
+        try {
+            teamService.getTeamById(20L);
+        } catch (Exception e) {
+            assertEquals("Team is not found",e.getMessage());
+        }
+    }
 
     /**
      * Tests of adding a new subgroup to the specific team.
      */
     @Test
-    public void addNewSubgroup() {
+    public void addNewSubgroup() throws EntityNotFoundException {
         String subgroupName = "Players";
         Team team = teamService.getTeamByName("B team");
         team = teamService.addSubgroup(team.getEntityId(), subgroupName);
@@ -91,7 +111,7 @@ public class TeamServiceImplTest {
         try {
             team = teamService.addSubgroup(team.getEntityId(), subgroupName);
         } catch (Exception e) {
-           assertEquals("Subgroup already exists",e.getMessage());
+            assertEquals("Subgroup already exists", e.getMessage());
         }
 
     }
@@ -190,8 +210,8 @@ public class TeamServiceImplTest {
      * Tests changing a team name.
      */
     @Test
-    public void changeTeamName() {
-        team = teamService.changeTeamName(team.getEntityId(),"C team");
+    public void changeTeamName() throws EntityNotFoundException {
+        team = teamService.changeTeamName(team.getEntityId(), "C team");
         assertEquals("C team", team.getName());
     }
 
@@ -199,8 +219,8 @@ public class TeamServiceImplTest {
      * Tests a changing a team sport
      */
     @Test
-    public void changeTeamSport() {
-        team = teamService.changeTeamSport(team.getEntityId(),"Rugby");
+    public void changeTeamSport() throws EntityNotFoundException {
+        team = teamService.changeTeamSport(team.getEntityId(), "Rugby");
         assertEquals("Rugby", team.getSport());
     }
 
@@ -209,7 +229,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void changeTeamOwner() {
-        RegisteredUser user =  new RegisteredUser(
+        RegisteredUser user = new RegisteredUser(
                 "Ivan",
                 "Stastny",
                 "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
@@ -218,10 +238,10 @@ public class TeamServiceImplTest {
         Team team = teamService.getTeamByName("B team");
         try {
             team = teamService.changeTeamOwner(team.getEntityId(), user);
-            assertEquals(user,team.getOwner());
-            assertEquals(true,team.getTeamSubgroup("Coaches").isUserInList(user));
+            assertEquals(user, team.getOwner());
+            assertEquals(true, team.getTeamSubgroup("Coaches").isUserInList(user));
         } catch (Exception e) {
-            assertEquals(e.getMessage(),"");
+            assertEquals(e.getMessage(), "");
         }
     }
 
@@ -230,7 +250,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void changeTeamOwnerWhoIsNotInAllUsers() {
-        RegisteredUser user =  new RegisteredUser(
+        RegisteredUser user = new RegisteredUser(
                 "Tomas",
                 "Stastny",
                 "pass",
@@ -240,7 +260,7 @@ public class TeamServiceImplTest {
         try {
             team = teamService.changeTeamOwner(team.getEntityId(), user);
         } catch (Exception e) {
-            assertEquals(e.getMessage(),"User is not in team");
+            assertEquals(e.getMessage(), "User is not in team");
         }
     }
 
@@ -250,7 +270,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void changeTeamOwnerWhoIsNotInCoaches() {
-        RegisteredUser user =  new RegisteredUser(
+        RegisteredUser user = new RegisteredUser(
                 "Ivan",
                 "Stastny",
                 "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
@@ -260,9 +280,9 @@ public class TeamServiceImplTest {
         team.getTeamSubgroup("Coaches").removeUser(user);
         try {
             team = teamService.changeTeamOwner(team.getEntityId(), user);
-            assertEquals(true,team.getTeamSubgroup("Coaches").isUserInList(user));
+            assertEquals(true, team.getTeamSubgroup("Coaches").isUserInList(user));
         } catch (Exception e) {
-            assertEquals(e.getMessage(),"");
+            assertEquals(e.getMessage(), "");
         }
     }
 
@@ -273,9 +293,9 @@ public class TeamServiceImplTest {
     @Test
     public void changeSubgroupName() throws EntityNotFoundException {
         Team team = teamService.getTeamByName("B team");
-        team = teamService.changeSubgroupName(10L,"Coaches","Players");
-        assertEquals("Players",team.getTeamSubgroup("Players").getName());
-        assertEquals(false,team.isSubgroupInTeam("Coaches"));
+        team = teamService.changeSubgroupName(10L, "Coaches", "Players");
+        assertEquals("Players", team.getTeamSubgroup("Players").getName());
+        assertEquals(false, team.isSubgroupInTeam("Coaches"));
     }
 
     /**
@@ -287,7 +307,7 @@ public class TeamServiceImplTest {
         try {
             team = teamService.changeSubgroupName(10L, "Coaches", "All Users");
         } catch (Exception e) {
-            assertEquals(e.getMessage(),"Subgroup of new name already exists");
+            assertEquals(e.getMessage(), "Subgroup of new name already exists");
         }
     }
 
@@ -300,7 +320,7 @@ public class TeamServiceImplTest {
         try {
             team = teamService.changeSubgroupName(10L, "Playes", "A");
         } catch (Exception e) {
-            assertEquals(e.getMessage(),"No subgroup found");
+            assertEquals(e.getMessage(), "No subgroup found");
         }
     }
 

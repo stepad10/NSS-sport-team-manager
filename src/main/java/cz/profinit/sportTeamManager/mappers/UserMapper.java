@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * Provides mapping from RegisteredUser data transfer object to RegisteredUser entity in both ways.
  */
 @Component
-@Profile({"stub","Main"})
+@Profile({"stub", "Main"})
 @NoArgsConstructor
 public class UserMapper {
 
@@ -82,7 +82,7 @@ public class UserMapper {
      * @return mapped RegisteredUser
      */
     public static RegisteredUser mapUserDetailsDTOToRegisteredUser(UserDetailsDTO userDetailsDTO) {
-       return new RegisteredUser(userDetailsDTO.getUserName(),
+        return new RegisteredUser(userDetailsDTO.getUserName(),
                 userDetailsDTO.getSurname(),
                 userDetailsDTO.getPassword(),
                 userDetailsDTO.getName(),

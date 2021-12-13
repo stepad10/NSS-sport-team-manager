@@ -58,7 +58,7 @@ public class WebApplicationConfigurationUnitTests extends WebSecurityConfigurerA
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/**", "/home","/user/registration","/login").permitAll();
+                .antMatchers("/**", "/home", "/user/registration", "/login").permitAll();
     }
 
     /**

@@ -21,8 +21,7 @@ public class Entity {
      * data access code (repositories that work with an Object Relational Mapper
      * (ORM)). Should <i>never</i> be set by application code explicitly.
      *
-     * @param entityId
-     *            the internal entity identifier
+     * @param entityId the internal entity identifier
      */
     public void setEntityId(Long entityId) {
         this.entityId = entityId;

@@ -48,7 +48,7 @@ public class UserServiceImplTest {
         UserRepository userRepository = new StubUserRepository();
         UserMapper userMapper = new UserMapper();
         PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
-        userService = new UserServiceImpl(passwordEncoder,userRepository);
+        userService = new UserServiceImpl(passwordEncoder, userRepository);
         user = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         user2 = new RegisteredUser("Tomas", "Smutny", "pass", "ab@gmail.com", RoleEnum.USER);
     }
@@ -59,11 +59,11 @@ public class UserServiceImplTest {
     @Test
     public void newUserRegistration() {
         RegisteredUser newUser = userService.newUserRegistration(user2);
-        assertEquals(user2.getName(),newUser.getName());
-        assertEquals(user2.getSurname(),newUser.getSurname());
-        assertEquals(user2.getEmail(),newUser.getEmail());
-        assertEquals(user2.getRole(),newUser.getRole());
-        assertNotEquals(user2.getPassword(),newUser.getPassword());
+        assertEquals(user2.getName(), newUser.getName());
+        assertEquals(user2.getSurname(), newUser.getSurname());
+        assertEquals(user2.getEmail(), newUser.getEmail());
+        assertEquals(user2.getRole(), newUser.getRole());
+        assertNotEquals(user2.getPassword(), newUser.getPassword());
     }
 
     /**
@@ -72,9 +72,9 @@ public class UserServiceImplTest {
     @Test
     public void registrationOfExistingUser() {
         try {
-             user = userService.newUserRegistration(user);
+            user = userService.newUserRegistration(user);
         } catch (Exception e) {
-            assertEquals("Account with e-mail address " + user.getEmail() + "already exists.",e.getMessage());
+            assertEquals("Account with e-mail address " + user.getEmail() + "already exists.", e.getMessage());
         }
     }
 
@@ -84,12 +84,12 @@ public class UserServiceImplTest {
      */
     @Test
     public void userLogInSuccess() {
-       RegisteredUser user = userService.userLogIn("is@gmail.com","pass");
-       assertEquals("is@gmail.com",user.getEmail());
-       assertEquals("$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",user.getPassword());
-       assertEquals("Stastny",user.getSurname());
-       assertEquals("Ivan",user.getName());
-       assertEquals(RoleEnum.USER,user.getRole());
+        RegisteredUser user = userService.userLogIn("is@gmail.com", "pass");
+        assertEquals("is@gmail.com", user.getEmail());
+        assertEquals("$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", user.getPassword());
+        assertEquals("Stastny", user.getSurname());
+        assertEquals("Ivan", user.getName());
+        assertEquals(RoleEnum.USER, user.getRole());
     }
 
     /**
@@ -101,7 +101,7 @@ public class UserServiceImplTest {
             RegisteredUser user = userService.userLogIn("is@gmal.com", "pass");
             assertNull(user);
         } catch (Exception e) {
-            assertEquals("User and password do not match",e.getMessage());
+            assertEquals("User and password do not match", e.getMessage());
         }
     }
 
@@ -111,10 +111,10 @@ public class UserServiceImplTest {
     @Test
     public void userLogInBadPassword() {
         try {
-            RegisteredUser user = userService.userLogIn("is@gmail.com","pass24");
+            RegisteredUser user = userService.userLogIn("is@gmail.com", "pass24");
             assertNull(user);
         } catch (Exception e) {
-            assertEquals("User and password do not match",e.getMessage());
+            assertEquals("User and password do not match", e.getMessage());
         }
     }
 

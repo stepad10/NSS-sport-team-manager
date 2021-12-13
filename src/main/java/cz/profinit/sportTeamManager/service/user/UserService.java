@@ -16,7 +16,9 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
  */
 public interface UserService {
     RegisteredUser newUserRegistration(RegisteredUser newUser);
+
     RegisteredUser findUserByEmail(String email) throws EntityNotFoundException;
+
     //TODO
     RegisteredUser getLogedUser();
 }

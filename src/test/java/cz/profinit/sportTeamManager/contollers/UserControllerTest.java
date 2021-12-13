@@ -43,7 +43,7 @@ import java.io.StringWriter;
 @ContextConfiguration(classes = WebApplicationConfigurationUnitTests.class)
 @WebAppConfiguration
 @AutoConfigureMockMvc
-@ActiveProfiles({"stub","webStub"})
+@ActiveProfiles({"stub", "webStub"})
 public class UserControllerTest {
 
     @Autowired
@@ -62,7 +62,7 @@ public class UserControllerTest {
     @Before
     public void setup() throws JAXBException {
         newUser = new RegisteredUserDTO("Ivan", "Stastny", "mail@mail.com");
-        newUserDetails = new UserDetailsDTO(newUser.getEmail(),"pass");
+        newUserDetails = new UserDetailsDTO(newUser.getEmail(), "pass");
     }
 
     /**
@@ -85,6 +85,7 @@ public class UserControllerTest {
                         .header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk());
     }
+
     /**
      * Tests registering a new user whose email is already in database.
      */

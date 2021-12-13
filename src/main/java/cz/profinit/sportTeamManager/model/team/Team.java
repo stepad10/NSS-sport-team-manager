@@ -72,7 +72,7 @@ public class Team extends Entity {
         try {
             this.getTeamSubgroup(subgroupName);
         } catch (Exception e) {
-            return  !(e.getMessage().equals("No subgroup found"));
+            return !(e.getMessage().equals("No subgroup found"));
         }
         return true;
     }

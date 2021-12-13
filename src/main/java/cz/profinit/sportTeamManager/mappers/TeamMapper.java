@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * Maps a subgroup data transfer object to subgroup entity and back.
  */
 @Component
-@Profile({"stub","Main"})
+@Profile({"stub", "Main"})
 public class TeamMapper {
     @Autowired
     private static UserMapper userMapper;
@@ -34,8 +34,8 @@ public class TeamMapper {
     public static Team mapTeamDtoToTeam(TeamDTO teamDto) {
         Team team = new Team(teamDto.getName(),
                 teamDto.getSport(),
-                subgroupMapper.mapSubgroupDTOListToSubgroupList(teamDto.getListOfSubgroups()),
-                userMapper.mapRegistredUserDTOToRegistredUser(teamDto.getOwner()));
+                SubgroupMapper.mapSubgroupDTOListToSubgroupList(teamDto.getListOfSubgroups()),
+                UserMapper.mapRegistredUserDTOToRegistredUser(teamDto.getOwner()));
         team.setEntityId(teamDto.getId());
         return team;
     }
@@ -47,9 +47,9 @@ public class TeamMapper {
      * @return mapped subgroup data transfer object to subgroup
      */
     public static TeamDTO mapTeamToTeamDto(Team team) {
-        return new TeamDTO(team.getEntityId(),team.getName(),
+        return new TeamDTO(team.getEntityId(), team.getName(),
                 team.getSport(),
-                subgroupMapper.mapSubgroupListToSubgroupDTOList(team.getListOfSubgroups()),
-                userMapper.mapRegistredUserToRegistredUserDTO(team.getOwner()));
+                SubgroupMapper.mapSubgroupListToSubgroupDTOList(team.getListOfSubgroups()),
+                UserMapper.mapRegistredUserToRegistredUserDTO(team.getOwner()));
     }
 }

@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository {
     RegisteredUser saveRegistredUser(RegisteredUser registeredUser);
-    boolean  emailExistsInDatabase(String email);
+
+    boolean emailExistsInDatabase(String email);
+
     RegisteredUser findUserById(long id);
-    RegisteredUser findUserByEmail (String email) throws EntityNotFoundException;
+
+    RegisteredUser findUserByEmail(String email) throws EntityNotFoundException;
 }

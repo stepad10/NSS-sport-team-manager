@@ -7,7 +7,6 @@
  */
 package cz.profinit.sportTeamManager.service.team;
 
-import cz.profinit.sportTeamManager.dto.TeamDTO;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserIsInSubgroupException;
 import cz.profinit.sportTeamManager.mappers.TeamMapper;
@@ -66,10 +65,10 @@ public class TeamServiceImpl implements TeamService {
     /**
      * Change team name to a new one.
      *
-     * @param teamId team id which name should be changed
+     * @param teamId  team id which name should be changed
      * @param newName new name of a team
      */
-    public Team changeTeamName(Long teamId,String newName) {
+    public Team changeTeamName(Long teamId, String newName) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         team.setName(newName);
         teamRepository.updateTeam(team);
@@ -80,10 +79,10 @@ public class TeamServiceImpl implements TeamService {
     /**
      * Change team sport to a new one.
      *
-     * @param teamId Id of team for which sport should be changed
+     * @param teamId   Id of team for which sport should be changed
      * @param newSport new sport of a team
      */
-    public Team changeTeamSport(Long teamId,String newSport) {
+    public Team changeTeamSport(Long teamId, String newSport) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         team.setSport(newSport);
         teamRepository.updateTeam(team);
@@ -94,16 +93,16 @@ public class TeamServiceImpl implements TeamService {
      * Change team owner to a new one. Owner must be from All Users subgroup.
      *
      * @param teamId Id of team what name should be changed
-     * @param user new owner of a team
+     * @param user   new owner of a team
      * @throws EntityNotFoundException if user is not found
-     * @throws RuntimeException if user is not in All Users subgroup
+     * @throws RuntimeException        if user is not in All Users subgroup
      */
-    public Team changeTeamOwner(Long teamId,RegisteredUser user ) throws EntityNotFoundException {
+    public Team changeTeamOwner(Long teamId, RegisteredUser user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         if (!team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) {
             throw new RuntimeException("User is not in team");
-        } else if(!team.getTeamSubgroup(COACHES_SUBGROUP).isUserInList(user)) {
-            team = addUserToSubgroup(team.getEntityId(),COACHES_SUBGROUP,user);
+        } else if (!team.getTeamSubgroup(COACHES_SUBGROUP).isUserInList(user)) {
+            team = addUserToSubgroup(team.getEntityId(), COACHES_SUBGROUP, user);
         }
         team.setOwner(user);
         teamRepository.updateTeam(team);
@@ -120,23 +119,13 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.findTeamByName(teamName);
     }
 
-    /**
-     * Gets Team from Team data transfer object
-     *
-     * @param teamDto Team data transfer object
-     * @return mapped team
-     */
-    public Team getTeamFromTeamDto(TeamDTO teamDto) {
-        return teamMapper.mapTeamDtoToTeam(teamDto);
-    }
-
 
     /**
      * Adds a new user to the subgroup in certain team.
      * Checks if the added user is in the default subgroup "All users". If not, user is also added to this subgroup.
      * If the user is in the subgroup, throws Exception.
      *
-     * @param teamId Id of team where is a subgroup
+     * @param teamId       Id of team where is a subgroup
      * @param subgroupName name of subgroup where we want to add
      * @param user         user which we want to add to the subgroup
      * @return team with updated subgroup now including added user
@@ -168,7 +157,7 @@ public class TeamServiceImpl implements TeamService {
      * Checks if the user is already in the subgroup. If the user is in the subgroup, throws Exception.
      *
      * @param teamId Id of team where user should be added
-     * @param user user which should be added
+     * @param user   user which should be added
      * @return updated team with added user
      * @throws EntityNotFoundException when user is not found
      */
@@ -187,11 +176,11 @@ public class TeamServiceImpl implements TeamService {
     /**
      * Adds a new subgroup of selected name to the determined team. Team is selected by its name.
      *
-     * @param teamId Id of team where the subgroup should be added
+     * @param teamId       Id of team where the subgroup should be added
      * @param subgroupName name of the new subgroup
      * @return team with including added subgroup
      */
-    public Team addSubgroup(Long teamId, String subgroupName) {
+    public Team addSubgroup(Long teamId, String subgroupName) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         if (team.isSubgroupInTeam(subgroupName)) {
             throw new RuntimeException("Subgroup already exists");
@@ -206,7 +195,7 @@ public class TeamServiceImpl implements TeamService {
     /**
      * Removes a subgroup of determined name from the team.
      *
-     * @param teamId Id of team from which subgroup should be removed
+     * @param teamId       Id of team from which subgroup should be removed
      * @param subgroupName name of the subgroup what should be removed
      * @return team excluding removed subgroup
      * @throws EntityNotFoundException when subgroup is not found
@@ -227,7 +216,7 @@ public class TeamServiceImpl implements TeamService {
     /**
      * Removes a user from subgroup determined by name.
      *
-     * @param teamId Id of team containing a subgroup from which user should be removed
+     * @param teamId       Id of team containing a subgroup from which user should be removed
      * @param subgroupName name of the subgroup from which user should be removed
      * @param user         user which should be removed
      * @return team with updated subgroup excluding a removed user
@@ -245,13 +234,18 @@ public class TeamServiceImpl implements TeamService {
      * Removes user form all subgroups of determined team.
      *
      * @param teamId Id of team from which user should be removed
-     * @param user user which should be removed
+     * @param user   user which should be removed
      * @return team excluding a removed user
      * @throws EntityNotFoundException when user is not found
      */
     public Team deleteUserFromTeam(Long teamId, RegisteredUser user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         user = userRepository.findUserByEmail(user.getEmail());
+        try {
+            team.getTeamSubgroup(ALL_USER_SUBGROUP).removeUser(user);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("User is not in team");
+        }
         List<Subgroup> subgroupList = team.getListOfSubgroups();
 
         for (Subgroup subgroup : subgroupList) {
@@ -270,7 +264,7 @@ public class TeamServiceImpl implements TeamService {
      *
      * @param teamId Id of team which we want to be removed
      */
-    public void deleteTeam(Long teamId) {
+    public void deleteTeam(Long teamId) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         teamRepository.delete(team);
     }
@@ -279,7 +273,7 @@ public class TeamServiceImpl implements TeamService {
      * Changes name of the subgroup to a new one. Checks if subgroup exists and if a new selected name
      * do not coincide with already existing subgroup.
      *
-     * @param teamId Id of team where subgroup is
+     * @param teamId       Id of team where subgroup is
      * @param subgroupName name of subgroup
      * @param newName      new name of subgroup
      * @return team with updated subgroup
@@ -307,8 +301,9 @@ public class TeamServiceImpl implements TeamService {
      * @param teamId Id of team which we want to get
      * @return retrieved team
      */
-    public Team getTeamById(Long teamId) {
-        Team team = teamRepository.findTeamById(teamId);
+    public Team getTeamById(Long teamId) throws EntityNotFoundException {
+        Team team = null;
+        team = teamRepository.findTeamById(teamId);
         return team;
     }
 }

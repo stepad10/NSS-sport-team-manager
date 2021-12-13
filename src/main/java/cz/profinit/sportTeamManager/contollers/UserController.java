@@ -53,8 +53,8 @@ public class UserController {
      */
     @PostMapping("/user/registration")
     public void registerNewUser(@RequestBody UserDetailsDTO newUser, HttpServletRequest request) {
-        RegisteredUser registeredUser = userMapper.mapUserDetailsDTOToRegisteredUser(newUser);
-        System.out.println(newUser.toString());
+        RegisteredUser registeredUser = UserMapper.mapUserDetailsDTOToRegisteredUser(newUser);
+        System.out.println(newUser);
         try {
             registeredUser = userService.newUserRegistration(registeredUser);
         } catch (Exception e) {

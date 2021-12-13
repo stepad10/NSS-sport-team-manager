@@ -2,18 +2,16 @@ package cz.profinit.sportTeamManager.mappers;
 
 import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.SubgroupDTO;
-import cz.profinit.sportTeamManager.dto.UserDetailsDTO;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import liquibase.pro.packaged.L;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SubgroupMapperTest {
     private Subgroup subgroup1;
@@ -41,11 +39,11 @@ public class SubgroupMapperTest {
         registeredUserDTOList2.add(registeredUserDTO1);
         subgroup1 = new Subgroup("Players");
         subgroup1.setUserList(registeredUserList);
-        subgroup2  = new Subgroup("Coaches");
+        subgroup2 = new Subgroup("Coaches");
         subgroup2.setUserList(registeredUserList2);
         subgroupDTO1 = new SubgroupDTO("Players");
         subgroupDTO1.setUserList(registeredUserDTOList);
-        subgroupDTO2  = new SubgroupDTO("Coaches");
+        subgroupDTO2 = new SubgroupDTO("Coaches");
         subgroupDTO2.setUserList(registeredUserDTOList2);
         subgroupList = new ArrayList<>();
         subgroupList.add(subgroup1);
@@ -57,21 +55,21 @@ public class SubgroupMapperTest {
 
     @Test
     public void mapSubgroupDTOToSubgroup() {
-        assertEquals(subgroup1,SubgroupMapper.mapSubgroupDTOToSubgroup(subgroupDTO1));
+        assertEquals(subgroup1, SubgroupMapper.mapSubgroupDTOToSubgroup(subgroupDTO1));
     }
 
     @Test
     public void mapSubgroupToSubgroupDTO() {
-        assertEquals(subgroupDTO1,SubgroupMapper.mapSubgroupToSubgroupDTO(subgroup1));
+        assertEquals(subgroupDTO1, SubgroupMapper.mapSubgroupToSubgroupDTO(subgroup1));
     }
 
     @Test
     public void mapSubgroupDTOListToSubgroupList() {
-        assertEquals(subgroupList,SubgroupMapper.mapSubgroupDTOListToSubgroupList(subgroupDTOList));
+        assertEquals(subgroupList, SubgroupMapper.mapSubgroupDTOListToSubgroupList(subgroupDTOList));
     }
 
     @Test
     public void mapSubgroupListToSubgroupDTOList() {
-        assertEquals(subgroupDTOList,SubgroupMapper.mapSubgroupListToSubgroupDTOList(subgroupList));
+        assertEquals(subgroupDTOList, SubgroupMapper.mapSubgroupListToSubgroupDTOList(subgroupList));
     }
 }

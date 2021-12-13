@@ -1,5 +1,6 @@
 package cz.profinit.sportTeamManager.repositories;
 
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Team;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 
 
     @Override
-    public Team findTeamById(Long teamId) {
+    public Team findTeamById(Long teamId) throws EntityNotFoundException {
         return null;
     }
 

@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 @Repository
 @Profile("stub")
 public class StubUserRepository implements UserRepository {
-    private Logger logger = Logger.getLogger(String.valueOf(getClass()));
+    private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
 
     /**
      * Virtually save user to database
@@ -84,7 +84,7 @@ public class StubUserRepository implements UserRepository {
         } else if (email.equals("ts@gmail.com")) {
             return new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
         } else {
-            logger.info("User with email: " + email +  " is not in database");
+            logger.info("User with email: " + email + " is not in database");
             throw new EntityNotFoundException("User not found");
 
         }
