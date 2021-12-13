@@ -7,10 +7,9 @@
  */
 package cz.profinit.sportTeamManager.model.team;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
+import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import cz.profinit.sportTeamManager.model.user.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,18 +25,18 @@ import static org.junit.Assert.*;
  * Unit test for Subgroup class
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfiguration.class)
+@ContextConfiguration(classes = ApplicationConfigurationTest.class)
 public class SubgroupTest {
     private Subgroup subgroup;
-    private User user1;
-    private User user2;
+    private RegisteredUser user1;
+    private RegisteredUser user2;
 
     /**
      * Before a test create a subgroup with one user.
      */
     @Before
     public void setUp() {
-        List<User> userList = new ArrayList<>();
+        List<RegisteredUser> userList = new ArrayList<>();
 
         user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         user2 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);

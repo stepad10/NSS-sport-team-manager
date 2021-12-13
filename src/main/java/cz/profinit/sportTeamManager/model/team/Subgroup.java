@@ -8,7 +8,7 @@
 package cz.profinit.sportTeamManager.model.team;
 
 import cz.profinit.sportTeamManager.model.entity.Entity;
-import cz.profinit.sportTeamManager.model.user.User;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 public class Subgroup extends Entity {
     private String name;
-    private List<User> userList;
+    private List<RegisteredUser> userList;
 
 
     /**
@@ -40,7 +40,7 @@ public class Subgroup extends Entity {
      *
      * @param user user which should be added
      */
-    public void addUser(User user) {
+    public void addUser(RegisteredUser user) {
         userList.add(user);
     }
 
@@ -49,7 +49,7 @@ public class Subgroup extends Entity {
      *
      * @param user user which should be removed
      */
-    public void removeUser(User user) {
+    public void removeUser(RegisteredUser user) {
         if (userList.contains(user)) {
             userList.remove(user);
         } else {
@@ -64,7 +64,7 @@ public class Subgroup extends Entity {
      * @param user user which is looked for
      * @return true if user is in subgroup, false if not.
      */
-    public boolean isUserInList(User user) {
+    public boolean isUserInList(RegisteredUser user) {
         return userList.contains(user);
     }
 }

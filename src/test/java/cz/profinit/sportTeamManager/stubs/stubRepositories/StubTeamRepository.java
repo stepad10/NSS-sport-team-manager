@@ -5,14 +5,16 @@
  *
  * Author: J. Janský
  */
-package cz.profinit.sportTeamManager.stubRepositories;
+package cz.profinit.sportTeamManager.stubs.stubRepositories;
 
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.TeamRepository;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,10 @@ import java.util.logging.Logger;
 /**
  * Stub Team repository for Unit testing.
  */
+@Profile("stub_team_testing")
+@Repository
 public class StubTeamRepository implements TeamRepository {
-    private Logger logger = Logger.getLogger(String.valueOf(getClass()));
+    private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
     private final String allUsersSubgroupName = "All Users";
     private final String coachesSubgroupName = "Coaches";
 
@@ -34,7 +38,12 @@ public class StubTeamRepository implements TeamRepository {
      * @return created stub team
      */
     public Team findTeamByName(String teamName) {
-        User owner = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        RegisteredUser owner = new RegisteredUser(
+                "Ivan",
+                "Stastny",
+                "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
+                "is@gmail.com",
+                RoleEnum.USER);
         List<Subgroup> subgroupList = new ArrayList<>();
         Subgroup allUsersSubgroup = new Subgroup(allUsersSubgroupName);
         allUsersSubgroup.addUser(owner);
@@ -45,7 +54,9 @@ public class StubTeamRepository implements TeamRepository {
         subgroupList.add(coachesSubgroup);
         subgroupList.add(emptySubgroup);
         logger.info("STUB: Creating team");
-        return new Team("B team", "sipky", subgroupList, owner);
+        Team team = new Team("B team", "sipky", subgroupList, owner);
+        team.setEntityId(10L);
+        return team;
     }
 
     /**
@@ -58,9 +69,38 @@ public class StubTeamRepository implements TeamRepository {
         logger.info("STUB: Updating team");
     }
 
+    /**
+     * Virtually saves a team to database.
+     *
+     * @param team saving team
+     * @return saved team
+     */
     @Override
     public Team saveTeam(Team team) {
         logger.info("STUB: Saving team");
+        return team;
+    }
+
+    /**
+     * Virtually deletes team from database
+     *
+     * @param team deleting team
+     */
+    @Override
+    public void delete(Team team) {
+        logger.info("STUB: deleting team");
+    }
+
+
+    /**
+     * Gets team from database virtually
+     *
+     * @param teamId team id
+     * @return team
+     */
+    @Override
+    public Team findTeamById(Long teamId) throws EntityNotFoundException {
+        Team team = findTeamByName("B team");
         return team;
     }
 
