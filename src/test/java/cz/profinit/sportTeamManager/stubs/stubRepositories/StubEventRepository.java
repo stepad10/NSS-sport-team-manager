@@ -19,12 +19,12 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.EventRepository;
-import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-@Profile("stub_event_testing")
+@Repository
 public class StubEventRepository implements EventRepository {
 
     Event event;
@@ -34,7 +34,7 @@ public class StubEventRepository implements EventRepository {
         Place place = new Place("Profinit","Tychonova 2");
         event = new Event(LocalDateTime.now(),place,6,false,loggedUser,new ArrayList<>(),new ArrayList<>());
         event.setEntityId(0L);
-        loggedUser = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com",RoleEnum.USER);
+        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com",RoleEnum.USER);
         event.getListOfMessages().add(new Message(loggedUser,"Testuji",LocalDateTime.now()));
         event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser));
     }
@@ -50,7 +50,7 @@ public class StubEventRepository implements EventRepository {
         if (id == event.getEntityId()){
             return event;
         } else {
-            throw new EntityNotFoundException("Event entity not found!");
+            throw new EntityNotFoundException("Event");
         }
     }
 

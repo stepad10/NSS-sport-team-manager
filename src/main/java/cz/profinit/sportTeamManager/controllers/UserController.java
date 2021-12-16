@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * TODO not all features implemented
  */
 @RestController
-@Profile({"Main", "stub"})
+@Profile({"Main", "test"})
 public class UserController {
     @Autowired
     private UserService userService;

@@ -29,7 +29,7 @@ import java.util.List;
  * and add/delete user to team or subgroup.
  */
 @Service
-@Profile("Main")
+@Profile({"Main"})
 @AllArgsConstructor
 public class TeamServiceImpl implements TeamService {
 
@@ -207,7 +207,7 @@ public class TeamServiceImpl implements TeamService {
             team.deleteSubgroup(subgroupName);
             teamRepository.updateTeam(team);
         } else {
-            throw new EntityNotFoundException("No subgroup found");
+            throw new EntityNotFoundException("Subgroup");
         }
 
         return team;
@@ -244,7 +244,7 @@ public class TeamServiceImpl implements TeamService {
         try {
             team.getTeamSubgroup(ALL_USER_SUBGROUP).removeUser(user);
         } catch (Exception e) {
-            throw new EntityNotFoundException("User is not in team");
+            throw new EntityNotFoundException("User");
         }
         List<Subgroup> subgroupList = team.getListOfSubgroups();
 
@@ -285,7 +285,7 @@ public class TeamServiceImpl implements TeamService {
         if (team.isSubgroupInTeam(newName)) {
             throw new RuntimeException("Subgroup of new name already exists");
         } else if ((!team.isSubgroupInTeam(subgroupName))) {
-            throw new EntityNotFoundException("No subgroup found");
+            throw new EntityNotFoundException("Subgroup");
         } else {
             team.getTeamSubgroup(subgroupName).setName(newName);
             teamRepository.updateTeam(team);

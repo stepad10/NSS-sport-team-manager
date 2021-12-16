@@ -27,7 +27,6 @@ import java.util.ArrayList;
  * Maps incoming team requests.
  */
 @RestController
-@Profile({"Main", "stub"})
 public class TeamController {
     @Autowired
     private TeamService teamService;
@@ -48,7 +47,7 @@ public class TeamController {
         try {
             team = teamService.getTeamById(teamId);
         } catch (Exception e) {
-            if (e.getMessage().equals("Team is not found")) {
+            if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -94,7 +93,7 @@ public class TeamController {
             if (e.getMessage().equals("Subgroup already exists")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            }  else if (e.getMessage().equals("Team is not found")) {
+            }  else if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -125,10 +124,10 @@ public class TeamController {
             if (e.getMessage().equals("Subgroup of new name already exists")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            } else if (e.getMessage().equals("No subgroup found")) {
+            } else if (e.getMessage().equals("Subgroup entity not found")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            } else  if (e.getMessage().equals("Team is not found")) {
+            } else  if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -152,10 +151,10 @@ public class TeamController {
         try {
             team = teamService.deleteSubgroup(teamId, subgroupName);
         } catch (Exception e) {
-            if (e.getMessage().equals("No subgroup found")) {
+            if (e.getMessage().equals("Subgroup entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            } else  if (e.getMessage().equals("Team is not found")) {
+            } else  if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -182,7 +181,7 @@ public class TeamController {
         try {
             user = userService.findUserByEmail(userEmail);
         } catch (Exception e) {
-            if (e.getMessage().equals("User not found")) {
+            if (e.getMessage().equals("User entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, e.getMessage(), e);
             }
@@ -194,7 +193,7 @@ public class TeamController {
             if (e.getMessage().equals("User is already in team")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            } else  if (e.getMessage().equals("Team is not found")) {
+            } else  if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -219,7 +218,7 @@ public class TeamController {
         try {
             user = userService.findUserByEmail(userEmail);
         } catch (Exception e) {
-            if (e.getMessage().equals("User is not found")) {
+            if (e.getMessage().equals("User entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, e.getMessage(), e);
             }
@@ -230,7 +229,7 @@ public class TeamController {
             if (e.getMessage().equals("User is not in team")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            } else  if (e.getMessage().equals("Team is not found")) {
+            } else  if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -259,7 +258,7 @@ public class TeamController {
         try {
             user = userService.findUserByEmail(userEmail);
         } catch (Exception e) {
-            if (e.getMessage().equals("User is not found")) {
+            if (e.getMessage().equals("User entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, e.getMessage(), e);
             }
@@ -267,10 +266,10 @@ public class TeamController {
         try {
             team = teamService.deleteUserFromSubgroup(teamId, subgroupName, user);
         } catch (Exception e) {
-            if (e.getMessage().equals("No subgroup found")) {
+            if (e.getMessage().equals("Subgroup entity found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, e.getMessage(), e);
-            } else  if (e.getMessage().equals("Team is not found")) {
+            } else  if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -300,7 +299,7 @@ public class TeamController {
         try {
             user = userService.findUserByEmail(userEmail);
         } catch (Exception e) {
-            if (e.getMessage().equals("User not found")) {
+            if (e.getMessage().equals("User entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, e.getMessage(), e);
             }
@@ -312,7 +311,7 @@ public class TeamController {
             if (e.getMessage().equals("User is already in subgroup")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            } else  if (e.getMessage().equals("Team is not found")) {
+            } else  if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -332,7 +331,7 @@ public class TeamController {
         try {
             teamService.deleteTeam(teamId);
         } catch (Exception e) {
-            if (e.getMessage().equals("Team is not found")) {
+            if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -352,9 +351,12 @@ public class TeamController {
         try {
             team = teamService.changeTeamName(teamId, newName);
         } catch (Exception e) {
-            if (e.getMessage().equals("Team is not found")) {
+            if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
+            } else if (e.getMessage().equals("Access denied")) {
+                throw new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED, e.getMessage(), e);
             }
         }
         return TeamMapper.mapTeamToTeamDto(team);
@@ -373,7 +375,7 @@ public class TeamController {
         try {
             team = teamService.changeTeamSport(teamId, newSport);
         } catch (Exception e) {
-            if (e.getMessage().equals("Team is not found")) {
+            if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }
@@ -399,7 +401,7 @@ public class TeamController {
         try {
             user = userService.findUserByEmail(newOwnerEmail);
         } catch (Exception e) {
-            if (e.getMessage().equals("User is not found")) {
+            if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, e.getMessage(), e);
             }
@@ -411,7 +413,7 @@ public class TeamController {
             if (e.getMessage().equals("User is not in team")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            } else  if (e.getMessage().equals("Team is not found")) {
+            } else  if (e.getMessage().equals("Team entity not found!")) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, e.getMessage(), e);
             }

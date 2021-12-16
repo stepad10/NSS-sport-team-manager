@@ -8,7 +8,7 @@
 
 package cz.profinit.sportTeamManager.service.invitation;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
+import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
@@ -25,9 +25,9 @@ import cz.profinit.sportTeamManager.service.InvitationService;
 import cz.profinit.sportTeamManager.service.InvitationServiceImpl;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import cz.profinit.sportTeamManager.service.user.UserServiceImpl;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.TODOMERGEStubUserRepository;
 import cz.profinit.sportTeamManager.stubs.stubRepositories.StubEventRepository;
 import cz.profinit.sportTeamManager.stubs.stubRepositories.StubInvitationRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.StubUserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,8 +47,8 @@ import java.util.List;
  * Tests testing Invitation business logic
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfigurationTest.class)
-@ActiveProfiles({"stub","stub_event_testing"})
+@ContextConfiguration(classes = StubRepositoryConfiguration.class)
+@ActiveProfiles({"stub_repository"})
 public class InvitationServiceImplTest {
 
     private InvitationService invitationService;
@@ -64,11 +64,11 @@ public class InvitationServiceImplTest {
      */
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(context.getBean(PasswordEncoder.class), new TODOMERGEStubUserRepository());
+        userService = new UserServiceImpl(context.getBean(PasswordEncoder.class), new StubUserRepository());
         eventService = new EventServiceImpl(new StubEventRepository(), new EventMapper(),userService);
         invitationRepository = new StubInvitationRepository();
         invitationService = new InvitationServiceImpl(invitationRepository,eventService,userService);
-        loggedUser = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
     }
 
     /**
@@ -113,8 +113,8 @@ public class InvitationServiceImplTest {
     @Test
     public void createNewInvitationsFromListCreatesNewInvitations() throws EntityNotFoundException, UserIsAlreadyInEventException {
         List<RegisteredUser> users = new ArrayList<>();
-        users.add(new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER));
-        users.add(new RegisteredUser("Jirka", "Vesely", "pass", "is@email.cz", RoleEnum.USER));
+        users.add(new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER));
+        users.add(new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER));
 
         List<Invitation> invitationList = invitationService.createNewInvitationsFromList(users, 0L);
 

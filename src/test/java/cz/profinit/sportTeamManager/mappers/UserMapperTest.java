@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ApplicationConfigurationTest.class)
-@ActiveProfiles({"stub", "main"})
+@ActiveProfiles({"stub"})
 public class UserMapperTest {
     private RegisteredUser registeredUser1;
     private RegisteredUserDTO registeredUserDTO1;

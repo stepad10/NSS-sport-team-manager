@@ -10,6 +10,7 @@ package cz.profinit.sportTeamManager.mappers;
 
 import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
  * Mapper class that allows mapping between data transfer objects and entities
  */
 @Component
+@Profile({"test", "Main","stub_services"})
 public class InvitationMapper {
     //TODO Předělat pro userDto
 
