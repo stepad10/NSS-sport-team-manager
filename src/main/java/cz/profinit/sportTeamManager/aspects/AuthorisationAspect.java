@@ -1,5 +1,5 @@
 /*
- * AuthorisationAspect
+ * AuthorizationAspect
  *
  * 0.1
  *
