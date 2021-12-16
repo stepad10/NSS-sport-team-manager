@@ -1,5 +1,5 @@
 /*
- * ApplicationConfigurationTest
+ * StubRepositoryConfiguration
  *
  * 0.1
  *
@@ -7,6 +7,8 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
+import cz.profinit.sportTeamManager.stubs.stubService.StubTeamServiceImpl;
+import cz.profinit.sportTeamManager.stubs.stubService.StubUserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +17,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * Basic configuration of an application for tests.
+ * Configuration bringing STUB services.
  */
 @Configuration
-@Profile({"t"})
-@ComponentScan
-public class ApplicationConfigurationTest {
+@Profile({"stub_service"})
+@ComponentScan(basePackageClasses = {StubTeamServiceImpl.class, StubUserServiceImpl.class})
+public class StubServicesConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

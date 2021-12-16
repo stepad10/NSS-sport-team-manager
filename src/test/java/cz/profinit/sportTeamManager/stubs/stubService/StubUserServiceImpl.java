@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
  * Stub User service for Unit tests.
  */
 @Service
-@Profile("stub_team_testing")
 public class StubUserServiceImpl implements UserService {
 
     /**
@@ -75,7 +74,7 @@ public class StubUserServiceImpl implements UserService {
         } else if (email.equals("ts@gmail.com")) {
             return new RegisteredUser("Tomas", "Smutny", "pass", "ts@gmail.com", RoleEnum.USER);
         }
-        throw new EntityNotFoundException("User not found");
+        throw new EntityNotFoundException("User");
     }
 
 

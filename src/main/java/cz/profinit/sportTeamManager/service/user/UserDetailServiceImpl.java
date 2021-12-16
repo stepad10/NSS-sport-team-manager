@@ -44,7 +44,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         try {
             user = userRepository.findUserByEmail(userEmail);
         } catch (Exception e) {
-            if (e.getMessage().equals("User not found")) {
+            if (e.getMessage().equals("User entity not found!")) {
                 throw new UserOrPasswordNotMatchException();
             }
         }

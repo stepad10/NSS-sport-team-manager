@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 /**
  * Stub Team repository for Unit testing.
  */
-@Profile("stub_team_testing")
+
 @Repository
 public class StubTeamRepository implements TeamRepository {
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
@@ -53,7 +53,6 @@ public class StubTeamRepository implements TeamRepository {
         subgroupList.add(allUsersSubgroup);
         subgroupList.add(coachesSubgroup);
         subgroupList.add(emptySubgroup);
-        logger.info("STUB: Creating team");
         Team team = new Team("B team", "sipky", subgroupList, owner);
         team.setEntityId(10L);
         return team;

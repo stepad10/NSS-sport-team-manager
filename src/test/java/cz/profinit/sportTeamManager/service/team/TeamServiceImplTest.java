@@ -37,8 +37,8 @@ import static org.junit.Assert.assertFalse;
  * Unit tests for Team service implementation
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfigurationTest.class)
-@ActiveProfiles({"stub","stub_team_testing"})
+//@ContextConfiguration(classes = {ApplicationConfigurationTest.class})
+@ActiveProfiles({"stub_repository"})
 public class TeamServiceImplTest {
     private TeamServiceImpl teamService;
     private RegisteredUser loggedUser;
@@ -94,7 +94,7 @@ public class TeamServiceImplTest {
         try {
             teamService.getTeamById(20L);
         } catch (Exception e) {
-            assertEquals("Team is not found",e.getMessage());
+            assertEquals("Team entity not found",e.getMessage());
         }
     }
 
@@ -128,7 +128,7 @@ public class TeamServiceImplTest {
         try {
             teamService.deleteSubgroup(team.getEntityId(), subgroupName);
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "No subgroup found");
+            assertEquals(e.getMessage(), "Subgroup enitity not found!");
         }
     }
 
@@ -320,7 +320,7 @@ public class TeamServiceImplTest {
         try {
             team = teamService.changeSubgroupName(10L, "Playes", "A");
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "No subgroup found");
+            assertEquals(e.getMessage(), "Subgroup entity not found!");
         }
     }
 

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * Maps a subgroup data transfer object to subgroup entity and back.
  */
 @Component
-@Profile({"stub", "Main"})
+@Profile({"test", "Main"})
 public class TeamMapper {
     @Autowired
     private static UserMapper userMapper;

@@ -21,14 +21,14 @@ import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDateTime;
 
-@Profile("stub_event_testing")
+
 public class StubInvitationRepository implements InvitationRepository {
 
     Invitation invitation;
     User loggedUser;
 
     public StubInvitationRepository() {
-        loggedUser = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
         invitation = new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser);
         invitation.setEntityId(0L);
     }
@@ -42,14 +42,14 @@ public class StubInvitationRepository implements InvitationRepository {
         if (id == invitation.getEntityId()){
             return invitation;
         } else {
-            throw new EntityNotFoundException("Invitation entity not found!");
+            throw new EntityNotFoundException("Invitation");
         }
     }
 
     @Override
     public boolean deleteInvitation(User user, Event event) throws EntityNotFoundException {
         if (user.getName() != loggedUser.getName() || event.getEntityId() != 0L){
-            throw new EntityNotFoundException("Invitation entity not found!");
+            throw new EntityNotFoundException("Invitation");
         } else {
             return true;
         }

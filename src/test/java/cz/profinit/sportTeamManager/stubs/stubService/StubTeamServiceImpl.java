@@ -26,7 +26,6 @@ import java.util.logging.Logger;
  * Stub Team service for Unit tests.
  */
 @Service
-@Profile("stub_team_testing")
 public class StubTeamServiceImpl implements TeamService {
 
     @Autowired
@@ -115,7 +114,6 @@ public class StubTeamServiceImpl implements TeamService {
      * @param teamId Id of team which we want to get
      * @return Team
      */
-    @Override
     public Team getTeamById(Long teamId) throws EntityNotFoundException {
         RegisteredUser user = new RegisteredUser("Adam", "Stastny", "pass", "email@gmail.com", RoleEnum.USER);
 
@@ -140,7 +138,7 @@ public class StubTeamServiceImpl implements TeamService {
             team.getTeamSubgroup("All Users").addUser(newMenber);
             team.getTeamSubgroup("Coaches").addUser(newMenber);
         } else {
-            throw new EntityNotFoundException("Team is not found");
+            throw new EntityNotFoundException("Team");
         }
         return team;
     }
@@ -214,7 +212,7 @@ public class StubTeamServiceImpl implements TeamService {
         if (team.isSubgroupInTeam(subgroupName)) {
             team.getListOfSubgroups().remove(1);
         } else {
-            throw new EntityNotFoundException("No subgroup found");
+            throw new EntityNotFoundException("Subgroup");
         }
         return team;
     }
@@ -232,7 +230,7 @@ public class StubTeamServiceImpl implements TeamService {
     public Team deleteUserFromSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         if (!team.isSubgroupInTeam(subgroupName)) {
-            throw new EntityNotFoundException("No subgroup found");
+            throw new EntityNotFoundException("Subgroup");
         }
         team.getTeamSubgroup(subgroupName).removeUser(user);
         return team;
@@ -253,7 +251,7 @@ public class StubTeamServiceImpl implements TeamService {
         try {
             team.getTeamSubgroup("All Users").removeUser(user);
         } catch (Exception e) {
-            throw new EntityNotFoundException("User is not in team");
+            throw new RuntimeException("User is not in team");
         }
         try {
             team.getTeamSubgroup("Coaches").removeUser(user);
@@ -290,7 +288,7 @@ public class StubTeamServiceImpl implements TeamService {
         if (team.isSubgroupInTeam(newName)) {
             throw new RuntimeException("Subgroup of new name already exists");
         } else if (!team.isSubgroupInTeam(subgroupName)) {
-            throw new EntityNotFoundException("No subgroup found");
+            throw new EntityNotFoundException("Subgroup");
         } else {
             team.getTeamSubgroup(subgroupName).setName(newName);
         }

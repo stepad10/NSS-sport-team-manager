@@ -9,6 +9,8 @@
 package cz.profinit.sportTeamManager.service.user;
 
 import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
+import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
+import cz.profinit.sportTeamManager.configuration.StubServicesConfiguration;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
@@ -30,8 +32,8 @@ import static org.junit.Assert.*;
  * Unit tests for User service implementation
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfigurationTest.class)
-@ActiveProfiles("stub")
+@ContextConfiguration(classes = StubRepositoryConfiguration.class)
+@ActiveProfiles({"stub_repository"})
 public class UserServiceImplTest {
     private UserServiceImpl userService;
     private RegisteredUser user;
@@ -47,6 +49,7 @@ public class UserServiceImplTest {
     public void setUp() {
         UserRepository userRepository = new StubUserRepository();
         UserMapper userMapper = new UserMapper();
+
         PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
         userService = new UserServiceImpl(passwordEncoder, userRepository);
         user = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);

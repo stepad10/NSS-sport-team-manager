@@ -10,6 +10,7 @@ package cz.profinit.sportTeamManager.configuration;
 import cz.profinit.sportTeamManager.repositories.UserRepository;
 import cz.profinit.sportTeamManager.service.user.UserDetailServiceImpl;
 import cz.profinit.sportTeamManager.service.user.UserDetailsImpl;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.StubUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,17 +29,14 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * Configuration of a web services, mainly of authorization provider and http security protocols for testing.
  */
 @Configuration
-@Profile({"webStub"})
-@Import(ApplicationConfigurationTest.class)
+@Profile({"webTest"})
 //@EnableWebSecurity
 @EnableWebMvc
 public class WebApplicationConfigurationUnitTests extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserRepository userRepository;
-
-
+    private DaoAuthenticationProvider authenticationProvider;
+    private UserRepository userRepository = new StubUserRepository();
     /**
      * Adds stubs authenticated users to in memory storage.
      */
@@ -50,6 +48,7 @@ public class WebApplicationConfigurationUnitTests extends WebSecurityConfigurerA
                 .and()
                 .withUser("admin").password(passwordEncoder.encode("a")).roles("ADMIN");
     }
+
 
     /**
      * Sets http security authorization protocols.

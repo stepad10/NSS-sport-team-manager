@@ -44,10 +44,9 @@ import static org.hamcrest.Matchers.containsString;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SportTeamManagerApplication.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
-@ContextConfiguration(classes = WebApplicationConfigurationUnitTests.class)
 @WebAppConfiguration
 @AutoConfigureMockMvc
-@ActiveProfiles({"stub", "webStub","stub_team_testing"})
+@ActiveProfiles({"stub_repository","stub_services","webTest","test"})
 public class TeamControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -124,7 +123,7 @@ public class TeamControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/team/30")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
     }
 
 
@@ -152,7 +151,7 @@ public class TeamControllerTest {
                                 put("/team/30/teamName/Novy tym").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
 
     }
 
@@ -178,7 +177,7 @@ public class TeamControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.put("/team/30/teamSport/Rugby")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
 
     }
 
@@ -208,7 +207,7 @@ public class TeamControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.put("/team/30/teamOwner/ts@gmail.com")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
 
     }
 
@@ -253,7 +252,7 @@ public class TeamControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/team/30/subgroup/Empty")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
     }
 
     /**
@@ -294,7 +293,7 @@ public class TeamControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.delete("/team/30/subgroup/Coaches")).
                                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
     }
 
     /**
@@ -307,7 +306,7 @@ public class TeamControllerTest {
                                 delete("/team/10/subgroup/Empty").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("No subgroup found"));
+                andExpect(MockMvcResultMatchers.status().reason("Subgroup entity not found!"));
     }
 
 
@@ -335,7 +334,7 @@ public class TeamControllerTest {
                                 put("/team/30/subgroup/Coaches/Empty").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
     }
 
     /**
@@ -376,7 +375,7 @@ public class TeamControllerTest {
                                 put("/team/30/user/ts@gmail.com").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
     }
 
     /**
@@ -405,7 +404,7 @@ public class TeamControllerTest {
                                 delete("/team/30/user/email@gmail.com").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
     }
 
     /**
@@ -508,7 +507,7 @@ public class TeamControllerTest {
                 andExpect(
                         MockMvcResultMatchers
                                 .status().
-                                reason((containsString("User not found"))));
+                                reason((containsString("User entity not found!"))));
     }
 
 
@@ -538,7 +537,7 @@ public class TeamControllerTest {
                                 put("/team/30/Coaches/user/ts@gmail.com").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Team is not found"));
+                andExpect(MockMvcResultMatchers.status().reason("Team entity not found!"));
     }
 
     /**
@@ -578,7 +577,7 @@ public class TeamControllerTest {
                 andExpect(
                         MockMvcResultMatchers
                                 .status().
-                                reason((containsString("User not found"))));
+                                reason((containsString("User entity not found!"))));
     }
 
 

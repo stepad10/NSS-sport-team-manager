@@ -67,6 +67,11 @@ public class WebApplicationConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
+
+        http.authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .oauth2Login();
     }
 
 
