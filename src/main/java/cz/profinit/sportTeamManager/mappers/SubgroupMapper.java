@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * Maps a subgroup data transfer object to subgroup entity and back.
  */
 @Component
-@Profile({"test", "Main"})
+@Profile({"test", "Main","stub_services"})
 public class SubgroupMapper {
     @Autowired
     private static UserMapper userMapper;

@@ -1,5 +1,5 @@
 /*
- * AspectConfigurationTest
+ * AuthorizationConfigurationTest
  *
  * 0.1
  *
@@ -7,19 +7,18 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-
+import cz.profinit.sportTeamManager.aspects.AuthorisationAspect;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Profile;
 
 /**
- * Configuration of aspects
+ * Configuration bringing classes necessary for Authorization.
  */
 @Configuration
+@Profile({"authorization"})
 @EnableAspectJAutoProxy
-@Profile({"aspects"})
-@ComponentScan("cz.profinit.sportTeamManager.aspects")
-public class AspectConfigurationTest {
-
+@ComponentScan(basePackageClasses = {AuthorisationAspect.class})
+public class AuthorizationConfigurationTest {
 }

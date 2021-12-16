@@ -19,12 +19,12 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.EventRepository;
-import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-
+@Repository
 public class StubEventRepository implements EventRepository {
 
     Event event;

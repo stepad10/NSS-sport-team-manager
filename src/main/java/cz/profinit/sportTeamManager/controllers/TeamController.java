@@ -27,7 +27,6 @@ import java.util.ArrayList;
  * Maps incoming team requests.
  */
 @RestController
-@Profile({"Main", "test"})
 public class TeamController {
     @Autowired
     private TeamService teamService;

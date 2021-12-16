@@ -10,7 +10,11 @@ package cz.profinit.sportTeamManager.mappers;
 
 import cz.profinit.sportTeamManager.dto.MessageDto;
 import cz.profinit.sportTeamManager.model.event.Message;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
+@Component
+@Profile({"test", "Main","stub_services"})
 public class MessageMapper {
     //TODO Předělat pro userDto
 

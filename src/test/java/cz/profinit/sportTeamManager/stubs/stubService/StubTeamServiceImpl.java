@@ -13,9 +13,9 @@ import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
+import cz.profinit.sportTeamManager.repositories.UserRepository;
 import cz.profinit.sportTeamManager.service.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +30,8 @@ public class StubTeamServiceImpl implements TeamService {
 
     @Autowired
     private TeamMapper teamMapper;
+    @Autowired
+    private UserRepository userRepository;
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
     private final String ALL_USER_SUBGROUP = "All Users";
     private final String COACHES_SUBGROUP = "Coaches";
@@ -93,7 +95,7 @@ public class StubTeamServiceImpl implements TeamService {
     public Team changeTeamOwner(Long teamId, RegisteredUser user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         try {
-            team.getTeamSubgroup(ALL_USER_SUBGROUP).getUserList().get(1).getEmail().equals(user.getEmail());
+            team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user);
         } catch (Exception e) {
 
             throw new RuntimeException("User is not in team");
@@ -115,7 +117,7 @@ public class StubTeamServiceImpl implements TeamService {
      * @return Team
      */
     public Team getTeamById(Long teamId) throws EntityNotFoundException {
-        RegisteredUser user = new RegisteredUser("Adam", "Stastny", "pass", "email@gmail.com", RoleEnum.USER);
+        RegisteredUser user = userRepository.findUserByEmail("email@gmail.com");
 
         List<RegisteredUser> userList1 = new ArrayList<>();
         userList1.add(user);
@@ -128,6 +130,7 @@ public class StubTeamServiceImpl implements TeamService {
         List<Subgroup> subgroupList = new ArrayList<>();
         subgroupList.add(subgroupA);
         subgroupList.add(subgroupC);
+        subgroupList.add(new Subgroup("Empty"));
         Team team = new Team("Ateam", "golf", subgroupList, user);
 
         if (teamId == 10L) {

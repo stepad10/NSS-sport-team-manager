@@ -8,9 +8,7 @@
 
 package cz.profinit.sportTeamManager.service.user;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
-import cz.profinit.sportTeamManager.configuration.StubServicesConfiguration;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;

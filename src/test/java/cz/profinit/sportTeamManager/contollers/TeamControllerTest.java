@@ -8,7 +8,6 @@
 package cz.profinit.sportTeamManager.contollers;
 
 import cz.profinit.sportTeamManager.SportTeamManagerApplication;
-import cz.profinit.sportTeamManager.configuration.WebApplicationConfigurationUnitTests;
 import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.SubgroupDTO;
 import cz.profinit.sportTeamManager.dto.TeamDTO;
@@ -22,7 +21,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,7 +44,7 @@ import static org.hamcrest.Matchers.containsString;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @WebAppConfiguration
 @AutoConfigureMockMvc
-@ActiveProfiles({"stub_repository","stub_services","webTest","test"})
+@ActiveProfiles({"stub_repository","stub_services","webTest","authentication"})
 public class TeamControllerTest {
     @Autowired
     private MockMvc mockMvc;

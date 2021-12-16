@@ -8,7 +8,6 @@
 
 package cz.profinit.sportTeamManager.service.event;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.dto.InvitationDto;

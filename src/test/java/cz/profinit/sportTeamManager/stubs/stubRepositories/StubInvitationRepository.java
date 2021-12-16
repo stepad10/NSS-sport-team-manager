@@ -17,11 +17,11 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.InvitationRepository;
-import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 
-
+@Repository
 public class StubInvitationRepository implements InvitationRepository {
 
     Invitation invitation;

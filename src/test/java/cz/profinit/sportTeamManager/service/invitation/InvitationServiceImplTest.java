@@ -8,7 +8,6 @@
 
 package cz.profinit.sportTeamManager.service.invitation;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;

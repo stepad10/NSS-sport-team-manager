@@ -43,7 +43,7 @@ import java.io.StringWriter;
 @ContextConfiguration(classes = WebApplicationConfigurationUnitTests.class)
 @WebAppConfiguration
 @AutoConfigureMockMvc
-@ActiveProfiles({"stub_repository","stub_services","webTest","test"})
+@ActiveProfiles({"stub_repository","stub_services","webTest","test","authentication"})
 public class UserControllerTest {
 
     @Autowired

@@ -8,7 +8,6 @@
 
 package cz.profinit.sportTeamManager.service.team;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.TeamMapper;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
@@ -23,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;

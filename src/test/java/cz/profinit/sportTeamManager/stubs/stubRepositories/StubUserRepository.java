@@ -1,14 +1,24 @@
+/*
+ * StubUserRepository
+ *
+ * 0.1
+ *
+ * Author: M. Halamka
+ */
 package cz.profinit.sportTeamManager.stubs.stubRepositories;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.UserRepository;
-import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.logging.Logger;
 
-
+/**
+ * Stub user repository
+ */
+@Repository
 public class StubUserRepository implements UserRepository {
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
     private RegisteredUser loggedUser1 = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);

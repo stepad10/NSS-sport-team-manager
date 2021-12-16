@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile({"main","aspect","Authentication"})
+@Profile({"main","aspect","authentication"})
 @NoArgsConstructor
 public class AuthenticationFacadeImpl implements AuthenticationFacade {
     @Override
