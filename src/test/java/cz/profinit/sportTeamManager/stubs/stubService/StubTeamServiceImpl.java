@@ -94,10 +94,7 @@ public class StubTeamServiceImpl implements TeamService {
     @Override
     public Team changeTeamOwner(Long teamId, RegisteredUser user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
-        try {
-            team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user);
-        } catch (Exception e) {
-
+        if (!team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) {
             throw new RuntimeException("User is not in team");
         }
         try {
@@ -137,7 +134,7 @@ public class StubTeamServiceImpl implements TeamService {
             team.setEntityId(10L);
         } else if (teamId == 20L) {
             team.setEntityId(20L);
-            RegisteredUser newMenber = new RegisteredUser("Tomas", "Smutny", "pass", "ts@gmail.com", RoleEnum.USER);
+            RegisteredUser newMenber = userRepository.findUserByEmail("ts@gmail.com");
             team.getTeamSubgroup("All Users").addUser(newMenber);
             team.getTeamSubgroup("Coaches").addUser(newMenber);
         } else {

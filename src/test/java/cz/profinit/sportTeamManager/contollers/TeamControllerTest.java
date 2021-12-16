@@ -69,6 +69,7 @@ public class TeamControllerTest {
         List<SubgroupDTO> subgroupList = new ArrayList<>();
         subgroupList.add(subgroupA);
         subgroupList.add(subgroupC);
+        subgroupList.add(new SubgroupDTO("Empty"));
         team = new TeamDTO(10L, "Ateam", "golf", subgroupList, user);
     }
 
@@ -80,6 +81,7 @@ public class TeamControllerTest {
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();
+        team.getListOfSubgroups().remove(team.getTeamSubgroup("Empty"));
         jaxbMarshaller.marshal(team, sw);
         String teamXml = sw.toString();
 
@@ -222,7 +224,7 @@ public class TeamControllerTest {
 
         mockMvc.perform(
                         MockMvcRequestBuilders.
-                                put("/team/10/teamOwner/ts@gmail.com").
+                                put("/team/10/teamOwner/is@email.cz").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
                 andExpect(MockMvcResultMatchers.status().reason("User is not in team"));
@@ -233,7 +235,7 @@ public class TeamControllerTest {
      */
     @Test
     public void addNewSubgroup() throws Exception {
-        team.getListOfSubgroups().add(new SubgroupDTO("Empty"));
+        team.getListOfSubgroups().add(new SubgroupDTO("Empty2"));
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();
@@ -242,7 +244,7 @@ public class TeamControllerTest {
 
         mockMvc.perform(
                         MockMvcRequestBuilders.
-                                post("/team/10/subgroup/Empty").
+                                post("/team/10/subgroup/Empty2").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(addedSubgroupXml));
@@ -301,7 +303,7 @@ public class TeamControllerTest {
     public void deleteNotExistingSubgroup() throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders.
-                                delete("/team/10/subgroup/Empty").
+                                delete("/team/10/subgroup/Empty2").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
                 andExpect(MockMvcResultMatchers.status().reason("Subgroup entity not found!"));
@@ -313,7 +315,7 @@ public class TeamControllerTest {
      */
     @Test
     public void changeSubgroupName() throws Exception {
-        team.getListOfSubgroups().get(1).setName("Empty");
+        team.getListOfSubgroups().get(1).setName("Empty2");
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();
@@ -322,7 +324,7 @@ public class TeamControllerTest {
 
         mockMvc.perform(
                         MockMvcRequestBuilders.
-                                put("/team/10/subgroup/Coaches/Empty").
+                                put("/team/10/subgroup/Coaches/Empty2").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isOk()).
                 andExpect(MockMvcResultMatchers.content().string(addedSubgroupXml));

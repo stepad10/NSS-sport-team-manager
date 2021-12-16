@@ -14,12 +14,20 @@ import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 
 /**
  * Stub User service for Unit tests.
  */
 @Service
 public class StubUserServiceImpl implements UserService {
+
+    private RegisteredUser loggedUser1 = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
+    private RegisteredUser loggedUser2 = new RegisteredUser("Pavel", "Smutny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@seznam.cz", RoleEnum.USER);
+    private RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER);
+    private RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
+    private RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
 
     /**
      * Registers a new user.
@@ -68,12 +76,19 @@ public class StubUserServiceImpl implements UserService {
      */
     @Override
     public RegisteredUser findUserByEmail(String email) throws EntityNotFoundException {
-        if (email.equals("email@gmail.com")) {
-            return new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
+        if (Objects.equals(email, "is@seznam.cz")) {
+            return loggedUser2;
+        } else if (email.equals("is@gmail.com")) {
+            return loggedUser1;
+        } else if (email.equals("is@email.cz")) {
+            return loggedUser3;
         } else if (email.equals("ts@gmail.com")) {
-            return new RegisteredUser("Tomas", "Smutny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "ts@gmail.com", RoleEnum.USER);
+            return loggedUser4;
+        } else if (email.equals("email@gmail.com")) {
+            return loggedUser5;
+        } else {
+            throw new EntityNotFoundException("User");
         }
-        throw new EntityNotFoundException("User");
     }
 
 
