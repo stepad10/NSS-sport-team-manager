@@ -55,7 +55,7 @@ public class InvitationServiceImpl implements InvitationService{
         eventService.addNewInvitation(eventId, invitation);
         return invitation;
         } else {
-            throw new UserIsAlreadyInEventException("User is already present!!");
+            throw new UserIsAlreadyInEventException();
         }
     }
 

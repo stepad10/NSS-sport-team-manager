@@ -15,11 +15,13 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.service.EventService;
+import cz.profinit.sportTeamManager.service.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +30,7 @@ import java.util.List;
  * Controller for event business logic.
  */
 @RestController
-@Profile( "stub2")
+@Profile("stub2")
 public class EventController {
 
     @Autowired
@@ -110,8 +112,8 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     public void addNewMessage (@PathVariable Long eventId, @PathVariable String message){
         try {
-            //TODO dat tam current usera
-            eventService.addNewMessage(null,message,eventId);
+            UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            eventService.addNewMessage(userDetails.getUsername(), message,eventId);
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
             notFound();
@@ -137,13 +139,13 @@ public class EventController {
     @PostMapping(value = "/event/{eventId}/invitation/{userId}")
     @ResponseStatus (HttpStatus.OK)
     public void addNewInvitation(@PathVariable Long eventId){
-        try {
-            //TODO vyresit usera!!
-            eventService.addNewInvitation(eventId,null);
+      /*  try {
+            UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //    eventService.addNewInvitation(eventId,userDetails.getUsername());
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
             notFound();
-        }
+        }*/
     }
 
     /**
