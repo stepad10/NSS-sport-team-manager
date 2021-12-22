@@ -7,7 +7,7 @@
  */
 package cz.profinit.sportTeamManager.contollers;
 
-import cz.profinit.sportTeamManager.SportTeamManagerApplication;
+import cz.profinit.sportTeamManager.SportTeamManagerApplicationTests;
 import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.SubgroupDTO;
 import cz.profinit.sportTeamManager.dto.TeamDTO;
@@ -19,7 +19,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -40,11 +42,12 @@ import static org.hamcrest.Matchers.containsString;
  * Test team controller.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SportTeamManagerApplication.class)
+@SpringBootTest(classes = SportTeamManagerApplicationTests.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @WebAppConfiguration
+@WebMvcTest
 @AutoConfigureMockMvc
-@ActiveProfiles({"stub_repository","stub_services","webTest","authentication"})
+@ActiveProfiles({"stub_repository","stub_services","webTest","test","authentication"})
 public class TeamControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -95,6 +98,7 @@ public class TeamControllerTest {
      * Tests refreshing of team
      */
     @Test
+    //@WithMockOAuth2User(username="sportteammanagertest@gmail.com",password = "W76y1cRubAvTnW1oQEL0")
     public void refreshTeam() throws Exception {
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -347,7 +351,7 @@ public class TeamControllerTest {
                                 put("/team/10/subgroup/Coaches/All Users").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Subgroup of new name already exists"));
+                andExpect(MockMvcResultMatchers.status().reason("Subgroup already exists"));
     }
 
     /**
@@ -503,7 +507,7 @@ public class TeamControllerTest {
                 andExpect(
                         MockMvcResultMatchers.
                                 status().
-                                isNotFound()).
+                                isBadRequest()).
                 andExpect(
                         MockMvcResultMatchers
                                 .status().
@@ -573,7 +577,7 @@ public class TeamControllerTest {
                 andExpect(
                         MockMvcResultMatchers.
                                 status().
-                                isNotFound()).
+                                isBadRequest()).
                 andExpect(
                         MockMvcResultMatchers
                                 .status().
