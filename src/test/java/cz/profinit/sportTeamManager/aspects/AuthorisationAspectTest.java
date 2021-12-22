@@ -21,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.oauth2.common.util.JacksonJsonParser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -75,7 +76,7 @@ public class AuthorisationAspectTest {
      * Authorized requests
      */
     @Test
-    @WithUserDetails("email@gmail.com")
+    @WithMockUser(username="email@gmail.com",roles={"USER","ADMIN"})
     public void authorizationSuccess() throws EntityNotFoundException {
         Team team = null;
 
@@ -126,7 +127,7 @@ public class AuthorisationAspectTest {
      * Unauthorized requests
      */
     @Test
-    @WithUserDetails("ts@gmail.com")
+    @WithMockUser(username="is@gmail.com",roles={"USER","ADMIN"})
     public void authorizationFail() throws EntityNotFoundException {
         Team team = null;
         try {

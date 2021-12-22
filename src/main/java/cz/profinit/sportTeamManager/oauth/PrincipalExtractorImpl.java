@@ -4,9 +4,11 @@ import cz.profinit.sportTeamManager.service.user.AuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class PrincipalExtractorImpl implements PrincipalExtractor {
@@ -27,6 +29,11 @@ public class PrincipalExtractorImpl implements PrincipalExtractor {
         } else if (className.equals("class org.springframework.security.oauth2.core.user.DefaultOAuth2User")) {
             DefaultOAuth2User userPrincipals = (DefaultOAuth2User) authentication.getPrincipal();
             return userPrincipals.getAttributes();
+        } else if (className.equals("class org.springframework.security.core.userdetails.User")) {
+            User userPrincipals = (User) authentication.getPrincipal();
+            Map<String, Object> map = new HashMap<>();
+            map.put("email",userPrincipals.getUsername());
+            return map;
         }
         return null;
     }
