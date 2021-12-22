@@ -7,24 +7,22 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.context.annotation.Import;
 
 /**
  * Basic configuration of an application.
  */
 @Configuration
-@Profile("Main")
+@Import({WebApplicationConfiguration.class,
+        PasswordEncoderBean.class,
+        AuthenticationConfiguration.class,
+        AuthorizationConfiguration.class,
+        AspectConfiguration.class})
+//@EnableGlobalMethodSecurity(securedEnabled = true)
 @ComponentScan
 public class ApplicationConfiguration {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
 }

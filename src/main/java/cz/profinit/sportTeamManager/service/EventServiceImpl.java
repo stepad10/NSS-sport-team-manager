@@ -7,10 +7,10 @@
  */
 package cz.profinit.sportTeamManager.service;
 
+import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.dto.MessageDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.InvitationMapper;
 import cz.profinit.sportTeamManager.mappers.MessageMapper;
@@ -35,7 +35,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-@Profile("Main")
+@Profile("stub2")
 public class EventServiceImpl implements EventService{
 
     private EventRepository eventRepository;

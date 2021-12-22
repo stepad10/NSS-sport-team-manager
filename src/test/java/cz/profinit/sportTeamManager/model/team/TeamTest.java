@@ -7,7 +7,7 @@
  */
 package cz.profinit.sportTeamManager.model.team;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
+import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
  * Unit test for Team class
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfiguration.class)
+@ContextConfiguration(classes = StubRepositoryConfiguration.class)
 public class TeamTest {
     private Team team;
     private RegisteredUser user1;

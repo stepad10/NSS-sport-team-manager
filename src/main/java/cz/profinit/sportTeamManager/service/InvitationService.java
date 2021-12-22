@@ -3,11 +3,9 @@ package cz.profinit.sportTeamManager.service;
 import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
-import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.model.user.User;
 
 import java.util.List;
 

@@ -13,7 +13,6 @@ import cz.profinit.sportTeamManager.dto.MessageDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
-import cz.profinit.sportTeamManager.model.user.User;
 
 import java.util.List;
 

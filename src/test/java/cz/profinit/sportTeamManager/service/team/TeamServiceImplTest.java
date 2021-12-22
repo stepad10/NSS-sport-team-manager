@@ -9,7 +9,6 @@
 package cz.profinit.sportTeamManager.service.team;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.mappers.TeamMapper;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -50,10 +49,9 @@ public class TeamServiceImplTest {
 
         UserRepository userRepository = new StubUserRepository();
         TeamRepository teamRepository = new StubTeamRepository();
-        TeamMapper teamMapper = new TeamMapper();
         List<Subgroup> subgroupList = new ArrayList<>();
 
-        teamService = new TeamServiceImpl(teamRepository, userRepository, teamMapper);
+        teamService = new TeamServiceImpl(teamRepository, userRepository);
         loggedUser = new RegisteredUser(
                 "Ivan",
                 "Stastny",
@@ -305,7 +303,7 @@ public class TeamServiceImplTest {
         try {
             team = teamService.changeSubgroupName(10L, "Coaches", "All Users");
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "Subgroup of new name already exists");
+            assertEquals(e.getMessage(), "Subgroup already exists");
         }
     }
 

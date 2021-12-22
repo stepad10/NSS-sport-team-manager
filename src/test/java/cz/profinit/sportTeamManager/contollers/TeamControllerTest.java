@@ -7,7 +7,7 @@
  */
 package cz.profinit.sportTeamManager.contollers;
 
-import cz.profinit.sportTeamManager.SportTeamManagerApplication;
+import cz.profinit.sportTeamManager.SportTeamManagerApplicationTests;
 import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.SubgroupDTO;
 import cz.profinit.sportTeamManager.dto.TeamDTO;
@@ -40,11 +40,11 @@ import static org.hamcrest.Matchers.containsString;
  * Test team controller.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SportTeamManagerApplication.class)
+@SpringBootTest(classes = SportTeamManagerApplicationTests.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @WebAppConfiguration
 @AutoConfigureMockMvc
-@ActiveProfiles({"stub_repository","stub_services","webTest","authentication"})
+@ActiveProfiles({"stub_repository","stub_services","webTest","test","authentication"})
 public class TeamControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -347,7 +347,7 @@ public class TeamControllerTest {
                                 put("/team/10/subgroup/Coaches/All Users").
                                 header("Content-Type", "application/xml")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Subgroup of new name already exists"));
+                andExpect(MockMvcResultMatchers.status().reason("Subgroup already exists"));
     }
 
     /**
@@ -503,7 +503,7 @@ public class TeamControllerTest {
                 andExpect(
                         MockMvcResultMatchers.
                                 status().
-                                isNotFound()).
+                                isBadRequest()).
                 andExpect(
                         MockMvcResultMatchers
                                 .status().
@@ -573,7 +573,7 @@ public class TeamControllerTest {
                 andExpect(
                         MockMvcResultMatchers.
                                 status().
-                                isNotFound()).
+                                isBadRequest()).
                 andExpect(
                         MockMvcResultMatchers
                                 .status().

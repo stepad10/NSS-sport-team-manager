@@ -10,18 +10,15 @@ package cz.profinit.sportTeamManager.aspects;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
+import cz.profinit.sportTeamManager.oauth.PrincipalExtractorImpl;
 import cz.profinit.sportTeamManager.service.team.TeamService;
-import cz.profinit.sportTeamManager.service.user.AuthenticationFacade;
-import cz.profinit.sportTeamManager.service.user.UserDetailsImpl;
 import cz.profinit.sportTeamManager.service.user.UserService;
-import lombok.AllArgsConstructor;
 import org.aopalliance.aop.Advice;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 
@@ -31,12 +28,11 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-@Profile({"authorization","aspects"})
-@AllArgsConstructor
+@Profile({"authorization","aspects","Main"})
 public class AuthorisationAspect implements Advice {
 
     @Autowired
-    private AuthenticationFacade authenticationFacade;
+    private PrincipalExtractorImpl principalExtractor;
     @Autowired
     private TeamService teamService;
     @Autowired
@@ -56,12 +52,11 @@ public class AuthorisationAspect implements Advice {
 
         Team team = null;
         RegisteredUser user = null;
-        Authentication authentication = authenticationFacade.getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        String userEmail = principalExtractor.getPrincipalEmail();
 
         try {
             team = teamService.getTeamById((Long) point.getArgs()[0]);
-            user = userService.findUserByEmail(userDetails.getUsername());
+            user = userService.findUserByEmail(userEmail);
         } catch (Exception e) {
             throw e;
         }

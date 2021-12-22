@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository {
-    RegisteredUser saveRegistredUser(RegisteredUser registeredUser);
+    RegisteredUser createRegistredUser(RegisteredUser registeredUser);
+
+    RegisteredUser updateRegistredUser(RegisteredUser registeredUser);
 
     boolean emailExistsInDatabase(String email);
 

@@ -17,24 +17,37 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.security.oauth2.common.util.JacksonJsonParser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Tests of team authorization.
  */
 @RunWith(SpringRunner.class)
-@ActiveProfiles({"authorization", "stub_services", "aspects", "authentication"})
+@ActiveProfiles({"authorization", "stub_services", "aspects", "authentication","webFull"})
 @EnableAspectJAutoProxy
+@WebAppConfiguration
+@AutoConfigureMockMvc
 @ContextConfiguration(classes = AuthorisationAspect.class)
 @SpringBootTest(classes = SportTeamManagerApplication.class)
 public class AuthorisationAspectTest {
@@ -45,6 +58,8 @@ public class AuthorisationAspectTest {
     private TeamService teamService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MockMvc mockMvc;
 
     /**
      * Creating stub users
@@ -198,4 +213,6 @@ public class AuthorisationAspectTest {
         Team team = teamService.getTeamById(10L);
         team = teamService.createNewTeam(new Team("A team", "golf", new ArrayList<>(), user_in_team));
     }
+
+
 }
