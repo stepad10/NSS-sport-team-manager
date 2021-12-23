@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-@Profile("Stub2")
+@Profile("Main")
 public class InvitationServiceImpl implements InvitationService{
 
     @Autowired

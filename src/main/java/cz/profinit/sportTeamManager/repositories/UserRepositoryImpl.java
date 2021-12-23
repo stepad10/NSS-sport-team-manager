@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements UserRepository {
     public RegisteredUser findUserByEmail(String email) throws EntityNotFoundException {
         RegisteredUser foundUser = userMapperMyBatis.findUserByEmail(email);
         if (foundUser == null) {
-            throw new EntityNotFoundException("RegisteredUser wasn't found by email!");
+            throw new EntityNotFoundException("User");
         }
         return foundUser;
     }

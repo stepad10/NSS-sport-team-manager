@@ -1,13 +1,17 @@
 package cz.profinit.sportTeamManager.repositories;
 
 import cz.profinit.sportTeamManager.configuration.MyBatisConfiguration;
+import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -15,11 +19,12 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Unit tests for User repository
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = MyBatisConfiguration.class)
+@ContextConfiguration(classes = MyBatisConfigurationTest.class)
+@ActiveProfiles("Main")
 public class UserRepositoryImplTest {
 
     @Autowired
-    UserRepositoryImpl userRepository;
+    private UserRepository userRepository;
 
     /**
      *
