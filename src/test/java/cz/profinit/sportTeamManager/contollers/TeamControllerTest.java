@@ -45,7 +45,6 @@ import static org.hamcrest.Matchers.containsString;
 @SpringBootTest(classes = SportTeamManagerApplicationTests.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @WebAppConfiguration
-@WebMvcTest
 @AutoConfigureMockMvc
 @ActiveProfiles({"stub_repository","stub_services","webTest","test","authentication"})
 public class TeamControllerTest {
