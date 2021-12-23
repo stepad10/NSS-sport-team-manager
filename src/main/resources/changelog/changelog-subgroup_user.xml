@@ -13,12 +13,12 @@
 
     <!-- SUBGROUP~USER -->
     <changeSet id="4-1" author="dstepanek">
-        <createTable tableName="subgroup_user">
-            <column name="subgroup_id" type="INT">
-                <constraints nullable="false" foreignKeyName="subgroup_fk" references="subgroup(id)"/>
+        <createTable tableName="t_subgroup_user">
+            <column name="c_subgroup_id" type="INT">
+                <constraints nullable="false" foreignKeyName="subgroup_fk" references="t_subgroup(c_id)"/>
             </column>
-            <column name="user_id" type="INT">
-                <constraints nullable="false" foreignKeyName="user_fk" references="user(id)"/>
+            <column name="c_user_id" type="INT">
+                <constraints nullable="false" foreignKeyName="user_fk" references="t_user(c_id)"/>
             </column>
         </createTable>
     </changeSet>

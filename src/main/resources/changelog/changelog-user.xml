@@ -18,43 +18,43 @@
     3=GUEST
     -->
     <changeSet id="1_1-1" author="dstepanek">
-        <createTable tableName="role_enum">
-            <column name="id" type="SERIAL">
+        <createTable tableName="t_role_enum">
+            <column name="c_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="role_enum_pk"/>
             </column>
-            <column name="enum" type="VARCHAR(5)">
+            <column name="c_enum" type="VARCHAR(5)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <insert tableName="role_enum">
-            <column name="enum" value="ADMIN"/>
+        <insert tableName="t_role_enum">
+            <column name="c_enum" value="ADMIN"/>
         </insert>
-        <insert tableName="role_enum">
-            <column name="enum" value="USER"/>
+        <insert tableName="t_role_enum">
+            <column name="c_enum" value="USER"/>
         </insert>
-        <insert tableName="role_enum">
-            <column name="enum" value="GUEST"/>
+        <insert tableName="t_role_enum">
+            <column name="c_enum" value="GUEST"/>
         </insert>
     </changeSet>
     
     <!-- USER -->
     <changeSet id="1-1" author="dstepanek">
-        <createTable tableName="user">
-            <column name="id" type="SERIAL">
+        <createTable tableName="t_user">
+            <column name="c_id" type="SERIAL">
                 <constraints primaryKey="true" primaryKeyName="user_pk"/>
             </column>
-            <column name="name" type="VARCHAR(40)">
+            <column name="c_name" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="surname" type="VARCHAR(40)">
+            <column name="c_surname" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="password" type="CHAR(60)"/>
-            <column name="email" type="VARCHAR(320)">
+            <column name="c_password" type="CHAR(60)"/>
+            <column name="c_email" type="VARCHAR(320)">
                 <constraints unique="true" nullable="false"/>
             </column>
-            <column name="role" type="INT">
-                <constraints nullable="false" foreignKeyName="role_enum_fk" references="role_enum(id)"/>
+            <column name="c_role" type="INT">
+                <constraints nullable="false" foreignKeyName="role_enum_fk" references="t_role_enum(c_id)"/>
             </column>
         </createTable>
     </changeSet>

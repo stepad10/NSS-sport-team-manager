@@ -13,21 +13,21 @@
 
     <!-- MESSAGE -->
     <changeSet id="7-1" author="dstepanek">
-        <createTable tableName="message">
-            <column name="id" type="SERIAL">
-                <constraints primaryKey="true" primaryKeyName="message_pkey"/>
+        <createTable tableName="t_message">
+            <column name="c_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="message_pk"/>
             </column>
-            <column name="text" type="VARCHAR(200)">
+            <column name="c_text" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="date" type="TIMESTAMP">
+            <column name="c_date" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_id" type="INT">
-                <constraints nullable="false" foreignKeyName="user_fk" references="user(id)"/>
+            <column name="c_user_id" type="INT">
+                <constraints nullable="false" foreignKeyName="user_fk" references="t_user(c_id)"/>
             </column>
-            <column name="event_id" type="INT">
-                <constraints nullable="false" foreignKeyName="event_fk" references="event(id)"/>
+            <column name="c_event_id" type="INT">
+                <constraints nullable="false" foreignKeyName="event_fk" references="t_event(c_id)"/>
             </column>
         </createTable>
     </changeSet>

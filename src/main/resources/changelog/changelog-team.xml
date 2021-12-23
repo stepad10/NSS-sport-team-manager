@@ -13,16 +13,16 @@
 
     <!-- TEAM -->
     <changeSet id="2-1" author="dstepanek">
-        <createTable tableName="team">
-            <column name="id" type="SERIAL">
+        <createTable tableName="t_team">
+            <column name="c_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="team_pk"/>
             </column>
-            <column name="name" type="VARCHAR(40)">
+            <column name="c_name" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="sport" type="VARCHAR(40)"/>
-            <column name="owner" type="INT">
-                <constraints nullable="false" foreignKeyName="owner_fk" references="user(id)"/>
+            <column name="c_sport" type="VARCHAR(40)"/>
+            <column name="c_owner" type="INT">
+                <constraints nullable="false" foreignKeyName="owner_fk" references="t_user(c_id)"/>
             </column>
         </createTable>
     </changeSet>

@@ -13,18 +13,18 @@
 
     <!-- PLACE -->
     <changeSet id="5-1" author="dstepanek">
-        <createTable tableName="place">
-            <column name="id" type="SERIAL">
+        <createTable tableName="t_place">
+            <column name="c_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="place_pk"/>
             </column>
-            <column name="name" type="VARCHAR(40)">
+            <column name="c_name" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="address" type="VARCHAR(40)">
+            <column name="c_address" type="VARCHAR(40)">
                 <constraints nullable="false"/>
             </column>
-            <column name="team_id" type="INT">
-                <constraints nullable="false" foreignKeyName="team_fk" references="team(id)"/>
+            <column name="c_team_id" type="INT">
+                <constraints nullable="false" foreignKeyName="team_fk" references="t_team(c_id)"/>
             </column>
         </createTable>
     </changeSet>
