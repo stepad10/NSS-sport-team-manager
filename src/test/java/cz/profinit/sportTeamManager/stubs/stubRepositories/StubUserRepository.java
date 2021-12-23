@@ -24,6 +24,11 @@ import java.util.logging.Logger;
 public class StubUserRepository implements UserRepository {
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
 
+    @Override
+    public RegisteredUser insertRegisteredUser(RegisteredUser registeredUser) {
+        return null;
+    }
+
     /**
      * Virtually save user to database
      *
@@ -31,9 +36,14 @@ public class StubUserRepository implements UserRepository {
      * @return saved user
      */
     @Override
-    public RegisteredUser saveRegistredUser(RegisteredUser registeredUser) {
+    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
         logger.info("User saved to database");
         return registeredUser;
+    }
+
+    @Override
+    public RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
+        return null;
     }
 
     /**
@@ -54,13 +64,18 @@ public class StubUserRepository implements UserRepository {
      * @return predefined user
      */
     @Override
-    public RegisteredUser findUserById(long id) {
+    public RegisteredUser findUserById(Long id) throws EntityNotFoundException {
         return new RegisteredUser(
                 "Ivan",
                 "Stastny",
                 "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
                 "is@gmail.com",
                 RoleEnum.USER);
+    }
+
+    @Override
+    public RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) {
+        return null;
     }
 
     /**

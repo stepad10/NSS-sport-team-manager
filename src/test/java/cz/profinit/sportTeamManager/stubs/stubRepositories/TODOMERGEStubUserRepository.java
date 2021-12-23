@@ -14,10 +14,19 @@ public class TODOMERGEStubUserRepository implements UserRepository {
     private RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "pass", "is@email.cz", RoleEnum.USER);
 
 
+    @Override
+    public RegisteredUser insertRegisteredUser(RegisteredUser registeredUser) {
+        return null;
+    }
 
     @Override
-    public RegisteredUser saveRegistredUser(RegisteredUser registeredUser) {
+    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
         return loggedUser1;
+    }
+
+    @Override
+    public RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
+        return null;
     }
 
     @Override
@@ -26,7 +35,12 @@ public class TODOMERGEStubUserRepository implements UserRepository {
     }
 
     @Override
-    public RegisteredUser findUserById(long id) {
+    public RegisteredUser findUserById(Long id) {
+        return null;
+    }
+
+    @Override
+    public RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) {
         return null;
     }
 
