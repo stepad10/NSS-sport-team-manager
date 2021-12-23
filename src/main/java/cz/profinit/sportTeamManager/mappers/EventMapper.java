@@ -10,6 +10,7 @@ package cz.profinit.sportTeamManager.mappers;
 
 import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.model.event.Event;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  * Mapper class that allows mapping between data transfer objects and entities
  */
 @Component
+@Profile({"test", "Main","stub_services"})
 public class EventMapper {
 
     /**

@@ -1,9 +1,9 @@
 /*
- * WebApplicationConfiguration
+ * AuthenticationConfigurationTest
  *
  * 0.1
  *
- * Author: J. Janský
+ * Author: J. Jansky
  */
 package cz.profinit.sportTeamManager.configuration;
 
@@ -11,32 +11,29 @@ import cz.profinit.sportTeamManager.repositories.UserRepository;
 import cz.profinit.sportTeamManager.service.user.UserDetailServiceImpl;
 import cz.profinit.sportTeamManager.service.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
 
 /**
- * Configuration of a web services, mainly of authorization provider and http security protocols.
+ * Configuration bringing classes necessary for Authentication.
  */
 @Configuration
-@Profile({"Main"})
-@Import({ApplicationConfiguration.class, MyBatisConfiguration.class})
-@EnableWebSecurity
-@EnableWebMvc
-public class WebApplicationConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+@Profile("authentication")
+@Import(PasswordEncoderBean.class)
+public class AuthenticationConfigurationTest {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ApplicationContext context;
+
 
 
     /**
@@ -47,31 +44,10 @@ public class WebApplicationConfiguration extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         UserDetailsService userDetailsService = new UserDetailServiceImpl(userRepository);
         UserDetails userDetails = new UserDetailsImpl();
+        PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
-    }
-
-    /**
-     * Sets http security authorization protocols.
-     */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/", "/home").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
-
-        http.authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .oauth2Login();
     }
 
 
