@@ -32,7 +32,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 /**
- * Controller for event business logic.
+ * Controller for event business logic
  */
 @RestController
 public class EventController {
