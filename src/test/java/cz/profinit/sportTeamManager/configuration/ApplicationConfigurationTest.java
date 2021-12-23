@@ -7,22 +7,16 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-import org.springframework.context.annotation.Bean;
+import cz.profinit.sportTeamManager.controllers.TeamController;
+import cz.profinit.sportTeamManager.controllers.UserController;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Basic configuration of an application for tests.
  */
-@Configuration
-@Profile({"t"})
-@ComponentScan
+//@Configuration
+//@Profile({"test"})
+@ComponentScan(basePackageClasses = {UserController.class, TeamController.class})
 public class ApplicationConfigurationTest {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 }

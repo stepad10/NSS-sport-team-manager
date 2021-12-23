@@ -11,7 +11,6 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.UserRepository;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.logging.Logger;
@@ -41,14 +40,15 @@ public class StubUserRepository implements UserRepository {
      * @return saved user
      */
     @Override
-    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
+    public RegisteredUser createRegistredUser(RegisteredUser registeredUser) {
         logger.info("User saved to database");
         return registeredUser;
     }
 
     @Override
-    public RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
-        return null;
+    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
+        logger.info("User saved to database");
+        return registeredUser;
     }
 
     /**
@@ -79,6 +79,7 @@ public class StubUserRepository implements UserRepository {
     public RegisteredUser findUserById(long id) {
         return null;
     }
+
 
     /**
      * Returns users found by email. Returns two possible users with email address from loggedUser1 up to loggedUser5.

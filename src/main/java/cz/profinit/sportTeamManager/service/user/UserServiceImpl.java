@@ -120,5 +120,73 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    /**
+     * Changes user name.
+     *
+     * @param email email address of user to find him in database
+     * @param newName new user name
+     * @return user with changed name
+     * @throws EntityNotFoundException if user is not found
+     */
+    @Override
+    public RegisteredUser changeUserName(String email, String newName) throws EntityNotFoundException {
+        RegisteredUser user = findUserByEmail(email);
+        user.setName(newName);
+        userRepository.updateRegistredUser(user);
+        return user;
+    }
+
+    /**
+     * Changes user surname
+     *
+     * @param email email address of user to find him in database
+     * @param newSurname new user surname
+     * @return user with changed surname
+     * @throws EntityNotFoundException if user is not found
+     */
+    @Override
+    public RegisteredUser changeUserSurname(String email, String newSurname) throws EntityNotFoundException {
+        RegisteredUser user = findUserByEmail(email);
+        user.setSurname(newSurname);
+        userRepository.updateRegistredUser(user);
+        return user;
+    }
+
+    /**
+     * Changes user email. Before checks if email is not already taken.
+     *
+     * @param email email address of user to find him in database
+     * @param newEmail new email address
+     * @return user with changed email address
+     * @throws EntityNotFoundException if user is not found
+     */
+    @Override
+    public RegisteredUser changeUserEmail(String email, String newEmail) throws EntityNotFoundException {
+        RegisteredUser user = findUserByEmail(email);
+        if (emailExists(newEmail)) {
+            throw new EmailExistsException("Account with e-mail address " + newEmail + "already exists.");
+        }
+        user.setEmail(newEmail);
+        userRepository.updateRegistredUser(user);
+        return user;
+    }
+
+
+    /**
+     * Changes user role.
+     *
+     * @param email email address of user to find him in database
+     * @param newRole new user role
+     * @return user with changed user role
+     * @throws EntityNotFoundException if user is not found
+     */
+    @Override
+    public RegisteredUser changeUserRole(String email, RoleEnum newRole) throws EntityNotFoundException {
+        RegisteredUser user = findUserByEmail(email);
+        user.setRole(newRole);
+        userRepository.updateRegistredUser(user);
+        return user;
+    }
+
 
 }

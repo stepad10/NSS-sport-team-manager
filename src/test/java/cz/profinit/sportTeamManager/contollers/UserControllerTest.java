@@ -7,7 +7,7 @@
  */
 package cz.profinit.sportTeamManager.contollers;
 
-import cz.profinit.sportTeamManager.SportTeamManagerApplication;
+import cz.profinit.sportTeamManager.SportTeamManagerApplicationTests;
 import cz.profinit.sportTeamManager.configuration.WebApplicationConfigurationUnitTests;
 import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.UserDetailsDTO;
@@ -25,20 +25,26 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 /**
  * Test user controller.
- * TODO dodelat
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SportTeamManagerApplication.class)
+@SpringBootTest(classes = SportTeamManagerApplicationTests.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @ContextConfiguration(classes = WebApplicationConfigurationUnitTests.class)
 @WebAppConfiguration
@@ -51,10 +57,7 @@ public class UserControllerTest {
     private RegisteredUserDTO newUser;
     private String newUserString;
     private UserDetailsDTO newUserDetails;
-
-    //    @Autowired
-//    private WebApplicationContext applicationContext;
-//
+    private RegisteredUserDTO loggedUser;
 
     /**
      * Before tests create DTO.
@@ -62,6 +65,7 @@ public class UserControllerTest {
     @Before
     public void setup() throws JAXBException {
         newUser = new RegisteredUserDTO("Ivan", "Stastny", "mail@mail.com");
+        loggedUser = new RegisteredUserDTO("Adam", "Stastny", "email@gmail.com");
         newUserDetails = new UserDetailsDTO(newUser.getEmail(), "pass");
     }
 
@@ -80,10 +84,10 @@ public class UserControllerTest {
 
 
         String uri = "/user/registration";
-        mockMvc.perform(MockMvcRequestBuilders.post(uri)
+        mockMvc.perform(post(uri)
                         .content(newUserString)
                         .header("Content-Type", "application/xml")).
-                andExpect(MockMvcResultMatchers.status().isOk());
+                andExpect(status().isOk());
     }
 
     /**
@@ -100,11 +104,11 @@ public class UserControllerTest {
         jaxbMarshaller.marshal(newUserDetails, sw);
         newUserString = sw.toString();
         String uri = "/user/registration";
-        mockMvc.perform(MockMvcRequestBuilders.post(uri)
+        mockMvc.perform(post(uri)
                         .content(newUserString)
                         .header("Content-Type", "application/xml")).
-                andExpect(MockMvcResultMatchers.status().isBadRequest()).
-                andExpect(MockMvcResultMatchers.status().reason("Account with e-mail address email@gmail.comalready exists."));
+                andExpect(status().isBadRequest()).
+                andExpect(status().reason("Account with e-mail address email@gmail.comalready exists."));
     }
 
     /**
@@ -119,9 +123,95 @@ public class UserControllerTest {
         jaxbMarshaller.marshal(user, sw);
         String loginCreditors = sw.toString();
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/login")
+                        post("/login")
                                 .content(loginCreditors).header("Content-Type", "application/xml"))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(status().isOk());
 
     }
+
+    /**
+     * Tests change name of user.
+     */
+    @Test
+    public void changeUserName() throws Exception {
+
+        loggedUser.setName("Emil");
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisteredUserDTO.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        StringWriter sw = new StringWriter();
+        jaxbMarshaller.marshal(loggedUser, sw);
+        newUserString = sw.toString();
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/user/email@gmail.com/name/Emil")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(newUserString));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/user/emai@gmail.com/name/Emil")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isBadRequest())
+                .andExpect(status().reason("User entity not found!"));
+    }
+
+    /**
+     * Tests change surname of user.
+     */
+    @Test
+    public void changeUserSurname() throws Exception {
+        loggedUser.setSurname("Kypry");
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisteredUserDTO.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        StringWriter sw = new StringWriter();
+        jaxbMarshaller.marshal(loggedUser, sw);
+        newUserString = sw.toString();
+        loggedUser.setSurname("Stastny");
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/user/email@gmail.com/surname/Kypry")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(newUserString));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/user/emai@gmail.com/surname/Kypry")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isBadRequest())
+                .andExpect(status().reason("User entity not found!"));
+    }
+
+    /**
+     * Tests change email of user.
+     */
+    @Test
+    public void changeUserEmail() throws Exception {
+        loggedUser.setEmail("mymail@gmail.com");
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisteredUserDTO.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        StringWriter sw = new StringWriter();
+        jaxbMarshaller.marshal(loggedUser, sw);
+        newUserString = sw.toString();
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/user/email@gmail.com/email/mymail@gmail.com")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(newUserString));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/user/emai@gmail.com/email/mymail@gmail.com")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isBadRequest())
+                .andExpect(status().reason("User entity not found!"));
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/user/email@gmail.com/email/is@gmail.com")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isBadRequest())
+                .andExpect(status().reason("Account with e-mail address is@gmail.comalready exists."));
+
+
+    }
+
+
+
+
 }
