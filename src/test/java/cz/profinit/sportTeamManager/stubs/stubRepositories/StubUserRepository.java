@@ -61,7 +61,6 @@ public class StubUserRepository implements UserRepository {
     }
 
     @Override
-<<<<<<< HEAD
     public RegisteredUser findUserById(Long id) throws EntityNotFoundException {
         return new RegisteredUser(
                 "Ivan",
@@ -75,12 +74,9 @@ public class StubUserRepository implements UserRepository {
     public RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) {
         return null;
     }
-=======
     public RegisteredUser findUserById(long id) {
         return null;
     }
-
->>>>>>> 96bcb765d6a6ea58d28e85f0f0a8279b0b2731b9
 
     /**
      * Returns users found by email. Returns two possible users with email address from loggedUser1 up to loggedUser5.
