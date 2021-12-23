@@ -11,10 +11,13 @@ package cz.profinit.sportTeamManager.service.event;
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.dto.EventDto;
 import cz.profinit.sportTeamManager.dto.InvitationDto;
-import cz.profinit.sportTeamManager.dto.MessageDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
+import cz.profinit.sportTeamManager.mappers.InvitationMapper;
+import cz.profinit.sportTeamManager.mappers.PlaceMapper;
+import cz.profinit.sportTeamManager.mappers.UserMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
+import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.event.Place;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
@@ -77,13 +80,15 @@ public class EventServiceImplTest {
      */
     @Test
     public void createNewEventCreatesNewEvent(){
-        EventDto eventDto = new EventDto(LocalDateTime.now(),place,6,loggedUser,false);
+        EventDto eventDto = new EventDto(0L,LocalDateTime.now(), PlaceMapper.toDto(place),6, UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser),
+                false);
         Event event = eventService.createNewEvent(eventDto);
         Assert.assertEquals(eventDto.getDate(),event.getDate());
     }
 
     /**
-     * Testing event update. Expected positive ending.
+     * Testing event update. Expected positive ending
+     *
      * @throws EntityNotFoundException Thrown when Entity was not found.
      * @throws InterruptedException Thrown when thread is sleeping before or during activity.
      */
@@ -91,24 +96,28 @@ public class EventServiceImplTest {
     public void updateEventUpdatesEvent() throws EntityNotFoundException, InterruptedException {
 
         TimeUnit.MILLISECONDS.sleep(2); //Had to put it here, because event and eventDto can be created in exact same time.
-        EventDto eventDtoUpdated = new EventDto(LocalDateTime.now(),place,6,loggedUser,false);
+        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(),PlaceMapper.toDto(place),6,UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser),
+                false);
         Assert.assertNotEquals(eventRepository.findEventById(0L).getDate(),eventDtoUpdated.getDate());
         Event event = eventService.updateEvent(eventDtoUpdated, 0L);
         Assert.assertEquals(eventDtoUpdated.getDate(),event.getDate());
     }
 
     /**
-     * Testing if update of non-existing entity will throw appropriate exception.
+     * Testing if update of non-existing entity will throw appropriate exception
+     *
      * @throws EntityNotFoundException thrown when Entity is not found.
      */
     @Test (expected = EntityNotFoundException.class)
     public void updateNonExistingEventThrowsEntityNotFound() throws EntityNotFoundException {
-        EventDto eventDtoUpdated = new EventDto(LocalDateTime.now(),place,6,loggedUser,false);
+        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(),PlaceMapper.toDto(place),6,UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser),
+                false);
         eventService.updateEvent(eventDtoUpdated, 1L);
     }
 
     /**
-     * Testing changeEventStatus will change event status.
+     * Testing changeEventStatus will change event status
+     *
      * @throws EntityNotFoundException thrown when Entity is not found.
      */
     @Test
@@ -119,7 +128,8 @@ public class EventServiceImplTest {
     }
 
     /**
-     * Testing changeEventStatus will throw exception when event is not found.
+     * Testing changeEventStatus will throw exception when event is not found
+     *
      * @throws EntityNotFoundException thrown when Entity is not found.
      */
     @Test (expected = EntityNotFoundException.class)
@@ -128,7 +138,8 @@ public class EventServiceImplTest {
     }
 
     /**
-     * Testing adding of new messages to an event.
+     * Testing adding of new messages to an event
+     *
      * @throws EntityNotFoundException thrown when Entity is not found.
      */
     @Test
@@ -144,6 +155,7 @@ public class EventServiceImplTest {
 
     /**
      * Testing if addMessage throws EntityNotFoundException when Event is not existing
+     *
      * @throws EntityNotFoundException thrown when Entity is not found
      */
     @Test
@@ -157,6 +169,7 @@ public class EventServiceImplTest {
 
     /**
      * Testing if addMessage throws EntityNotFoundException when User is not existing
+     *
      * @throws EntityNotFoundException thrown when Entity is not found
      */
     @Test
@@ -169,12 +182,13 @@ public class EventServiceImplTest {
     }
 
     /**
-     * Testing getMessage from event
-     * @throws EntityNotFoundException thrown when Entity is not found.
+     * Testing getMessage from event, positive ending
+     *
+     * @throws EntityNotFoundException thrown when Entity is not found
      */
     @Test
     public void getMessagesGetsAllMessagesFromEvent() throws EntityNotFoundException {
-        List<MessageDto> messages = eventService.getAllMessages(0L);
+        List<Message> messages = eventService.getAllMessages(0L);
 
         Assert.assertEquals(messages.get(0).getMessage(),"Testuji");
         Assert.assertEquals(messages.get(0).getUser(),loggedUser);
@@ -182,16 +196,18 @@ public class EventServiceImplTest {
 
     /**
      * Testing getMessage from event from non-existing event
-     * @throws EntityNotFoundException thrown when Entity is not existing.
+     *
+     * @throws EntityNotFoundException thrown when Entity is not existing
      */
     @Test (expected = EntityNotFoundException.class)
     public void getMessagesFromNonExistingEventThrowsEntityNotFoundException() throws EntityNotFoundException {
-        List<MessageDto> messages = eventService.getAllMessages(1L);
+        List<Message> messages = eventService.getAllMessages(1L);
     }
 
     /**
      * Testing AddNewInvitation to event
-     * @throws EntityNotFoundException thrown when Entity is not found.
+     *
+     * @throws EntityNotFoundException thrown when Entity is not found
      */
     @Test
     public void AddNewInvitationAddsNewInvitation() throws EntityNotFoundException {
@@ -202,7 +218,8 @@ public class EventServiceImplTest {
 
     /**
      * Testing AddNewInvitation to a non-existing event throws EntityNotFoundException
-     * @throws EntityNotFoundException thrown when Entity is not found.
+     *
+     * @throws EntityNotFoundException thrown when Entity is not found
      */
     @Test (expected = EntityNotFoundException.class)
     public void AddNewInvitationToANonExistentEventThrowsEntityNotFoundException() throws EntityNotFoundException {
@@ -212,11 +229,12 @@ public class EventServiceImplTest {
 
     /**
      * Testing getInvitation from event
-     * @throws EntityNotFoundException thrown when Entity is not found.
+     *
+     * @throws EntityNotFoundException thrown when Entity is not found
      */
     @Test
     public void getInvitationsGetsInvitationFromGivenEvent() throws EntityNotFoundException {
-        List<InvitationDto> invitations = eventService.getAllInvitations(0L);
+        List<InvitationDto> invitations = InvitationMapper.toDtoList(eventService.getAllInvitations(0L));
 
         Assert.assertEquals(loggedUser,invitations.get(0).getIsFor());
         Assert.assertEquals(StatusEnum.PENDING,invitations.get(0).getStatus());
@@ -224,10 +242,11 @@ public class EventServiceImplTest {
 
     /**
      * Testing getInvitation from non-existent event throws EntityNotFoundException
-     * @throws EntityNotFoundException thrown when Entity is not found.
+     *
+     * @throws EntityNotFoundException thrown when Entity is not found
      */
     @Test (expected = EntityNotFoundException.class)
     public void getInvitationsFromNonExistentEventThrowsEntityNotFoundException() throws EntityNotFoundException {
-        List<InvitationDto> invitations = eventService.getAllInvitations(1L);
+        List<InvitationDto> invitations = InvitationMapper.toDtoList(eventService.getAllInvitations(1L));
     }
 }

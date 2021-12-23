@@ -98,10 +98,9 @@ public class InvitationServiceImplTest {
      */
     @Test
     public void changeInvitationStatusChangesInvitationStatus() throws EntityNotFoundException {
-        Invitation invitation = invitationRepository.getInvitationById(0L);
-        invitationService.changeInvitationStatus(invitation,StatusEnum.ACCEPTED);
+        invitationService.changeInvitationStatus(0L,"is@gmail.com",StatusEnum.ACCEPTED);
 
-        Assert.assertEquals(invitationRepository.getInvitationById(0L).getStatus(),StatusEnum.ACCEPTED);
+        Assert.assertEquals(invitationRepository.getInvitationByUserEmailAndEventId(0L,"is@gmail.com").getStatus(),StatusEnum.ACCEPTED);
     }
 
 
@@ -203,7 +202,7 @@ public class InvitationServiceImplTest {
     @Test (expected = EntityNotFoundException.class)
     public void changeInvitationStatusOfNonExistingInvitationThrowsEntityNotFoundException() throws EntityNotFoundException {
         Invitation invitation = invitationRepository.getInvitationById(1L);
-       invitationService.changeInvitationStatus(invitation,StatusEnum.ACCEPTED);
+       invitationService.changeInvitationStatus(0L,"is@seznam.cz",StatusEnum.ACCEPTED);
     }
 
     /**

@@ -7,8 +7,6 @@
  */
 package cz.profinit.sportTeamManager.repositories;
 
-import cz.profinit.sportTeamManager.model.event.Place;
-
 /**
  * Interface for place repository
  */

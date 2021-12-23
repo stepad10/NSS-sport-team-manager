@@ -48,6 +48,13 @@ public class StubInvitationRepository implements InvitationRepository {
     }
 
     @Override
+    public Invitation getInvitationByUserEmailAndEventId(Long eventId, String email) throws EntityNotFoundException {
+        if (eventId == 0L && email.equals("is@gmail.com"))
+            return invitation;
+        throw new EntityNotFoundException("Invitation");
+    }
+
+    @Override
     public boolean deleteInvitation(User user, Event event) throws EntityNotFoundException {
         if (user.getName() != loggedUser.getName() || event.getEntityId() != 0L){
             throw new EntityNotFoundException("Invitation");
@@ -66,6 +73,6 @@ public class StubInvitationRepository implements InvitationRepository {
 
     @Override
     public Invitation updateInvitation(Invitation invitation) {
-        return invitation;
+        return this.invitation = invitation;
     }
 }

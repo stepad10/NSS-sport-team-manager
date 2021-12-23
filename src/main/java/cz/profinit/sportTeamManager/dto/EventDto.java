@@ -7,11 +7,16 @@
  */
 package cz.profinit.sportTeamManager.dto;
 
-import cz.profinit.sportTeamManager.model.event.Place;
-import cz.profinit.sportTeamManager.model.user.User;
+import cz.profinit.sportTeamManager.adapters.LocalDateTimeAdapter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
 /**
@@ -19,12 +24,24 @@ import java.time.LocalDateTime;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EventDto {
 
+    @XmlElement(name = "id")
+    private Long id;
+    @XmlElement(name = "date")
+    @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     private LocalDateTime date;
-    private Place place;
+    @XmlElement(name = "place")
+    private PlaceDto place;
+    @XmlElement(name = "maxPersonAttendance")
     private Integer maxPersonAttendance;
-    final private User createdBy;
-    final Boolean isCanceled;
+    @XmlElement(name = "createdBy")
+    private RegisteredUserDTO createdBy;
+    @XmlElement(name = "isCanceled")
+    private boolean isCanceled;
+
 
 }
