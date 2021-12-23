@@ -12,7 +12,6 @@ import cz.profinit.sportTeamManager.mappers.TeamMapper;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.UserRepository;
 import cz.profinit.sportTeamManager.service.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
