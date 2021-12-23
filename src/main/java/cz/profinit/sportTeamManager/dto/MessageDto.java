@@ -8,10 +8,12 @@
 
 package cz.profinit.sportTeamManager.dto;
 
-import cz.profinit.sportTeamManager.model.user.User;
+import cz.profinit.sportTeamManager.adapters.LocalDateTimeAdapter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
 
@@ -22,9 +24,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MessageDto {
 
-    //TODO Remove User and add UserDto
-    private final User user;
+    @XmlElement(name = "user")
+    private final RegisteredUserDTO user;
+    @XmlElement(name = "message")
     private final String message;
+    @XmlElement(name = "date")
+    @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     private final LocalDateTime date;
 
 }

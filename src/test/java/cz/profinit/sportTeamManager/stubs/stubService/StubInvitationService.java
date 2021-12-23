@@ -1,12 +1,10 @@
 /*
- * InvitationServiceImpl
+ * StubInvitationService
  *
  * 0.1
  *
  * Author: M. Halamka
- */
-
-package cz.profinit.sportTeamManager.service;
+ */package cz.profinit.sportTeamManager.stubs.stubService;
 
 import cz.profinit.sportTeamManager.dto.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
@@ -17,10 +15,10 @@ import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.InvitationRepository;
+import cz.profinit.sportTeamManager.service.EventService;
+import cz.profinit.sportTeamManager.service.InvitationService;
 import cz.profinit.sportTeamManager.service.user.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,12 +27,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Implementation of Invitation service interface. Includes all business logic related to invitations.
+ * Stub implementation of Invitation service interface. Includes all business logic related to invitations.
  */
 @Service
-@AllArgsConstructor
-@Profile("Main")
-public class InvitationServiceImpl implements InvitationService{
+public class StubInvitationService implements InvitationService {
 
     @Autowired
     InvitationRepository invitationRepository;
@@ -42,6 +38,7 @@ public class InvitationServiceImpl implements InvitationService{
     EventService eventService;
     @Autowired
     UserService userService;
+
 
     /**
      * Creates now invitation and saves it to repository
@@ -52,17 +49,17 @@ public class InvitationServiceImpl implements InvitationService{
      * @throws EntityNotFoundException if entity is not found.
      * @throws UserIsAlreadyInEventException user was already invited to an Event
      */
+    @Override
     public Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
         Event event = eventService.findEventById(eventId);
         User user = userService.findUserByEmail(email);
         if (!invitationRepository.isUserPresent(user, event)) {
-        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,user));
-        eventService.addNewInvitation(eventId, invitation);
-        return invitation;
+            Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,user));
+            eventService.addNewInvitation(eventId, invitation);
+            return invitation;
         } else {
             throw new UserIsAlreadyInEventException();
-        }
-    }
+        }    }
 
     /**
      * Changes StatusEnum of given invitation
@@ -73,6 +70,7 @@ public class InvitationServiceImpl implements InvitationService{
      * @return Updated invitation
      * @throws EntityNotFoundException if entity is not found.
      */
+    @Override
     public Invitation changeInvitationStatus(Long eventId, String email, StatusEnum status) throws EntityNotFoundException {
         Invitation invitation = findInvitationByEventIdAndEmail(eventId,email);
 
@@ -89,6 +87,7 @@ public class InvitationServiceImpl implements InvitationService{
      * @return Invitation for given user and from given event
      * @throws EntityNotFoundException if entity was not found.
      */
+    @Override
     public Invitation findInvitationByEventIdAndEmail(Long eventId,String email) throws EntityNotFoundException {
         Event event = eventService.findEventById(eventId);
         List <Invitation> invitationList = event.getListOfInvitation();
@@ -110,12 +109,31 @@ public class InvitationServiceImpl implements InvitationService{
      * @return List of created invitations
      * @throws EntityNotFoundException if entity was not found.
      */
-    public List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
+    @Override
+    public List<Invitation> createNewInvitationsFromList(List<RegisteredUser> userList, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
         List<Invitation> invitationList = new ArrayList<>();
         for(RegisteredUser user: userList){
             invitationList.add(createNewInvitation(user.getEmail(),eventId));
         }
-        return invitationList;
+        return invitationList;    }
+
+    /**
+     * Filter invitation list by status and sort it according to "changed" date from oldest to newest
+     *
+     * @param invitationDtoList List that is going to be sorted
+     * @param status according to which list will be filtered
+     * @return Sorted and filtered list
+     */
+    @Override
+    public List<InvitationDto> OrderListOfInvitationByDateForSpecificStatus(List<InvitationDto> invitationDtoList, StatusEnum status) {
+        List<InvitationDto> result = new ArrayList<>();
+        for (InvitationDto invitationDto : invitationDtoList){
+            if(invitationDto.getStatus() == status){
+                result.add(invitationDto);
+            }
+        }
+        Collections.sort(result);
+        return result;
     }
 
     /**
@@ -125,28 +143,11 @@ public class InvitationServiceImpl implements InvitationService{
      * @param eventId ID of event on which invitation will be deleted
      * @throws EntityNotFoundException if entity was not found.
      */
-    public boolean deleteInvitation (String email, Long eventId) throws EntityNotFoundException {
+    @Override
+    public boolean deleteInvitation(String email, Long eventId) throws EntityNotFoundException {
         User user = userService.findUserByEmail(email);
         Event event = eventService.findEventById(eventId);
 
         return invitationRepository.deleteInvitation(user,event);
-    }
-
-    /**
-     * Filter invitation list by status and sort it according to "changed" date from oldest to newest
-     *
-     * @param invitationDtoList List that is going to be sorted
-     * @param status according to which list will be filtered
-     * @return Sorted and filtered list
-     */
-    public List<InvitationDto> OrderListOfInvitationByDateForSpecificStatus (List<InvitationDto> invitationDtoList, StatusEnum status){
-        List<InvitationDto> result = new ArrayList<>();
-        for (InvitationDto invitationDto : invitationDtoList){
-            if(invitationDto.getStatus() == status){
-                result.add(invitationDto);
-            }
-        }
-        Collections.sort(result);
-        return result;
     }
 }

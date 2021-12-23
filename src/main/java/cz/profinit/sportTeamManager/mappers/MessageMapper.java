@@ -1,5 +1,5 @@
 /*
- * InvitationMapper
+ * MessageMapper
  *
  * 0.1
  *
@@ -10,30 +10,51 @@ package cz.profinit.sportTeamManager.mappers;
 
 import cz.profinit.sportTeamManager.dto.MessageDto;
 import cz.profinit.sportTeamManager.model.event.Message;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Profile({"test", "Main","stub_services"})
 public class MessageMapper {
-    //TODO Předělat pro userDto
 
     /**
      * Map Message class to MessageDto.
+     *
      * @param message Message that needs to be mapped.
      * @return MessageDto representing given Message
      */
     public static MessageDto toDto(Message message) {
-        return new MessageDto(message.getUser(),message.getMessage(),message.getDate());
+        return new MessageDto(UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) message.getUser()),message.getMessage(),message.getDate());
     }
 
     /**
      * Map MessageDto to Message
+     *
      * @param messageDto MessageDto that needs to be mapped.
      * @return Message representing given MessageDto
      */
     public static Message toMessage(MessageDto messageDto) {
-        return new Message(messageDto.getUser(),messageDto.getMessage(),messageDto.getDate());
+        return new Message(UserMapper.mapRegistredUserDTOToRegistredUser(messageDto.getUser()),messageDto.getMessage(),messageDto.getDate());
+    }
+
+    /**
+     * Creates list of DTOs from Entity list
+     *
+     * @param listOfMessages given Entity list
+     * @return list of DTOs
+     */
+    public static List<MessageDto> toListOfDto(List<Message> listOfMessages) {
+        List<MessageDto> messageDtoList = new ArrayList<>();
+
+        for (Message message : listOfMessages) {
+            messageDtoList.add(MessageMapper.toDto(message));
+        }
+
+        return messageDtoList;
     }
 
 }
