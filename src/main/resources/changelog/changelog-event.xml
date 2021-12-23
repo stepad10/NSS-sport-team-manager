@@ -13,19 +13,19 @@
 
     <!-- EVENT -->
     <changeSet id="6-1" author="dstepanek">
-        <createTable tableName="event">
-            <column name="id" type="SERIAL">
-                <constraints primaryKey="true" primaryKeyName="event_pkey"/>
+        <createTable tableName="t_event">
+            <column name="c_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="event_pk"/>
             </column>
-            <column name="date" type="TIMESTAMP">
+            <column name="c_date" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="capacity" type="INT"/>
-            <column name="created_by" type="INT">
-                <constraints nullable="false" foreignKeyName="user_fk" references="user(id)"/>
+            <column name="c_capacity" type="INT"/>
+            <column name="c_created_by" type="INT">
+                <constraints nullable="false" foreignKeyName="user_fk" references="t_user(c_id)"/>
             </column>
-            <column name="place_id" type="INT">
-                <constraints nullable="false" foreignKeyName="place_fk" references="place(id)"/>
+            <column name="c_place_id" type="INT">
+                <constraints nullable="false" foreignKeyName="place_fk" references="t_place(c_id)"/>
             </column>
         </createTable>
     </changeSet>

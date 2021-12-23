@@ -29,7 +29,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  */
 @Configuration
 @Profile({"Main"})
-@Import(ApplicationConfiguration.class)
+@Import({ApplicationConfiguration.class, MyBatisConfiguration.class})
 @EnableWebSecurity
 @EnableWebMvc
 public class WebApplicationConfiguration extends WebSecurityConfigurerAdapter {

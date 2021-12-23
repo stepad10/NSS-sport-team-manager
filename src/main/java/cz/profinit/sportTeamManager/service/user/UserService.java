@@ -15,7 +15,7 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
  * credentials corresponds to any user in database.
  */
 public interface UserService {
-    RegisteredUser newUserRegistration(RegisteredUser newUser);
+    RegisteredUser newUserRegistration(RegisteredUser newUser) throws EntityNotFoundException;
 
     RegisteredUser findUserByEmail(String email) throws EntityNotFoundException;
 

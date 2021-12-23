@@ -27,6 +27,11 @@ public class StubUserRepository implements UserRepository {
     private RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
     private RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
 
+    @Override
+    public RegisteredUser insertRegisteredUser(RegisteredUser registeredUser) {
+        return null;
+    }
+
     /**
      * Virtually save user to database
      *
@@ -34,9 +39,14 @@ public class StubUserRepository implements UserRepository {
      * @return saved user
      */
     @Override
-    public RegisteredUser saveRegistredUser(RegisteredUser registeredUser) {
+    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
         logger.info("User saved to database");
         return registeredUser;
+    }
+
+    @Override
+    public RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
+        return null;
     }
 
     /**
@@ -51,10 +61,22 @@ public class StubUserRepository implements UserRepository {
     }
 
     @Override
+    public RegisteredUser findUserById(Long id) throws EntityNotFoundException {
+        return new RegisteredUser(
+                "Ivan",
+                "Stastny",
+                "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
+                "is@gmail.com",
+                RoleEnum.USER);
+    }
+
+    @Override
+    public RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) {
+        return null;
+    }
     public RegisteredUser findUserById(long id) {
         return null;
     }
-
 
     /**
      * Returns users found by email. Returns two possible users with email address from loggedUser1 up to loggedUser5.

@@ -18,40 +18,40 @@
     3=REJECTED
     -->
     <changeSet id="8_1-1" author="dstepanek">
-        <createTable tableName="status_enum">
-            <column name="id" type="SERIAL">
+        <createTable tableName="t_status_enum">
+            <column name="c_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="status_enum_pk"/>
             </column>
-            <column name="enum" type="VARCHAR(8)">
+            <column name="c_enum" type="VARCHAR(8)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <insert tableName="status_enum">
-            <column name="enum" value="ACCEPTED"/>
+        <insert tableName="t_status_enum">
+            <column name="c_enum" value="ACCEPTED"/>
         </insert>
-        <insert tableName="status_enum">
-            <column name="enum" value="PENDING"/>
+        <insert tableName="t_status_enum">
+            <column name="c_enum" value="PENDING"/>
         </insert>
-        <insert tableName="status_enum">
-            <column name="enum" value="REJECTED"/>
+        <insert tableName="t_status_enum">
+            <column name="c_enum" value="REJECTED"/>
         </insert>
     </changeSet>
 
     <!-- INVITATION -->
     <changeSet id="8-1" author="dstepanek">
-        <createTable tableName="invitation">
-            <column name="id" type="SERIAL">
-                <constraints primaryKey="true" primaryKeyName="invitation_pkey"/>
+        <createTable tableName="t_invitation">
+            <column name="c_id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="invitation_pk"/>
             </column>
-            <column name="created" type="TIMESTAMP">
+            <column name="c_created" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="changed" type="TIMESTAMP"/>
-            <column name="status" type="INT">
-                <constraints nullable="false" foreignKeyName="status_enum_fk" references="status_enum(id)"/>
+            <column name="c_changed" type="TIMESTAMP"/>
+            <column name="c_status" type="INT">
+                <constraints nullable="false" foreignKeyName="status_enum_fk" references="t_status_enum(c_id)"/>
             </column>
-            <column name="event_id" type="INT">
-                <constraints nullable="false" foreignKeyName="event_fk" references="event(id)"/>
+            <column name="c_event_id" type="INT">
+                <constraints nullable="false" foreignKeyName="event_fk" references="t_event(c_id)"/>
             </column>
         </createTable>
     </changeSet>
