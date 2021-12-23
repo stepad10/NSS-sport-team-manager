@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
     public RegisteredUser changeUserName(String email, String newName) throws EntityNotFoundException {
         RegisteredUser user = findUserByEmail(email);
         user.setName(newName);
-        userRepository.updateRegistredUser(user);
+        userRepository.updateRegisteredUser(user);
         return user;
     }
 
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
     public RegisteredUser changeUserSurname(String email, String newSurname) throws EntityNotFoundException {
         RegisteredUser user = findUserByEmail(email);
         user.setSurname(newSurname);
-        userRepository.updateRegistredUser(user);
+        userRepository.updateRegisteredUser(user);
         return user;
     }
 
@@ -167,7 +167,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailExistsException("Account with e-mail address " + newEmail + "already exists.");
         }
         user.setEmail(newEmail);
-        userRepository.updateRegistredUser(user);
+        userRepository.updateRegisteredUser(user);
         return user;
     }
 
@@ -184,7 +184,7 @@ public class UserServiceImpl implements UserService {
     public RegisteredUser changeUserRole(String email, RoleEnum newRole) throws EntityNotFoundException {
         RegisteredUser user = findUserByEmail(email);
         user.setRole(newRole);
-        userRepository.updateRegistredUser(user);
+        userRepository.updateRegisteredUser(user);
         return user;
     }
 

@@ -39,7 +39,6 @@ public class StubUserRepository implements UserRepository {
      * @param registeredUser saving user
      * @return saved user
      */
-    @Override
     public RegisteredUser createRegistredUser(RegisteredUser registeredUser) {
         logger.info("User saved to database");
         return registeredUser;
@@ -49,6 +48,11 @@ public class StubUserRepository implements UserRepository {
     public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
         logger.info("User saved to database");
         return registeredUser;
+    }
+
+    @Override
+    public RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
+        return null;
     }
 
     /**

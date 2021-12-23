@@ -11,6 +11,7 @@ import cz.profinit.sportTeamManager.repositories.UserRepository;
 import cz.profinit.sportTeamManager.stubs.stubRepositories.StubUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @Profile({"webTest"})
 @EnableWebMvc
+@Import(PasswordEncoderBean.class)
 public class WebApplicationConfigurationUnitTests extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;

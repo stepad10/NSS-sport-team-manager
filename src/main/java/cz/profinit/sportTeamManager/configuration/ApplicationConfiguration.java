@@ -19,7 +19,8 @@ import org.springframework.context.annotation.Import;
         PasswordEncoderBean.class,
         AuthenticationConfiguration.class,
         AuthorizationConfiguration.class,
-        AspectConfiguration.class})
+        AspectConfiguration.class,
+        MyBatisConfiguration.class})
 //@EnableGlobalMethodSecurity(securedEnabled = true)
 @ComponentScan
 public class ApplicationConfiguration {

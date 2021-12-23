@@ -9,6 +9,7 @@ package cz.profinit.sportTeamManager.controllers;
 
 import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.UserDetailsDTO;
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
@@ -193,7 +194,11 @@ public class UserController {
                         "",
                         email,
                         RoleEnum.USER);
-                userService.newUserRegistration(user);
+                try {
+                    userService.newUserRegistration(user);
+                } catch (EntityNotFoundException ex) {
+                    ex.printStackTrace();
+                }
                 return "Registration successful";
             }
         }

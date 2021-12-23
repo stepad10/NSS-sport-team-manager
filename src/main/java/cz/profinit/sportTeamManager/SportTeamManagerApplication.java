@@ -1,5 +1,6 @@
 package cz.profinit.sportTeamManager;
 
+import cz.profinit.sportTeamManager.configuration.ApplicationConfiguration;
 import cz.profinit.sportTeamManager.configuration.WebApplicationConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
