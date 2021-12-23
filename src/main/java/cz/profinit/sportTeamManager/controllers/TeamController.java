@@ -15,6 +15,7 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.service.team.TeamService;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
  * Maps incoming team requests.
  */
 @RestController
+@Profile({"Main", "test"})
 public class TeamController {
     @Autowired
     private TeamService teamService;

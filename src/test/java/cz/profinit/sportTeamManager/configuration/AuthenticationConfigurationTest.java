@@ -26,7 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Configuration bringing classes necessary for Authentication.
  */
 @Configuration
-@Profile("authentication")
+@Profile({"authentication"})
 @Import(PasswordEncoderBean.class)
 public class AuthenticationConfigurationTest {
     @Autowired

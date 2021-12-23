@@ -11,6 +11,7 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.UserRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.logging.Logger;
@@ -29,7 +30,8 @@ public class StubUserRepository implements UserRepository {
 
     @Override
     public RegisteredUser insertRegisteredUser(RegisteredUser registeredUser) {
-        return null;
+        logger.info("User saved to database");
+        return registeredUser;
     }
 
     /**
