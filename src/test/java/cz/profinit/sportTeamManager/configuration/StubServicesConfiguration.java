@@ -7,8 +7,8 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-import cz.profinit.sportTeamManager.stubs.stubService.StubTeamServiceImpl;
-import cz.profinit.sportTeamManager.stubs.stubService.StubUserServiceImpl;
+import cz.profinit.sportTeamManager.stubs.stubService.team.StubTeamServiceImpl;
+import cz.profinit.sportTeamManager.stubs.stubService.user.StubUserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

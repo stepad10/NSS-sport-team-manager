@@ -8,7 +8,7 @@
 
 package cz.profinit.sportTeamManager.mappers;
 
-import cz.profinit.sportTeamManager.dto.PlaceDto;
+import cz.profinit.sportTeamManager.dto.event.PlaceDto;
 import cz.profinit.sportTeamManager.model.event.Place;
 
 public class PlaceMapper {

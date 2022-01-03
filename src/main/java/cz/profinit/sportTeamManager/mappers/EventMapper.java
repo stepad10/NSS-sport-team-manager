@@ -8,7 +8,7 @@
 
 package cz.profinit.sportTeamManager.mappers;
 
-import cz.profinit.sportTeamManager.dto.EventDto;
+import cz.profinit.sportTeamManager.dto.event.EventDto;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import org.springframework.context.annotation.Profile;

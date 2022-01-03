@@ -7,8 +7,8 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-import cz.profinit.sportTeamManager.controllers.TeamController;
-import cz.profinit.sportTeamManager.controllers.UserController;
+import cz.profinit.sportTeamManager.controllers.team.TeamController;
+import cz.profinit.sportTeamManager.controllers.user.UserController;
 import org.springframework.context.annotation.ComponentScan;
 
 /**

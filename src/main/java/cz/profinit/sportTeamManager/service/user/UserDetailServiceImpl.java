@@ -10,7 +10,7 @@ package cz.profinit.sportTeamManager.service.user;
 
 import cz.profinit.sportTeamManager.exceptions.UserOrPasswordNotMatchException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.repositories.UserRepository;
+import cz.profinit.sportTeamManager.repositories.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
