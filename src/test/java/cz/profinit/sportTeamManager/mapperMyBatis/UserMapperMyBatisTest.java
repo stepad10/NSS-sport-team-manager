@@ -9,12 +9,14 @@
 package cz.profinit.sportTeamManager.mapperMyBatis;
 
 import cz.profinit.sportTeamManager.configuration.MyBatisConfiguration;
+import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,7 +24,8 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Unit tests for User mapper
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = MyBatisConfiguration.class)
+@ContextConfiguration(classes = MyBatisConfigurationTest.class)
+@ActiveProfiles("database")
 public class UserMapperMyBatisTest {
 
     @Autowired

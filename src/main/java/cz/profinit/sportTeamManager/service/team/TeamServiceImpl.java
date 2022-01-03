@@ -9,7 +9,6 @@ package cz.profinit.sportTeamManager.service.team;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserIsInSubgroupException;
-import cz.profinit.sportTeamManager.mappers.TeamMapper;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -29,16 +28,15 @@ import java.util.List;
  * and add/delete user to team or subgroup.
  */
 @Service
-@Profile({"Main"})
 @AllArgsConstructor
+@Profile("Main")
 public class TeamServiceImpl implements TeamService {
 
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
     private UserRepository userRepository;
-    //private SubgroupRepository subgroupRepository;
-    private TeamMapper teamMapper;
+
 
     private final String ALL_USER_SUBGROUP = "All Users";
     private final String COACHES_SUBGROUP = "Coaches";
@@ -283,7 +281,7 @@ public class TeamServiceImpl implements TeamService {
         Team team = getTeamById(teamId);
 
         if (team.isSubgroupInTeam(newName)) {
-            throw new RuntimeException("Subgroup of new name already exists");
+            throw new RuntimeException("Subgroup already exists");
         } else if ((!team.isSubgroupInTeam(subgroupName))) {
             throw new EntityNotFoundException("Subgroup");
         } else {

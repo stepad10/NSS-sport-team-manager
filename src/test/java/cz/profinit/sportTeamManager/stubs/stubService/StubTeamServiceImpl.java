@@ -285,7 +285,7 @@ public class StubTeamServiceImpl implements TeamService {
     public Team changeSubgroupName(Long teamId, String subgroupName, String newName) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         if (team.isSubgroupInTeam(newName)) {
-            throw new RuntimeException("Subgroup of new name already exists");
+            throw new RuntimeException("Subgroup already exists");
         } else if (!team.isSubgroupInTeam(subgroupName)) {
             throw new EntityNotFoundException("Subgroup");
         } else {

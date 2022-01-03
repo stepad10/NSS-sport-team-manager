@@ -5,9 +5,11 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mapperMyBatis.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Profile("Main")
 public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
@@ -43,7 +45,7 @@ public class UserRepositoryImpl implements UserRepository {
     public RegisteredUser findUserByEmail(String email) throws EntityNotFoundException {
         RegisteredUser foundUser = userMapperMyBatis.findUserByEmail(email);
         if (foundUser == null) {
-            throw new EntityNotFoundException("RegisteredUser wasn't found by email!");
+            throw new EntityNotFoundException("User");
         }
         return foundUser;
     }

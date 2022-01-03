@@ -7,7 +7,10 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
+import cz.profinit.sportTeamManager.oauth.PrincipalExtractorImpl;
 import cz.profinit.sportTeamManager.repositories.UserRepository;
+import cz.profinit.sportTeamManager.service.user.AuthenticationFacade;
+import cz.profinit.sportTeamManager.service.user.AuthenticationFacadeImpl;
 import cz.profinit.sportTeamManager.service.user.UserDetailServiceImpl;
 import cz.profinit.sportTeamManager.service.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 
 
 /**
@@ -27,6 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @Profile("authentication")
+@ActiveProfiles("stub_repository")
 @Import(PasswordEncoderBean.class)
 public class AuthenticationConfigurationTest {
     @Autowired
@@ -49,6 +54,14 @@ public class AuthenticationConfigurationTest {
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
+    @Bean
+    AuthenticationFacade authenticationFacade() {
+        return new AuthenticationFacadeImpl();
+    }
 
+    @Bean
+    PrincipalExtractorImpl principalExtractor() {
+        return new PrincipalExtractorImpl();
+    }
 
 }

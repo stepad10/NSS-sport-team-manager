@@ -24,6 +24,7 @@ import cz.profinit.sportTeamManager.service.InvitationService;
 import cz.profinit.sportTeamManager.service.user.AuthenticationFacade;
 import cz.profinit.sportTeamManager.service.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ import java.util.List;
  * Controller for event business logic
  */
 @RestController
+@Profile({"Main", "test"})
 public class EventController {
 
     @Autowired

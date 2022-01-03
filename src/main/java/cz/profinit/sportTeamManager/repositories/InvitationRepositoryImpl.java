@@ -1,0 +1,43 @@
+package cz.profinit.sportTeamManager.repositories;
+
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.model.event.Event;
+import cz.profinit.sportTeamManager.model.invitation.Invitation;
+import cz.profinit.sportTeamManager.model.user.User;
+import liquibase.pro.packaged.P;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@Profile("Main")
+public class InvitationRepositoryImpl implements InvitationRepository {
+    @Override
+    public Invitation createNewInvitation(Invitation invitation) {
+        return null;
+    }
+
+    @Override
+    public Invitation updateInvitation(Invitation invitation) {
+        return null;
+    }
+
+    @Override
+    public Invitation getInvitationById(Long id) throws EntityNotFoundException {
+        return null;
+    }
+
+    @Override
+    public Invitation getInvitationByUserEmailAndEventId(Long eventId, String email) throws EntityNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean deleteInvitation(User user, Event event) throws EntityNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean isUserPresent(User user, Event event) {
+        return false;
+    }
+}

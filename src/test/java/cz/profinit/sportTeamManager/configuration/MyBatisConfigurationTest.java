@@ -13,9 +13,9 @@ import javax.sql.DataSource;
 
 @Configuration
 @MapperScan("cz.profinit.sportTeamManager.mapperMyBatis")
-@ComponentScan("cz.profinit.sportTeamManager.*")
-@Profile("Main")
-public class MyBatisConfiguration {
+//@ComponentScan("cz.profinit.sportTeamManager.*")
+@Profile("database")
+public class MyBatisConfigurationTest {
 
     @Bean
     public DataSource dataSource() {

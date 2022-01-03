@@ -12,6 +12,7 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.service.user.UserService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -67,6 +68,88 @@ public class StubUserServiceImpl implements UserService {
     }
 
     /**
+     * Changes user name.
+     *
+     * @param email   email address of user to find him in database
+     * @param newName new user name
+     * @return user with changed name
+     * @throws EntityNotFoundException if user is not found
+     */
+    @Override
+    public RegisteredUser changeUserName(String email, String newName) throws EntityNotFoundException {
+        RegisteredUser user = findUserByEmail(email);
+        RegisteredUser userOut = new RegisteredUser(
+                user.getName(),
+                user.getSurname(),
+                user.getPassword(),
+                user.getEmail(),
+                RoleEnum.USER);
+        userOut.setName(newName);
+        return userOut;
+    }
+
+    /**
+     * Changes user surname
+     *
+     * @param email      email address of user to find him in database
+     * @param newSurname new user surname
+     * @return user with changed surname
+     * @throws EntityNotFoundException if user is not found
+     */
+    @Override
+    public RegisteredUser changeUserSurname(String email, String newSurname) throws EntityNotFoundException {
+        RegisteredUser user = findUserByEmail(email);
+        RegisteredUser userOut = new RegisteredUser(
+                user.getName(),
+                user.getSurname(),
+                user.getPassword(),
+                user.getEmail(),
+                RoleEnum.USER);
+        userOut.setSurname(newSurname);
+        return userOut;
+    }
+
+    /**
+     * Changes user email. Before checks if email is not already taken.
+     *
+     * @param email    email address of user to find him in database
+     * @param newEmail new email address
+     * @return user with changed email address
+     * @throws EntityNotFoundException if user is not found
+     */
+    @Override
+    public RegisteredUser changeUserEmail(String email, String newEmail) throws EntityNotFoundException {
+        RegisteredUser user = findUserByEmail(email);
+        if (emailExists(newEmail)) {
+            throw new EmailExistsException("Account with e-mail address " + newEmail + "already exists.");
+        }
+        RegisteredUser userOut = new RegisteredUser(
+                user.getName(),
+                user.getSurname(),
+                user.getPassword(),
+                user.getEmail(),
+                RoleEnum.USER);
+        userOut.setEmail(newEmail);
+        return userOut;
+    }
+
+
+    /**
+     * Changes user role.
+     *
+     * @param email   email address of user to find him in database
+     * @param newRole new user role
+     * @return user with changed user role
+     * @throws EntityNotFoundException if user is not found
+     */
+    @Override
+    public RegisteredUser changeUserRole(String email, RoleEnum newRole) throws EntityNotFoundException {
+        RegisteredUser user = findUserByEmail(email);
+        user.setRole(newRole);
+        return user;
+    }
+
+    /**
      * Returns STUB user found by email. Two possible users with email "email@gmail.com" or "ts@gmail.com" are returned.
      * Otherwise, the exception EntityNotFoundException is thrown.
      *
@@ -76,6 +159,7 @@ public class StubUserServiceImpl implements UserService {
      */
     @Override
     public RegisteredUser findUserByEmail(String email) throws EntityNotFoundException {
+        RegisteredUser user = new RegisteredUser();
         if (Objects.equals(email, "is@seznam.cz")) {
             return loggedUser2;
         } else if (email.equals("is@gmail.com")) {
@@ -91,5 +175,20 @@ public class StubUserServiceImpl implements UserService {
         }
     }
 
-
+    /**
+     * Finds if user exists in database by email.
+     *
+     * @param email user email
+     * @return true if user is in database, false otherwise
+     */
+    private boolean emailExists(String email) {
+        try {
+            findUserByEmail(email);
+        } catch (Exception e) {
+            if (e.getMessage().equals("User entity not found!")) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

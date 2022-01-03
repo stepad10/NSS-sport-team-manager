@@ -29,7 +29,8 @@ public class StubUserRepository implements UserRepository {
 
     @Override
     public RegisteredUser insertRegisteredUser(RegisteredUser registeredUser) {
-        return null;
+        logger.info("User saved to database");
+        return registeredUser;
     }
 
     /**
@@ -38,6 +39,11 @@ public class StubUserRepository implements UserRepository {
      * @param registeredUser saving user
      * @return saved user
      */
+    public RegisteredUser createRegistredUser(RegisteredUser registeredUser) {
+        logger.info("User saved to database");
+        return registeredUser;
+    }
+
     @Override
     public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
         logger.info("User saved to database");
@@ -77,6 +83,7 @@ public class StubUserRepository implements UserRepository {
     public RegisteredUser findUserById(long id) {
         return null;
     }
+
 
     /**
      * Returns users found by email. Returns two possible users with email address from loggedUser1 up to loggedUser5.

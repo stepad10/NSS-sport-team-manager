@@ -54,7 +54,7 @@ import java.util.ArrayList;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @WebAppConfiguration
 @AutoConfigureMockMvc
-@ActiveProfiles({"stub_repository","stub_services","webTest","authentication"})
+@ActiveProfiles({"stub_repository","stub_services","webTest","authentication","test"})
 public class EventControllerTest {
 
     @Autowired
