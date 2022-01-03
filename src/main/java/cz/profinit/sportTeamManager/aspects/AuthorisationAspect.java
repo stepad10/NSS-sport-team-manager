@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-@Profile({"authorization","aspects","Main"})
+@Profile({"authorization", "aspects", "Main"})
 public class AuthorisationAspect implements Advice {
 
     @Autowired
@@ -62,7 +62,26 @@ public class AuthorisationAspect implements Advice {
         }
 
         if (!team.getTeamSubgroup("Coaches").isUserInList(user)) {
-            System.out.println("Access denied");
+            throw new RuntimeException("Access denied");
+        }
+
+    }
+
+    /**
+     * Checks if current user is in Coach subgroup and therefore have rights to changing team properties.
+     * Called before all TeamService methods except createNewTeam and getTeamById.
+     *
+     * @param point joint point data
+     * @throws EntityNotFoundException if user or team are not found
+     */
+
+
+    @Before("execution(public * *..UserService.*(..))" +
+            " && !execution(public * *..UserService.newUserRegistration(..))")
+    public void UserAuthorisation(JoinPoint point) throws EntityNotFoundException {
+        RegisteredUser user = null;
+        String userEmail = principalExtractor.getPrincipalEmail();
+        if (!userEmail.equals(point.getArgs()[0])) {
             throw new RuntimeException("Access denied");
         }
     }
