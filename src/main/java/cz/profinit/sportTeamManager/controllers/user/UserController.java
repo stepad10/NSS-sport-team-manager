@@ -10,6 +10,7 @@ package cz.profinit.sportTeamManager.controllers.user;
 import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.user.UserDetailsDTO;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exceptions.HttpExceptionHandler;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
@@ -63,10 +64,7 @@ public class UserController {
         try {
             registeredUser = userService.newUserRegistration(registeredUser);
         } catch (Exception e) {
-            if (e.getMessage().equals("Account with e-mail address email@gmail.comalready exists.")) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            }
+            HttpExceptionHandler.httpErrorMessages(e);
         }
 
     }
@@ -83,7 +81,7 @@ public class UserController {
         try {
             user = userService.findUserByEmail(userEmail);
         } catch (Exception e) {
-
+            HttpExceptionHandler.httpErrorMessages(e);
         }
         return UserMapper.mapRegistredUserToRegistredUserDTO(user);
     }
@@ -95,7 +93,7 @@ public class UserController {
      * @param request http request
      * @deprecated Maybe will be used later.
      */
-
+//DEPRICATED
     @PostMapping("/login")
     public void userLogin(@RequestBody UserDetailsDTO user, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
@@ -126,10 +124,7 @@ public class UserController {
         try {
             user = userService.changeUserName(userEmail,userNewName);
         } catch (Exception e) {
-            if (e.getMessage().equals("User entity not found!")) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            }
+            HttpExceptionHandler.httpErrorMessages(e);
         }
         return UserMapper.mapRegistredUserToRegistredUserDTO(user);
     }
@@ -147,10 +142,7 @@ public class UserController {
         try {
             user = userService.changeUserSurname(userEmail,userNewSurname);
         } catch (Exception e) {
-            if (e.getMessage().equals("User entity not found!")) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            }
+            HttpExceptionHandler.httpErrorMessages(e);
         }
         return UserMapper.mapRegistredUserToRegistredUserDTO(user);
     }
@@ -168,13 +160,7 @@ public class UserController {
         try {
             user = userService.changeUserEmail(userEmail,userNewEmail);
         } catch (Exception e) {
-            if (e.getMessage().equals("User entity not found!")) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            } else if (e.getMessage().equals("Account with e-mail address " + userNewEmail + "already exists.")) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, e.getMessage(), e);
-            }
+            HttpExceptionHandler.httpErrorMessages(e);
         }
         return UserMapper.mapRegistredUserToRegistredUserDTO(user);
     }
@@ -201,7 +187,7 @@ public class UserController {
                 try {
                     userService.newUserRegistration(user);
                 } catch (EntityNotFoundException ex) {
-                    ex.printStackTrace();
+                    HttpExceptionHandler.httpErrorMessages(ex);
                 }
                 return "Registration successful";
             }
@@ -218,5 +204,16 @@ public class UserController {
     public String logoutSuccess() {
         return "Logout successful";
     }
+
+    /**
+     * Maps a logout success message.
+     *
+     * @return logout message
+     */
+    @GetMapping("/accessDenied")
+    public String accessDenied() {
+        return "Access denied";
+    }
+
 
 }

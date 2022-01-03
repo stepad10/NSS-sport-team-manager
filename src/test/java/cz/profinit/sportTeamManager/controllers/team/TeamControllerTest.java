@@ -20,6 +20,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -77,6 +78,7 @@ public class TeamControllerTest {
      * Tests creating a new team with selected name and sport.
      */
     @Test
+    @WithMockUser(username = "email@gmail.com")
     public void createNewTeam() throws Exception {
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

@@ -20,9 +20,6 @@ public interface UserService {
 
     RegisteredUser findUserByEmail(String email) throws EntityNotFoundException;
 
-    //TODO
-    RegisteredUser getLogedUser();
-
     RegisteredUser changeUserName(String email, String newName) throws EntityNotFoundException;
     RegisteredUser changeUserSurname(String email, String newSurname) throws EntityNotFoundException;
     RegisteredUser changeUserEmail(String email,String newEmail) throws EntityNotFoundException;

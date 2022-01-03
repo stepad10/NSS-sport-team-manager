@@ -202,7 +202,7 @@ public class UserControllerTest {
                         MockMvcRequestBuilders.put("/user/email@gmail.com/email/is@gmail.com")
                                 .header("Content-Type", "application/xml"))
                 .andExpect(status().isBadRequest())
-                .andExpect(status().reason("Account with e-mail address is@gmail.comalready exists."));
+                .andExpect(status().reason("Account with e-mail address is@gmail.com already exists."));
 
 
     }

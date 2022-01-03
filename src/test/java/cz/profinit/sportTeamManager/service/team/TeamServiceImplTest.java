@@ -59,6 +59,7 @@ public class TeamServiceImplTest {
                 "is@gmail.com",
                 RoleEnum.USER);
         team = new Team("A team", "golf", subgroupList, loggedUser);
+        team.setEntityId(10L);
     }
 
     /**

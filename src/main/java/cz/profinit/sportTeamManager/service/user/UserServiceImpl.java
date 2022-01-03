@@ -114,11 +114,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByEmail(email);
     }
 
-    //TODO
-    @Override
-    public RegisteredUser getLogedUser() {
-        return null;
-    }
 
     /**
      * Changes user name.

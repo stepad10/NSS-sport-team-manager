@@ -36,7 +36,8 @@ public class WebApplicationConfiguration extends WebSecurityConfigurerAdapter {
                 .and().oauth2Login().defaultSuccessUrl("/loginSuccess").failureUrl("/loginFailure")
                 .and().logout().invalidateHttpSession(true)
                 .clearAuthentication(true).logoutSuccessUrl("/logoutSuccess").deleteCookies("JSESSIONID").permitAll()
-                .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and().exceptionHandling().accessDeniedPage("/accessDenied");
     }
 
 

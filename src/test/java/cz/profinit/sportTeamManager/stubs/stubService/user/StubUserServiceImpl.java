@@ -62,7 +62,6 @@ public class StubUserServiceImpl implements UserService {
      *
      * @return
      */
-    @Override
     public RegisteredUser getLogedUser() {
         return new RegisteredUser("Adam", "Stastny", "pass", "email@gmail.com", RoleEnum.USER);
     }
@@ -121,7 +120,7 @@ public class StubUserServiceImpl implements UserService {
     public RegisteredUser changeUserEmail(String email, String newEmail) throws EntityNotFoundException {
         RegisteredUser user = findUserByEmail(email);
         if (emailExists(newEmail)) {
-            throw new EmailExistsException("Account with e-mail address " + newEmail + "already exists.");
+            throw new EmailExistsException("Account with e-mail address " + newEmail + " already exists.");
         }
         RegisteredUser userOut = new RegisteredUser(
                 user.getName(),
