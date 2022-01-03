@@ -11,7 +11,7 @@ public enum RoleEnum {
     ADMIN(1),
     USER(2),
     GUEST(3),
-    NO_VALUE(0);
+    NO_ROLE(0);
 
     private final int id;
 
@@ -19,6 +19,6 @@ public enum RoleEnum {
         return Arrays.stream(values())
                 .filter(v -> v.getId() == Integer.parseInt(input))
                 .findFirst()
-                .orElse(NO_VALUE);
+                .orElse(NO_ROLE);
     }
 }
