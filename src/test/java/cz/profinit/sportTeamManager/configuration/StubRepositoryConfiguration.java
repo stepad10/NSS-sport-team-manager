@@ -7,10 +7,10 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-import cz.profinit.sportTeamManager.stubs.stubRepositories.StubEventRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.StubInvitationRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.StubTeamRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.StubUserRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.event.StubEventRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.invitation.StubInvitationRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.team.StubTeamRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

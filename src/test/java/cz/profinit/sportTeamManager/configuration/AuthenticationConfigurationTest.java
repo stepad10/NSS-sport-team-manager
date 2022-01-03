@@ -8,7 +8,7 @@
 package cz.profinit.sportTeamManager.configuration;
 
 import cz.profinit.sportTeamManager.oauth.PrincipalExtractorImpl;
-import cz.profinit.sportTeamManager.repositories.UserRepository;
+import cz.profinit.sportTeamManager.repositories.user.UserRepository;
 import cz.profinit.sportTeamManager.service.user.AuthenticationFacade;
 import cz.profinit.sportTeamManager.service.user.AuthenticationFacadeImpl;
 import cz.profinit.sportTeamManager.service.user.UserDetailServiceImpl;

@@ -1,12 +1,19 @@
 package cz.profinit.sportTeamManager.repositories;
 
+<<<<<<< HEAD
 import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.stubs.stubRepositories.StubUserRepository;
+=======
+import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
+import cz.profinit.sportTeamManager.model.user.RoleEnum;
+import cz.profinit.sportTeamManager.repositories.user.UserRepository;
+>>>>>>> master
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;

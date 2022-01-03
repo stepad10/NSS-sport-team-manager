@@ -7,7 +7,7 @@
  */
 package cz.profinit.sportTeamManager.mappers;
 
-import cz.profinit.sportTeamManager.dto.TeamDTO;
+import cz.profinit.sportTeamManager.dto.team.TeamDTO;
 import cz.profinit.sportTeamManager.model.team.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

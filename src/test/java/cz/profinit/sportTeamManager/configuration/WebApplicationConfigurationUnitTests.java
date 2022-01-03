@@ -7,8 +7,8 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-import cz.profinit.sportTeamManager.repositories.UserRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.StubUserRepository;
+import cz.profinit.sportTeamManager.repositories.user.UserRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

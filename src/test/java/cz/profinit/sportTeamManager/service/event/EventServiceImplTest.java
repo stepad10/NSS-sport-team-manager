@@ -9,8 +9,8 @@
 package cz.profinit.sportTeamManager.service.event;
 
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
-import cz.profinit.sportTeamManager.dto.EventDto;
-import cz.profinit.sportTeamManager.dto.InvitationDto;
+import cz.profinit.sportTeamManager.dto.event.EventDto;
+import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.InvitationMapper;
@@ -24,12 +24,11 @@ import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
-import cz.profinit.sportTeamManager.repositories.EventRepository;
-import cz.profinit.sportTeamManager.service.EventServiceImpl;
+import cz.profinit.sportTeamManager.repositories.event.EventRepository;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import cz.profinit.sportTeamManager.service.user.UserServiceImpl;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.StubEventRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.StubUserRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.event.StubEventRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
