@@ -7,8 +7,8 @@
  */
 package cz.profinit.sportTeamManager.mappers;
 
-import cz.profinit.sportTeamManager.dto.RegisteredUserDTO;
-import cz.profinit.sportTeamManager.dto.UserDetailsDTO;
+import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
+import cz.profinit.sportTeamManager.dto.user.UserDetailsDTO;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import lombok.NoArgsConstructor;

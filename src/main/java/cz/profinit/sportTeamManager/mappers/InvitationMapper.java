@@ -8,7 +8,7 @@
 
 package cz.profinit.sportTeamManager.mappers;
 
-import cz.profinit.sportTeamManager.dto.InvitationDto;
+import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
