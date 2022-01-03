@@ -98,8 +98,12 @@ public class StubTeamRepository implements TeamRepository {
      */
     @Override
     public Team findTeamById(Long teamId) throws EntityNotFoundException {
-        Team team = findTeamByName("B team");
-        return team;
+        if (teamId == 10L) {
+            Team team = findTeamByName("B team");
+            return team;
+        } else {
+            throw new EntityNotFoundException("Team");
+        }
     }
 
 

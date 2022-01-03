@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
@@ -31,16 +32,11 @@ public class WebApplicationConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .and()
-                .oauth2Login().defaultSuccessUrl("/loginSuccess")
-                .failureUrl("/loginFailure");
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().oauth2Login().defaultSuccessUrl("/loginSuccess").failureUrl("/loginFailure")
+                .and().logout().invalidateHttpSession(true)
+                .clearAuthentication(true).logoutSuccessUrl("/logoutSuccess").deleteCookies("JSESSIONID").permitAll()
+                .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 
 

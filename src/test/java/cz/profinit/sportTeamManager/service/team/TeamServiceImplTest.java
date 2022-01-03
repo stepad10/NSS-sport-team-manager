@@ -88,9 +88,9 @@ public class TeamServiceImplTest {
     @Test
     public void getsNonExistentTeam() {
         try {
-            teamService.getTeamById(20L);
+            teamService.getTeamById(30L);
         } catch (Exception e) {
-            assertEquals("Team entity not found",e.getMessage());
+            assertEquals("Team entity not found!",e.getMessage());
         }
     }
 
