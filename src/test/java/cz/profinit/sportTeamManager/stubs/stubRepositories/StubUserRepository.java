@@ -4,9 +4,14 @@
  * 0.1
  *
  * Author: M. Halamka
+ *
+ * 0.2
+ *
+ * Author: D. Stepanek
  */
 package cz.profinit.sportTeamManager.stubs.stubRepositories;
 
+import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
@@ -20,93 +25,127 @@ import java.util.logging.Logger;
  */
 @Repository
 public class StubUserRepository implements UserRepository {
-    private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
-    private RegisteredUser loggedUser1 = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
-    private RegisteredUser loggedUser2 = new RegisteredUser("Pavel", "Smutny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@seznam.cz", RoleEnum.USER);
-    private RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER);
-    private RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
-    private RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
 
+    private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
+    private final String emailSuffix = ".cz";
+    private final String[] emails = {"a@seznam", "b@email", "c@gmail", "d@post", "e@stream", "f@tiscali"};
+    private final String password = "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2";
+    private final RegisteredUser loggedUser1 = new RegisteredUser("Ivan", "Stastny", password, emails[0] + emailSuffix, RoleEnum.USER);
+    private final RegisteredUser loggedUser2 = new RegisteredUser("Pavel", "Smutny", password, emails[1] + emailSuffix, RoleEnum.USER);
+    private final RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", password, emails[2] + emailSuffix, RoleEnum.USER);
+    private final RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", password, emails[3] + emailSuffix, RoleEnum.USER);
+    private final RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", password, emails[4] + emailSuffix, RoleEnum.USER);
+
+    /**
+     * if registeredUser email contains ".cz" then throw EmailExistsException
+     * @param registeredUser user to insert
+     * @return registeredUser
+     */
     @Override
     public RegisteredUser insertRegisteredUser(RegisteredUser registeredUser) {
-        logger.info("User saved to database");
+        logger.info("User inserted! Stub");
+        if (registeredUser.getEmail().contains(emailSuffix))
+        {
+            logger.info("User not inserted! Stub");
+            throw new EmailExistsException("Unable to insert RegisteredUser, email already exists!");
+        }
         return registeredUser;
     }
 
     /**
-     * Virtually save user to database
-     *
-     * @param registeredUser saving user
-     * @return saved user
+     * update registeredUser
+     * @param registeredUser user to update
+     * @return registeredUser
      */
-    public RegisteredUser createRegistredUser(RegisteredUser registeredUser) {
-        logger.info("User saved to database");
-        return registeredUser;
-    }
-
     @Override
-    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
-        logger.info("User saved to database");
-        return registeredUser;
+    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
+        if (registeredUser.getEmail().contains(emailSuffix)) {
+            logger.info("User updated! Stub");
+            return new RegisteredUser("NewName", registeredUser.getSurname(), registeredUser.getPassword(), registeredUser.getEmail(), registeredUser.getRole());
+        }
+        logger.info("User not updated! Stub");
+        throw new EntityNotFoundException("User");
     }
 
+    /**
+     * Returns user if email has a suffix ".cz", else throw EntityNotFoundException
+     * @param registeredUser user to find
+     * @return registeredUser
+     * @throws EntityNotFoundException if email  doesn't contain suffix
+     */
     @Override
     public RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
-        return null;
+        if (registeredUser.getEmail().contains(emailSuffix)) {
+            logger.info("User found! Stub");
+            return registeredUser;
+        }
+        logger.info("User not found! Stub");
+        throw new EntityNotFoundException("User");
     }
 
     /**
-     * Gets user email from database what is equal to "is@gmail.com"
-     *
+     * Gets user email from database
      * @param email user email
-     * @return true only if email is "is@gmail.com"
+     * @return true if email is contains ".cz"
      */
     @Override
     public boolean emailExistsInDatabase(String email) {
-        return email.equals("is@gmail.com");
+        return email.contains(emailSuffix);
     }
-
-    @Override
-    public RegisteredUser findUserById(Long id) throws EntityNotFoundException {
-        return new RegisteredUser(
-                "Ivan",
-                "Stastny",
-                "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
-                "is@gmail.com",
-                RoleEnum.USER);
-    }
-
-    @Override
-    public RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) {
-        return null;
-    }
-    public RegisteredUser findUserById(long id) {
-        return null;
-    }
-
 
     /**
-     * Returns users found by email. Returns two possible users with email address from loggedUser1 up to loggedUser5.
-     * Other emails throws EntityNotFoundException.
-     *
+     * if id is not 10 then return new user
+     * @param id param for finding user
+     * @return new RegisteredUser
+     * @throws EntityNotFoundException if id is not equal to 10
+     */
+    @Override
+    public RegisteredUser findUserById(Long id) throws EntityNotFoundException {
+        if (id != 10L) {
+            logger.info("User not found by id! Stub");
+            throw new EntityNotFoundException("User");
+        }
+
+        RegisteredUser regUs = new RegisteredUser(
+                "Ivan",
+                "Stastny",
+                password,
+                emails[5] + emailSuffix,
+                RoleEnum.USER);
+        regUs.setEntityId(10L);
+        logger.info("User found by id! Stub");
+        return regUs;
+    }
+
+    /**
+     * returns user found by email or throw
      * @param userEmail user email
-     * @return one of the possible predefined users
-     * @throws EntityNotFoundException when email is not equeal to any loggedUser
+     * @return found user
+     * @throws EntityNotFoundException if userEmail doesn't contain emailSuffix
      */
     @Override
     public RegisteredUser findUserByEmail(String userEmail) throws EntityNotFoundException {
-        if (userEmail == "is@seznam.cz") {
-            return loggedUser2;
-        } else if (userEmail.equals("is@gmail.com")) {
+        if (userEmail.contains(emailSuffix)) {
+            logger.info("User found by email! Stub");
             return loggedUser1;
-        } else if (userEmail.equals("is@email.cz")) {
-            return loggedUser3;
-        } else if (userEmail.equals("ts@gmail.com")) {
-            return loggedUser4;
-        } else if (userEmail.equals("email@gmail.com")) {
-            return loggedUser5;
-        } else {
-            throw new EntityNotFoundException("User");
         }
+        logger.info("User not found by email! Stub");
+        throw new EntityNotFoundException("User");
+    }
+
+    /**
+     * if email doesn't contain suffix throw exception, else return registeredUser
+     * @param registeredUser user to delete
+     * @return registeredUser
+     * @throws EntityNotFoundException if email doesn't contain suffix
+     */
+    @Override
+    public RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
+        if (registeredUser.getEmail().contains(emailSuffix)) {
+            logger.info("User deleted! Stub");
+            return registeredUser;
+        }
+        logger.info("User not deleted! Stub");
+        throw new EntityNotFoundException("User");
     }
 }

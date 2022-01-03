@@ -1,89 +1,143 @@
 package cz.profinit.sportTeamManager.repositories;
 
-import cz.profinit.sportTeamManager.configuration.MyBatisConfiguration;
-import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
+import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import org.checkerframework.checker.units.qual.A;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.StubUserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Unit tests for User repository
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = MyBatisConfigurationTest.class)
-@ActiveProfiles("Main")
 public class UserRepositoryImplTest {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final StubUserRepository userRepository = new StubUserRepository();
+    private RegisteredUser presetUser;
+    private RegisteredUser presetUserNotInDb;
 
-    /**
-     *
-     * @param email unique attribute to insert user to db correctly
-     * @return inserted user to db, could be null or RegisteredUser
-     */
-    private RegisteredUser insertUserHelp(String email) {
-        return userRepository.insertRegisteredUser(new RegisteredUser("Tomas", "Smutny", "pass1", email, RoleEnum.USER));
+    @Before
+    public void SetUp() {
+        presetUser = new RegisteredUser("Jan", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "a@seznam.cz", RoleEnum.USER);
+        presetUserNotInDb = new RegisteredUser("Not", "InDb", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "x@xxx.com", RoleEnum.USER);
     }
 
     /**
-     *
-     * @param regUs user to delete from db
-     * @return deleted user, null if unsuccessful
-     * @throws EntityNotFoundException if entity wasn't found
+     * insert registeredUser that already exists and throw
+     * @throws EmailExistsException if registeredUser email already exists in database
      */
-    private RegisteredUser deleteUserByIdHelp(RegisteredUser regUs) throws EntityNotFoundException {
-        return userRepository.deleteRegisteredUser(regUs);
+    @Test(expected = EmailExistsException.class)
+    public void insertRegisteredUserThatAlreadyExists() throws EmailExistsException {
+        userRepository.insertRegisteredUser(presetUser);
     }
 
     /**
-     * insert registeredUser, check conditions and post-delete it
-     * @throws EntityNotFoundException called method exception
+     * insert registeredUser successfully
      */
     @Test
-    public void insertRegisteredUser() throws EntityNotFoundException {
-        RegisteredUser registeredUser = new RegisteredUser("Jan", "Vesely", "password123", "a@b.c", RoleEnum.USER);
-        RegisteredUser user = userRepository.insertRegisteredUser(registeredUser);
-        Assert.assertNotNull(user);
-        RegisteredUser deletedUser = userRepository.deleteRegisteredUser(registeredUser);
-        Assert.assertNotNull(deletedUser);
+    public void insertRegisteredUser() {
+        RegisteredUser insertedUser = userRepository.insertRegisteredUser(presetUserNotInDb);
+        Assert.assertNotNull(insertedUser);
     }
 
     /**
-     * pre-insert registeredUser update it and post-delete
-     * @throws EntityNotFoundException called method exception
+     * update registeredUser and check changed name
+     * @throws EntityNotFoundException if presetUser wasn't found
      */
     @Test
     public void updateRegisteredUser() throws EntityNotFoundException {
-        RegisteredUser registeredUser = insertUserHelp("1@11.111");
-        Assert.assertNotNull(registeredUser);
-        registeredUser.setSurname("Skodak");
-        RegisteredUser updatedUser = userRepository.updateRegisteredUser(registeredUser);
-        Assert.assertNotNull(updatedUser);
-        Assert.assertEquals(registeredUser.getSurname(), updatedUser.getSurname());
-        deleteUserByIdHelp(registeredUser);
+        RegisteredUser updatedUser = userRepository.updateRegisteredUser(presetUser);
+        Assert.assertNotEquals(presetUser.getName(), updatedUser.getName());
     }
 
     /**
-     * pre-insert registeredUser and find it in db, post-delete it
-     * @throws EntityNotFoundException called method exception
+     * update registeredUser that is not in database
+     * @throws EntityNotFoundException if presetUserNotInDb wasn't found
+     */
+    @Test(expected = EntityNotFoundException.class)
+    public void updateNotExistingRegisteredUser() throws EntityNotFoundException {
+        userRepository.updateRegisteredUser(presetUserNotInDb);
+    }
+
+    /**
+     * find registeredUser that is in database
+     * @throws EntityNotFoundException if registeredUser wasn't found
      */
     @Test
     public void findRegisteredUser() throws EntityNotFoundException {
-        RegisteredUser registeredUser = insertUserHelp("2@22.222");
-        Assert.assertNotNull(registeredUser);
-        RegisteredUser foundUser = userRepository.findRegisteredUser(registeredUser);
+        RegisteredUser foundUser = userRepository.findRegisteredUser(presetUser);
+        Assert.assertEquals(presetUser.getEmail(), foundUser.getEmail());
+    }
+
+    /**
+     * find registeredUser that is not in database
+     * @throws EntityNotFoundException if registeredUser wasn't found
+     */
+    @Test(expected = EntityNotFoundException.class)
+    public void findNotExistingRegisteredUser() throws EntityNotFoundException {
+        userRepository.findRegisteredUser(presetUserNotInDb);
+    }
+
+    /**
+     * find user by id that is in database
+     * @throws EntityNotFoundException if registeredUser wasn't found
+     */
+    @Test
+    public void findUserById() throws EntityNotFoundException {
+        RegisteredUser foundUser = userRepository.findUserById(10L);
         Assert.assertNotNull(foundUser);
-        Assert.assertEquals(registeredUser, foundUser);
-        deleteUserByIdHelp(registeredUser);
+    }
+
+    /**
+     * find user by id that is not in database
+     * @throws EntityNotFoundException if registeredUser wasn't found
+     */
+    @Test(expected = EntityNotFoundException.class)
+    public void findNotExistingUserById() throws EntityNotFoundException {
+        userRepository.findUserById(1L);
+    }
+
+    /**
+     * find user by email that is in database
+     * @throws EntityNotFoundException if registeredUser wasn't found
+     */
+    @Test
+    public void findUserByEmail() throws EntityNotFoundException {
+        RegisteredUser foundUser = userRepository.findUserByEmail(presetUser.getEmail());
+        Assert.assertEquals(presetUser.getEmail(), foundUser.getEmail());
+    }
+
+    /**
+     * find user by email that is not in database
+     * @throws EntityNotFoundException if registeredUser wasn't found
+     */
+    @Test(expected = EntityNotFoundException.class)
+    public void findNotExistingUserByEmail() throws EntityNotFoundException {
+        userRepository.findUserByEmail(presetUserNotInDb.getEmail());
+    }
+
+
+    /**
+     * find registeredUser that is in database
+     * @throws EntityNotFoundException if registeredUser wasn't found
+     */
+    @Test
+    public void deleteRegisteredUser() throws EntityNotFoundException {
+        RegisteredUser deletedUser = userRepository.deleteRegisteredUser(presetUser);
+        Assert.assertEquals(presetUser, deletedUser);
+    }
+
+    /**
+     * find registeredUser that is not in database
+     * @throws EntityNotFoundException if registeredUser wasn't found
+     */
+    @Test(expected = EntityNotFoundException.class)
+    public void deleteNotExistingRegisteredUser() throws EntityNotFoundException {
+        userRepository.deleteRegisteredUser(presetUserNotInDb);
     }
 }

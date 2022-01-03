@@ -17,7 +17,7 @@ public interface UserRepository {
      * @param registeredUser user to update
      * @return output of update, updated user or null
      */
-    RegisteredUser updateRegisteredUser(RegisteredUser registeredUser);
+    RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException;
 
     /**
      * if user doesn't have id then it is not in db, and we will use email instead
