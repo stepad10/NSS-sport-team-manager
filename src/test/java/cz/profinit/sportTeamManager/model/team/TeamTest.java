@@ -42,11 +42,11 @@ public class TeamTest {
 
         user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         userList.add(user1);
-        subgroup = new Subgroup("Players");
+        team = new Team("A team", "Vodní lyžování", subgroupList, user1);
+        subgroup = new Subgroup("Players", team);
         subgroup.setUserList(userList);
         subgroupList.add(subgroup);
-
-        team = new Team("A team", "Vodní lyžování", subgroupList, user1);
+        team.setListOfSubgroups(subgroupList);
     }
 
     /**

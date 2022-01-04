@@ -24,8 +24,8 @@ import java.util.List;
 /**
  * The service manipulating with team and subgroup.
  * This service contains methods that can create a new team,
- * add/delete subgroup to the team
- * and add/delete user to team or subgroup.
+ * add/deleteTeam subgroup to the team
+ * and add/deleteTeam user to team or subgroup.
  */
 @Service
 @AllArgsConstructor
@@ -54,7 +54,7 @@ public class TeamServiceImpl implements TeamService {
         team.getListOfSubgroups().get(0).addUser(team.getOwner());
         team.addNewSubgroup(COACHES_SUBGROUP);
         team.getListOfSubgroups().get(1).addUser(team.getOwner());
-        teamRepository.saveTeam(team);
+        teamRepository.insertTeam(team);
 
         return team;
 
@@ -113,8 +113,13 @@ public class TeamServiceImpl implements TeamService {
      * @param teamName name of search team
      * @return founded team of searched name
      */
-    public Team getTeamByName(String teamName) {
-        return teamRepository.findTeamByName(teamName);
+    public List<Team> getTeamByName(String teamName) {
+        try {
+            return teamRepository.findTeamsByName(teamName);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -264,7 +269,7 @@ public class TeamServiceImpl implements TeamService {
      */
     public void deleteTeam(Long teamId) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
-        teamRepository.delete(team);
+        teamRepository.deleteTeam(team);
     }
 
     /**

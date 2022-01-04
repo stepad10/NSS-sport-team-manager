@@ -22,6 +22,7 @@ import java.util.List;
 public class Subgroup extends Entity {
     private String name;
     private List<RegisteredUser> userList;
+    private Team team;
 
 
     /**
@@ -29,8 +30,9 @@ public class Subgroup extends Entity {
      *
      * @param name name of the subgroup
      */
-    public Subgroup(String name) {
+    public Subgroup(String name, Team team) {
         this.name = name;
+        this.team = team;
         this.userList = new ArrayList<>();
     }
 
@@ -66,5 +68,14 @@ public class Subgroup extends Entity {
      */
     public boolean isUserInList(RegisteredUser user) {
         return userList.contains(user);
+    }
+
+    @Override
+    public String toString() {
+        return "Subgroup{" +
+                "name='" + name + '\'' +
+                ", userList=" + userList +
+                ", team=" + team.getEntityId() +
+                '}';
     }
 }

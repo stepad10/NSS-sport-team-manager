@@ -9,6 +9,7 @@
 package cz.profinit.sportTeamManager.dto.team;
 
 import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
+import cz.profinit.sportTeamManager.model.team.Team;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,9 +32,11 @@ import java.util.List;
 public class SubgroupDTO {
     private String name;
     private List<RegisteredUserDTO> userList;
+    private TeamDTO team;
 
-    public SubgroupDTO(String name) {
+    public SubgroupDTO(String name, TeamDTO team) {
         this.name = name;
+        this.team = team;
         this.userList = new ArrayList<>();
     }
 

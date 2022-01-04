@@ -11,7 +11,6 @@ package cz.profinit.sportTeamManager.mappers;
 
 import cz.profinit.sportTeamManager.dto.team.SubgroupDTO;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +24,6 @@ import java.util.stream.Collectors;
 @Component
 @Profile({"test", "Main","stub_services"})
 public class SubgroupMapper {
-    @Autowired
-    private static UserMapper userMapper;
 
     /**
      * Maps a single subgroupDTO to subgroup.
@@ -35,7 +32,7 @@ public class SubgroupMapper {
      * @return mapped subgroup data transfer object to subgroup
      */
     public static Subgroup mapSubgroupDTOToSubgroup(SubgroupDTO subgroupDTO) {
-        Subgroup subgroup = new Subgroup(subgroupDTO.getName());
+        Subgroup subgroup = new Subgroup(subgroupDTO.getName(), TeamMapper.mapTeamDtoToTeam(subgroupDTO.getTeam()));
         subgroup.setUserList(UserMapper.mapRegistredUserDTOListToRegistredUserList(subgroupDTO.getUserList()));
         return subgroup;
     }
@@ -47,7 +44,7 @@ public class SubgroupMapper {
      * @return mapped subgroup to  subgroup data transfer object
      */
     public static SubgroupDTO mapSubgroupToSubgroupDTO(Subgroup subgroup) {
-        SubgroupDTO subgroupDTO = new SubgroupDTO(subgroup.getName());
+        SubgroupDTO subgroupDTO = new SubgroupDTO(subgroup.getName(), TeamMapper.mapTeamToTeamDto(subgroup.getTeam()));
         subgroupDTO.setUserList(UserMapper.mapRegistredUserListToRegistredUserDTOList(subgroup.getUserList()));
         return subgroupDTO;
     }
