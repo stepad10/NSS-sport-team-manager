@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @MapperScan("cz.profinit.sportTeamManager.mapperMyBatis")
-//@ComponentScan("cz.profinit.sportTeamManager.*")
 @Profile("database")
 public class MyBatisConfigurationTest {
 

@@ -51,7 +51,8 @@
         }
 
 
-        @Bean AuthenticationFacade authenticationFacade() {
+        @Bean
+        AuthenticationFacade authenticationFacade() {
             return new AuthenticationFacadeImpl();
         }
 

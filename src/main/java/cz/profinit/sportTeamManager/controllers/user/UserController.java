@@ -19,17 +19,14 @@ import cz.profinit.sportTeamManager.service.user.AuthenticationFacade;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -203,16 +200,6 @@ public class UserController {
     @GetMapping("/logoutSuccess")
     public String logoutSuccess() {
         return "Logout successful";
-    }
-
-    /**
-     * Maps a logout success message.
-     *
-     * @return logout message
-     */
-    @GetMapping("/accessDenied")
-    public String accessDenied() {
-        return "Access denied";
     }
 
 

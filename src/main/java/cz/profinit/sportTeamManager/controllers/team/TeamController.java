@@ -3,7 +3,7 @@
  *
  * 0.1
  *
- * Author: J. Janský
+ * Author: J. Jansky
  */
 
 package cz.profinit.sportTeamManager.controllers.team;
@@ -18,9 +18,7 @@ import cz.profinit.sportTeamManager.service.team.TeamService;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 
