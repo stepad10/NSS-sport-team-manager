@@ -48,13 +48,13 @@ public class TeamMapperTest {
         team.setEntityId(10L);
         teamDTO = new TeamDTO(10L, "A team", "golf", subgroupDTOList, registeredUserDTO1);
 
-        subgroup1 = new Subgroup("Players", team);
+        subgroup1 = new Subgroup("Players", team.getEntityId());
         subgroup1.setUserList(registeredUserList);
-        subgroup2 = new Subgroup("Coaches", team);
+        subgroup2 = new Subgroup("Coaches", team.getEntityId());
         subgroup2.setUserList(registeredUserList2);
-        subgroupDTO1 = new SubgroupDTO("Players", teamDTO);
+        subgroupDTO1 = new SubgroupDTO("Players", teamDTO.getId());
         subgroupDTO1.setUserList(registeredUserDTOList);
-        subgroupDTO2 = new SubgroupDTO("Coaches", teamDTO);
+        subgroupDTO2 = new SubgroupDTO("Coaches", teamDTO.getId());
         subgroupDTO2.setUserList(registeredUserDTOList2);
 
         subgroupList.add(subgroup1);

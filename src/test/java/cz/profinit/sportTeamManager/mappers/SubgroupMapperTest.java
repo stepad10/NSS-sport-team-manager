@@ -1,8 +1,8 @@
 package cz.profinit.sportTeamManager.mappers;
 
+import cz.profinit.sportTeamManager.dto.team.SubgroupDTO;
 import cz.profinit.sportTeamManager.dto.team.TeamDTO;
 import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
-import cz.profinit.sportTeamManager.dto.team.SubgroupDTO;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -41,13 +41,13 @@ public class SubgroupMapperTest {
         registeredUserDTOList.add(registeredUserDTO1);
         registeredUserDTOList.add(registeredUserDTO2);
         registeredUserDTOList2.add(registeredUserDTO1);
-        subgroup1 = new Subgroup("Players", team);
+        subgroup1 = new Subgroup("Players", 0L);
         subgroup1.setUserList(registeredUserList);
-        subgroup2 = new Subgroup("Coaches", team);
+        subgroup2 = new Subgroup("Coaches", 0L);
         subgroup2.setUserList(registeredUserList2);
-        subgroupDTO1 = new SubgroupDTO("Players", teamDTO);
+        subgroupDTO1 = new SubgroupDTO("Players", 0L);
         subgroupDTO1.setUserList(registeredUserDTOList);
-        subgroupDTO2 = new SubgroupDTO("Coaches", teamDTO);
+        subgroupDTO2 = new SubgroupDTO("Coaches", 10L);
         subgroupDTO2.setUserList(registeredUserDTOList2);
         subgroupList = new ArrayList<>();
         subgroupList.add(subgroup1);

@@ -32,11 +32,11 @@ import java.util.List;
 public class SubgroupDTO {
     private String name;
     private List<RegisteredUserDTO> userList;
-    private TeamDTO team;
+    private Long teamId;
 
-    public SubgroupDTO(String name, TeamDTO team) {
+    public SubgroupDTO(String name, Long teamId) {
         this.name = name;
-        this.team = team;
+        this.teamId = teamId;
         this.userList = new ArrayList<>();
     }
 

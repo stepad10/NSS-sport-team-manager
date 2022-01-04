@@ -66,11 +66,11 @@ public class TeamControllerTest {
         userList2.add(user);
         List<SubgroupDTO> subgroupList = new ArrayList<>();
         team = new TeamDTO(10L, "Ateam", "golf", subgroupList, user);
-        subgroupA = new SubgroupDTO("All Users", userList1, team);
-        subgroupC = new SubgroupDTO("Coaches", userList2, team);
+        subgroupA = new SubgroupDTO("All Users", userList1, team.getId());
+        subgroupC = new SubgroupDTO("Coaches", userList2, team.getId());
         subgroupList.add(subgroupA);
         subgroupList.add(subgroupC);
-        subgroupList.add(new SubgroupDTO("Empty", team));
+        subgroupList.add(new SubgroupDTO("Empty", team.getId()));
         team.setListOfSubgroups(subgroupList);
     }
 
@@ -237,7 +237,7 @@ public class TeamControllerTest {
      */
     @Test
     public void addNewSubgroup() throws Exception {
-        team.getListOfSubgroups().add(new SubgroupDTO("Empty2", team));
+        team.getListOfSubgroups().add(new SubgroupDTO("Empty2", team.getId()));
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();

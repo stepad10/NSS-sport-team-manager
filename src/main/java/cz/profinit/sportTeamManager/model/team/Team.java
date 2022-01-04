@@ -34,7 +34,7 @@ public class Team extends Entity {
      * @param subgroupName name of the subgroup
      */
     public void addNewSubgroup(String subgroupName) {
-        listOfSubgroups.add(new Subgroup(subgroupName, this));
+        listOfSubgroups.add(new Subgroup(subgroupName, this.getEntityId()));
     }
 
     /**

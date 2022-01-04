@@ -32,7 +32,7 @@ public class SubgroupMapper {
      * @return mapped subgroup data transfer object to subgroup
      */
     public static Subgroup mapSubgroupDTOToSubgroup(SubgroupDTO subgroupDTO) {
-        Subgroup subgroup = new Subgroup(subgroupDTO.getName(), TeamMapper.mapTeamDtoToTeam(subgroupDTO.getTeam()));
+        Subgroup subgroup = new Subgroup(subgroupDTO.getName(), subgroupDTO.getTeamId());
         subgroup.setUserList(UserMapper.mapRegistredUserDTOListToRegistredUserList(subgroupDTO.getUserList()));
         return subgroup;
     }
@@ -44,7 +44,7 @@ public class SubgroupMapper {
      * @return mapped subgroup to  subgroup data transfer object
      */
     public static SubgroupDTO mapSubgroupToSubgroupDTO(Subgroup subgroup) {
-        SubgroupDTO subgroupDTO = new SubgroupDTO(subgroup.getName(), TeamMapper.mapTeamToTeamDto(subgroup.getTeam()));
+        SubgroupDTO subgroupDTO = new SubgroupDTO(subgroup.getName(), subgroup.getTeamId());
         subgroupDTO.setUserList(UserMapper.mapRegistredUserListToRegistredUserDTOList(subgroup.getUserList()));
         return subgroupDTO;
     }

@@ -93,11 +93,11 @@ public class StubTeamRepository implements TeamRepository {
         List<Subgroup> subgroupList = new ArrayList<>();
         Team team = new Team("B team", "sipky", subgroupList, owner);
         team.setEntityId(10L);
-        Subgroup allUsersSubgroup = new Subgroup("All Users", team);
+        Subgroup allUsersSubgroup = new Subgroup("All Users", team.getEntityId());
         allUsersSubgroup.addUser(owner);
-        Subgroup coachesSubgroup = new Subgroup("Coaches", team);
+        Subgroup coachesSubgroup = new Subgroup("Coaches", team.getEntityId());
         coachesSubgroup.addUser(owner);
-        Subgroup emptySubgroup = new Subgroup("Empty subgroup", team);
+        Subgroup emptySubgroup = new Subgroup("Empty subgroup", team.getEntityId());
         subgroupList.add(allUsersSubgroup);
         subgroupList.add(coachesSubgroup);
         subgroupList.add(emptySubgroup);

@@ -43,7 +43,7 @@ public class TeamTest {
         user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         userList.add(user1);
         team = new Team("A team", "Vodní lyžování", subgroupList, user1);
-        subgroup = new Subgroup("Players", team);
+        subgroup = new Subgroup("Players", team.getEntityId());
         subgroup.setUserList(userList);
         subgroupList.add(subgroup);
         team.setListOfSubgroups(subgroupList);

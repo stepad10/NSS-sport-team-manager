@@ -121,13 +121,13 @@ public class StubTeamServiceImpl implements TeamService {
         userList2.add(user);
         List<Subgroup> subgroupList = new ArrayList<>();
         Team team = new Team("Ateam", "golf", subgroupList, user);
-        Subgroup subgroupA = new Subgroup("All Users", team);
-        Subgroup subgroupC = new Subgroup("Coaches", team);
+        Subgroup subgroupA = new Subgroup("All Users", team.getEntityId());
+        Subgroup subgroupC = new Subgroup("Coaches", team.getEntityId());
         subgroupA.setUserList(userList1);
         subgroupC.setUserList(userList2);
         subgroupList.add(subgroupA);
         subgroupList.add(subgroupC);
-        subgroupList.add(new Subgroup("Empty", team));
+        subgroupList.add(new Subgroup("Empty", team.getEntityId()));
         team.setListOfSubgroups(subgroupList);
 
         if (teamId == 10L) {
