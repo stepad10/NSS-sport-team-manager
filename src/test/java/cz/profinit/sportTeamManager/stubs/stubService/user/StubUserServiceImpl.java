@@ -12,7 +12,6 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.service.user.UserService;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;

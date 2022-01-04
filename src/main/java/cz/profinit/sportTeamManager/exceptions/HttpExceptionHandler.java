@@ -1,9 +1,19 @@
+/*
+ * HttpExceptionHandler
+ *
+ * 0.1
+ *
+ * Author: J. Jansky
+ */
 package cz.profinit.sportTeamManager.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 
+/**
+ * Handling of exceptions provided by the services and setting proper http status.
+ */
 public class HttpExceptionHandler {
     /**
      * According exception form a service sets http status.
@@ -35,7 +45,7 @@ public class HttpExceptionHandler {
         } else if (e.getMessage().equals("Subgroup already exists")) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, e.getMessage(), e);
-        } else if (e.getMessage().substring(0,27).equals("Account with e-mail address")) {
+        } else if (e.getMessage().startsWith("Account with e-mail address")) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,e.getMessage(),e);
         }
