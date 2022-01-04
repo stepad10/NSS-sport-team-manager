@@ -26,8 +26,6 @@ import java.util.logging.Logger;
 @Repository
 public class StubTeamRepository implements TeamRepository {
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
-    private final String allUsersSubgroupName = "All Users";
-    private final String coachesSubgroupName = "Coaches";
 
     /**
      * Create stub team pulled from databese with owner user and 3 subgroups, 2 default and one Empty.
@@ -36,35 +34,21 @@ public class StubTeamRepository implements TeamRepository {
      * @param teamName team name is not used
      * @return created stub team
      */
-    public Team findTeamByName(String teamName) {
-        RegisteredUser owner = new RegisteredUser(
-                "Ivan",
-                "Stastny",
-                "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
-                "is@gmail.com",
-                RoleEnum.USER);
-        List<Subgroup> subgroupList = new ArrayList<>();
-        Subgroup allUsersSubgroup = new Subgroup(allUsersSubgroupName);
-        allUsersSubgroup.addUser(owner);
-        Subgroup coachesSubgroup = new Subgroup(coachesSubgroupName);
-        coachesSubgroup.addUser(owner);
-        Subgroup emptySubgroup = new Subgroup("Empty subgroup");
-        subgroupList.add(allUsersSubgroup);
-        subgroupList.add(coachesSubgroup);
-        subgroupList.add(emptySubgroup);
-        Team team = new Team("B team", "sipky", subgroupList, owner);
-        team.setEntityId(10L);
-        return team;
+    public List<Team> findTeamsByName(String teamName) throws EntityNotFoundException {
+        // TODO test return list
+        return new ArrayList<>();
     }
 
     /**
      * Simulate updating team in database.Gives logger info message.
      *
      * @param team team, not used
+     * @return team
      */
     @Override
-    public void updateTeam(Team team) {
+    public Team updateTeam(Team team) {
         logger.info("STUB: Updating team");
+        return team;
     }
 
     /**
@@ -74,7 +58,7 @@ public class StubTeamRepository implements TeamRepository {
      * @return saved team
      */
     @Override
-    public Team saveTeam(Team team) {
+    public Team insertTeam(Team team) {
         logger.info("STUB: Saving team");
         return team;
     }
@@ -85,8 +69,9 @@ public class StubTeamRepository implements TeamRepository {
      * @param team deleting team
      */
     @Override
-    public void delete(Team team) {
+    public Team deleteTeam(Team team) {
         logger.info("STUB: deleting team");
+        return team;
     }
 
 
@@ -98,7 +83,25 @@ public class StubTeamRepository implements TeamRepository {
      */
     @Override
     public Team findTeamById(Long teamId) throws EntityNotFoundException {
-        Team team = findTeamByName("B team");
+        if (teamId != 10L) throw new EntityNotFoundException("Team");
+        RegisteredUser owner = new RegisteredUser(
+                "Ivan",
+                "Stastny",
+                "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
+                "is@gmail.com",
+                RoleEnum.USER);
+        List<Subgroup> subgroupList = new ArrayList<>();
+        Team team = new Team("B team", "sipky", subgroupList, owner);
+        team.setEntityId(10L);
+        Subgroup allUsersSubgroup = new Subgroup("All Users", team);
+        allUsersSubgroup.addUser(owner);
+        Subgroup coachesSubgroup = new Subgroup("Coaches", team);
+        coachesSubgroup.addUser(owner);
+        Subgroup emptySubgroup = new Subgroup("Empty subgroup", team);
+        subgroupList.add(allUsersSubgroup);
+        subgroupList.add(coachesSubgroup);
+        subgroupList.add(emptySubgroup);
+        team.setListOfSubgroups(subgroupList);
         return team;
     }
 

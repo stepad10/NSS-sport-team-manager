@@ -13,16 +13,17 @@ public interface UserRepository {
     RegisteredUser insertRegisteredUser(RegisteredUser registeredUser);
 
     /**
-     *
+     * find user, if found then update
      * @param registeredUser user to update
-     * @return output of update, updated user or null
+     * @return updated user or null
+     * @throws EntityNotFoundException if registeredUser wasn't found
      */
     RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException;
 
     /**
-     * if user doesn't have id then it is not in db, and we will use email instead
+     * if user doesn't have id then use email instead
      * @param registeredUser user to find
-     * @return found user
+     * @return found user or null
      * @throws EntityNotFoundException if user wasn't found
      */
     RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException;
@@ -35,16 +36,16 @@ public interface UserRepository {
     boolean emailExistsInDatabase(String email);
 
     /**
-     *
-     * @param email param for finding user
+     * find user by email, if null then throw
+     * @param email to find user by
      * @return found user
      * @throws EntityNotFoundException if user wasn't found
      */
     RegisteredUser findUserByEmail(String email) throws EntityNotFoundException;
 
     /**
-     *
-     * @param id param for finding user
+     * find user by id, if null then throw
+     * @param id to find user by
      * @return found user
      * @throws EntityNotFoundException if user wasn't found
      */
@@ -52,8 +53,8 @@ public interface UserRepository {
 
 
     /**
-     * checks whether user has an id or delete it by email instead
-     * @param registeredUser user to delete
+     * checks whether user has an id or deleteTeam it by email instead
+     * @param registeredUser user to deleteTeam
      * @return deleted user
      * @throws EntityNotFoundException user to be deleted wasn't found
      */
