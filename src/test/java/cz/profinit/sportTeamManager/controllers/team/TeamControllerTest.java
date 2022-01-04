@@ -8,9 +8,9 @@
 package cz.profinit.sportTeamManager.controllers.team;
 
 import cz.profinit.sportTeamManager.SportTeamManagerApplicationTests;
-import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.team.SubgroupDTO;
 import cz.profinit.sportTeamManager.dto.team.TeamDTO;
+import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

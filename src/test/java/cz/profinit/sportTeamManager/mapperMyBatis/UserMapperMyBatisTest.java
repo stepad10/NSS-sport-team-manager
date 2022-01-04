@@ -8,7 +8,6 @@
 
 package cz.profinit.sportTeamManager.mapperMyBatis;
 
-import cz.profinit.sportTeamManager.configuration.MyBatisConfiguration;
 import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
