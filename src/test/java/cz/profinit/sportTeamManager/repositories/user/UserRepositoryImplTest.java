@@ -1,4 +1,4 @@
-package cz.profinit.sportTeamManager.repositories;
+package cz.profinit.sportTeamManager.repositories.user;
 
 import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;

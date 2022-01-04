@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cz.profinit.sportTeamManager.mapperMyBatis.subgroup.SubgroupMapperMyBatis">
+
+    <resultMap id="subgroupResultMap" type="Subgroup">
+        <id property="entityId" column="c_id"/>
+        <result property="name" column="c_name"/>
+
+        <association property="team_id" javaType="Team">
+            <id property="entityId" column="c_team_id"/>
+        </association>
+
+    </resultMap>
+</mapper>
