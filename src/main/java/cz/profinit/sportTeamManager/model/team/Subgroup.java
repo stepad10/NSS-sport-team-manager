@@ -33,7 +33,7 @@ public class Subgroup extends Entity {
      */
     public Subgroup(String name, Long teamId) {
         this.name = name;
-        this.teamId = this.teamId;
+        this.teamId = teamId;
         this.userList = new ArrayList<>();
     }
 

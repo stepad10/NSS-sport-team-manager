@@ -22,7 +22,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 
     @Override
     public Team insertTeam(Team team) {
-        team.getListOfSubgroups().forEach(s -> subgroupMapperMyBatis.insertSubgroup(s));
+        team.getListOfSubgroups().forEach(s -> subgroupMapperMyBatis.insertSubgroup(s));//TODO dat do subgroup repo
         return teamMapperMyBatis.insertTeam(team);
     }
 

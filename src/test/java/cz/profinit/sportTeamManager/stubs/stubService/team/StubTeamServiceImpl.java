@@ -43,6 +43,7 @@ public class StubTeamServiceImpl implements TeamService {
      * @return created team
      */
     public Team createNewTeam(Team team) {
+        team.setEntityId(10L);
         team.addNewSubgroup(ALL_USER_SUBGROUP);
         team.getListOfSubgroups().get(0).addUser(team.getOwner());
         team.addNewSubgroup(COACHES_SUBGROUP);
@@ -132,11 +133,17 @@ public class StubTeamServiceImpl implements TeamService {
 
         if (teamId == 10L) {
             team.setEntityId(10L);
+            team.getTeamSubgroup("All Users").setTeamId(10L);
+            team.getTeamSubgroup("Coaches").setTeamId(10L);
+            team.getTeamSubgroup("Empty").setTeamId(10L);
         } else if (teamId == 20L) {
             team.setEntityId(20L);
-            RegisteredUser newMenber = userRepository.findUserByEmail("ts@gmail.com");
-            team.getTeamSubgroup("All Users").addUser(newMenber);
-            team.getTeamSubgroup("Coaches").addUser(newMenber);
+            team.getTeamSubgroup("All Users").setTeamId(20L);
+            team.getTeamSubgroup("Coaches").setTeamId(20L);
+            team.getTeamSubgroup("Empty").setTeamId(20L);
+            RegisteredUser newMember = userRepository.findUserByEmail("ts@gmail.com");
+            team.getTeamSubgroup("All Users").addUser(newMember);
+            team.getTeamSubgroup("Coaches").addUser(newMember);
         } else {
             throw new EntityNotFoundException("Team");
         }

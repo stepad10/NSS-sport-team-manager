@@ -13,8 +13,10 @@ import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
+import cz.profinit.sportTeamManager.repositories.subgroup.SubgroupRepository;
 import cz.profinit.sportTeamManager.repositories.team.TeamRepository;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.subgroup.StubSubgroupRepository;
 import cz.profinit.sportTeamManager.stubs.stubRepositories.team.StubTeamRepository;
 import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
 import org.junit.Before;
@@ -49,9 +51,10 @@ public class TeamServiceImplTest {
 
         UserRepository userRepository = new StubUserRepository();
         TeamRepository teamRepository = new StubTeamRepository();
+        SubgroupRepository subgroupRepository = new StubSubgroupRepository();
         List<Subgroup> subgroupList = new ArrayList<>();
 
-        teamService = new TeamServiceImpl(teamRepository, userRepository);
+        teamService = new TeamServiceImpl(teamRepository, userRepository,subgroupRepository);
         loggedUser = new RegisteredUser(
                 "Ivan",
                 "Stastny",
