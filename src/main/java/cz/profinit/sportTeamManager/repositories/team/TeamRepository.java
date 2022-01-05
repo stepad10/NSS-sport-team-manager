@@ -3,14 +3,17 @@ package cz.profinit.sportTeamManager.repositories.team;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Team;
 
+import java.util.List;
+
 public interface TeamRepository {
-    Team findTeamByName(String teamName);
 
-    void updateTeam(Team team);
+    Team insertTeam(Team team);
 
-    Team saveTeam(Team team);
+    Team deleteTeam(Team team) throws EntityNotFoundException;
 
-    void delete(Team team);
+    Team updateTeam(Team team) throws EntityNotFoundException;
+
+    List<Team> findTeamsByName(String teamName) throws EntityNotFoundException;
 
     Team findTeamById(Long teamId) throws EntityNotFoundException;
 }

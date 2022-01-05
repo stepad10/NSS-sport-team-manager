@@ -1,96 +1,57 @@
 package cz.profinit.sportTeamManager.repositories.team;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.model.team.Subgroup;
+import cz.profinit.sportTeamManager.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
+import cz.profinit.sportTeamManager.mapperMyBatis.team.TeamMapperMyBatis;
 import cz.profinit.sportTeamManager.model.team.Team;
-import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.model.user.RoleEnum;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
-@Service
+@Repository
 @Profile("Main")
 public class TeamRepositoryImpl implements TeamRepository {
-    private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
-    private final String allUsersSubgroupName = "All Users";
-    private final String coachesSubgroupName = "Coaches";
 
+    @Autowired
+    private TeamMapperMyBatis teamMapperMyBatis;
 
-    /**
-     * Create stub team pulled from databese with owner user and 3 subgroups, 2 default and one Empty.
-     * Gives logger info message.
-     *
-     * @param teamName team name is not used
-     * @return created stub team
-     */
-    public Team findTeamByName(String teamName) {
-        RegisteredUser owner = new RegisteredUser(
-                "Ivan",
-                "Stastny",
-                "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
-                "sportteammanagertest@gmail.com",
-                RoleEnum.USER);
-        List<Subgroup> subgroupList = new ArrayList<>();
-        Subgroup allUsersSubgroup = new Subgroup(allUsersSubgroupName);
-        allUsersSubgroup.addUser(owner);
-        Subgroup coachesSubgroup = new Subgroup(coachesSubgroupName);
-        coachesSubgroup.addUser(owner);
-        Subgroup emptySubgroup = new Subgroup("Empty subgroup");
-        subgroupList.add(allUsersSubgroup);
-        subgroupList.add(coachesSubgroup);
-        subgroupList.add(emptySubgroup);
-        Team team = new Team("B team", "sipky", subgroupList, owner);
-        team.setEntityId(10L);
-        return team;
-    }
+    @Autowired
+    private SubgroupMapperMyBatis subgroupMapperMyBatis;
 
-    /**
-     * Simulate updating team in database.Gives logger info message.
-     *
-     * @param team team, not used
-     */
     @Override
-    public void updateTeam(Team team) {
-        logger.info("STUB: Updating team");
+    public Team insertTeam(Team team) {
+        team.getListOfSubgroups().forEach(s -> subgroupMapperMyBatis.insertSubgroup(s));
+        return teamMapperMyBatis.insertTeam(team);
     }
 
-    /**
-     * Virtually saves a team to database.
-     *
-     * @param team saving team
-     * @return saved team
-     */
     @Override
-    public Team saveTeam(Team team) {
-        logger.info("STUB: Saving team");
-        return team;
+    public Team deleteTeam(Team team) throws EntityNotFoundException {
+        Team foundTeam = findTeamById(team.getEntityId());
+        foundTeam.getListOfSubgroups().forEach(s -> subgroupMapperMyBatis.deleteSubgroupById(s.getEntityId()));
+        return teamMapperMyBatis.deleteTeamById(foundTeam.getEntityId());
     }
 
-    /**
-     * Virtually deletes team from database
-     *
-     * @param team deleting team
-     */
     @Override
-    public void delete(Team team) {
-        logger.info("STUB: deleting team");
+    public Team updateTeam(Team team) throws EntityNotFoundException {
+        findTeamById(team.getEntityId());
+        return teamMapperMyBatis.updateTeam(team);
     }
 
+    @Override
+    public List<Team> findTeamsByName(String teamName) throws EntityNotFoundException {
+        List<Team> teams = teamMapperMyBatis.findTeamsByName(teamName);
+        if (teams.size() == 0) throw new EntityNotFoundException("Team");
+        teams.forEach(t -> t.setListOfSubgroups(subgroupMapperMyBatis.findSubgroupsByTeamId(t.getEntityId())));
+        return teams;
+    }
 
-    /**
-     * Gets team from database virtually
-     *
-     * @param teamId team id
-     * @return team
-     */
     @Override
     public Team findTeamById(Long teamId) throws EntityNotFoundException {
-        Team team = findTeamByName("B team");
+        Team team = teamMapperMyBatis.findTeamById(teamId);
+        if (team == null) throw new EntityNotFoundException("Team");
+        team.setListOfSubgroups(subgroupMapperMyBatis.findSubgroupsByTeamId(team.getEntityId()));
         return team;
     }
-
 }

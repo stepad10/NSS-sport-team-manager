@@ -101,7 +101,7 @@ public class TeamServiceImplTest {
     @Test
     public void addNewSubgroup() throws EntityNotFoundException {
         String subgroupName = "Players";
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         team = teamService.addSubgroup(team.getEntityId(), subgroupName);
         assertEquals(4, team.getListOfSubgroups().size());
         assertEquals(subgroupName, team.getListOfSubgroups().get(3).getName());
@@ -119,7 +119,7 @@ public class TeamServiceImplTest {
     @Test
     public void deleteSubgroup() throws EntityNotFoundException {
         String subgroupName = "Empty subgroup";
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         team = teamService.deleteSubgroup(team.getEntityId(), subgroupName);
         assertEquals(2, team.getListOfSubgroups().size());
         try {
@@ -135,7 +135,7 @@ public class TeamServiceImplTest {
     @Test
     public void addUserToTeam() throws EntityNotFoundException {
         RegisteredUser user = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         team = teamService.addUserToTeam(team.getEntityId(), user);
         assertEquals(user, team.getListOfSubgroups().get(0).getUserList().get(1));
     }
@@ -146,7 +146,7 @@ public class TeamServiceImplTest {
     @Test
     public void addUserToSubgroupWhoIsNotInAllUsers() throws EntityNotFoundException {
         RegisteredUser user = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         team = teamService.addUserToSubgroup(team.getEntityId(), "Coaches", user);
         System.out.println(team.toString());
         assertEquals(user, team.getListOfSubgroups().get(1).getUserList().get(1));
@@ -159,7 +159,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void addUserToSubgroupWhoIsInAllUsers() throws EntityNotFoundException {
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         team = teamService.addUserToSubgroup(team.getEntityId(), "Empty subgroup", loggedUser);
         System.out.println(team.toString());
         assertEquals(loggedUser, team.getListOfSubgroups().get(2).getUserList().get(0));
@@ -171,9 +171,9 @@ public class TeamServiceImplTest {
      * Tests adding a user to the subgroup who is already in a subgroup.
      */
     @Test
-    public void addAlreadyAddedUser() {
+    public void addAlreadyAddedUser() throws EntityNotFoundException {
         RegisteredUser user = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         try {
             teamService.addUserToSubgroup(team.getEntityId(), "Coaches", user);
         } catch (Exception e) {
@@ -186,7 +186,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void deleteUser() throws EntityNotFoundException {
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         team = teamService.deleteUserFromTeam(team.getEntityId(), loggedUser);
         assertFalse(team.getTeamSubgroup("All Users").isUserInList(loggedUser));
         assertFalse(team.getTeamSubgroup("Coaches").isUserInList(loggedUser));
@@ -197,7 +197,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void deleteUserFromSubgroup() throws EntityNotFoundException {
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         team = teamService.deleteUserFromSubgroup(team.getEntityId(), "Coaches", loggedUser);
         assertFalse(team.getTeamSubgroup("Coaches").isUserInList(loggedUser));
     }
@@ -208,6 +208,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void changeTeamName() throws EntityNotFoundException {
+        team.setEntityId(10L);
         team = teamService.changeTeamName(team.getEntityId(), "C team");
         assertEquals("C team", team.getName());
     }
@@ -225,14 +226,14 @@ public class TeamServiceImplTest {
      * Tests a changing the owner
      */
     @Test
-    public void changeTeamOwner() {
+    public void changeTeamOwner() throws EntityNotFoundException {
         RegisteredUser user = new RegisteredUser(
                 "Ivan",
                 "Stastny",
                 "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
                 "is@gmail.com",
                 RoleEnum.USER);
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         try {
             team = teamService.changeTeamOwner(team.getEntityId(), user);
             assertEquals(user, team.getOwner());
@@ -246,14 +247,14 @@ public class TeamServiceImplTest {
      * Tests a changing the owner who is not in team
      */
     @Test
-    public void changeTeamOwnerWhoIsNotInAllUsers() {
+    public void changeTeamOwnerWhoIsNotInAllUsers() throws EntityNotFoundException {
         RegisteredUser user = new RegisteredUser(
                 "Tomas",
                 "Stastny",
                 "pass",
                 "ts@gmail.com",
                 RoleEnum.USER);
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         try {
             team = teamService.changeTeamOwner(team.getEntityId(), user);
         } catch (Exception e) {
@@ -266,14 +267,14 @@ public class TeamServiceImplTest {
      * Tests a changing the owner who is not in coaches
      */
     @Test
-    public void changeTeamOwnerWhoIsNotInCoaches() {
+    public void changeTeamOwnerWhoIsNotInCoaches() throws EntityNotFoundException {
         RegisteredUser user = new RegisteredUser(
                 "Ivan",
                 "Stastny",
                 "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
                 "is@gmail.com",
                 RoleEnum.USER);
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         team.getTeamSubgroup("Coaches").removeUser(user);
         try {
             team = teamService.changeTeamOwner(team.getEntityId(), user);
@@ -289,7 +290,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void changeSubgroupName() throws EntityNotFoundException {
-        Team team = teamService.getTeamByName("B team");
+        Team team = teamService.getTeamById(10L);
         team = teamService.changeSubgroupName(10L, "Coaches", "Players");
         assertEquals("Players", team.getTeamSubgroup("Players").getName());
         assertEquals(false, team.isSubgroupInTeam("Coaches"));
@@ -299,8 +300,8 @@ public class TeamServiceImplTest {
      * Tests a changing a subgroup name to the name of already existing one
      */
     @Test
-    public void changeSubgroupNameToAlreadyExistingOne() {
-        Team team = teamService.getTeamByName("B team");
+    public void changeSubgroupNameToAlreadyExistingOne() throws EntityNotFoundException {
+        Team team = teamService.getTeamById(10L);
         try {
             team = teamService.changeSubgroupName(10L, "Coaches", "All Users");
         } catch (Exception e) {
@@ -312,8 +313,8 @@ public class TeamServiceImplTest {
      * Tests a changing a subgroup name which do not exist in team
      */
     @Test
-    public void changeSubgroupNameOfNotExistentSubgroup() {
-        Team team = teamService.getTeamByName("B team");
+    public void changeSubgroupNameOfNotExistentSubgroup() throws EntityNotFoundException {
+        Team team = teamService.getTeamById(10L);
         try {
             team = teamService.changeSubgroupName(10L, "Playes", "A");
         } catch (Exception e) {

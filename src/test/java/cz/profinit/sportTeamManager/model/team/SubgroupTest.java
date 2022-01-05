@@ -41,7 +41,7 @@ public class SubgroupTest {
         user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         user2 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
         userList.add(user1);
-        subgroup = new Subgroup("Players");
+        subgroup = new Subgroup("Players", 0L);
         subgroup.setUserList(userList);
     }
 

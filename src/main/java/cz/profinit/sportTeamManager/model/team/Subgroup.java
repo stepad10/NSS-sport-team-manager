@@ -22,15 +22,18 @@ import java.util.List;
 public class Subgroup extends Entity {
     private String name;
     private List<RegisteredUser> userList;
+    private Long teamId;
 
 
     /**
      * Sole class constructor.
      *
      * @param name name of the subgroup
+     * @param teamId id of parent team
      */
-    public Subgroup(String name) {
+    public Subgroup(String name, Long teamId) {
         this.name = name;
+        this.teamId = this.teamId;
         this.userList = new ArrayList<>();
     }
 
@@ -67,4 +70,5 @@ public class Subgroup extends Entity {
     public boolean isUserInList(RegisteredUser user) {
         return userList.contains(user);
     }
+
 }

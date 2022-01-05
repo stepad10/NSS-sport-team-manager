@@ -2,7 +2,7 @@ package cz.profinit.sportTeamManager.repositories.user;
 
 import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.mapperMyBatis.UserMapperMyBatis;
+import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -24,7 +24,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
+    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
+        findRegisteredUser(registeredUser);
         return userMapperMyBatis.updateUser(registeredUser);
     }
 
@@ -54,7 +55,7 @@ public class UserRepositoryImpl implements UserRepository {
     public RegisteredUser findUserById(Long id) throws EntityNotFoundException {
         RegisteredUser foundUser = userMapperMyBatis.findUserById(id);
         if (foundUser == null) {
-            throw new EntityNotFoundException("RegisteredUser wasn't found by id!");
+            throw new EntityNotFoundException("User");
         }
         return foundUser;
     }
@@ -68,7 +69,7 @@ public class UserRepositoryImpl implements UserRepository {
             deletedUser = userMapperMyBatis.deleteUserByEmail(registeredUser.getEmail());
         }
         if (deletedUser == null) {
-            throw new EntityNotFoundException("Can't delete user. User doesn't exist!");
+            throw new EntityNotFoundException("User");
         }
         return deletedUser;
     }

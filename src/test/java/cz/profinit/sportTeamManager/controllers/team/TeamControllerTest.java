@@ -65,13 +65,14 @@ public class TeamControllerTest {
         userList1.add(user);
         List<RegisteredUserDTO> userList2 = new ArrayList<>();
         userList2.add(user);
-        subgroupA = new SubgroupDTO("All Users", userList1);
-        subgroupC = new SubgroupDTO("Coaches", userList2);
         List<SubgroupDTO> subgroupList = new ArrayList<>();
+        team = new TeamDTO(10L, "Ateam", "golf", subgroupList, user);
+        subgroupA = new SubgroupDTO("All Users", userList1, team.getId());
+        subgroupC = new SubgroupDTO("Coaches", userList2, team.getId());
         subgroupList.add(subgroupA);
         subgroupList.add(subgroupC);
-        subgroupList.add(new SubgroupDTO("Empty"));
-        team = new TeamDTO(10L, "Ateam", "golf", subgroupList, user);
+        subgroupList.add(new SubgroupDTO("Empty", team.getId()));
+        team.setListOfSubgroups(subgroupList);
     }
 
     /**
@@ -238,7 +239,7 @@ public class TeamControllerTest {
      */
     @Test
     public void addNewSubgroup() throws Exception {
-        team.getListOfSubgroups().add(new SubgroupDTO("Empty2"));
+        team.getListOfSubgroups().add(new SubgroupDTO("Empty2", team.getId()));
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();
@@ -300,7 +301,7 @@ public class TeamControllerTest {
     }
 
     /**
-     * Tries to delete of a subgroup defined by name from team where this subgroup is not present
+     * Tries to deleteTeam of a subgroup defined by name from team where this subgroup is not present
      */
     @Test
     public void deleteNotExistingSubgroup() throws Exception {
@@ -454,7 +455,7 @@ public class TeamControllerTest {
     }
 
     /**
-     * Tests delete user form a subgroup
+     * Tests deleteTeam user form a subgroup
      */
     @Test
     public void deleteUserFromSubgroup() throws Exception {

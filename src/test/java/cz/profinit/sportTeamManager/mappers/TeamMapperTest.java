@@ -41,23 +41,28 @@ public class TeamMapperTest {
         registeredUserDTOList.add(registeredUserDTO1);
         registeredUserDTOList.add(registeredUserDTO2);
         registeredUserDTOList2.add(registeredUserDTO1);
-        subgroup1 = new Subgroup("Players");
-        subgroup1.setUserList(registeredUserList);
-        subgroup2 = new Subgroup("Coaches");
-        subgroup2.setUserList(registeredUserList2);
-        subgroupDTO1 = new SubgroupDTO("Players");
-        subgroupDTO1.setUserList(registeredUserDTOList);
-        subgroupDTO2 = new SubgroupDTO("Coaches");
-        subgroupDTO2.setUserList(registeredUserDTOList2);
+
         subgroupList = new ArrayList<>();
-        subgroupList.add(subgroup1);
-        subgroupList.add(subgroup2);
         subgroupDTOList = new ArrayList<>();
-        subgroupDTOList.add(subgroupDTO1);
-        subgroupDTOList.add(subgroupDTO2);
         team = new Team("A team", "golf", subgroupList, registeredUser1);
         team.setEntityId(10L);
         teamDTO = new TeamDTO(10L, "A team", "golf", subgroupDTOList, registeredUserDTO1);
+
+        subgroup1 = new Subgroup("Players", team.getEntityId());
+        subgroup1.setUserList(registeredUserList);
+        subgroup2 = new Subgroup("Coaches", team.getEntityId());
+        subgroup2.setUserList(registeredUserList2);
+        subgroupDTO1 = new SubgroupDTO("Players", teamDTO.getId());
+        subgroupDTO1.setUserList(registeredUserDTOList);
+        subgroupDTO2 = new SubgroupDTO("Coaches", teamDTO.getId());
+        subgroupDTO2.setUserList(registeredUserDTOList2);
+
+        subgroupList.add(subgroup1);
+        subgroupList.add(subgroup2);
+        subgroupDTOList.add(subgroupDTO1);
+        subgroupDTOList.add(subgroupDTO2);
+        team.setListOfSubgroups(subgroupList);
+        teamDTO.setListOfSubgroups(subgroupDTOList);
     }
 
     @Test
