@@ -20,6 +20,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -202,12 +203,48 @@ public class UserControllerTest {
                         MockMvcRequestBuilders.put("/user/email@gmail.com/email/is@gmail.com")
                                 .header("Content-Type", "application/xml"))
                 .andExpect(status().isBadRequest())
-                .andExpect(status().reason("Account with e-mail address is@gmail.comalready exists."));
+                .andExpect(status().reason("Account with e-mail address is@gmail.com already exists."));
 
 
     }
 
 
+    /**
+     * Testing success login message for already registered user.
+     */
+    @Test
+    @WithMockUser("email@gmail.com")
+    public void loginSuccess() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/loginSuccess")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Welcome back"));
+    }
 
+    /**
+     * Testing success login message for new registered user.
+     */
+    @Test
+    @WithMockUser("random@email.com")
+    public void loginSuccessNewUser() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/loginSuccess")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Registration successful"));
+    }
+
+    /**
+     * Testing success logout message for user.
+     */
+    @Test
+    public void logoutSuccess() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/logoutSuccess")
+                                .header("Content-Type", "application/xml"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Logout successful"));
+    }
 
 }

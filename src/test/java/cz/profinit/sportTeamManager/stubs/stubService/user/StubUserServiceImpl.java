@@ -12,7 +12,6 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.service.user.UserService;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -62,7 +61,6 @@ public class StubUserServiceImpl implements UserService {
      *
      * @return
      */
-    @Override
     public RegisteredUser getLogedUser() {
         return new RegisteredUser("Adam", "Stastny", "pass", "email@gmail.com", RoleEnum.USER);
     }
@@ -121,7 +119,7 @@ public class StubUserServiceImpl implements UserService {
     public RegisteredUser changeUserEmail(String email, String newEmail) throws EntityNotFoundException {
         RegisteredUser user = findUserByEmail(email);
         if (emailExists(newEmail)) {
-            throw new EmailExistsException("Account with e-mail address " + newEmail + "already exists.");
+            throw new EmailExistsException("Account with e-mail address " + newEmail + " already exists.");
         }
         RegisteredUser userOut = new RegisteredUser(
                 user.getName(),

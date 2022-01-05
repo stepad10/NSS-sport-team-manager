@@ -1,3 +1,10 @@
+/*
+ * AuthorizationConfiguration
+ *
+ * 0.1
+ *
+ * Author: J. Jansky
+ */
 package cz.profinit.sportTeamManager.configuration;
 
 import cz.profinit.sportTeamManager.aspects.AuthorisationAspect;

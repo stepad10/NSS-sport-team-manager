@@ -1,8 +1,8 @@
 package cz.profinit.sportTeamManager.mappers;
 
-import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.team.SubgroupDTO;
 import cz.profinit.sportTeamManager.dto.team.TeamDTO;
+import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;

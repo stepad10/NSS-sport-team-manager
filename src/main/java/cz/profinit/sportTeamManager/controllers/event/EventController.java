@@ -10,8 +10,8 @@ package cz.profinit.sportTeamManager.controllers.event;
 
 
 import cz.profinit.sportTeamManager.dto.event.EventDto;
-import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.dto.event.MessageDto;
+import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;

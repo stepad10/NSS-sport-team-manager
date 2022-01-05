@@ -23,12 +23,13 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * Team authorization aspect. Checks if current authenticated user is in Coach subgroup.
+ * Team authorization aspect. For team service checks if current authenticated user is in Coach subgroup.
+ * For user service controls that currently authenticated user have access only to his account information.
  * If not, throws access denied exception.
  */
 @Aspect
 @Component
-@Profile({"authorization","aspects","Main"})
+@Profile({"authorization", "aspects", "Main"})
 public class AuthorisationAspect implements Advice {
 
     @Autowired
@@ -50,19 +51,33 @@ public class AuthorisationAspect implements Advice {
             " && !execution(public * *..TeamService..createNewTeam(..))")
     public void CoachAuthorisation(JoinPoint point) throws EntityNotFoundException {
 
-        Team team = null;
-        RegisteredUser user = null;
+        Team team;
+        RegisteredUser user;
         String userEmail = principalExtractor.getPrincipalEmail();
 
-        try {
-            team = teamService.getTeamById((Long) point.getArgs()[0]);
-            user = userService.findUserByEmail(userEmail);
-        } catch (Exception e) {
-            throw e;
-        }
+        team = teamService.getTeamById((Long) point.getArgs()[0]);
+        user = userService.findUserByEmail(userEmail);
 
         if (!team.getTeamSubgroup("Coaches").isUserInList(user)) {
-            System.out.println("Access denied");
+            throw new RuntimeException("Access denied");
+        }
+
+    }
+
+    /**
+     * Checks if currently authenticated user is not try to access or change details of other users.
+     * Called before all UserService methods except newUserRegistration.
+     *
+     * @param point joint point data
+     */
+
+
+    @Before("execution(public * *..UserService.*(..))" +
+            " && !execution(public * *..UserService.newUserRegistration(..))")
+    public void UserAuthorisation(JoinPoint point) {
+        RegisteredUser user = null;
+        String userEmail = principalExtractor.getPrincipalEmail();
+        if (!userEmail.equals(point.getArgs()[0])) {
             throw new RuntimeException("Access denied");
         }
     }
