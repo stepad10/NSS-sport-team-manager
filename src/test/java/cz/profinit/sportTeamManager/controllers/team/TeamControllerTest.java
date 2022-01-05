@@ -192,7 +192,10 @@ public class TeamControllerTest {
     public void changeTeamOwner() throws Exception {
         RegisteredUserDTO newOwner = new RegisteredUserDTO("Tomas", "Smutny", "ts@gmail.com");
         team.getTeamSubgroup("All Users").addUser(newOwner);
+        team.getTeamSubgroup("All Users").setTeamId(20L);
         team.getTeamSubgroup("Coaches").addUser(newOwner);
+        team.getTeamSubgroup("Coaches").setTeamId(20L);
+        team.getTeamSubgroup("Empty").setTeamId(20L);
         team.setOwner(newOwner);
         team.setId(20L);
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDTO.class);

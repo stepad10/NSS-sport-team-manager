@@ -12,8 +12,10 @@ import cz.profinit.sportTeamManager.exceptions.UserIsInSubgroupException;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
+import cz.profinit.sportTeamManager.repositories.subgroup.SubgroupRepository;
 import cz.profinit.sportTeamManager.repositories.team.TeamRepository;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
+import liquibase.pro.packaged.A;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -36,6 +38,8 @@ public class TeamServiceImpl implements TeamService {
     private TeamRepository teamRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SubgroupRepository subgroupRepository;
 
 
     private final String ALL_USER_SUBGROUP = "All Users";
@@ -50,12 +54,17 @@ public class TeamServiceImpl implements TeamService {
      * @return newly created team with two default subgroups
      */
     public Team createNewTeam(Team team) {
-        team.addNewSubgroup(ALL_USER_SUBGROUP);
-        team.getListOfSubgroups().get(0).addUser(team.getOwner());
-        team.addNewSubgroup(COACHES_SUBGROUP);
-        team.getListOfSubgroups().get(1).addUser(team.getOwner());
         teamRepository.insertTeam(team);
-
+        team.addNewSubgroup(ALL_USER_SUBGROUP);
+        team.addNewSubgroup(COACHES_SUBGROUP);
+        for (int i = 0;i < 2;i++)
+        {
+            Subgroup subgroup = team.getListOfSubgroups().get(i);
+            subgroup.setTeamId(team.getEntityId());
+            subgroup.addUser(team.getOwner());
+            subgroup = subgroupRepository.insertSubgroup(subgroup);
+            team.getListOfSubgroups().get(i).setEntityId(subgroup.getEntityId());
+        }
         return team;
 
     }
@@ -139,19 +148,20 @@ public class TeamServiceImpl implements TeamService {
         Team team = getTeamById(teamId);
         user = userRepository.findUserByEmail(user.getEmail());
         List<Subgroup> subgroupList = team.getListOfSubgroups();
-        Subgroup subgroup = team.getTeamSubgroup(subgroupName);
 
         if (!team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) {
             team = addUserToTeam(team.getEntityId(), user);
         }
 
-        if (subgroup.isUserInList(user)) {
+        if (team.getTeamSubgroup(subgroupName).isUserInList(user)) {
             throw new UserIsInSubgroupException("User is already in subgroup");
         } else {
-            team.getTeamSubgroup(subgroupName).addUser(user);
+            Subgroup subgroup = team.getTeamSubgroup(subgroupName);
+            subgroup.addUser(user);
+            subgroup = subgroupRepository.updateSubgroup(subgroup);
         }
 
-        teamRepository.updateTeam(team);
+
         return team;
     }
 
@@ -170,8 +180,9 @@ public class TeamServiceImpl implements TeamService {
         if (team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) {
             throw new RuntimeException("User is already in team");
         } else {
-            team.getTeamSubgroup(ALL_USER_SUBGROUP).addUser(user);
-            teamRepository.updateTeam(team);
+            Subgroup subgroup = team.getTeamSubgroup(ALL_USER_SUBGROUP);
+            subgroup.addUser(user);
+            subgroup = subgroupRepository.updateSubgroup(subgroup);
         }
         return team;
     }
@@ -188,8 +199,9 @@ public class TeamServiceImpl implements TeamService {
         if (team.isSubgroupInTeam(subgroupName)) {
             throw new RuntimeException("Subgroup already exists");
         } else {
+            Subgroup subgroup = new Subgroup(subgroupName,teamId);
+            subgroup = subgroupRepository.insertSubgroup(subgroup);
             team.addNewSubgroup(subgroupName);
-            teamRepository.updateTeam(team);
         }
 
         return team;
@@ -207,8 +219,9 @@ public class TeamServiceImpl implements TeamService {
         Team team = getTeamById(teamId);
 
         if (team.isSubgroupInTeam(subgroupName)) {
+            Subgroup subgroup = team.getTeamSubgroup(subgroupName);
+            subgroupRepository.deleteSubgroup(subgroup);
             team.deleteSubgroup(subgroupName);
-            teamRepository.updateTeam(team);
         } else {
             throw new EntityNotFoundException("Subgroup");
         }
@@ -228,8 +241,9 @@ public class TeamServiceImpl implements TeamService {
     public Team deleteUserFromSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         user = userRepository.findUserByEmail(user.getEmail());
-        team.getTeamSubgroup(subgroupName).removeUser(user);
-        teamRepository.updateTeam(team);
+        Subgroup subgroup = team.getTeamSubgroup(subgroupName);
+        subgroup.removeUser(user);
+        subgroupRepository.updateSubgroup(subgroup);
         return team;
     }
 
@@ -254,11 +268,11 @@ public class TeamServiceImpl implements TeamService {
         for (Subgroup subgroup : subgroupList) {
             try {
                 subgroup.removeUser(user);
+                subgroup = subgroupRepository.updateSubgroup(subgroup);
             } catch (Exception e) {
 
             }
         }
-        teamRepository.updateTeam(team);
         return team;
     }
 
@@ -290,8 +304,9 @@ public class TeamServiceImpl implements TeamService {
         } else if ((!team.isSubgroupInTeam(subgroupName))) {
             throw new EntityNotFoundException("Subgroup");
         } else {
-            team.getTeamSubgroup(subgroupName).setName(newName);
-            teamRepository.updateTeam(team);
+            Subgroup subgroup = team.getTeamSubgroup(subgroupName);
+            subgroup.setName(newName);
+            subgroupRepository.updateSubgroup(subgroup);
         }
 
         return team;
