@@ -26,7 +26,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @Profile({"webTest"})
 @EnableWebMvc
-@Import(PasswordEncoderBean.class)
+@Import(PasswordEncoderConfiguration.class)
 public class WebApplicationConfigurationUnitTests extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;

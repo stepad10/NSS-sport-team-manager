@@ -32,7 +32,7 @@ import org.springframework.test.context.ActiveProfiles;
 @Configuration
 @Profile("authentication")
 @ActiveProfiles("stub_repository")
-@Import(PasswordEncoderBean.class)
+@Import(PasswordEncoderConfiguration.class)
 public class AuthenticationConfigurationTest {
     @Autowired
     private UserRepository userRepository;

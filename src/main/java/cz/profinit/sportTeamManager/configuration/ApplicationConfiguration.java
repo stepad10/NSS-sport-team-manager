@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @Import({WebApplicationConfiguration.class,
-        PasswordEncoderBean.class,
+        PasswordEncoderConfiguration.class,
         AuthenticationConfiguration.class,
         AuthorizationConfiguration.class,
         AspectConfiguration.class,

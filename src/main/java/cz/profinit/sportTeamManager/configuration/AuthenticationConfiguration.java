@@ -26,7 +26,7 @@
      * Configuration bringing classes necessary for Authentication.
      */
     @Configuration
-    @Import(PasswordEncoderBean.class)
+    @Import(PasswordEncoderConfiguration.class)
     @ComponentScan(basePackageClasses = AuthenticationFacade.class)
     @Profile("Main")
     public class AuthenticationConfiguration {
