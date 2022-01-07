@@ -56,15 +56,16 @@ public class InvitationServiceImplTest {
     private EventServiceImpl eventService;
     private UserService userService;
     private RegisteredUser loggedUser;
+
     @Autowired
-    private ApplicationContext context;
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Initialization of services and repositories used in tests
      */
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(context.getBean(PasswordEncoder.class), new StubUserRepository());
+        userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
         eventService = new EventServiceImpl(new StubEventRepository(), new EventMapper(),userService);
         invitationRepository = new StubInvitationRepository();
         invitationService = new InvitationServiceImpl(invitationRepository,eventService,userService);

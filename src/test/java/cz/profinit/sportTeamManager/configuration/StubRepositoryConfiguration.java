@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile({"stub_repository"})
 @ComponentScan(basePackageClasses = {StubTeamRepository.class, StubUserRepository.class, StubEventRepository.class, StubInvitationRepository.class})
-@Import(PasswordEncoderBean.class)
+@Import(PasswordEncoderConfiguration.class)
 public class StubRepositoryConfiguration {
 
 }
