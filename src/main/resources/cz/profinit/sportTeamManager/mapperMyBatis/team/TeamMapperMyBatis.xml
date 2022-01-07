@@ -13,21 +13,9 @@
         <result property="name" column="c_name"/>
         <result property="sport" column="c_sport"/>
 
-
         <association property="owner" javaType="RegisteredUser">
             <id property="entityId" column="c_owner"/>
         </association>
-<!--
-        <association property="owner" resultMap="ownerResultMap">
-
-        </association>
--->
-        <!--
-        <collection property="listOfSubgroups" ofType="Subgroup">
-            <id property="entityId" column="c_id"/>
-            <result property="name" column="c_name"/>
-        </collection>
-        -->
     </resultMap>
 
     <select id="insertTeam" parameterType="Team" resultMap="teamResultMap">
