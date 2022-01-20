@@ -7,9 +7,11 @@
  */
 package cz.profinit.sportTeamManager.model.team;
 
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.entity.Entity;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
  * Class containing subgroup information such as subgroup name and user list.
  */
 @Data
+@NoArgsConstructor
 public class Subgroup extends Entity {
     private String name;
     private List<RegisteredUser> userList;
@@ -52,14 +55,28 @@ public class Subgroup extends Entity {
      *
      * @param user user which should be removed
      */
-    public void removeUser(RegisteredUser user) {
+    public void removeUser(RegisteredUser user) throws EntityNotFoundException {
         if (userList.contains(user)) {
             userList.remove(user);
         } else {
-            throw new RuntimeException("no user in list");
+            throw new EntityNotFoundException("User");
         }
     }
 
+    /**
+     * find user in list by email
+     * @param email to find user by
+     * @return found user
+     * @throws EntityNotFoundException if no user was found
+     */
+    public RegisteredUser getUser(String email) throws EntityNotFoundException {
+        for (RegisteredUser regUs : userList) {
+            if (regUs.getEmail().equals(email)) {
+                return regUs;
+            }
+        }
+        throw new EntityNotFoundException("User");
+    }
 
     /**
      * Checks if user is in the list.
