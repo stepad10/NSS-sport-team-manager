@@ -14,7 +14,12 @@
             <column name="c_date" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="c_capacity" type="INT"/>
+            <column name="c_capacity" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_canceled" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
             <column name="c_created_by" type="INT">
                 <constraints nullable="false" foreignKeyName="user_fk" references="t_user(c_id)"/>
             </column>

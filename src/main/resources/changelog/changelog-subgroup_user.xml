@@ -8,6 +8,9 @@
     <!-- SUBGROUP~USER -->
     <changeSet id="4-1" author="dstepanek">
         <createTable tableName="t_subgroup_user">
+            <column name="c_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="subgroup_user_pk"/>
+            </column>
             <column name="c_subgroup_id" type="INT">
                 <constraints nullable="false" foreignKeyName="subgroup_fk" references="t_subgroup(c_id)"/>
             </column>
