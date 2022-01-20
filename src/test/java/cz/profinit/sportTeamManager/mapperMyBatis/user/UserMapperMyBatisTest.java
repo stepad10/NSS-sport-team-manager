@@ -30,46 +30,41 @@ public class UserMapperMyBatisTest {
     @Autowired
     private UserMapperMyBatis userMapperMyBatis;
 
-    private RegisteredUser insertUserHelp(String email) {
-         return userMapperMyBatis.insertUser(new RegisteredUser("Tomas", "Smutny", "pass1", email, RoleEnum.USER));
+    public RegisteredUser insertUserHelp(String email) {
+        RegisteredUser regUs = new RegisteredUser("Tomas", "Smutny", "pass1", email, RoleEnum.USER);
+        userMapperMyBatis.insertUser(regUs);
+        return regUs;
     }
 
-    private RegisteredUser deleteUserByIdHelp(Long id) {
-        return userMapperMyBatis.deleteUserById(id);
+    public void deleteUserByIdHelp(Long id) {
+        userMapperMyBatis.deleteUserById(id);
     }
 
     @Test
     public void insertRegisteredUser() {
         RegisteredUser regUs = new RegisteredUser("Tomas", "Smutny", "pass1", "vesjan@gmail.com", RoleEnum.USER);
-        RegisteredUser insertedUser = userMapperMyBatis.insertUser(regUs);
-        Assert.assertNotNull(insertedUser);
-        Assert.assertNotNull(insertedUser.getEntityId());
-        deleteUserByIdHelp(insertedUser.getEntityId());
-        Assert.assertNull(userMapperMyBatis.findUserById(insertedUser.getEntityId()));
+        userMapperMyBatis.insertUser(regUs);
+        Assert.assertNotNull(regUs.getEntityId());
+        System.out.println("UserId is = " + regUs.getEntityId());
+        Assert.assertNotNull(userMapperMyBatis.findUserById(regUs.getEntityId()));
+        deleteUserByIdHelp(regUs.getEntityId());
+        Assert.assertNull(userMapperMyBatis.findUserById(regUs.getEntityId()));
     }
 
     @Test
     public void DeleteRegisteredUserById() {
         RegisteredUser presetUser = insertUserHelp("0@0.0");
         Assert.assertNotNull(presetUser);
-        RegisteredUser deletedUser = userMapperMyBatis.deleteUserById(presetUser.getEntityId());
-        Assert.assertNotNull(deletedUser);
-        Assert.assertNull(userMapperMyBatis.findUserById(deletedUser.getEntityId()));
+        userMapperMyBatis.deleteUserById(presetUser.getEntityId());
+        Assert.assertNull(userMapperMyBatis.findUserById(presetUser.getEntityId()));
     }
 
     @Test
     public void DeleteRegisteredUserByEmail() {
         RegisteredUser presetUser = insertUserHelp("1@1.1");
         Assert.assertNotNull(presetUser);
-        RegisteredUser deletedUser = userMapperMyBatis.deleteUserByEmail(presetUser.getEmail());
-        Assert.assertNotNull(deletedUser);
-        Assert.assertNull(userMapperMyBatis.findUserById(deletedUser.getEntityId()));
-    }
-
-    @Test
-    public void DeleteNonExistingRegisteredUserByEmail() {
-        RegisteredUser deletedUser = userMapperMyBatis.deleteUserByEmail(".");
-        Assert.assertNull(deletedUser);
+        userMapperMyBatis.deleteUserByEmail(presetUser.getEmail());
+        Assert.assertNull(userMapperMyBatis.findUserById(presetUser.getEntityId()));
     }
 
     @Test
@@ -110,11 +105,10 @@ public class UserMapperMyBatisTest {
     public void updateUser() {
         RegisteredUser presetUser = insertUserHelp("c@cc.ccc");
         Assert.assertNotNull(presetUser);
+        String presetSurname = presetUser.getName();
         presetUser.setSurname("Kadenko");
         userMapperMyBatis.updateUser(presetUser);
-        RegisteredUser updatedUser = userMapperMyBatis.findUserById(presetUser.getEntityId());
-        Assert.assertNotNull(updatedUser);
-        Assert.assertEquals(presetUser.getSurname(), updatedUser.getSurname());
+        Assert.assertNotEquals(presetSurname, presetUser.getSurname());
         deleteUserByIdHelp(presetUser.getEntityId());
         Assert.assertNull(userMapperMyBatis.findUserById(presetUser.getEntityId()));
     }
