@@ -20,15 +20,6 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <insert tableName="t_role_enum">
-            <column name="c_enum" value="ADMIN"/>
-        </insert>
-        <insert tableName="t_role_enum">
-            <column name="c_enum" value="USER"/>
-        </insert>
-        <insert tableName="t_role_enum">
-            <column name="c_enum" value="GUEST"/>
-        </insert>
     </changeSet>
     
     <!-- USER -->
