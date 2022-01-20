@@ -35,14 +35,14 @@ public class EventDto {
     @XmlElement(name = "date")
     @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     private LocalDateTime date;
-    @XmlElement(name = "place")
-    private PlaceDto place;
-    @XmlElement(name = "maxPersonAttendance")
-    private Integer maxPersonAttendance;
-    @XmlElement(name = "createdBy")
-    private RegisteredUserDTO createdBy;
+    @XmlElement(name = "capacity")
+    private Integer capacity;
     @XmlElement(name = "isCanceled")
     private boolean isCanceled;
+    @XmlElement(name = "place")
+    private PlaceDto place;
+    @XmlElement(name = "createdBy")
+    private RegisteredUserDTO createdBy;
 
 
 }
