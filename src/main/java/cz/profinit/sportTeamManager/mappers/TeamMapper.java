@@ -20,9 +20,9 @@ import org.springframework.stereotype.Component;
 @Profile({"test", "Main","stub_services"})
 public class TeamMapper {
     @Autowired
-    private static UserMapper userMapper;
+    private UserMapper userMapper;
     @Autowired
-    private static SubgroupMapper subgroupMapper;
+    private SubgroupMapper subgroupMapper;
 
 
     /**
