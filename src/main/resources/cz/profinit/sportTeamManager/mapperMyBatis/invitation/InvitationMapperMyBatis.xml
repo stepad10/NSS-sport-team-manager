@@ -3,5 +3,35 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cz.profinit.sportTeamManager.mapperMyBatis.invitation.InvitationMapperMyBatis">
+    <resultMap id="invitationResultMap" type="Invitation">
+        <id property="entityId" column="c_id"/>
+        <result property="created" column="c_created"/>
+        <result property="changed" column="c_changed"/>
+        <result property="status" column="c_status"/>
+        <!--
+        <result property="recipient" column="c_recipient"/>
 
+        <association property="eventId" javaType="Event">
+            <id property="entityId" column="c_event_id"/>
+        </association>
+        -->
+    </resultMap>
+
+    <insert id="insertInvitation" parameterType="Invitation" useGeneratedKeys="true" keyProperty="entityId">
+        INSERT INTO t_invitation (c_created, c_changed, c_status)
+        VALUES (#{created}, #{changed}, #{status})
+    </insert>
+
+    <update id="updateInvitation" parameterType="Invitation">
+        UPDATE t_invitation SET c_created = #{created}, c_changed = #{changed}, c_status = #{status}
+        WHERE c_id = #{entityId}
+    </update>
+
+    <delete id="deleteInvitationById" parameterType="Long">
+        DELETE FROM t_invitation WHERE c_id = #{id}
+    </delete>
+
+    <select id="findInvitationById" parameterType="Long" resultMap="invitationResultMap">
+        SELECT * FROM t_invitation WHERE c_id = #{id}
+    </select>
 </mapper>
