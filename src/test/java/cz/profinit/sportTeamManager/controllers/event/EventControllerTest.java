@@ -74,7 +74,7 @@ public class EventControllerTest {
     public void setUp() throws EntityNotFoundException, UserIsAlreadyInEventException {
         Place place = new Place("Profinit","Tychonova 2");
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
-        event = new Event(LocalDateTime.now(),place,5,false,loggedUser,new ArrayList<>(),new ArrayList<>());
+        event = new Event(LocalDateTime.now(), 5, false, place, loggedUser, new ArrayList<>(), new ArrayList<>());
         event.setEntityId(0L);
         eventService.createNewEvent(EventMapper.toDto(event));
         eventService.addNewMessage("is@gmail.com","Testuji",0L);

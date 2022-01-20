@@ -42,7 +42,7 @@ public class EventMapper {
      */
     public static Event toEvent(EventDto eventDto) {
         //TODO předělat ID
-        Event event = new Event(eventDto.getDate(),PlaceMapper.toPlace(eventDto.getPlace()),eventDto.getMaxPersonAttendance(),eventDto.isCanceled(),UserMapper.mapRegistredUserDTOToRegistredUser(eventDto.getCreatedBy()), new ArrayList<>(),new ArrayList<>());
+        Event event = new Event(eventDto.getDate(), eventDto.getMaxPersonAttendance(), eventDto.isCanceled(), PlaceMapper.toPlace(eventDto.getPlace()), UserMapper.mapRegistredUserDTOToRegistredUser(eventDto.getCreatedBy()), new ArrayList<>(), new ArrayList<>());
         event.setEntityId(eventDto.getId());
         return event;
     }
