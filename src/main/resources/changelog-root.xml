@@ -13,5 +13,6 @@
     <include file="changelog/changelog-event.xml"/>
     <include file="changelog/changelog-message.xml"/>
     <include file="changelog/changelog-invitation.xml"/>
+    <include file="changelog/changelog-data.xml"/>
 
 </databaseChangeLog>
