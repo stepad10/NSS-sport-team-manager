@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class StubEventRepository implements EventRepository {
 
     Event event;
-    User loggedUser;
+    RegisteredUser loggedUser;
 
     public StubEventRepository() {
         Place place = new Place("Profinit","Tychonova 2");

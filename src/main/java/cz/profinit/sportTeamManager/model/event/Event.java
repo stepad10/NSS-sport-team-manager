@@ -10,7 +10,7 @@ package cz.profinit.sportTeamManager.model.event;
 
 import cz.profinit.sportTeamManager.model.entity.Entity;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
-import cz.profinit.sportTeamManager.model.user.User;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -28,7 +28,7 @@ public class Event extends Entity {
     private Integer capacity;
     private Boolean isCanceled;
     private Place place;
-    final private User createdBy;
+    final private RegisteredUser createdBy;
     final private List<Message> MessageList;
     final private List <Invitation> InvitationList;
 

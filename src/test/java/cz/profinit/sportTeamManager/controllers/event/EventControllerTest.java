@@ -17,7 +17,6 @@ import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Place;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.service.event.EventService;
 import cz.profinit.sportTeamManager.service.invitation.InvitationService;
 import org.junit.Assert;
@@ -65,7 +64,7 @@ public class EventControllerTest {
     private InvitationService invitationService;
 
     private Event event;
-    private User loggedUser;
+    private RegisteredUser loggedUser;
 
     /**
      * Creates Event data transfer object for comparing with request results.
