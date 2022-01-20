@@ -30,8 +30,8 @@ public class EventMapper {
      * @return EventDto representing given Event
      */
     public static EventDto toDto(Event event) {
-        return new EventDto(event.getEntityId(), event.getDate(), PlaceMapper.toDto(event.getPlace()), event.getCapacity(), UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) event.getCreatedBy()),
-                event.getIsCanceled());
+        return new EventDto(event.getEntityId(), event.getDate(), event.getCapacity(), event.getIsCanceled(),
+                PlaceMapper.toDto(event.getPlace()), UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) event.getCreatedBy()));
     }
 
     /**
