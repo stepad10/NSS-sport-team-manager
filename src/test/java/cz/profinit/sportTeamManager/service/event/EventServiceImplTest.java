@@ -79,8 +79,7 @@ public class EventServiceImplTest {
      */
     @Test
     public void createNewEventCreatesNewEvent(){
-        EventDto eventDto = new EventDto(0L,LocalDateTime.now(), PlaceMapper.toDto(place),6, UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser),
-                false);
+        EventDto eventDto = new EventDto(0L,LocalDateTime.now(),6, false, PlaceMapper.toDto(place), UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser));
         Event event = eventService.createNewEvent(eventDto);
         Assert.assertEquals(eventDto.getDate(),event.getDate());
     }
@@ -95,8 +94,7 @@ public class EventServiceImplTest {
     public void updateEventUpdatesEvent() throws EntityNotFoundException, InterruptedException {
 
         TimeUnit.MILLISECONDS.sleep(2); //Had to put it here, because event and eventDto can be created in exact same time.
-        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(),PlaceMapper.toDto(place),6,UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser),
-                false);
+        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(), 6, false, PlaceMapper.toDto(place), UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser));
         Assert.assertNotEquals(eventRepository.findEventById(0L).getDate(),eventDtoUpdated.getDate());
         Event event = eventService.updateEvent(eventDtoUpdated, 0L);
         Assert.assertEquals(eventDtoUpdated.getDate(),event.getDate());
@@ -109,8 +107,7 @@ public class EventServiceImplTest {
      */
     @Test (expected = EntityNotFoundException.class)
     public void updateNonExistingEventThrowsEntityNotFound() throws EntityNotFoundException {
-        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(),PlaceMapper.toDto(place),6,UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser),
-                false);
+        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(), 6, false, PlaceMapper.toDto(place), UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser));
         eventService.updateEvent(eventDtoUpdated, 1L);
     }
 
