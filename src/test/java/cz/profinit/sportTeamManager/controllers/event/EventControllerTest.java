@@ -165,7 +165,7 @@ public class EventControllerTest {
         JAXBContext jaxbContext = JAXBContext.newInstance(EventDto.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();
-        event.setMaxPersonAttendance(9);
+        event.setCapacity(9);
         jaxbMarshaller.marshal(EventMapper.toDto(event), sw);
         String eventXml = sw.toString();
 

@@ -43,6 +43,7 @@ public class Team extends Entity {
      * @param subgroupName name of the subgroup
      * @return found subgroup
      */
+
     public Subgroup getTeamSubgroup(String subgroupName) {
         for (Subgroup subgroup : listOfSubgroups) {
             if (subgroup.getName().equals(subgroupName)) {

@@ -147,8 +147,8 @@ public class EventServiceImplTest {
 
         Event event = eventRepository.findEventById(0L);
 
-       Assert.assertEquals(event.getListOfMessages().get(1).getMessage(),"Ahoj");
-       Assert.assertEquals(event.getListOfMessages().get(1).getUser(),loggedUser);
+       Assert.assertEquals(event.getMessageList().get(1).getText(),"Ahoj");
+       Assert.assertEquals(event.getMessageList().get(1).getUser(),loggedUser);
 
     }
 
@@ -189,7 +189,7 @@ public class EventServiceImplTest {
     public void getMessagesGetsAllMessagesFromEvent() throws EntityNotFoundException {
         List<Message> messages = eventService.getAllMessages(0L);
 
-        Assert.assertEquals(messages.get(0).getMessage(),"Testuji");
+        Assert.assertEquals(messages.get(0).getText(),"Testuji");
         Assert.assertEquals(messages.get(0).getUser(),loggedUser);
     }
 
@@ -212,7 +212,7 @@ public class EventServiceImplTest {
     public void AddNewInvitationAddsNewInvitation() throws EntityNotFoundException {
         Invitation invitation = new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser);
         eventService.addNewInvitation(0L,invitation);
-        Assert.assertEquals(invitation,eventRepository.findEventById(0L).getListOfInvitation().get(0));
+        Assert.assertEquals(invitation,eventRepository.findEventById(0L).getInvitationList().get(0));
     }
 
     /**

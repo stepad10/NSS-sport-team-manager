@@ -92,11 +92,11 @@ public class InvitationServiceImpl implements InvitationService{
      */
     public Invitation findInvitationByEventIdAndEmail(Long eventId,String email) throws EntityNotFoundException {
         Event event = eventService.findEventById(eventId);
-        List <Invitation> invitationList = event.getListOfInvitation();
+        List <Invitation> invitationList = event.getInvitationList();
         User user = userService.findUserByEmail(email);
 
         for (Invitation invitation : invitationList){
-            if (invitation.getIsFor().equals(user)){
+            if (invitation.getRecipient().equals(user)){
                 return invitation;
             }
         }

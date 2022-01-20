@@ -62,7 +62,7 @@ public class StubEventService implements EventService {
         Event event = findEventById(eventId);
         event.setDate(eventDto.getDate());
         event.setPlace(PlaceMapper.toPlace(eventDto.getPlace()));
-        event.setMaxPersonAttendance(eventDto.getMaxPersonAttendance());
+        event.setCapacity(eventDto.getMaxPersonAttendance());
         event.setIsCanceled(eventDto.isCanceled());
 
         return eventRepository.updateEvent(event);    }
@@ -107,7 +107,7 @@ public class StubEventService implements EventService {
      */
     @Override
     public List<Message> getAllMessages(Long eventId) throws EntityNotFoundException {
-        return findEventById(eventId).getListOfMessages();
+        return findEventById(eventId).getMessageList();
     }
 
     /**
@@ -147,6 +147,6 @@ public class StubEventService implements EventService {
      */
     @Override
     public List<Invitation> getAllInvitations(Long eventId) throws EntityNotFoundException {
-        return findEventById(eventId).getListOfInvitation();
+        return findEventById(eventId).getInvitationList();
     }
 }

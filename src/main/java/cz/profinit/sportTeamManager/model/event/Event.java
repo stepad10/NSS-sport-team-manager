@@ -25,20 +25,20 @@ import java.util.List;
 public class Event extends Entity {
 
     private LocalDateTime date;
-    private Place place;
-    private Integer maxPersonAttendance;
+    private Integer capacity;
     private Boolean isCanceled;
+    private Place place;
     final private User createdBy;
-    final private List<Message> listOfMessages;
-    final private List <Invitation> listOfInvitation;
+    final private List<Message> MessageList;
+    final private List <Invitation> InvitationList;
 
     /**
      * Adds new message to the Event
      * @param message Message that needs to be saved.
      */
     public void addNewMessage (Message message){
-        if(!listOfMessages.contains(message)){
-            listOfMessages.add(message);
+        if(!MessageList.contains(message)){
+            MessageList.add(message);
         }
     }
 
@@ -47,8 +47,8 @@ public class Event extends Entity {
      * @param invitation Invitation that needs to be saved.
      */
     public void addNewInvitation (Invitation invitation){
-        if(!listOfInvitation.contains(invitation)){
-            listOfInvitation.add(invitation);
+        if(!InvitationList.contains(invitation)){
+            InvitationList.add(invitation);
         }
     }
 }
