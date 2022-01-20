@@ -1,5 +1,6 @@
 package cz.profinit.sportTeamManager.repositories.subgroup;
 
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
@@ -17,27 +18,39 @@ public class SubgroupRepositoryImpl implements SubgroupRepository {
     private SubgroupMapperMyBatis subgroupMapperMyBatis;
 
     @Override
-    public Subgroup insertSubgroup(Subgroup subgroup) {
-        return null;
+    public void insertSubgroup(Subgroup subgroup) {
+
     }
 
     @Override
-    public Subgroup updateSubgroup(Subgroup subgroup) {
-        return null;
+    public void updateSubgroup(Subgroup subgroup) {
+
     }
 
     @Override
-    public Subgroup deleteSubgroup(Subgroup subgroup) {
-        return null;
-    }
+    public void deleteSubgroup(Subgroup subgroup) {
 
-    @Override
-    public List<Subgroup> findTeamSubgroups(Team team) {
-        return null;
     }
 
     @Override
     public void deleteAllTeamSubgroups(Team team) {
 
     }
+
+    @Override
+    public Subgroup findTeamSubgroupByName(Team team, String subgroupName) throws EntityNotFoundException {
+        List<Subgroup> teamSubgroups = findTeamSubgroups(team);
+        for (Subgroup s : teamSubgroups) {
+            if (s.getName().equals(subgroupName)) return s;
+        }
+        throw new EntityNotFoundException("Subgroup");
+    }
+
+    @Override
+    public List<Subgroup> findTeamSubgroups(Team team) throws EntityNotFoundException {
+        List<Subgroup> subgroupList = subgroupMapperMyBatis.findSubgroupsByTeamId(team.getEntityId());
+        if (subgroupList.isEmpty()) throw new EntityNotFoundException("Subgroup");
+        return subgroupList;
+    }
+
 }

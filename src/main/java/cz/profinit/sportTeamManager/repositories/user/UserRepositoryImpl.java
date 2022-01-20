@@ -4,29 +4,32 @@ import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("Main")
+@AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private UserMapperMyBatis userMapperMyBatis;
 
     @Override
-    public RegisteredUser insertRegisteredUser(RegisteredUser registeredUser) {
+    public void insertRegisteredUser(RegisteredUser registeredUser) {
         if (emailExistsInDatabase(registeredUser.getEmail())) {
             throw new EmailExistsException("Unable to insert RegisteredUser, email already exists!");
         }
-        return userMapperMyBatis.insertUser(registeredUser);
+        userMapperMyBatis.insertUser(registeredUser);
     }
 
     @Override
     public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
         findRegisteredUser(registeredUser);
-        return userMapperMyBatis.updateUser(registeredUser);
+        userMapperMyBatis.updateUser(registeredUser);
+        return registeredUser;
     }
 
     @Override
@@ -61,16 +64,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
-        RegisteredUser deletedUser;
-        if (registeredUser.getEntityId() != null) {
-            deletedUser = userMapperMyBatis.deleteUserById(registeredUser.getEntityId());
-        } else {
-            deletedUser = userMapperMyBatis.deleteUserByEmail(registeredUser.getEmail());
-        }
-        if (deletedUser == null) {
+    public void deleteRegisteredUser(Long userId) throws EntityNotFoundException {
+        if (userMapperMyBatis.findUserById(userId) == null) {
             throw new EntityNotFoundException("User");
         }
-        return deletedUser;
+        userMapperMyBatis.deleteUserById(userId);
     }
 }

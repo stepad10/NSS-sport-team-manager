@@ -8,9 +8,8 @@ public interface UserRepository {
     /**
      * check if user already exists in db
      * @param registeredUser user to insert
-     * @return output of insertion, user or null
      */
-    RegisteredUser insertRegisteredUser(RegisteredUser registeredUser);
+    void insertRegisteredUser(RegisteredUser registeredUser);
 
     /**
      * find user, if found then update
@@ -54,9 +53,8 @@ public interface UserRepository {
 
     /**
      * checks whether user has an id or deleteTeam it by email instead
-     * @param registeredUser user to deleteTeam
-     * @return deleted user
+     * @param userId id to find user to delete
      * @throws EntityNotFoundException user to be deleted wasn't found
      */
-    RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException;
+    void deleteRegisteredUser(Long userId) throws EntityNotFoundException;
 }

@@ -1,9 +1,10 @@
 package cz.profinit.sportTeamManager.repositories.team;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
 import cz.profinit.sportTeamManager.mapperMyBatis.team.TeamMapperMyBatis;
 import cz.profinit.sportTeamManager.model.team.Team;
+import cz.profinit.sportTeamManager.repositories.subgroup.SubgroupRepository;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -18,32 +19,33 @@ public class TeamRepositoryImpl implements TeamRepository {
     private TeamMapperMyBatis teamMapperMyBatis;
 
     @Autowired
-    private SubgroupMapperMyBatis subgroupMapperMyBatis;
+    private SubgroupRepository subgroupRepository;
 
     @Override
-    public Team insertTeam(Team team) {
-        team.getListOfSubgroups().forEach(s -> subgroupMapperMyBatis.insertSubgroup(s));//TODO dat do subgroup repo
-        return teamMapperMyBatis.insertTeam(team);
+    public void insertTeam(@NonNull Team team) {
+        teamMapperMyBatis.insertTeam(team);
     }
 
     @Override
-    public Team deleteTeam(Team team) throws EntityNotFoundException {
-        Team foundTeam = findTeamById(team.getEntityId());
-        foundTeam.getListOfSubgroups().forEach(s -> subgroupMapperMyBatis.deleteSubgroupById(s.getEntityId()));
-        return teamMapperMyBatis.deleteTeamById(foundTeam.getEntityId());
+    public void deleteTeam(@NonNull Team team) throws EntityNotFoundException {
+        checkTeamById(team.getEntityId());
+        subgroupRepository.deleteAllTeamSubgroups(team);
+        teamMapperMyBatis.deleteTeamById(team.getEntityId());
     }
 
     @Override
-    public Team updateTeam(Team team) throws EntityNotFoundException {
-        findTeamById(team.getEntityId());
-        return teamMapperMyBatis.updateTeam(team);
+    public void updateTeam(@NonNull Team team) throws EntityNotFoundException {
+        checkTeamById(team.getEntityId());
+        teamMapperMyBatis.updateTeam(team);
     }
 
     @Override
     public List<Team> findTeamsByName(String teamName) throws EntityNotFoundException {
         List<Team> teams = teamMapperMyBatis.findTeamsByName(teamName);
         if (teams.size() == 0) throw new EntityNotFoundException("Team");
-        teams.forEach(t -> t.setListOfSubgroups(subgroupMapperMyBatis.findSubgroupsByTeamId(t.getEntityId())));
+        for (Team t : teams) {
+            t.setListOfSubgroups(subgroupRepository.findTeamSubgroups(t));
+        }
         return teams;
     }
 
@@ -51,7 +53,12 @@ public class TeamRepositoryImpl implements TeamRepository {
     public Team findTeamById(Long teamId) throws EntityNotFoundException {
         Team team = teamMapperMyBatis.findTeamById(teamId);
         if (team == null) throw new EntityNotFoundException("Team");
-        team.setListOfSubgroups(subgroupMapperMyBatis.findSubgroupsByTeamId(team.getEntityId()));
+        team.setListOfSubgroups(subgroupRepository.findTeamSubgroups(team));
         return team;
+    }
+
+    private void checkTeamById(Long teamId) throws EntityNotFoundException {
+        Team team = teamMapperMyBatis.findTeamById(teamId);
+        if (team == null) throw new EntityNotFoundException("Team");
     }
 }
