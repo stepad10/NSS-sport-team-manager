@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cz.profinit.sportTeamManager.mapperMyBatis.place.MessageMapperMyBatis">
-    <resultMap id="MessageResultMap" type="Message">
+<mapper namespace="cz.profinit.sportTeamManager.mapperMyBatis.message.MessageMapperMyBatis">
+    <resultMap id="messageResultMap" type="Message">
         <id property="entityId" column="c_id"/>
         <result property="text" column="c_text"/>
         <result property="date" column="c_date"/>
