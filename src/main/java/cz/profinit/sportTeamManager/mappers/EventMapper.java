@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Mapper class that allows mapping between data transfer objects and entities
  */
 @Component
-@Profile({"test", "Main","stub_services"})
+@Profile({"test", "Main", "stub_services"})
 public class EventMapper {
 
     /**
@@ -42,7 +42,7 @@ public class EventMapper {
      */
     public static Event toEvent(EventDto eventDto) {
         //TODO předělat ID
-        Event event = new Event(eventDto.getDate(), eventDto.getMaxPersonAttendance(), eventDto.isCanceled(), PlaceMapper.toPlace(eventDto.getPlace()), UserMapper.mapRegistredUserDTOToRegistredUser(eventDto.getCreatedBy()), new ArrayList<>(), new ArrayList<>());
+        Event event = new Event(eventDto.getDate(), eventDto.getCapacity(), eventDto.isCanceled(), PlaceMapper.toPlace(eventDto.getPlace()), UserMapper.mapRegistredUserDTOToRegistredUser(eventDto.getCreatedBy()), new ArrayList<>(), new ArrayList<>());
         event.setEntityId(eventDto.getId());
         return event;
     }

@@ -62,7 +62,7 @@ public class StubEventService implements EventService {
         Event event = findEventById(eventId);
         event.setDate(eventDto.getDate());
         event.setPlace(PlaceMapper.toPlace(eventDto.getPlace()));
-        event.setCapacity(eventDto.getMaxPersonAttendance());
+        event.setCapacity(eventDto.getCapacity());
         event.setIsCanceled(eventDto.isCanceled());
 
         return eventRepository.updateEvent(event);    }
