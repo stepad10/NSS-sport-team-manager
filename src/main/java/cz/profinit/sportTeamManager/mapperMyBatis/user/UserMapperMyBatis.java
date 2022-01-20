@@ -6,43 +6,39 @@ public interface UserMapperMyBatis {
 
     /**
      *
-     * @param email to find user by
-     * @return found user or null
+     * @param email to find RegisteredUser by
+     * @return found RegisteredUser or null
      */
     RegisteredUser findUserByEmail(String email);
 
     /**
      *
-     * @param id to find user by
-     * @return found user or null
+     * @param id to find RegisteredUser by
+     * @return found RegisteredUser or null
      */
     RegisteredUser findUserById(Long id);
 
     /**
-     *
+     * insert RegisteredUser to database and update it's entityId
      * @param user to insert
-     * @return inserted user or null
      */
-    RegisteredUser insertUser(RegisteredUser user);
+    void insertUser(RegisteredUser user);
 
     /**
      *
-     * @param id param to find right user to delete
-     * @return deleted user or null
+     * @param id param to find right RegisteredUser to delete
      */
-    RegisteredUser deleteUserById(Long id);
+    void deleteUserById(Long id);
 
     /**
      *
-     * @param email param to find right user to delete
-     * @return deleted user or null
+     * @param email param to find right RegisteredUser to delete
      */
-    RegisteredUser deleteUserByEmail(String email);
+    void deleteUserByEmail(String email);
 
     /**
-     *
+     * update RegisteredUser in database
      * @param user user to be updated
-     * @return updated user or null
      */
-    RegisteredUser updateUser(RegisteredUser user);
+    void updateUser(RegisteredUser user);
 }
