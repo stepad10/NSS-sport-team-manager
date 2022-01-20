@@ -7,32 +7,22 @@ import java.util.List;
 public interface SubgroupMapperMyBatis {
 
     /**
-     *
-     * @param id to find subgroups by
-     * @return list of all subgroups that belongs to team
-     */
-    List<Subgroup> findSubgroupsByTeamId(Long id);
-
-    /**
-     *
+     * insert Subgroup to database and update it's entityId
      * @param subgroup to insert
-     * @return inserted subgroup or null
      */
-    Subgroup insertSubgroup(Subgroup subgroup);
+    void insertSubgroup(Subgroup subgroup);
 
     /**
      *
      * @param subgroup to be updated
-     * @return updated subgroup or null
      */
-    Subgroup updateSubgroup(Subgroup subgroup);
+    void updateSubgroup(Subgroup subgroup);
 
     /**
      *
      * @param id to delete subgroup by
-     * @return deleted subgroup or null
      */
-    Subgroup deleteSubgroupById(Long id);
+    void deleteSubgroupById(Long id);
 
     /**
      *
@@ -40,4 +30,25 @@ public interface SubgroupMapperMyBatis {
      * @return found subgroup or null
      */
     Subgroup findSubgroupById(Long id);
+
+    /**
+     *
+     * @param teamId to find subgroups by
+     * @return list of all subgroups that belongs to team
+     */
+    List<Subgroup> findSubgroupsByTeamId(Long teamId);
+
+    /**
+     * association between subgroup and user
+     * @param subgroupId id of a parent subgroup
+     * @param userId id of a parent user
+     */
+    void insertSubgroupUser(Long subgroupId, Long userId);
+
+    /**
+     * delete association between subgroup and user
+     * @param subgroupId id of a parent subgroup
+     * @param userId id of a parent user
+     */
+    void deleteSubgroupUser(Long subgroupId, Long userId);
 }

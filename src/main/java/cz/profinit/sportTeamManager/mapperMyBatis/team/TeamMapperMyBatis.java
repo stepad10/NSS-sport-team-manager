@@ -1,5 +1,6 @@
 package cz.profinit.sportTeamManager.mapperMyBatis.team;
 
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Team;
 
 import java.util.List;
@@ -7,37 +8,34 @@ import java.util.List;
 public interface TeamMapperMyBatis {
 
     /**
-     *
+     * insert Team to database and update it's entityId
      * @param team to insert
-     * @return inserted team or null
      */
-    Team insertTeam(Team team);
+    void insertTeam(Team team);
 
     /**
      *
      * @param team to be updated
-     * @return updated team or null
      */
-    Team updateTeam(Team team);
+    void updateTeam(Team team);
 
     /**
      *
-     * @param id to find team by
-     * @return team or null
+     * @param id to find Team by
      */
-    Team deleteTeamById(Long id);
+    void deleteTeamById(Long id);
 
     /**
      *
-     * @param name to find teams by
-     * @return found teams or null
-     */
-    List<Team> findTeamsByName(String name);
-
-    /**
-     *
-     * @param id to find team by
-     * @return found team or null
+     * @param id to find Team by
+     * @return found Team or null
      */
     Team findTeamById(Long id);
+
+    /**
+     *
+     * @param name to find list of Team by
+     * @return found list of Team or null
+     */
+    List<Team> findTeamsByName(String name);
 }
