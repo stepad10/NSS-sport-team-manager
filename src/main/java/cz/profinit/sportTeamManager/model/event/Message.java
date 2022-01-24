@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 public class Message extends Entity {
 
     private final User user;
-    private final String message;
+    private final String text;
     private final LocalDateTime date;
 
 }

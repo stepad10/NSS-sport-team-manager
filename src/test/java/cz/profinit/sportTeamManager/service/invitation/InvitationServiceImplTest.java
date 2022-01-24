@@ -33,7 +33,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -81,8 +80,8 @@ public class InvitationServiceImplTest {
 
         Assert.assertEquals(invitation.getStatus(),StatusEnum.PENDING);
         Event event = eventService.findEventById(0L);
-        Assert.assertEquals(event.getListOfInvitation().get(0).getStatus(),StatusEnum.PENDING);
-        Assert.assertEquals(event.getListOfInvitation().get(0).getIsFor(),loggedUser);
+        Assert.assertEquals(event.getInvitationList().get(0).getStatus(),StatusEnum.PENDING);
+        Assert.assertEquals(event.getInvitationList().get(0).getRecipient(),loggedUser);
     }
 
     /**
@@ -118,8 +117,8 @@ public class InvitationServiceImplTest {
 
         List<Invitation> invitationList = invitationService.createNewInvitationsFromList(users, 0L);
 
-        Assert.assertEquals(users.get(0),invitationList.get(0).getIsFor());
-        Assert.assertEquals(users.get(1),invitationList.get(1).getIsFor());
+        Assert.assertEquals(users.get(0),invitationList.get(0).getRecipient());
+        Assert.assertEquals(users.get(1),invitationList.get(1).getRecipient());
     }
 
     /**

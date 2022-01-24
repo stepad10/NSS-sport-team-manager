@@ -36,14 +36,17 @@ public class StubEventRepository implements EventRepository {
     public StubEventRepository() {
         Place place = new Place("Profinit","Tychonova 2");
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com",RoleEnum.USER);
-        event = new Event(LocalDateTime.now(),place,6,false,loggedUser,new ArrayList<>(),new ArrayList<>());
+        event = new Event(LocalDateTime.now(),6,false, place, loggedUser, new ArrayList<>(), new ArrayList<>());
         event.setEntityId(0L);
-        event.getListOfMessages().add(new Message(loggedUser,"Testuji",LocalDateTime.now()));
+
         guest = new Guest("Karel","mxPR4fbWzvai60UMLhD3aw==");
-        event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser));
-        event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,guest));
-        event1 = new Event(LocalDateTime.now(),place,6,false,loggedUser,new ArrayList<>(),new ArrayList<>());
+
+        event1 = new Event(LocalDateTime.now(),6,false, place, loggedUser, new ArrayList<>(), new ArrayList<>());
         event1.setEntityId(2L);
+
+        event.getMessageList().add(new Message(loggedUser,"Testuji",LocalDateTime.now()));
+        event.getInvitationList().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser));
+        event.getInvitationList().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,guest));
     }
 
     @Override
