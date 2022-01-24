@@ -16,7 +16,7 @@
             </column>
             <column name="c_sport" type="VARCHAR(40)"/>
             <column name="c_owner" type="INT">
-                <constraints nullable="false" foreignKeyName="owner_fk" references="t_user(c_id)"/>
+                <constraints nullable="false" foreignKeyName="team_owner_fk" references="t_user(c_id)"/>
             </column>
         </createTable>
     </changeSet>

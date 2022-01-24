@@ -15,7 +15,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="c_team_id" type="INT">
-                <constraints nullable="false" foreignKeyName="team_fk" references="t_team(c_id)"/>
+                <constraints nullable="false" foreignKeyName="subgroup_team_fk" references="t_team(c_id)"/>
             </column>
         </createTable>
     </changeSet>

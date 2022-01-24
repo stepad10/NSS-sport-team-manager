@@ -33,10 +33,10 @@
             </column>
             <column name="c_changed" type="TIMESTAMP"/>
             <column name="c_status" type="INT">
-                <constraints nullable="false" foreignKeyName="status_enum_fk" references="t_status_enum(c_id)"/>
+                <constraints nullable="false" foreignKeyName="invitation_status_enum_fk" references="t_status_enum(c_id)"/>
             </column>
             <column name="c_event_id" type="INT">
-                <constraints nullable="false" foreignKeyName="event_fk" references="t_event(c_id)"/>
+                <constraints nullable="false" foreignKeyName="invitation_event_fk" references="t_event(c_id)"/>
             </column>
         </createTable>
     </changeSet>

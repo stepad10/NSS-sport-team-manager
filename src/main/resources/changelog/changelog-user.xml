@@ -39,7 +39,7 @@
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="c_role" type="INT">
-                <constraints nullable="false" foreignKeyName="role_enum_fk" references="t_role_enum(c_id)"/>
+                <constraints nullable="false" foreignKeyName="user_role_enum_fk" references="t_role_enum(c_id)"/>
             </column>
         </createTable>
     </changeSet>
