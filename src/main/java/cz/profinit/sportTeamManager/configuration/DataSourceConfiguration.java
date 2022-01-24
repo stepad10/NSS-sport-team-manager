@@ -13,13 +13,13 @@ import javax.sql.DataSource;
 public class DataSourceConfiguration {
 
     @Bean
-    @ConfigurationProperties(prefix = "main.spring.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "main.spring.liquibase")
+    @ConfigurationProperties(prefix = "spring.liquibase")
     public LiquibaseProperties liquibaseProperties() {
         return new LiquibaseProperties();
     }
