@@ -38,8 +38,10 @@
             <column name="c_event_id" type="INT">
                 <constraints nullable="false" foreignKeyName="invitation_event_fk" references="t_event(c_id)"/>
             </column>
+            <column name="c_user_id" type="INT">
+                <constraints nullable="false" foreignKeyName="invitation_user_fk" references="t_user(c_id)"/>
+            </column>
         </createTable>
     </changeSet>
-
 
 </databaseChangeLog>
