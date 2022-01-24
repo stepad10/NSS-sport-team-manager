@@ -1,21 +1,25 @@
 package cz.profinit.sportTeamManager.mapperMyBatis.event;
 
-import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
+import cz.profinit.sportTeamManager.configuration.MyBatisConfiguration;
 import cz.profinit.sportTeamManager.mapperMyBatis.place.PlaceMapperMyBatis;
 import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Place;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = MyBatisConfigurationTest.class)
-@ActiveProfiles("database")
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+@ContextConfiguration(classes = MyBatisConfiguration.class)
+@TestPropertySource("/test.properties")
 public class EventMapperMyBatisTest {
 
     @Autowired
@@ -37,4 +41,7 @@ public class EventMapperMyBatisTest {
 
         return null;
     }
+
+    @Test
+    public void test(){}
 }
