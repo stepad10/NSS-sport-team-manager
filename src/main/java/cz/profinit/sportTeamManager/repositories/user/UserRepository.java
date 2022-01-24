@@ -1,6 +1,7 @@
 package cz.profinit.sportTeamManager.repositories.user;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 
 public interface UserRepository {
@@ -57,4 +58,8 @@ public interface UserRepository {
      * @throws EntityNotFoundException user to be deleted wasn't found
      */
     void deleteRegisteredUser(Long userId) throws EntityNotFoundException;
+
+    Guest insertGuest(Guest guest);
+    Guest findGuestByUri(String uri) throws EntityNotFoundException;
+    Guest updateGuest (Guest guest);
 }

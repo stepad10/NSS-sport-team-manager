@@ -8,6 +8,7 @@
 package cz.profinit.sportTeamManager.stubs.stubRepositories.user;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
@@ -108,5 +109,21 @@ public class StubUserRepository implements UserRepository {
         } else {
             throw new EntityNotFoundException("User");
         }
+    }
+
+    //TODO IMPLEMENT THESE
+    @Override
+    public Guest insertGuest(Guest guest) {
+        return null;
+    }
+
+    @Override
+    public Guest findGuestByUri(String uri) throws EntityNotFoundException {
+        return null;
+    }
+
+    @Override
+    public Guest updateGuest(Guest guest) {
+        return null;
     }
 }

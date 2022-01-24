@@ -169,11 +169,11 @@ public class InvitationServiceImpl implements InvitationService{
         }
         Long eventId = Long.parseLong(decryptedUri.split("-")[1]);//uri format is guestId + "-" + eventId
         Event event = eventService.findEventById(eventId);
-        List <Invitation> invitationList = event.getListOfInvitation();
+        List <Invitation> invitationList = event.getInvitationList();
         Guest guest = userService.findGuestByUri(uri);
 
         for (Invitation invitation : invitationList){
-            if (invitation.getIsFor().equals(guest)){
+            if (invitation.getRecipient().equals(guest)){
                 return invitation;
             }
         }

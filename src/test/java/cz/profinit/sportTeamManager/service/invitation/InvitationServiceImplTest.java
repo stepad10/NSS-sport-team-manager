@@ -248,8 +248,8 @@ public class InvitationServiceImplTest {
     public void createGuestInvitationCreatesNewGuestInvitation() throws EntityNotFoundException {
         Invitation invitation = invitationService.createGuestInvitation(0L,"Karel");
 
-        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getIsFor()).getUri());
-        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getIsFor()).getRole());
+        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getRecipient()).getUri());
+        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getRecipient()).getRole());
         Assert.assertEquals(StatusEnum.PENDING, invitation.getStatus());
     }
 
@@ -275,9 +275,9 @@ public class InvitationServiceImplTest {
     public void getGuestInvitationGetsInvitation() throws EntityNotFoundException, NonValidUriException {
         Invitation invitation = invitationService.getGuestInvitation("mxPR4fbWzvai60UMLhD3aw==");
 
-        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getIsFor()).getUri());
-        Assert.assertEquals("Karel",invitation.getIsFor().getName());
-        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getIsFor()).getRole());
+        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getRecipient()).getUri());
+        Assert.assertEquals("Karel",invitation.getRecipient().getName());
+        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getRecipient()).getRole());
         Assert.assertEquals(StatusEnum.PENDING, invitation.getStatus());
     }
 
@@ -305,9 +305,9 @@ public class InvitationServiceImplTest {
     public void changeStatusInvitationChangesStatusInvitation() throws NonValidUriException, EntityNotFoundException {
         Invitation invitation = invitationService.changeGuestInvitation("mxPR4fbWzvai60UMLhD3aw==",StatusEnum.ACCEPTED);
 
-        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getIsFor()).getUri());
-        Assert.assertEquals("Karel",invitation.getIsFor().getName());
-        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getIsFor()).getRole());
+        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getRecipient()).getUri());
+        Assert.assertEquals("Karel",invitation.getRecipient().getName());
+        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getRecipient()).getRole());
         Assert.assertEquals(StatusEnum.ACCEPTED, invitation.getStatus());
     }
 
