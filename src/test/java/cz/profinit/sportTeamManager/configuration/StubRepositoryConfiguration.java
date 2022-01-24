@@ -7,10 +7,6 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-import cz.profinit.sportTeamManager.stubs.stubRepositories.event.StubEventRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.invitation.StubInvitationRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.team.StubTeamRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -21,8 +17,8 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @Profile({"stub_repository"})
-@ComponentScan(basePackageClasses = {StubTeamRepository.class, StubUserRepository.class, StubEventRepository.class, StubInvitationRepository.class})
-@Import(PasswordEncoderBean.class)
+@ComponentScan(basePackages = "cz.profinit.sportTeamManager.stubs.stubRepositories")
+@Import(PasswordEncoderConfiguration.class)
 public class StubRepositoryConfiguration {
 
 }

@@ -8,6 +8,7 @@
 package cz.profinit.sportTeamManager.service.team;
 
 
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -49,7 +50,7 @@ public interface TeamService {
      * @throws EntityNotFoundException if user is not found
      * @throws RuntimeException        if user is not in All Users subgroup
      */
-    Team changeTeamOwner(Long teamId, RegisteredUser user) throws EntityNotFoundException;
+    Team changeTeamOwner(Long teamId, RegisteredUser user) throws EntityNotFoundException, EntityAlreadyExistsException;
 
     /**
      * Gets team from repository
@@ -69,7 +70,7 @@ public interface TeamService {
      * @param user         user which we want to add to the subgroup
      * @return team with updated subgroup now including added user
      */
-    Team addUserToSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityNotFoundException;
+    Team addUserToSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityNotFoundException, EntityAlreadyExistsException;
 
     /**
      * Adds a user to the team by adding it to the default subgroup "All users".
@@ -79,7 +80,7 @@ public interface TeamService {
      * @param user   user which should be added
      * @return updated team with added user
      */
-    Team addUserToTeam(Long teamId, RegisteredUser user) throws EntityNotFoundException;
+    Team addUserToTeam(Long teamId, RegisteredUser user) throws EntityNotFoundException, EntityAlreadyExistsException;
 
     /**
      * Adds a new subgroup of selected id to the determined team. Team is selected by its name.
@@ -88,7 +89,7 @@ public interface TeamService {
      * @param subgroupName name of the new subgroup
      * @return team with including added subgroup
      */
-    Team addSubgroup(Long teamId, String subgroupName) throws EntityNotFoundException;
+    Team addSubgroup(Long teamId, String subgroupName) throws EntityNotFoundException, EntityAlreadyExistsException;
 
     /**
      * Removes a subgroup of determined name from the team.
@@ -134,6 +135,6 @@ public interface TeamService {
      * @param newName      new name of subgroup
      * @return updated team
      */
-    Team changeSubgroupName(Long teamId, String subgroupName, String newName) throws EntityNotFoundException;
+    Team changeSubgroupName(Long teamId, String subgroupName, String newName) throws EntityNotFoundException, EntityAlreadyExistsException;
 
 }

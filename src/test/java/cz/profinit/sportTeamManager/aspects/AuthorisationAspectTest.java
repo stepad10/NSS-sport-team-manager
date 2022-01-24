@@ -8,6 +8,7 @@
 package cz.profinit.sportTeamManager.aspects;
 
 import cz.profinit.sportTeamManager.SportTeamManagerApplication;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -68,7 +69,7 @@ public class AuthorisationAspectTest {
      */
     @Test
     @WithMockUser(username="email@gmail.com",roles={"USER","ADMIN"})
-    public void authorizationSuccess() throws EntityNotFoundException {
+    public void authorizationSuccess() throws EntityNotFoundException, EntityAlreadyExistsException {
         Team team = null;
 
         team = teamService.changeTeamName(10L, "dd");

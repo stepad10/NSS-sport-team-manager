@@ -25,6 +25,7 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.event.EventRepository;
+import cz.profinit.sportTeamManager.repositories.user.UserRepository;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import cz.profinit.sportTeamManager.service.user.UserServiceImpl;
 import cz.profinit.sportTeamManager.stubs.stubRepositories.event.StubEventRepository;
@@ -53,10 +54,16 @@ import java.util.concurrent.TimeUnit;
 public class EventServiceImplTest {
 
     private EventServiceImpl eventService;
-    private EventRepository eventRepository;
     private UserService userService;
+
     @Autowired
-    private ApplicationContext context;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     private User loggedUser;
     private Place place;
@@ -67,11 +74,10 @@ public class EventServiceImplTest {
      */
     @Before
     public void setUp() {
-        eventRepository = new StubEventRepository();
-        userService = new UserServiceImpl(context.getBean(PasswordEncoder.class), new StubUserRepository());
-        eventService = new EventServiceImpl(eventRepository, new EventMapper(),userService);
+        userService = new UserServiceImpl(passwordEncoder, userRepository);
+        eventService = new EventServiceImpl(eventRepository, userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
-        place = new Place("Profinit","Tychonova 2");
+        place = new Place("Profinit","Tychonova 2", 1L);
     }
 
     /**
@@ -79,8 +85,7 @@ public class EventServiceImplTest {
      */
     @Test
     public void createNewEventCreatesNewEvent(){
-        EventDto eventDto = new EventDto(0L,LocalDateTime.now(), PlaceMapper.toDto(place),6, UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser),
-                false);
+        EventDto eventDto = new EventDto(0L,LocalDateTime.now(),6, false, PlaceMapper.toDto(place), UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) loggedUser));
         Event event = eventService.createNewEvent(eventDto);
         Assert.assertEquals(eventDto.getDate(),event.getDate());
     }
@@ -95,8 +100,7 @@ public class EventServiceImplTest {
     public void updateEventUpdatesEvent() throws EntityNotFoundException, InterruptedException {
 
         TimeUnit.MILLISECONDS.sleep(2); //Had to put it here, because event and eventDto can be created in exact same time.
-        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(),PlaceMapper.toDto(place),6,UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser),
-                false);
+        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(), 6, false, PlaceMapper.toDto(place), UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) loggedUser));
         Assert.assertNotEquals(eventRepository.findEventById(0L).getDate(),eventDtoUpdated.getDate());
         Event event = eventService.updateEvent(eventDtoUpdated, 0L);
         Assert.assertEquals(eventDtoUpdated.getDate(),event.getDate());
@@ -109,8 +113,7 @@ public class EventServiceImplTest {
      */
     @Test (expected = EntityNotFoundException.class)
     public void updateNonExistingEventThrowsEntityNotFound() throws EntityNotFoundException {
-        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(),PlaceMapper.toDto(place),6,UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) loggedUser),
-                false);
+        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(), 6, false, PlaceMapper.toDto(place), UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) loggedUser));
         eventService.updateEvent(eventDtoUpdated, 1L);
     }
 
@@ -147,8 +150,8 @@ public class EventServiceImplTest {
 
         Event event = eventRepository.findEventById(0L);
 
-       Assert.assertEquals(event.getListOfMessages().get(1).getMessage(),"Ahoj");
-       Assert.assertEquals(event.getListOfMessages().get(1).getUser(),loggedUser);
+       Assert.assertEquals(event.getMessageList().get(1).getText(),"Ahoj");
+       Assert.assertEquals(event.getMessageList().get(1).getUser(),loggedUser);
 
     }
 
@@ -189,7 +192,7 @@ public class EventServiceImplTest {
     public void getMessagesGetsAllMessagesFromEvent() throws EntityNotFoundException {
         List<Message> messages = eventService.getAllMessages(0L);
 
-        Assert.assertEquals(messages.get(0).getMessage(),"Testuji");
+        Assert.assertEquals(messages.get(0).getText(),"Testuji");
         Assert.assertEquals(messages.get(0).getUser(),loggedUser);
     }
 
@@ -210,9 +213,9 @@ public class EventServiceImplTest {
      */
     @Test
     public void AddNewInvitationAddsNewInvitation() throws EntityNotFoundException {
-        Invitation invitation = new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser);
-        eventService.addNewInvitation(0L,invitation);
-        Assert.assertEquals(invitation,eventRepository.findEventById(0L).getListOfInvitation().get(0));
+        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, loggedUser);
+        eventService.addNewInvitation(0L, invitation);
+        Assert.assertEquals(invitation.getEntityId(), eventRepository.findEventById(0L).getInvitationList().get(0).getEntityId());
     }
 
     /**

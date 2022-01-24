@@ -14,12 +14,17 @@
             <column name="c_date" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="c_capacity" type="INT"/>
+            <column name="c_capacity" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_canceled" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
             <column name="c_created_by" type="INT">
-                <constraints nullable="false" foreignKeyName="user_fk" references="t_user(c_id)"/>
+                <constraints nullable="false" foreignKeyName="event_user_fk" references="t_user(c_id)"/>
             </column>
             <column name="c_place_id" type="INT">
-                <constraints nullable="false" foreignKeyName="place_fk" references="t_place(c_id)"/>
+                <constraints nullable="false" foreignKeyName="event_place_fk" references="t_place(c_id)"/>
             </column>
         </createTable>
     </changeSet>

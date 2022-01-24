@@ -80,7 +80,7 @@ public class UserController {
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
-        return UserMapper.mapRegistredUserToRegistredUserDTO(user);
+        return UserMapper.mapRegisteredUserToRegisteredUserDTO(user);
     }
 
     /**
@@ -123,7 +123,7 @@ public class UserController {
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
-        return UserMapper.mapRegistredUserToRegistredUserDTO(user);
+        return UserMapper.mapRegisteredUserToRegisteredUserDTO(user);
     }
 
     /**
@@ -141,7 +141,7 @@ public class UserController {
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
-        return UserMapper.mapRegistredUserToRegistredUserDTO(user);
+        return UserMapper.mapRegisteredUserToRegisteredUserDTO(user);
     }
 
     /**
@@ -159,7 +159,7 @@ public class UserController {
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
-        return UserMapper.mapRegistredUserToRegistredUserDTO(user);
+        return UserMapper.mapRegisteredUserToRegisteredUserDTO(user);
     }
 
     /**

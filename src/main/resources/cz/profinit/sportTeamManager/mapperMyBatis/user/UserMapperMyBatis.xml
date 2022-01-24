@@ -20,25 +20,21 @@
         SELECT * FROM t_user WHERE c_id = #{id}
     </select>
 
-    <select id="insertUser" parameterType="RegisteredUser" resultMap="userResultMap">
+    <insert id="insertUser" parameterType="RegisteredUser" useGeneratedKeys="true" keyProperty="entityId">
         INSERT INTO t_user (c_name, c_surname, c_password, c_email, c_role)
         VALUES (#{name}, #{surname}, #{password}, #{email}, #{role})
-        RETURNING *
-    </select>
+    </insert>
     
-    <select id="deleteUserById" parameterType="Long" resultMap="userResultMap">
+    <delete id="deleteUserById" parameterType="Long">
         DELETE FROM t_user WHERE c_id = #{id}
-        RETURNING *
-    </select>
+    </delete>
 
-    <select id="deleteUserByEmail" parameterType="String" resultMap="userResultMap">
+    <delete id="deleteUserByEmail" parameterType="String">
         DELETE FROM t_user WHERE c_email = #{email}
-        RETURNING *
-    </select>
+    </delete>
 
-    <select id="updateUser" parameterType="RegisteredUser" resultMap="userResultMap">
-        UPDATE t_user SET c_name=#{name}, c_surname=#{surname}, c_password=#{password}, c_email=#{email}, c_role=#{role}
+    <update id="updateUser" parameterType="RegisteredUser">
+        UPDATE t_user SET c_name = #{name}, c_surname = #{surname}, c_password = #{password}, c_email = #{email}, c_role = #{role}
         WHERE c_id = #{entityId}
-        RETURNING *
-    </select>
+    </update>
 </mapper>

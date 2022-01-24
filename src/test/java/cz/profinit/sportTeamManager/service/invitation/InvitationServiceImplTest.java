@@ -33,7 +33,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -52,21 +51,23 @@ import java.util.List;
 public class InvitationServiceImplTest {
 
     private InvitationService invitationService;
-    private InvitationRepository invitationRepository;
     private EventServiceImpl eventService;
     private UserService userService;
     private RegisteredUser loggedUser;
+
     @Autowired
-    private ApplicationContext context;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private InvitationRepository invitationRepository;
 
     /**
      * Initialization of services and repositories used in tests
      */
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(context.getBean(PasswordEncoder.class), new StubUserRepository());
-        eventService = new EventServiceImpl(new StubEventRepository(), new EventMapper(),userService);
-        invitationRepository = new StubInvitationRepository();
+        userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
+        eventService = new EventServiceImpl(new StubEventRepository(), userService);
         invitationService = new InvitationServiceImpl(invitationRepository,eventService,userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
     }
@@ -80,8 +81,8 @@ public class InvitationServiceImplTest {
 
         Assert.assertEquals(invitation.getStatus(),StatusEnum.PENDING);
         Event event = eventService.findEventById(0L);
-        Assert.assertEquals(event.getListOfInvitation().get(0).getStatus(),StatusEnum.PENDING);
-        Assert.assertEquals(event.getListOfInvitation().get(0).getIsFor(),loggedUser);
+        Assert.assertEquals(event.getInvitationList().get(0).getStatus(),StatusEnum.PENDING);
+        Assert.assertEquals(event.getInvitationList().get(0).getRecipient(),loggedUser);
     }
 
     /**
@@ -117,8 +118,8 @@ public class InvitationServiceImplTest {
 
         List<Invitation> invitationList = invitationService.createNewInvitationsFromList(users, 0L);
 
-        Assert.assertEquals(users.get(0),invitationList.get(0).getIsFor());
-        Assert.assertEquals(users.get(1),invitationList.get(1).getIsFor());
+        Assert.assertEquals(users.get(0),invitationList.get(0).getRecipient());
+        Assert.assertEquals(users.get(1),invitationList.get(1).getRecipient());
     }
 
     /**
@@ -248,8 +249,8 @@ public class InvitationServiceImplTest {
     public void createGuestInvitationCreatesNewGuestInvitation() throws EntityNotFoundException {
         Invitation invitation = invitationService.createGuestInvitation(0L,"Karel");
 
-        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getIsFor()).getUri());
-        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getIsFor()).getRole());
+        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getRecipient()).getUri());
+        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getRecipient()).getRole());
         Assert.assertEquals(StatusEnum.PENDING, invitation.getStatus());
     }
 
@@ -275,9 +276,9 @@ public class InvitationServiceImplTest {
     public void getGuestInvitationGetsInvitation() throws EntityNotFoundException, NonValidUriException {
         Invitation invitation = invitationService.getGuestInvitation("mxPR4fbWzvai60UMLhD3aw==");
 
-        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getIsFor()).getUri());
-        Assert.assertEquals("Karel",invitation.getIsFor().getName());
-        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getIsFor()).getRole());
+        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getRecipient()).getUri());
+        Assert.assertEquals("Karel",invitation.getRecipient().getName());
+        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getRecipient()).getRole());
         Assert.assertEquals(StatusEnum.PENDING, invitation.getStatus());
     }
 
@@ -305,9 +306,9 @@ public class InvitationServiceImplTest {
     public void changeStatusInvitationChangesStatusInvitation() throws NonValidUriException, EntityNotFoundException {
         Invitation invitation = invitationService.changeGuestInvitation("mxPR4fbWzvai60UMLhD3aw==",StatusEnum.ACCEPTED);
 
-        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getIsFor()).getUri());
-        Assert.assertEquals("Karel",invitation.getIsFor().getName());
-        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getIsFor()).getRole());
+        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getRecipient()).getUri());
+        Assert.assertEquals("Karel",invitation.getRecipient().getName());
+        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getRecipient()).getRole());
         Assert.assertEquals(StatusEnum.ACCEPTED, invitation.getStatus());
     }
 

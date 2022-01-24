@@ -22,18 +22,16 @@ import java.util.logging.Logger;
 @Repository
 public class StubUserRepository implements UserRepository {
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
-    private RegisteredUser loggedUser1 = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
+    public static RegisteredUser loggedUser1 = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
     private RegisteredUser loggedUser2 = new RegisteredUser("Pavel", "Smutny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@seznam.cz", RoleEnum.USER);
     private RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER);
     private RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
-    private RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
-
-    private Guest guest = new Guest("Karel","mxPR4fbWzvai60UMLhD3aw==");
+    public static RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
 
     @Override
-    public RegisteredUser insertRegisteredUser(RegisteredUser registeredUser) {
+    public void insertRegisteredUser(RegisteredUser registeredUser) {
         logger.info("User saved to database");
-        return registeredUser;
+        registeredUser.setEntityId(10L);
     }
 
     /**
@@ -80,34 +78,9 @@ public class StubUserRepository implements UserRepository {
     }
 
     @Override
-    public RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) {
-        return null;
-    }
+    public void deleteRegisteredUser(Long userId) {
 
-    @Override
-    public Guest insertGuest(Guest guest) {
-        guest.setEntityId(0L);
-        this.guest = guest;
-        return this.guest;
     }
-
-    @Override
-    public Guest findGuestByUri(String uri) throws EntityNotFoundException {
-        if (uri.equals("mxPR4fbWzvai60UMLhD3aw==")) {
-            return guest;
-        } else if (uri.equals("jsem_place_holder")) {
-            return guest;
-        } else {
-            throw new EntityNotFoundException("Guest");
-        }
-    }
-
-    @Override
-    public Guest updateGuest(Guest guest)  {
-        this.guest = guest;
-        return guest;
-    }
-
     public RegisteredUser findUserById(long id) {
         return null;
     }
@@ -136,5 +109,21 @@ public class StubUserRepository implements UserRepository {
         } else {
             throw new EntityNotFoundException("User");
         }
+    }
+
+    //TODO IMPLEMENT THESE
+    @Override
+    public Guest insertGuest(Guest guest) {
+        return null;
+    }
+
+    @Override
+    public Guest findGuestByUri(String uri) throws EntityNotFoundException {
+        return null;
+    }
+
+    @Override
+    public Guest updateGuest(Guest guest) {
+        return null;
     }
 }

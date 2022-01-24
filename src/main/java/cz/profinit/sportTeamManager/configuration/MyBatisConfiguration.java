@@ -3,28 +3,25 @@ package cz.profinit.sportTeamManager.configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.context.annotation.Import;
 
 import javax.sql.DataSource;
 
 @Configuration
 @MapperScan("cz.profinit.sportTeamManager.mapperMyBatis")
-@ComponentScan("cz.profinit.sportTeamManager.*")
-@Profile("Main")
+//@ComponentScan("cz.profinit.sportTeamManager.*")
 public class MyBatisConfiguration {
 
     @Bean
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
-        DriverManagerDataSource dmds = new DriverManagerDataSource();
-        dmds.setDriverClassName("org.postgresql.Driver");
-        dmds.setUrl("jdbc:postgresql://localhost/STM-db");
-        dmds.setUsername("postgres");
-        dmds.setPassword("superuser");
-        return dmds;
+        return DataSourceBuilder.create().build();
     }
 
     @Bean

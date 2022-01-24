@@ -47,20 +47,20 @@ public class StubInvitationService implements InvitationService {
 
 
     Event event;
-    User loggedUser;
+    RegisteredUser loggedUser;
     Guest guest;
 
 
     public StubInvitationService() {
-        Place place = new Place("Profinit","Tychonova 2");
+        Place place = new Place("Profinit","Tychonova 2", 1L);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
-        event = new Event(LocalDateTime.now(),place,6,false,loggedUser,new ArrayList<>(),new ArrayList<>());
+        event = new Event(LocalDateTime.now(),6,false, place, loggedUser,new ArrayList<>(),new ArrayList<>());
         event.setEntityId(0L);
-        event.getListOfMessages().add(new Message(loggedUser,"Testuji",LocalDateTime.now()));
+        event.getMessageList().add(new Message(loggedUser,"Testuji",LocalDateTime.now(), event.getEntityId()));
         guest = new Guest("Karel","mxPR4fbWzvai60UMLhD3aw==");
         guest.setEntityId(0L);
-        event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser));
-        event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,guest));
+        event.getInvitationList().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser));
+        event.getInvitationList().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,guest));
 
     }
 
@@ -116,11 +116,11 @@ public class StubInvitationService implements InvitationService {
     @Override
     public Invitation findInvitationByEventIdAndEmail(Long eventId,String email) throws EntityNotFoundException {
         Event event = eventService.findEventById(eventId);
-        List <Invitation> invitationList = event.getListOfInvitation();
+        List <Invitation> invitationList = event.getInvitationList();
         User user = userService.findUserByEmail(email);
 
         for (Invitation invitation : invitationList){
-            if (invitation.getIsFor().equals(user)){
+            if (invitation.getRecipient().equals(user)){
                 return invitation;
             }
         }
@@ -201,7 +201,7 @@ public class StubInvitationService implements InvitationService {
             throw new EntityNotFoundException("Event");
 
         }
-        List <Invitation> invitationList = event.getListOfInvitation();
+        List <Invitation> invitationList = event.getInvitationList();
         Guest guest;
 
         if (uri.equals("mxPR4fbWzvai60UMLhD3aw==")) {
@@ -213,7 +213,7 @@ public class StubInvitationService implements InvitationService {
         }
 
         for (Invitation invitation : invitationList){
-            if (invitation.getIsFor().equals(guest)){
+            if (invitation.getRecipient().equals(guest)){
                 return invitation;
             }
         }

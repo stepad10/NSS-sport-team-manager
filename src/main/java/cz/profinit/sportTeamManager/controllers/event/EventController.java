@@ -250,7 +250,7 @@ public class EventController {
     @PostMapping("/event/{eventId}/invitation/guest/{name}")
     public String createNewGuest (@PathVariable String name, @PathVariable Long eventId){
         try {
-            return ((Guest) invitationService.createGuestInvitation(eventId,name).getIsFor()).getUri();
+            return ((Guest) invitationService.createGuestInvitation(eventId,name).getRecipient()).getUri();
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
             if (e.getMessage().contains("entity"))

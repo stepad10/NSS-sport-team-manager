@@ -18,8 +18,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -29,8 +31,9 @@ import java.util.List;
  * Unit tests for Team mapper
  */
 @RunWith(SpringRunner.class)
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @ContextConfiguration(classes = MyBatisConfigurationTest.class)
-@ActiveProfiles("database")
+@TestPropertySource("/test.properties")
 public class TeamMapperMyBatisTest {
 
     @Autowired
@@ -40,23 +43,25 @@ public class TeamMapperMyBatisTest {
     private UserMapperMyBatis userMapperMyBatis;
 
     private RegisteredUser insertUserHelp(String email) {
-        return userMapperMyBatis.insertUser(new RegisteredUser("Tomas", "Smutny", "pass1", email, RoleEnum.USER));
+        RegisteredUser regUs = new RegisteredUser("Tomas", "Smutny", "pass1", email, RoleEnum.USER);
+        userMapperMyBatis.insertUser(regUs);
+        return regUs;
     }
 
     private Team insertTeamHelp(String userEmail, String teamName) {
         RegisteredUser owner = insertUserHelp(userEmail);
         Team team = new Team(teamName, "sipky", new ArrayList<>(), owner);
-        return teamMapperMyBatis.insertTeam(team);
+        teamMapperMyBatis.insertTeam(team);
+        return team;
     }
 
-    private RegisteredUser deleteUserByIdHelp(Long id) {
-        return userMapperMyBatis.deleteUserById(id);
+    private void deleteUserByIdHelp(Long id) {
+        userMapperMyBatis.deleteUserById(id);
     }
 
-    private Team deleteTeamHelp(Team team) {
-        Team tm = teamMapperMyBatis.deleteTeamById(team.getEntityId());
+    private void deleteTeamHelp(Team team) {
+        teamMapperMyBatis.deleteTeamById(team.getEntityId());
         deleteUserByIdHelp(team.getOwner().getEntityId());
-        return tm;
     }
 
     @Test
@@ -64,23 +69,21 @@ public class TeamMapperMyBatisTest {
         RegisteredUser presetUser = insertUserHelp("c@c.c");
         Assert.assertNotNull(presetUser);
         Team team = new Team("C team", "sipky", new ArrayList<>(), presetUser);
-        Team insertedTeam = teamMapperMyBatis.insertTeam(team);
-        Assert.assertNotNull(insertedTeam);
-        Assert.assertNotNull(teamMapperMyBatis.findTeamById(insertedTeam.getEntityId()));
-        deleteTeamHelp(insertedTeam);
-        Assert.assertNull(teamMapperMyBatis.findTeamById(insertedTeam.getEntityId()));
-        Assert.assertNull(userMapperMyBatis.findUserById(insertedTeam.getOwner().getEntityId()));
+        teamMapperMyBatis.insertTeam(team);
+        Assert.assertNotNull(team.getEntityId());
+        deleteTeamHelp(team);
+        Assert.assertNull(teamMapperMyBatis.findTeamById(team.getEntityId()));
+        Assert.assertNull(userMapperMyBatis.findUserById(team.getOwner().getEntityId()));
     }
 
     @Test
     public void updateTeam() {
         Team presetTeam = insertTeamHelp("d@d.d", "D team");
         Assert.assertNotNull(presetTeam);
+        String teamSport = presetTeam.getSport();
         presetTeam.setSport("famfrpal");
         teamMapperMyBatis.updateTeam(presetTeam);
-        Team updatedTeam = teamMapperMyBatis.findTeamById(presetTeam.getEntityId());
-        Assert.assertNotNull(updatedTeam);
-        Assert.assertEquals(presetTeam.getSport(), updatedTeam.getSport());
+        Assert.assertNotEquals(teamSport, presetTeam.getSport());
         deleteTeamHelp(presetTeam);
         Assert.assertNull(teamMapperMyBatis.findTeamById(presetTeam.getEntityId()));
         Assert.assertNull(userMapperMyBatis.findUserById(presetTeam.getOwner().getEntityId()));
@@ -90,11 +93,10 @@ public class TeamMapperMyBatisTest {
     public void deleteTeamById() {
         Team presetTeam = insertTeamHelp("a@a.a", "A team");
         Assert.assertNotNull(presetTeam);
-        Team deletedTeam = teamMapperMyBatis.deleteTeamById(presetTeam.getEntityId());
-        Assert.assertNotNull(deletedTeam);
-        deleteUserByIdHelp(deletedTeam.getOwner().getEntityId());
-        Assert.assertNull(teamMapperMyBatis.findTeamById(deletedTeam.getEntityId()));
-        Assert.assertNull(userMapperMyBatis.findUserById(deletedTeam.getOwner().getEntityId()));
+        teamMapperMyBatis.deleteTeamById(presetTeam.getEntityId());
+        deleteUserByIdHelp(presetTeam.getOwner().getEntityId());
+        Assert.assertNull(teamMapperMyBatis.findTeamById(presetTeam.getEntityId()));
+        Assert.assertNull(userMapperMyBatis.findUserById(presetTeam.getOwner().getEntityId()));
     }
 
     @Test

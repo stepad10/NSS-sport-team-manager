@@ -31,5 +31,6 @@ public class PlaceDto {
     private String name;
     @XmlElement(name = "address")
     private String address;
-
+    @XmlElement(name = "teamId")
+    private Long teamId;
 }

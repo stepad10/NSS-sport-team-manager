@@ -1,5 +1,5 @@
 /*
- * PasswordEncoderBean
+ * PasswordEncoderConfiguration
  *
  * 0.1
  *
@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Simple PasswordEncoder bean creation
  */
 @Configuration
-public class PasswordEncoderBean {
+public class PasswordEncoderConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -8,6 +8,7 @@
 package cz.profinit.sportTeamManager.model.event;
 
 import cz.profinit.sportTeamManager.model.entity.Entity;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,8 +22,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Message extends Entity {
 
-    private final User user;
-    private final String message;
+    private final RegisteredUser user;
+    private final String text;
     private final LocalDateTime date;
+    private final Long eventId;
 
 }

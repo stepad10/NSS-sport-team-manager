@@ -27,10 +27,12 @@ public class MessageDto {
 
     @XmlElement(name = "user")
     private final RegisteredUserDTO user;
-    @XmlElement(name = "message")
-    private final String message;
+    @XmlElement(name = "text")
+    private final String text;
     @XmlElement(name = "date")
     @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     private final LocalDateTime date;
+    @XmlElement(name = "eventId")
+    private final Long eventId;
 
 }

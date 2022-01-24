@@ -13,6 +13,7 @@ import cz.profinit.sportTeamManager.mappers.PlaceMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.event.EventRepository;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
@@ -62,7 +63,7 @@ public class StubEventService implements EventService {
         Event event = findEventById(eventId);
         event.setDate(eventDto.getDate());
         event.setPlace(PlaceMapper.toPlace(eventDto.getPlace()));
-        event.setMaxPersonAttendance(eventDto.getMaxPersonAttendance());
+        event.setCapacity(eventDto.getCapacity());
         event.setIsCanceled(eventDto.isCanceled());
 
         return eventRepository.updateEvent(event);    }
@@ -90,9 +91,9 @@ public class StubEventService implements EventService {
      */
     @Override
     public Message addNewMessage(String email, String messageStr, Long eventId) throws EntityNotFoundException {
-        User user = userRepository.findUserByEmail(email);
+        RegisteredUser user = userRepository.findUserByEmail(email);
         Event event =  findEventById(eventId);
-        Message message = new Message(user,messageStr, LocalDateTime.now());
+        Message message = new Message(user, messageStr, LocalDateTime.now(), eventId);
         event.addNewMessage(message);
         eventRepository.updateEvent(event);
         return message;
@@ -107,7 +108,7 @@ public class StubEventService implements EventService {
      */
     @Override
     public List<Message> getAllMessages(Long eventId) throws EntityNotFoundException {
-        return findEventById(eventId).getListOfMessages();
+        return findEventById(eventId).getMessageList();
     }
 
     /**
@@ -147,6 +148,6 @@ public class StubEventService implements EventService {
      */
     @Override
     public List<Invitation> getAllInvitations(Long eventId) throws EntityNotFoundException {
-        return findEventById(eventId).getListOfInvitation();
+        return findEventById(eventId).getInvitationList();
     }
 }

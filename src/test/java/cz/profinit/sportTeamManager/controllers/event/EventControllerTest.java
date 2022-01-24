@@ -17,7 +17,6 @@ import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Place;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.service.event.EventService;
 import cz.profinit.sportTeamManager.service.invitation.InvitationService;
 import org.junit.Assert;
@@ -65,16 +64,16 @@ public class EventControllerTest {
     private InvitationService invitationService;
 
     private Event event;
-    private User loggedUser;
+    private RegisteredUser loggedUser;
 
     /**
      * Creates Event data transfer object for comparing with request results.
      */
     @Before
     public void setUp() throws EntityNotFoundException, UserIsAlreadyInEventException {
-        Place place = new Place("Profinit","Tychonova 2");
+        Place place = new Place("Profinit","Tychonova 2", 1L);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
-        event = new Event(LocalDateTime.now(),place,5,false,loggedUser,new ArrayList<>(),new ArrayList<>());
+        event = new Event(LocalDateTime.now(), 5, false, place, loggedUser, new ArrayList<>(), new ArrayList<>());
         event.setEntityId(0L);
         eventService.createNewEvent(EventMapper.toDto(event));
         eventService.addNewMessage("is@gmail.com","Testuji",0L);
@@ -165,7 +164,7 @@ public class EventControllerTest {
         JAXBContext jaxbContext = JAXBContext.newInstance(EventDto.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();
-        event.setMaxPersonAttendance(9);
+        event.setCapacity(9);
         jaxbMarshaller.marshal(EventMapper.toDto(event), sw);
         String eventXml = sw.toString();
 

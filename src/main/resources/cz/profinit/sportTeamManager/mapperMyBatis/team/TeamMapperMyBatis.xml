@@ -3,49 +3,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cz.profinit.sportTeamManager.mapperMyBatis.team.TeamMapperMyBatis">
-<!--
-    <resultMap id="ownerResultMap" type="RegisteredUser">
-        <id property="entityId" column="c_owner"/>
-    </resultMap>
--->
     <resultMap id="teamResultMap" type="Team">
         <id property="entityId" column="c_id"/>
         <result property="name" column="c_name"/>
         <result property="sport" column="c_sport"/>
 
-
         <association property="owner" javaType="RegisteredUser">
             <id property="entityId" column="c_owner"/>
         </association>
-<!--
-        <association property="owner" resultMap="ownerResultMap">
-
-        </association>
--->
-        <!--
-        <collection property="listOfSubgroups" ofType="Subgroup">
-            <id property="entityId" column="c_id"/>
-            <result property="name" column="c_name"/>
-        </collection>
-        -->
     </resultMap>
 
-    <select id="insertTeam" parameterType="Team" resultMap="teamResultMap">
+    <insert id="insertTeam" parameterType="Team" useGeneratedKeys="true" keyProperty="entityId">
         INSERT INTO t_team (c_name, c_sport, c_owner)
         VALUES (#{name}, #{sport}, #{owner.entityId})
-        RETURNING *
-    </select>
+    </insert>
 
-    <select id="updateTeam" parameterType="Team" resultMap="teamResultMap">
-        UPDATE t_team SET c_name=#{name}, c_sport=#{sport}, c_owner=#{owner.entityId}
+    <update id="updateTeam" parameterType="Team">
+        UPDATE t_team SET c_name = #{name}, c_sport = #{sport}, c_owner = #{owner.entityId}
         WHERE c_id = #{entityId}
-        RETURNING *
-    </select>
+    </update>
 
-    <select id="deleteTeamById" parameterType="Long" resultMap="teamResultMap">
+    <delete id="deleteTeamById" parameterType="Long" >
         DELETE FROM t_team WHERE c_id = #{id}
-        RETURNING *
-    </select>
+    </delete>
 
     <select id="findTeamById" parameterType="Long" resultMap="teamResultMap">
         SELECT * FROM t_team WHERE c_id = #{id}

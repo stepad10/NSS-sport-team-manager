@@ -11,8 +11,8 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.team.TeamRepository;
+import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -25,85 +25,72 @@ import java.util.logging.Logger;
 
 @Repository
 public class StubTeamRepository implements TeamRepository {
+
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
 
-    /**
-     * Create stub team pulled from databese with owner user and 3 subgroups, 2 default and one Empty.
-     * Gives logger info message.
-     *
-     * @param teamName team name is not used
-     * @return created stub team
-     */
-    public List<Team> findTeamsByName(String teamName) throws EntityNotFoundException {
-        // TODO test return list
-        return new ArrayList<>();
+    private static Team presetTeam;
+
+    public static Team getPresetTeam() {
+
+        setPresetTeam();
+
+        return presetTeam;
     }
 
-    /**
-     * Simulate updating team in database.Gives logger info message.
-     *
-     * @param team team, not used
-     * @return team
-     */
-    @Override
-    public Team updateTeam(Team team) {
-        logger.info("STUB: Updating team");
-        return team;
-    }
-
-    /**
-     * Virtually saves a team to database.
-     *
-     * @param team saving team
-     * @return saved team
-     */
-    @Override
-    public Team insertTeam(Team team) {
-        logger.info("STUB: Saving team");
-        return team;
-    }
-
-    /**
-     * Virtually deletes team from database
-     *
-     * @param team deleting team
-     */
-    @Override
-    public Team deleteTeam(Team team) {
-        logger.info("STUB: deleting team");
-        return team;
-    }
-
-
-    /**
-     * Gets team from database virtually
-     *
-     * @param teamId team id
-     * @return team
-     */
-    @Override
-    public Team findTeamById(Long teamId) throws EntityNotFoundException {
-        if (teamId != 10L) throw new EntityNotFoundException("Team");
-        RegisteredUser owner = new RegisteredUser(
-                "Ivan",
-                "Stastny",
-                "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
-                "is@gmail.com",
-                RoleEnum.USER);
-        List<Subgroup> subgroupList = new ArrayList<>();
-        Team team = new Team("B team", "sipky", subgroupList, owner);
-        team.setEntityId(10L);
-        Subgroup allUsersSubgroup = new Subgroup("All Users", team.getEntityId());
+    private static void setPresetTeam() {
+        RegisteredUser owner = StubUserRepository.loggedUser1;
+        owner.setEntityId(1L);
+        RegisteredUser presetUser = StubUserRepository.loggedUser5;
+        presetUser.setEntityId(2L);
+        Subgroup allUsersSubgroup = new Subgroup("All Users", 1L);
         allUsersSubgroup.addUser(owner);
-        Subgroup coachesSubgroup = new Subgroup("Coaches", team.getEntityId());
+        allUsersSubgroup.addUser(presetUser);
+        Subgroup coachesSubgroup = new Subgroup("Coaches", 1L);
         coachesSubgroup.addUser(owner);
-        Subgroup emptySubgroup = new Subgroup("Empty subgroup", team.getEntityId());
+        Subgroup emptySubgroup = new Subgroup("Empty subgroup", 1L);
+        List<Subgroup> subgroupList = new ArrayList<>();
         subgroupList.add(allUsersSubgroup);
         subgroupList.add(coachesSubgroup);
         subgroupList.add(emptySubgroup);
-        team.setListOfSubgroups(subgroupList);
-        return team;
+        presetTeam = new Team("B team", "sipky", subgroupList, owner);
+        presetTeam.setEntityId(1L);
     }
 
+    @Override
+    public void insertTeam(Team team) {
+        logger.info("STUB: Saving team!");
+        team.setEntityId(10L);
+    }
 
+    @Override
+    public void deleteTeam(Team team) throws EntityNotFoundException {
+        logger.info("STUB: deleting team!");
+        if (presetTeam == null) setPresetTeam();
+        if (!team.getEntityId().equals(presetTeam.getEntityId())) throw new EntityNotFoundException("Team");
+    }
+
+    @Override
+    public void updateTeam(Team team) throws EntityNotFoundException {
+        logger.info("STUB: Updating team!");
+        if (presetTeam == null) setPresetTeam();
+        if (!team.getEntityId().equals(presetTeam.getEntityId())) throw new EntityNotFoundException("Team");
+    }
+
+    @Override
+    public List<Team> findTeamsByName(String teamName) throws EntityNotFoundException {
+        logger.info("STUB: Finding teams by name!");
+        if (presetTeam == null) setPresetTeam();
+        if (!teamName.equals(presetTeam.getName())) throw new EntityNotFoundException("Team");
+        List<Team> teams = new ArrayList<>();
+        teams.add(presetTeam);
+        return teams;
+    }
+
+    @Override
+    public Team findTeamById(Long teamId) throws EntityNotFoundException {
+        logger.info("STUB: Finding team by id!");
+        if (presetTeam == null) setPresetTeam();
+        if (!teamId.equals(presetTeam.getEntityId())) throw new EntityNotFoundException("Team");
+        return presetTeam;
+    }
 }

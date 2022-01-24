@@ -33,7 +33,7 @@ public class UserMapper {
      * @param registeredUser RegisteredUser to be mapped
      * @return mapped RegisteredUser to RegisteredUser  data transfer object
      */
-    public static RegisteredUserDTO mapRegistredUserToRegistredUserDTO(RegisteredUser registeredUser) {
+    public static RegisteredUserDTO mapRegisteredUserToRegisteredUserDTO(RegisteredUser registeredUser) {
         RegisteredUserDTO registeredUserDTO = new RegisteredUserDTO(registeredUser.getName(),
                 registeredUser.getSurname(),
                 registeredUser.getEmail());
@@ -46,7 +46,7 @@ public class UserMapper {
      * @param registeredUserDTO RegisteredUser data transfer object to be mapped
      * @return mapped RegisteredUser data transfer object to RegisteredUser
      */
-    public static RegisteredUser mapRegistredUserDTOToRegistredUser(RegisteredUserDTO registeredUserDTO) {
+    public static RegisteredUser mapRegisteredUserDTOToRegisteredUser(RegisteredUserDTO registeredUserDTO) {
         RegisteredUser registeredUser = new RegisteredUser(registeredUserDTO.getName(),
                 registeredUserDTO.getSurname(),
                 null,
@@ -61,8 +61,8 @@ public class UserMapper {
      * @param registeredUserList list of RegisteredUser to be mapped
      * @return mapped list of RegisteredUser to list of RegisteredUser data transfer object
      */
-    public static List<RegisteredUserDTO> mapRegistredUserListToRegistredUserDTOList(List<RegisteredUser> registeredUserList) {
-        return registeredUserList.stream().map(UserMapper::mapRegistredUserToRegistredUserDTO).collect(Collectors.toList());
+    public static List<RegisteredUserDTO> mapRegisteredUserListToRegisteredUserDTOList(List<RegisteredUser> registeredUserList) {
+        return registeredUserList.stream().map(UserMapper::mapRegisteredUserToRegisteredUserDTO).collect(Collectors.toList());
     }
 
     /**
@@ -71,8 +71,8 @@ public class UserMapper {
      * @param registeredUserList list of RegisteredUser data transfer object to be mapped
      * @return mapped list of RegisteredUser data transfer object to list of RegisteredUser
      */
-    public static List<RegisteredUser> mapRegistredUserDTOListToRegistredUserList(List<RegisteredUserDTO> registeredUserList) {
-        return registeredUserList.stream().map(UserMapper::mapRegistredUserDTOToRegistredUser).collect(Collectors.toList());
+    public static List<RegisteredUser> mapRegisteredUserDTOListToRegisteredUserList(List<RegisteredUserDTO> registeredUserList) {
+        return registeredUserList.stream().map(UserMapper::mapRegisteredUserDTOToRegisteredUser).collect(Collectors.toList());
     }
 
     /**

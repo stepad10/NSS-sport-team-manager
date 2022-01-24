@@ -59,26 +59,26 @@ public class UserMapperTest {
 
     @Test
     public void mapRegistredUserToRegistredUserDTO() {
-        assertEquals(registeredUserDTO1, UserMapper.mapRegistredUserToRegistredUserDTO(registeredUser1));
+        assertEquals(registeredUserDTO1, UserMapper.mapRegisteredUserToRegisteredUserDTO(registeredUser1));
     }
 
     @Test
     public void mapRegistredUserDTOToRegistredUser() {
         registeredUser1.setPassword(null);
-        assertEquals(registeredUser1, UserMapper.mapRegistredUserDTOToRegistredUser(registeredUserDTO1));
+        assertEquals(registeredUser1, UserMapper.mapRegisteredUserDTOToRegisteredUser(registeredUserDTO1));
     }
 
     @Test
     public void mapRegistredUserDTOListToRegistredUserList() {
         registeredUserList.get(0).setPassword(null);
         registeredUserList.get(1).setPassword(null);
-        assertEquals(registeredUserList, UserMapper.mapRegistredUserDTOListToRegistredUserList(registeredUserDTOList));
+        assertEquals(registeredUserList, UserMapper.mapRegisteredUserDTOListToRegisteredUserList(registeredUserDTOList));
 
     }
 
     @Test
     public void mapRegistredUserListToRegistredUserDTOList() {
-        assertEquals(registeredUserDTOList, UserMapper.mapRegistredUserListToRegistredUserDTOList(registeredUserList));
+        assertEquals(registeredUserDTOList, UserMapper.mapRegisteredUserListToRegisteredUserDTOList(registeredUserList));
     }
 
     @Test

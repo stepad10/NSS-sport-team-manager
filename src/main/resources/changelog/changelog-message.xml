@@ -18,10 +18,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="c_user_id" type="INT">
-                <constraints nullable="false" foreignKeyName="user_fk" references="t_user(c_id)"/>
+                <constraints nullable="false" foreignKeyName="message_user_fk" references="t_user(c_id)"/>
             </column>
             <column name="c_event_id" type="INT">
-                <constraints nullable="false" foreignKeyName="event_fk" references="t_event(c_id)"/>
+                <constraints nullable="false" foreignKeyName="message_event_fk" references="t_event(c_id)"/>
             </column>
         </createTable>
     </changeSet>

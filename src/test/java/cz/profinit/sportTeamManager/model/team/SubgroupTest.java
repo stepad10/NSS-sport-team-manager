@@ -8,6 +8,7 @@
 package cz.profinit.sportTeamManager.model.team;
 
 import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import org.junit.Before;
@@ -57,16 +58,24 @@ public class SubgroupTest {
 
     /**
      * Tests removing a user form a subgroup.
+     * @throws EntityNotFoundException if user to be removed wasn't found
      */
-    @Test
-    public void removeUser() {
+    @Test(expected = EntityNotFoundException.class)
+    public void removeUser() throws EntityNotFoundException {
         subgroup.removeUser(user1);
         assertFalse(subgroup.getUserList().contains(user1));
-        try {
-            subgroup.removeUser(user2);
-        } catch (Exception e) {
-            assertEquals("no user in list", e.getMessage());
-        }
+        subgroup.removeUser(user2);
+    }
+
+    /**
+     * Tests getting user from userList
+     * @throws EntityNotFoundException if no user was found
+     */
+    @Test(expected = EntityNotFoundException.class)
+    public void getUser() throws EntityNotFoundException {
+        RegisteredUser regUs = subgroup.getUser(user1.getEmail());
+        assertEquals(regUs, user1);
+        subgroup.getUser(user2.getEmail());
     }
 
     /**
