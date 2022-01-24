@@ -3,7 +3,6 @@ package cz.profinit.sportTeamManager.repositories.user;
 import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
-import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,21 +69,5 @@ public class UserRepositoryImpl implements UserRepository {
             throw new EntityNotFoundException("User");
         }
         userMapperMyBatis.deleteUserById(userId);
-    }
-
-    //TODO IMPLEMENT THESE
-    @Override
-    public Guest insertGuest(Guest guest) {
-        return null;
-    }
-
-    @Override
-    public Guest findGuestByUri(String uri) throws EntityNotFoundException {
-        return null;
-    }
-
-    @Override
-    public Guest updateGuest(Guest guest) {
-        return null;
     }
 }
