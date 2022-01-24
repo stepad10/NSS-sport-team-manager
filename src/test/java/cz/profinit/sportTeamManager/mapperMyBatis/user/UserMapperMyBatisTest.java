@@ -8,7 +8,7 @@
 
 package cz.profinit.sportTeamManager.mapperMyBatis.user;
 
-import cz.profinit.sportTeamManager.configuration.MyBatisConfiguration;
+import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import org.junit.Assert;
@@ -26,7 +26,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@ContextConfiguration(classes = MyBatisConfiguration.class)
+@ContextConfiguration(classes = MyBatisConfigurationTest.class)
 @TestPropertySource("/test.properties")
 public class UserMapperMyBatisTest {
 

@@ -9,7 +9,7 @@
 
 package cz.profinit.sportTeamManager.mapperMyBatis.team;
 
-import cz.profinit.sportTeamManager.configuration.MyBatisConfiguration;
+import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
 import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -32,7 +32,7 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@ContextConfiguration(classes = MyBatisConfiguration.class)
+@ContextConfiguration(classes = MyBatisConfigurationTest.class)
 @TestPropertySource("/test.properties")
 public class TeamMapperMyBatisTest {
 

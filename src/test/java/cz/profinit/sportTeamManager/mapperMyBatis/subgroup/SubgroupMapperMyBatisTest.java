@@ -1,6 +1,6 @@
 package cz.profinit.sportTeamManager.mapperMyBatis.subgroup;
 
-import cz.profinit.sportTeamManager.configuration.MyBatisConfiguration;
+import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
 import cz.profinit.sportTeamManager.mapperMyBatis.team.TeamMapperMyBatis;
 import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@ContextConfiguration(classes = MyBatisConfiguration.class)
+@ContextConfiguration(classes = MyBatisConfigurationTest.class)
 @TestPropertySource("/test.properties")
 public class SubgroupMapperMyBatisTest {
 
