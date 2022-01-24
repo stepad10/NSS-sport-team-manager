@@ -31,7 +31,7 @@ public class EventMapper {
      */
     public static EventDto toDto(Event event) {
         return new EventDto(event.getEntityId(), event.getDate(), event.getCapacity(), event.getIsCanceled(),
-                PlaceMapper.toDto(event.getPlace()), UserMapper.mapRegistredUserToRegistredUserDTO((RegisteredUser) event.getCreatedBy()));
+                PlaceMapper.toDto(event.getPlace()), UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) event.getCreatedBy()));
     }
 
     /**
@@ -42,7 +42,7 @@ public class EventMapper {
      */
     public static Event toEvent(EventDto eventDto) {
         //TODO předělat ID
-        Event event = new Event(eventDto.getDate(), eventDto.getCapacity(), eventDto.isCanceled(), PlaceMapper.toPlace(eventDto.getPlace()), UserMapper.mapRegistredUserDTOToRegistredUser(eventDto.getCreatedBy()), new ArrayList<>(), new ArrayList<>());
+        Event event = new Event(eventDto.getDate(), eventDto.getCapacity(), eventDto.isCanceled(), PlaceMapper.toPlace(eventDto.getPlace()), UserMapper.mapRegisteredUserDTOToRegisteredUser(eventDto.getCreatedBy()), new ArrayList<>(), new ArrayList<>());
         event.setEntityId(eventDto.getId());
         return event;
     }
