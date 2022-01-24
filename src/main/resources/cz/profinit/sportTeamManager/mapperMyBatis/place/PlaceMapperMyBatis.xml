@@ -7,20 +7,16 @@
         <id property="entityId" column="c_id"/>
         <result property="name" column="c_name"/>
         <result property="address" column="c_address"/>
-<!--
-        <association property="teamId" javaType="Team">
-            <id property="entityId" column="c_team_id"/>
-        </association>
--->
+        <result property="teamId" column="c_team_id"/>
     </resultMap>
 
     <insert id="insertPlace" parameterType="Place" useGeneratedKeys="true" keyProperty="entityId">
-        INSERT INTO t_place (c_name, c_address)
-        VALUES (#{name}, #{address})
+        INSERT INTO t_place (c_name, c_address, c_team_id)
+        VALUES (#{name}, #{address}, #{teamId})
     </insert>
 
     <update id="updatePlace" parameterType="Place">
-        UPDATE t_place SET c_name = #{name}, c_address = #{address}
+        UPDATE t_place SET c_name = #{name}, c_address = #{address}, c_team_id = #{teamId}
         WHERE c_id = #{entityId}
     </update>
 

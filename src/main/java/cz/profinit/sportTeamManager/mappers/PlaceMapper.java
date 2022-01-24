@@ -20,7 +20,7 @@ public class PlaceMapper {
      * @return DTO of given Entity
      */
     public static PlaceDto toDto(Place place) {
-        return new PlaceDto(place.getName(), place.getAddress());
+        return new PlaceDto(place.getName(), place.getAddress(), place.getTeamId());
     }
 
     /**
@@ -30,7 +30,7 @@ public class PlaceMapper {
      * @return Entity of given DTO
      */
     public static Place toPlace(PlaceDto placeDto) {
-        return new Place(placeDto.getName(), placeDto.getAddress());
+        return new Place(placeDto.getName(), placeDto.getAddress(), placeDto.getTeamId());
     }
 
 }
