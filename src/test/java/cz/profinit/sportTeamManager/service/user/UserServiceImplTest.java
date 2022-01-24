@@ -9,7 +9,9 @@
 package cz.profinit.sportTeamManager.service.user;
 
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
@@ -36,6 +38,8 @@ public class UserServiceImplTest {
     private UserServiceImpl userService;
     private RegisteredUser user;
     private RegisteredUser user2;
+
+    private static final String key = "AES";
 
     @Autowired
     private ApplicationContext context;
@@ -119,5 +123,39 @@ public class UserServiceImplTest {
         }
     }
 
+    /**
+     * Testing creation of a new Guest invitation. Positive ending
+     * @throws EntityNotFoundException Thrown when event is not found
+     */
+    @Test
+    public void createNewGuestCreatesNewGuest() throws EntityNotFoundException {
+        Guest guest = userService.createNewGuest("Karel", 0L);
+        assertEquals("Karel",guest.getName());
+        assertEquals(RoleEnum.GUEST,guest.getRole());
+        assertEquals("mxPR4fbWzvai60UMLhD3aw==",guest.getUri());
+    }
 
+    /**
+     * Testing findGuestByUri finds guest by given URI. Positive ending
+     * @throws EntityNotFoundException thrown when Guest is not found
+     */
+    @Test
+    public void findGuestByUriFindsGuestByUri() throws EntityNotFoundException {
+       Guest guest =  userService.findGuestByUri("mxPR4fbWzvai60UMLhD3aw==");
+        assertEquals("Karel",guest.getName());
+        assertEquals(RoleEnum.GUEST,guest.getRole());
+        assertEquals("mxPR4fbWzvai60UMLhD3aw==",guest.getUri());
+    }
+
+    /**
+     * Testing findGuestBuUri throws exception when Guest is not found
+     */
+    @Test
+    public void findGuestByUriThrownEntityNotFoundExceptionForNonExistentGuest() {
+        try {
+            userService.findGuestByUri("mxPR4fbWzvai60UMLhD3aw==");
+        } catch (EntityNotFoundException e) {
+            assertEquals("Guest entity not found!", e.getMessage());
+        }
+    }
 }

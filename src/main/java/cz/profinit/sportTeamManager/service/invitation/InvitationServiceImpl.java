@@ -8,12 +8,15 @@
 
 package cz.profinit.sportTeamManager.service.invitation;
 
+import cz.profinit.sportTeamManager.crypto.Aes;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.invitation.InvitationRepository;
@@ -150,4 +153,62 @@ public class InvitationServiceImpl implements InvitationService{
         Collections.sort(result);
         return result;
     }
+
+    /**
+     * Decrypts URI and finds Event and Guest from database, then finds Invitation from event and returns it.
+     *
+     * @param uri identification of guest invitation
+     * @return Invitation that has ben found
+     * @throws EntityNotFoundException thrown when Entity (Event, Invitation, Guest) is not found
+     * @throws NonValidUriException thrown when URI is not valid AES cipher text.
+     */
+    public Invitation getGuestInvitation (String uri) throws EntityNotFoundException, NonValidUriException {
+        String decryptedUri = Aes.decrypt(uri);
+        if (decryptedUri == null){
+            throw new NonValidUriException();
+        }
+        Long eventId = Long.parseLong(decryptedUri.split("-")[1]);//uri format is guestId + "-" + eventId
+        Event event = eventService.findEventById(eventId);
+        List <Invitation> invitationList = event.getListOfInvitation();
+        Guest guest = userService.findGuestByUri(uri);
+
+        for (Invitation invitation : invitationList){
+            if (invitation.getIsFor().equals(guest)){
+                return invitation;
+            }
+        }
+        throw new EntityNotFoundException("Invitation");
+    }
+
+    /**
+     * Creates new Guest and Invitation for given guest name and event
+     * @param eventId id of event to which guest will be invited
+     * @param name name of guest
+     * @return Created Invitation
+     * @throws EntityNotFoundException thrown when event entity is not found
+     */
+    public Invitation createGuestInvitation (Long eventId, String name) throws EntityNotFoundException {
+        Event event = eventService.findEventById(eventId);
+        User user = userService.createNewGuest(name,event.getEntityId());
+        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,user));
+        eventService.addNewInvitation(eventId, invitation);
+        return invitation;
+    }
+
+    /**
+     * Finds Invitation from given URI and changes its status.
+     * @param uri identification of invitation
+     * @param status status to which invitation should be changed
+     * @return Updated invitation
+     * @throws NonValidUriException thrown when URI is not valid
+     * @throws EntityNotFoundException thrown when invitation entity is not found.
+     */
+    public Invitation changeGuestInvitation (String uri, StatusEnum status) throws NonValidUriException, EntityNotFoundException {
+        Invitation invitation = getGuestInvitation(uri);
+        invitation.setStatus(status);
+        invitation.setChanged(LocalDateTime.now());
+        invitationRepository.updateInvitation(invitation);
+        return invitation;
+    }
+
 }

@@ -7,9 +7,11 @@
  */
 package cz.profinit.sportTeamManager.service.user;
 
+import cz.profinit.sportTeamManager.crypto.Aes;
 import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserOrPasswordNotMatchException;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
+
 
 
     /**
@@ -183,5 +186,36 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * Creates new Guest by AES encrypting (guest id + "-" + event id) and saves it to database.
+     * @param name Guest name
+     * @param eventId id of event for which we want to create an invitation
+     * @return Guest that has been created
+     * @throws EntityNotFoundException thrown when Event entity is not found
+     */
+    @Override
+    public Guest createNewGuest (String name, Long eventId) throws EntityNotFoundException {
+        //TODO maybe generate this
+        String placeholderUri = "jsem_place_holder";
 
+        userRepository.insertGuest(new Guest(name,placeholderUri));
+        Guest guest = userRepository.findGuestByUri(placeholderUri);
+        String uri = Aes.encrypt(guest.getEntityId() + "-" + eventId);
+
+        guest.setUri(uri);
+        userRepository.updateGuest(guest);
+
+        return guest;
+    }
+
+    /**
+     * Calls repository that will find guest by URI or throws exception
+     * @param uri identification of guest
+     * @return desired Guest
+     * @throws EntityNotFoundException thrown when Guest entity is not found
+     */
+    @Override
+    public Guest findGuestByUri(String uri) throws EntityNotFoundException {
+        return userRepository.findGuestByUri(uri);
+    }
 }

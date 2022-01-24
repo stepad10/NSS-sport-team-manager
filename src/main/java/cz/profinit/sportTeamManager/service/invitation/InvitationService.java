@@ -10,6 +10,7 @@ package cz.profinit.sportTeamManager.service.invitation;
 
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
@@ -25,5 +26,7 @@ public interface InvitationService {
     List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException;
     List<InvitationDto> OrderListOfInvitationByDateForSpecificStatus (List<InvitationDto> invitationDtoList, StatusEnum status);
     boolean deleteInvitation (String email, Long eventId) throws EntityNotFoundException;
-
+    Invitation getGuestInvitation (String uri) throws EntityNotFoundException, NonValidUriException;
+    Invitation createGuestInvitation (Long eventId, String name) throws EntityNotFoundException;
+    Invitation changeGuestInvitation (String uri, StatusEnum status) throws NonValidUriException, EntityNotFoundException;
 }

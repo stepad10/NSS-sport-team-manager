@@ -119,6 +119,7 @@ public class UserControllerTest {
         StringWriter sw = new StringWriter();
         jaxbMarshaller.marshal(user, sw);
         String loginCreditors = sw.toString();
+        System.out.println(loginCreditors);
         mockMvc.perform(
                         post("/login")
                                 .content(loginCreditors).header("Content-Type", "application/xml"))

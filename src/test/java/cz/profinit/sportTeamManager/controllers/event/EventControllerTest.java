@@ -456,4 +456,107 @@ public class EventControllerTest {
                         .reason("No enum constant cz.profinit.sportTeamManager.model.invitation.StatusEnum.SENDING")));
     }
 
+    /**
+     * Testing creation of a new guest invitation with an existing event
+     *
+     * @throws Exception if request is invalid
+     */
+    @Test
+    public void createNewGuestCreatesNewGuest() throws Exception {
+        MvcResult returnValue =  mockMvc.perform(
+                        MockMvcRequestBuilders.post("/event/0/invitation/guest/Karel")).
+                andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        String result = returnValue.getResponse().getContentAsString();
+
+        Assert.assertTrue(result.contains("mxPR4fbWzvai60UMLhD3aw=="));
+    }
+
+    /**
+     * Testing createNewGuestInvitation return NotFound status for non-existent event
+     *
+     * @throws Exception if request is invalid
+     */
+    @Test
+    public void createNewGuestInvitationReturnsNotFoundForNonExistentEvent() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/event/1/invitation/guest/Karel")).
+                andExpect(MockMvcResultMatchers.status().isNotFound()).andReturn();
+    }
+
+    /**
+     * Testing getGuest invitation for existent event and guest return InvitationDto and OK status.
+     *
+     * @throws Exception if request is invalid
+     */
+    @Test
+    public void getGuestInvitationGetsGuestInvitation() throws Exception {
+        MvcResult returnValue =  mockMvc.perform(
+                        MockMvcRequestBuilders.get("/guest/invitation/mxPR4fbWzvai60UMLhD3aw==")).
+                andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        String result = returnValue.getResponse().getContentAsString();
+
+        Assert.assertTrue(result.contains("Karel"));
+        Assert.assertTrue(result.contains("GUEST"));
+        //Added because when you run only this test status is PENDING, when all tests changeStatus test will change status
+        //to ACCEPTED
+        Assert.assertTrue(result.contains("PENDING") || result.contains("ACCEPTED"));
+    }
+
+    /**
+     * Testing getGuestInvitation return Bad Request for bad URI
+     *
+     * @throws Exception if request is invalid
+     */
+    @Test
+    public void getGuestInvitationReturnBadRequestForBadUri() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/guest/invitation/mxPR4fbWzvi60UMLhD3aw==")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).andReturn();
+    }
+
+    /**
+     * Testing ChangeGuestInvitationStatus changes status of invitation for existent invitation and valid StatusEnum
+     *
+     * @throws Exception if request is invalid
+     */
+    @Test
+    public void changeGuestStatusInvitationChangesGuestStatusInvitation() throws Exception {
+        MvcResult returnValue =  mockMvc.perform(
+                        MockMvcRequestBuilders.post("/guest/invitation/mxPR4fbWzvai60UMLhD3aw==/statusChange/ACCEPTED")).
+                andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        String result = returnValue.getResponse().getContentAsString();
+
+        Assert.assertTrue(result.contains("Karel"));
+        Assert.assertTrue(result.contains("GUEST"));
+        Assert.assertTrue(result.contains("ACCEPTED"));
+    }
+
+    /**
+     * Testing changeGuestInvitationStatus return NotFound for non-existent invitation
+     *
+     * @throws Exception if request is invalid
+     */
+    @Test
+    public void changeGuestStatusInvitationReturnsNotFoundForNonExistentEvent() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/guest/invitation/LIGPFGwdE3HIk4YGdc/9Dg==/statusChange/ACCEPTED")).
+                andExpect(MockMvcResultMatchers.status().isNotFound()).andReturn();
+    }
+
+    /**
+     * Testing changeGuestInvitationStatus return BadRequest fo invalid StatusEnum
+     *
+     * @throws Exception if request is invalid
+     */
+    @Test
+    public void changeGuestReturnBadRequestForNonExistentStatusEnum() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/guest/invitation/mxPR4fbWzvai60UMLhD3aw==/statusChange/THROWN")).
+                andExpect(MockMvcResultMatchers.status().isBadRequest()).
+        andExpect((MockMvcResultMatchers.status()
+                .reason("No enum constant cz.profinit.sportTeamManager.model.invitation.StatusEnum.THROWN")));
+    }
 }
