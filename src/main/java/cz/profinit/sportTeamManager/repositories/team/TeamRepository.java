@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface TeamRepository {
 
-    Team insertTeam(Team team);
+    void insertTeam(Team team);
 
-    Team deleteTeam(Team team) throws EntityNotFoundException;
+    void deleteTeam(Team team) throws EntityNotFoundException;
 
-    Team updateTeam(Team team) throws EntityNotFoundException;
+    void updateTeam(Team team) throws EntityNotFoundException;
 
     List<Team> findTeamsByName(String teamName) throws EntityNotFoundException;
 
