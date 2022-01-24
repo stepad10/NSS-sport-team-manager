@@ -30,7 +30,7 @@ public class StubEventRepository implements EventRepository {
 
     Event event;
     Event event1;
-    User loggedUser;
+    RegisteredUser loggedUser;
     Guest guest;
 
     public StubEventRepository() {
