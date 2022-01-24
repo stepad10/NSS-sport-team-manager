@@ -53,10 +53,16 @@ import java.util.concurrent.TimeUnit;
 public class EventServiceImplTest {
 
     private EventServiceImpl eventService;
-    private EventRepository eventRepository;
     private UserService userService;
+
     @Autowired
-    private ApplicationContext context;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     private User loggedUser;
     private Place place;
@@ -67,11 +73,10 @@ public class EventServiceImplTest {
      */
     @Before
     public void setUp() {
-        eventRepository = new StubEventRepository();
-        userService = new UserServiceImpl(context.getBean(PasswordEncoder.class), new StubUserRepository());
-        eventService = new EventServiceImpl(eventRepository, new EventMapper(),userService);
+        userService = new UserServiceImpl(passwordEncoder, userRepository);
+        eventService = new EventServiceImpl(eventRepository, userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
-        place = new Place("Profinit","Tychonova 2");
+        place = new Place("Profinit","Tychonova 2", 1L);
     }
 
     /**

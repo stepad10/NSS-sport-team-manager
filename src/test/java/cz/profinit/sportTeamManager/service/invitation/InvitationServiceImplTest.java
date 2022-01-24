@@ -51,7 +51,6 @@ import java.util.List;
 public class InvitationServiceImplTest {
 
     private InvitationService invitationService;
-    private InvitationRepository invitationRepository;
     private EventServiceImpl eventService;
     private UserService userService;
     private RegisteredUser loggedUser;
@@ -59,14 +58,16 @@ public class InvitationServiceImplTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private InvitationRepository invitationRepository;
+
     /**
      * Initialization of services and repositories used in tests
      */
     @Before
     public void setUp() {
         userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
-        eventService = new EventServiceImpl(new StubEventRepository(), new EventMapper(),userService);
-        invitationRepository = new StubInvitationRepository();
+        eventService = new EventServiceImpl(new StubEventRepository(), userService);
         invitationService = new InvitationServiceImpl(invitationRepository,eventService,userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
     }

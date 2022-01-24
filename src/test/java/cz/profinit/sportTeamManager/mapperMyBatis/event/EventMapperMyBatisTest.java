@@ -37,7 +37,7 @@ public class EventMapperMyBatisTest {
         counter++;
         RegisteredUser owner = new RegisteredUser("Tom" + counter, "Sad" + counter, "pass" + counter, "a@b.c" + counter, RoleEnum.USER);
         userMapperMyBatis.insertUser(owner);
-        Place place = new Place("Main hala", "Juliska 6");
+        Place place = new Place("Main hala", "Juliska 6", 1L);
 
         return null;
     }

@@ -8,22 +8,19 @@
         <result property="created" column="c_created"/>
         <result property="changed" column="c_changed"/>
         <result property="status" column="c_status"/>
-        <!--
-        <result property="recipient" column="c_recipient"/>
 
-        <association property="eventId" javaType="Event">
-            <id property="entityId" column="c_event_id"/>
+        <association property="recipient" javaType="RegisteredUser">
+            <id property="entityId" column="c_user_id"/>
         </association>
-        -->
     </resultMap>
 
     <insert id="insertInvitation" parameterType="Invitation" useGeneratedKeys="true" keyProperty="entityId">
-        INSERT INTO t_invitation (c_created, c_changed, c_status)
-        VALUES (#{created}, #{changed}, #{status})
+        INSERT INTO t_invitation (c_created, c_changed, c_status, c_user_id)
+        VALUES (#{created}, #{changed}, #{status}, #{recipient.entityId})
     </insert>
 
     <update id="updateInvitation" parameterType="Invitation">
-        UPDATE t_invitation SET c_created = #{created}, c_changed = #{changed}, c_status = #{status}
+        UPDATE t_invitation SET c_created = #{created}, c_changed = #{changed}, c_status = #{status}, c_user_id = #{recipient.entityId}
         WHERE c_id = #{entityId}
     </update>
 
