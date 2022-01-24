@@ -8,6 +8,7 @@
 package cz.profinit.sportTeamManager.stubs.stubRepositories.user;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
@@ -26,6 +27,8 @@ public class StubUserRepository implements UserRepository {
     private RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER);
     private RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
     private RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
+
+    private Guest guest = new Guest("Karel","mxPR4fbWzvai60UMLhD3aw==");
 
     @Override
     public RegisteredUser insertRegisteredUser(RegisteredUser registeredUser) {
@@ -80,6 +83,31 @@ public class StubUserRepository implements UserRepository {
     public RegisteredUser deleteRegisteredUser(RegisteredUser registeredUser) {
         return null;
     }
+
+    @Override
+    public Guest insertGuest(Guest guest) {
+        guest.setEntityId(0L);
+        this.guest = guest;
+        return this.guest;
+    }
+
+    @Override
+    public Guest findGuestByUri(String uri) throws EntityNotFoundException {
+        if (uri.equals("mxPR4fbWzvai60UMLhD3aw==")) {
+            return guest;
+        } else if (uri.equals("jsem_place_holder")) {
+            return guest;
+        } else {
+            throw new EntityNotFoundException("Guest");
+        }
+    }
+
+    @Override
+    public Guest updateGuest(Guest guest)  {
+        this.guest = guest;
+        return guest;
+    }
+
     public RegisteredUser findUserById(long id) {
         return null;
     }

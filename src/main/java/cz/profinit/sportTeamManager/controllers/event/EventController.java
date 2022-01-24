@@ -13,12 +13,14 @@ import cz.profinit.sportTeamManager.dto.event.EventDto;
 import cz.profinit.sportTeamManager.dto.event.MessageDto;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.InvitationMapper;
 import cz.profinit.sportTeamManager.mappers.MessageMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.service.event.EventService;
 import cz.profinit.sportTeamManager.service.invitation.InvitationService;
 import cz.profinit.sportTeamManager.service.user.AuthenticationFacade;
@@ -233,6 +235,69 @@ public class EventController {
             if (e.getMessage().contains("entity"))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
             else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+            }
+        }
+    }
+
+    /**
+     * Calls invitationService that creates new guest invitation. And handles responses.
+     *
+     * @param name Name of guest
+     * @param eventId ID of Event entity for which invitation should be created
+     * @return URI of a new invitation
+     */
+    @PostMapping("/event/{eventId}/invitation/guest/{name}")
+    public String createNewGuest (@PathVariable String name, @PathVariable Long eventId){
+        try {
+            return ((Guest) invitationService.createGuestInvitation(eventId,name).getIsFor()).getUri();
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("entity"))
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+            }
+        }
+    }
+
+    /**
+     * Calls invitationService that find Invitation for given URI
+     *
+     * @param uri identification of Guest Invitation
+     * @return InvitationDto of desired event
+     */
+    @GetMapping("/guest/invitation/{uri}")
+    public InvitationDto getGuestInvitation (@PathVariable String uri) {
+        try {
+            return InvitationMapper.toDto(invitationService.getGuestInvitation(uri));
+        } catch (EntityNotFoundException | NonValidUriException e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("entity"))
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
+            else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
+            }
+        }
+    }
+
+    /**
+     * Calls for change status of Guest Invitation and handles responses
+     *
+     * @param uri identification of guest invitation
+     * @param statusString status to which invitation should be changed
+     * @return InvitationDto of updated event
+     */
+    @PostMapping (value = "/guest/invitation/{uri}/statusChange/{statusString}")
+    public InvitationDto changeGuestInvitationStatus (@PathVariable String uri, @PathVariable String statusString){
+        try {
+            StatusEnum status = StatusEnum.valueOf(statusString);
+            return InvitationMapper.toDto(invitationService.changeGuestInvitation(uri,status));
+        } catch (EntityNotFoundException | IllegalArgumentException | NonValidUriException e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("entity"))
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
+            else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
             }
         }

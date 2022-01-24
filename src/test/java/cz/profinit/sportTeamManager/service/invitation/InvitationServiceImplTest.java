@@ -11,12 +11,14 @@ package cz.profinit.sportTeamManager.service.invitation;
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.InvitationMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.repositories.invitation.InvitationRepository;
@@ -227,13 +229,113 @@ public class InvitationServiceImplTest {
     }
     /**
      * Testing deletion of Invitation. Event is not present. EntityNotFoundException expected
-     *
      */
     @Test
     public void deleteInvitationThrowsEntityNotFoundForNonExistingEvent() {
         try {
             invitationService.deleteInvitation("is@email.cz", 1L);
         } catch (EntityNotFoundException e){
+            Assert.assertEquals("Event entity not found!",e.getMessage());
+        }
+    }
+
+    /**
+     * Testing creation of Guest Invitation with existent event. Generated correct URI expected.
+     *
+     * @throws EntityNotFoundException if Event entity is not found
+     */
+    @Test
+    public void createGuestInvitationCreatesNewGuestInvitation() throws EntityNotFoundException {
+        Invitation invitation = invitationService.createGuestInvitation(0L,"Karel");
+
+        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getIsFor()).getUri());
+        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getIsFor()).getRole());
+        Assert.assertEquals(StatusEnum.PENDING, invitation.getStatus());
+    }
+
+    /**
+     * Testing creation of Invitation with non-existent event. EntityNotFoundException expected.
+     */
+    @Test
+    public void createGuestInvitationThrowsEntityNotFoundExceptionForNonExistentEvent() {
+        try {
+            Invitation invitation = invitationService.createGuestInvitation(1L,"Karel");
+        } catch (EntityNotFoundException e) {
+            Assert.assertEquals("Event entity not found!",e.getMessage());
+        }
+    }
+
+    /**
+     * Testing getGuestInvitation will return correct guest invitation for existing event and guest.
+     *
+     * @throws EntityNotFoundException thrown when Entity is not found
+     * @throws NonValidUriException thrown when URI is not valid
+     */
+    @Test
+    public void getGuestInvitationGetsInvitation() throws EntityNotFoundException, NonValidUriException {
+        Invitation invitation = invitationService.getGuestInvitation("mxPR4fbWzvai60UMLhD3aw==");
+
+        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getIsFor()).getUri());
+        Assert.assertEquals("Karel",invitation.getIsFor().getName());
+        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getIsFor()).getRole());
+        Assert.assertEquals(StatusEnum.PENDING, invitation.getStatus());
+    }
+
+    /**
+     * Testing getGuestInvitation for invalid URI. NonValidUriException expected
+     *
+     * @throws EntityNotFoundException thrown when Entity is not found
+     */
+    @Test
+    public void getGuestInvitationThrowsNonValidUriExceptionForInvalidUri() throws EntityNotFoundException {
+        try {
+            Invitation invitation = invitationService.getGuestInvitation("mxPF4fbWzvai60UMLhD3aw==");
+        } catch (NonValidUriException e) {
+            Assert.assertEquals("URI is not valid!",e.getMessage());
+        }
+    }
+
+    /**
+     * ChangeStatusInvitation changes status invitation for correct URI and existing invitation
+     *
+     * @throws NonValidUriException thrown when URI is not valid
+     * @throws EntityNotFoundException thrown when Entity is not found
+     */
+    @Test
+    public void changeStatusInvitationChangesStatusInvitation() throws NonValidUriException, EntityNotFoundException {
+        Invitation invitation = invitationService.changeGuestInvitation("mxPR4fbWzvai60UMLhD3aw==",StatusEnum.ACCEPTED);
+
+        Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getIsFor()).getUri());
+        Assert.assertEquals("Karel",invitation.getIsFor().getName());
+        Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getIsFor()).getRole());
+        Assert.assertEquals(StatusEnum.ACCEPTED, invitation.getStatus());
+    }
+
+    /**
+     * Testing changeGuestInvitationStatus throws NonValidUriException for non-valid URI
+     *
+     * @throws EntityNotFoundException thrown when Entity is not found
+     */
+    @Test
+    public void changeStatusThrowsNonValidUriExceptionForNonValidUri() throws EntityNotFoundException {
+        try {
+            Invitation invitation = invitationService.changeGuestInvitation("mxPF4fbWzvai60UMLhD3aw==",StatusEnum.ACCEPTED);
+        } catch (NonValidUriException e) {
+            Assert.assertEquals("URI is not valid!",e.getMessage());
+        }
+
+    }
+
+    /**
+     * Testing changeGuestInvitationStatus throws Entity not found exception for non-existent event
+     *
+     * @throws NonValidUriException thrown when URI is not valid
+     */
+    @Test
+    public void changeStatusThrowsEntityNotFoundExceptionForNonExistentEvent() throws NonValidUriException {
+        try {
+            Invitation invitation = invitationService.changeGuestInvitation("LIGPFGwdE3HIk4YGdc/9Dg==",StatusEnum.ACCEPTED);
+        } catch (EntityNotFoundException e) {
             Assert.assertEquals("Event entity not found!",e.getMessage());
         }
     }

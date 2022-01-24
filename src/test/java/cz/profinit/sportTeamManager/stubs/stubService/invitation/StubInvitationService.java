@@ -6,13 +6,19 @@
  * Author: M. Halamka
  */package cz.profinit.sportTeamManager.stubs.stubService.invitation;
 
+import cz.profinit.sportTeamManager.crypto.Aes;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
 import cz.profinit.sportTeamManager.model.event.Event;
+import cz.profinit.sportTeamManager.model.event.Message;
+import cz.profinit.sportTeamManager.model.event.Place;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
+import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.invitation.InvitationRepository;
 import cz.profinit.sportTeamManager.service.event.EventService;
@@ -38,6 +44,26 @@ public class StubInvitationService implements InvitationService {
     EventService eventService;
     @Autowired
     UserService userService;
+
+
+    Event event;
+    User loggedUser;
+    Guest guest;
+
+
+    public StubInvitationService() {
+        Place place = new Place("Profinit","Tychonova 2");
+        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
+        event = new Event(LocalDateTime.now(),place,6,false,loggedUser,new ArrayList<>(),new ArrayList<>());
+        event.setEntityId(0L);
+        event.getListOfMessages().add(new Message(loggedUser,"Testuji",LocalDateTime.now()));
+        guest = new Guest("Karel","mxPR4fbWzvai60UMLhD3aw==");
+        guest.setEntityId(0L);
+        event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser));
+        event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,guest));
+
+    }
+
 
 
     /**
@@ -149,5 +175,81 @@ public class StubInvitationService implements InvitationService {
         Event event = eventService.findEventById(eventId);
 
         return invitationRepository.deleteInvitation(user,event);
+    }
+
+    /**
+     * Decrypt URI, parse and finds Guest Invitation in testing Event
+     * @param uri identification of invitation
+     * @return found invitation
+     * @throws EntityNotFoundException thrown when Invitation, Event or Guest was not found
+     * @throws NonValidUriException thrown when URI is invalid
+     */
+    @Override
+    public Invitation getGuestInvitation(String uri) throws EntityNotFoundException, NonValidUriException {
+        String decryptedUri = Aes.decrypt(uri);
+
+        if (decryptedUri == null){
+            throw new NonValidUriException();
+        }
+
+        Long eventId = Long.parseLong(decryptedUri.split("-")[1]);
+        Event event;
+
+        if (eventId == this.event.getEntityId()){
+            event = this.event;
+        } else {
+            throw new EntityNotFoundException("Event");
+
+        }
+        List <Invitation> invitationList = event.getListOfInvitation();
+        Guest guest;
+
+        if (uri.equals("mxPR4fbWzvai60UMLhD3aw==")) {
+            guest = this.guest;
+        } else if (uri.equals("jsem_place_holder")) {
+            guest = this.guest;
+        } else {
+            throw new EntityNotFoundException("Guest");
+        }
+
+        for (Invitation invitation : invitationList){
+            if (invitation.getIsFor().equals(guest)){
+                return invitation;
+            }
+        }
+        throw new EntityNotFoundException("Invitation");
+    }
+
+    /**
+     * Finds event by id, creates new Guest and invitation
+     * @param eventId id of event to which guest if invited
+     * @param name name of guest
+     * @return created invitation
+     * @throws EntityNotFoundException thrown when Event entity is not found
+     */
+    @Override
+    public Invitation createGuestInvitation(Long eventId, String name) throws EntityNotFoundException {
+        Event event = eventService.findEventById(eventId);
+        User user = userService.createNewGuest(name,event.getEntityId());
+        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,user));
+        eventService.addNewInvitation(eventId, invitation);
+        return  invitation;
+    }
+
+    /**
+     * Finds invitation by uri and changes its status
+     * @param uri identificaton od invitation
+     * @param status status to which invitation should be changed
+     * @return updated invitation
+     * @throws NonValidUriException thrown when uri is not valid
+     * @throws EntityNotFoundException thrown when entity is not found
+     */
+    @Override
+    public Invitation changeGuestInvitation(String uri, StatusEnum status) throws NonValidUriException, EntityNotFoundException {
+        Invitation invitation = getGuestInvitation(uri);
+        invitation.setStatus(status);
+        invitation.setChanged(LocalDateTime.now());
+        invitationRepository.updateInvitation(invitation);
+        return invitation;
     }
 }

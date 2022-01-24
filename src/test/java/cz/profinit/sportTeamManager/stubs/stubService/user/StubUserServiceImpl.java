@@ -7,8 +7,10 @@
  */
 package cz.profinit.sportTeamManager.stubs.stubService.user;
 
+import cz.profinit.sportTeamManager.crypto.Aes;
 import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.service.user.UserService;
@@ -28,6 +30,9 @@ public class StubUserServiceImpl implements UserService {
     private RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER);
     private RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
     private RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
+
+    private Guest guest = new Guest("Karel","mxPR4fbWzvai60UMLhD3aw==");
+
 
     /**
      * Registers a new user.
@@ -146,6 +151,38 @@ public class StubUserServiceImpl implements UserService {
         user.setRole(newRole);
         return user;
     }
+
+    /**
+     * Creates guest with id OL
+     * @param name name of Guest
+     * @param eventId id of event to which is user invited
+     * @return created Guest
+     */
+    @Override
+    public Guest createNewGuest(String name, Long eventId) {
+        Guest guest = new Guest(name,"placeholderUri");
+        guest.setEntityId(0L);
+        String uri = Aes.encrypt(guest.getEntityId() + "-" + eventId);
+        guest.setUri(uri);
+
+        return guest;
+    }
+
+    /**
+     * Returns guest for matching URI or throws EntityNotFoundException
+     * @param uri URI which user should have
+     * @return dummy guest
+     * @throws EntityNotFoundException thrown when Guest is not found
+     */
+    @Override
+    public Guest findGuestByUri(String uri) throws EntityNotFoundException {
+        if (uri.equals("mxPR4fbWzvai60UMLhD3aw==")) {
+            return guest;
+        } else if (uri.equals("jsem_place_holder")) {
+            return guest;
+        } else {
+            throw new EntityNotFoundException("Guest");
+        }    }
 
     /**
      * Returns STUB user found by email. Two possible users with email "email@gmail.com" or "ts@gmail.com" are returned.

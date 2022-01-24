@@ -15,6 +15,7 @@ import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.event.Place;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import cz.profinit.sportTeamManager.model.user.User;
@@ -28,7 +29,9 @@ import java.util.ArrayList;
 public class StubEventRepository implements EventRepository {
 
     Event event;
+    Event event1;
     User loggedUser;
+    Guest guest;
 
     public StubEventRepository() {
         Place place = new Place("Profinit","Tychonova 2");
@@ -36,7 +39,11 @@ public class StubEventRepository implements EventRepository {
         event = new Event(LocalDateTime.now(),place,6,false,loggedUser,new ArrayList<>(),new ArrayList<>());
         event.setEntityId(0L);
         event.getListOfMessages().add(new Message(loggedUser,"Testuji",LocalDateTime.now()));
+        guest = new Guest("Karel","mxPR4fbWzvai60UMLhD3aw==");
         event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser));
+        event.getListOfInvitation().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,guest));
+        event1 = new Event(LocalDateTime.now(),place,6,false,loggedUser,new ArrayList<>(),new ArrayList<>());
+        event1.setEntityId(2L);
     }
 
     @Override
@@ -49,8 +56,10 @@ public class StubEventRepository implements EventRepository {
     public Event findEventById(Long id) throws EntityNotFoundException {
         if (id == event.getEntityId()){
             return event;
+        } else if (id == event1.getEntityId()) {
+            return event1;
         } else {
-            throw new EntityNotFoundException("Event");
+           throw new EntityNotFoundException("Event");
         }
     }
 

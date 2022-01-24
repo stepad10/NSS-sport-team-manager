@@ -8,6 +8,7 @@
 package cz.profinit.sportTeamManager.service.user;
 
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 
@@ -24,5 +25,8 @@ public interface UserService {
     RegisteredUser changeUserSurname(String email, String newSurname) throws EntityNotFoundException;
     RegisteredUser changeUserEmail(String email,String newEmail) throws EntityNotFoundException;
     RegisteredUser changeUserRole(String email, RoleEnum newRole) throws EntityNotFoundException;
+
+    Guest createNewGuest(String name, Long eventId) throws EntityNotFoundException;
+    Guest findGuestByUri(String uri) throws EntityNotFoundException;
 
 }

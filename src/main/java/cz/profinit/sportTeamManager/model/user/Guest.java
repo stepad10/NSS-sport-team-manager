@@ -7,10 +7,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class Guest extends User {
     private final RoleEnum role = RoleEnum.GUEST;
-    private final byte[] salt;
+    private String uri;
 
-    public Guest(String name, byte[] salt) {
+    public Guest(String name, String uri) {
         super(name);
-        this.salt = salt;
+        this.uri = uri;
     }
 }
