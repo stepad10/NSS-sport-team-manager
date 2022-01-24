@@ -16,7 +16,6 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.repositories.subgroup.SubgroupRepository;
 import cz.profinit.sportTeamManager.repositories.team.TeamRepository;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
-import liquibase.pro.packaged.A;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
