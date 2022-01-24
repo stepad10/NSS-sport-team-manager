@@ -1,0 +1,87 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- USER -->
+    <changeSet id="userTestData" author="dstepanek">
+        <insert tableName="t_user">
+            <column name="c_name" value="Delete"/>
+            <column name="c_surname" value="ById"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="delete.byId@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <insert tableName="t_user">
+            <column name="c_name" value="Delete"/>
+            <column name="c_surname" value="ByEmail"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="delete.byEmail@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <insert tableName="t_user">
+            <column name="c_name" value="Update"/>
+            <column name="c_surname" value="RegUs"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="update.regUs@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <insert tableName="t_user">
+            <column name="c_name" value="Find"/>
+            <column name="c_surname" value="ById"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="find.byId@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <insert tableName="t_user">
+            <column name="c_name" value="Find"/>
+            <column name="c_surname" value="ByEmail"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="find.byEmail@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Global user, ID=6 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Team owner"/>
+            <column name="c_surname" value="Global"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="team.owner@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+    </changeSet>
+
+    <!-- TEAM -->
+    <changeSet id="teamTestData" author="dstepanek">
+        <insert tableName="t_team">
+            <column name="c_name" value="Delete team"/>
+            <column name="c_sport" value="ById"/>
+            <column name="c_owner" value="6"/>
+        </insert>
+        <insert tableName="t_team">
+            <column name="c_name" value="Update team"/>
+            <column name="c_sport" value="Update"/>
+            <column name="c_owner" value="6"/>
+        </insert>
+        <insert tableName="t_team">
+            <column name="c_name" value="Find teams"/>
+            <column name="c_sport" value="ById/name"/>
+            <column name="c_owner" value="6"/>
+        </insert>
+        <!-- Global team, ID=4 -->
+        <insert tableName="t_team">
+            <column name="c_name" value="Master team"/>
+            <column name="c_sport" value="Global"/>
+            <column name="c_owner" value="6"/>
+        </insert>
+    </changeSet>
+
+    <!-- SUBGROUP -->
+    <changeSet id="subgroupTestData" author="dstepanek">
+    <insert tableName="t_subgroup">
+        <column name="c_name" value="Update subgroup"/>
+        <column name="c_team_id" value="4"/>
+    </insert>
+    </changeSet>
+</databaseChangeLog>

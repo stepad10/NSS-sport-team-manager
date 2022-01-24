@@ -57,17 +57,15 @@ public class SubgroupMapperMyBatisTest {
         userMapperMyBatis.deleteUserById(team.getOwner().getEntityId());
     }
 
+    private Long userOwnerId = 6L;
+    private Long masterTeamId = 4L;
+
     @Test
     public void insertSubgroup() {
-        Subgroup presetSubgroup = insertSubgroupHelper();
-        Assert.assertNotNull(presetSubgroup);
-        Subgroup subgroup = new Subgroup("Test subgroup", presetSubgroup.getTeamId());
+        Subgroup subgroup = new Subgroup("Test subgroup", masterTeamId);
         subgroupMapperMyBatis.insertSubgroup(subgroup);
-        System.out.println(subgroup.getEntityId());
         Assert.assertNotNull(subgroup.getEntityId());
-
-        subgroupMapperMyBatis.deleteSubgroupById(subgroup.getEntityId());
-        deleteSubgroupHelper(presetSubgroup);
+        Assert.assertNotNull(subgroupMapperMyBatis.findSubgroupById(subgroup.getEntityId()));
     }
 
     @Test

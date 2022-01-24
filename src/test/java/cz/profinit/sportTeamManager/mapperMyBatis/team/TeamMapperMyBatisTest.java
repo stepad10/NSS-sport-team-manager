@@ -11,6 +11,7 @@ package cz.profinit.sportTeamManager.mapperMyBatis.team;
 
 import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
 import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
+import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
@@ -25,6 +26,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -42,85 +44,48 @@ public class TeamMapperMyBatisTest {
     @Autowired
     private UserMapperMyBatis userMapperMyBatis;
 
-    private RegisteredUser insertUserHelp(String email) {
-        RegisteredUser regUs = new RegisteredUser("Tomas", "Smutny", "pass1", email, RoleEnum.USER);
-        userMapperMyBatis.insertUser(regUs);
-        return regUs;
-    }
-
-    private Team insertTeamHelp(String userEmail, String teamName) {
-        RegisteredUser owner = insertUserHelp(userEmail);
-        Team team = new Team(teamName, "sipky", new ArrayList<>(), owner);
-        teamMapperMyBatis.insertTeam(team);
-        return team;
-    }
-
-    private void deleteUserByIdHelp(Long id) {
-        userMapperMyBatis.deleteUserById(id);
-    }
-
-    private void deleteTeamHelp(Team team) {
-        teamMapperMyBatis.deleteTeamById(team.getEntityId());
-        deleteUserByIdHelp(team.getOwner().getEntityId());
-    }
+    private Long userOwnerId = 6L;
 
     @Test
     public void insertTeam() {
-        RegisteredUser presetUser = insertUserHelp("c@c.c");
-        Assert.assertNotNull(presetUser);
-        Team team = new Team("C team", "sipky", new ArrayList<>(), presetUser);
+        RegisteredUser owner = userMapperMyBatis.findUserById(userOwnerId);
+        Team team = new Team("Insert team", "Insert", new ArrayList<>(), owner);
         teamMapperMyBatis.insertTeam(team);
         Assert.assertNotNull(team.getEntityId());
-        deleteTeamHelp(team);
-        Assert.assertNull(teamMapperMyBatis.findTeamById(team.getEntityId()));
-        Assert.assertNull(userMapperMyBatis.findUserById(team.getOwner().getEntityId()));
+        Assert.assertNotNull(teamMapperMyBatis.findTeamById(team.getEntityId()));
     }
 
     @Test
     public void updateTeam() {
-        Team presetTeam = insertTeamHelp("d@d.d", "D team");
-        Assert.assertNotNull(presetTeam);
-        String teamSport = presetTeam.getSport();
-        presetTeam.setSport("famfrpal");
-        teamMapperMyBatis.updateTeam(presetTeam);
-        Assert.assertNotEquals(teamSport, presetTeam.getSport());
-        deleteTeamHelp(presetTeam);
-        Assert.assertNull(teamMapperMyBatis.findTeamById(presetTeam.getEntityId()));
-        Assert.assertNull(userMapperMyBatis.findUserById(presetTeam.getOwner().getEntityId()));
+        Team team = teamMapperMyBatis.findTeamById(2L);
+        String prevName = team.getName();
+        team.setName("New updated team name");
+        teamMapperMyBatis.updateTeam(team);
+        Assert.assertNotEquals(prevName, team.getName());
     }
 
     @Test
     public void deleteTeamById() {
-        Team presetTeam = insertTeamHelp("a@a.a", "A team");
-        Assert.assertNotNull(presetTeam);
-        teamMapperMyBatis.deleteTeamById(presetTeam.getEntityId());
-        deleteUserByIdHelp(presetTeam.getOwner().getEntityId());
-        Assert.assertNull(teamMapperMyBatis.findTeamById(presetTeam.getEntityId()));
-        Assert.assertNull(userMapperMyBatis.findUserById(presetTeam.getOwner().getEntityId()));
+        Long teamId = 1L;
+        teamMapperMyBatis.deleteTeamById(teamId);
+        Assert.assertNull(teamMapperMyBatis.findTeamById(teamId));
     }
 
     @Test
     public void findTeamById() {
-        Team presetTeam = insertTeamHelp("a@a.a", "A team");
-        Assert.assertNotNull(presetTeam);
-        Team foundTeam = teamMapperMyBatis.findTeamById(presetTeam.getEntityId());
+        Long teamId = 3L;
+        Team foundTeam = teamMapperMyBatis.findTeamById(teamId);
         Assert.assertNotNull(foundTeam);
-        Assert.assertEquals(presetTeam.getName(), foundTeam.getName());
-        deleteTeamHelp(presetTeam);
-        Assert.assertNull(teamMapperMyBatis.findTeamById(presetTeam.getEntityId()));
-        Assert.assertNull(userMapperMyBatis.findUserById(presetTeam.getOwner().getEntityId()));
     }
 
     @Test
     public void findTeamsByName() {
-        Team presetTeam = insertTeamHelp("b@b.b", "B team");
-        Assert.assertNotNull(presetTeam);
-        List<Team> foundTeams = teamMapperMyBatis.findTeamsByName(presetTeam.getName());
+        String teamsName = "Find teams";
+        List<Team> foundTeams = teamMapperMyBatis.findTeamsByName(teamsName);
         Assert.assertEquals(1, foundTeams.size());
-        deleteTeamHelp(presetTeam);
-        foundTeams = teamMapperMyBatis.findTeamsByName(presetTeam.getName());
-        Assert.assertEquals(0, foundTeams.size());
-        Assert.assertNull(teamMapperMyBatis.findTeamById(presetTeam.getEntityId()));
-        Assert.assertNull(userMapperMyBatis.findUserById(presetTeam.getOwner().getEntityId()));
+        RegisteredUser owner = userMapperMyBatis.findUserById(userOwnerId);
+        teamMapperMyBatis.insertTeam(new Team(teamsName, "ByName 2", new LinkedList<>(), owner));
+        foundTeams = teamMapperMyBatis.findTeamsByName(teamsName);
+        Assert.assertEquals(2, foundTeams.size());
     }
 }
