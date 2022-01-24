@@ -7,23 +7,19 @@
         <id property="entityId" column="c_id"/>
         <result property="text" column="c_text"/>
         <result property="date" column="c_date"/>
-        <association property="userId" javaType="RegisteredUser">
+        <result property="eventId" column="c_event_id"/>
+        <association property="user" javaType="RegisteredUser">
             <id property="entityId" column="c_user_id"/>
         </association>
-        <!--
-        <association property="eventId" javaType="Event">
-            <id property="entityId" column="c_event_id"/>
-        </association>
-        -->
     </resultMap>
 
     <insert id="insertMessage" parameterType="Message" useGeneratedKeys="true" keyProperty="entityId">
-        INSERT INTO t_message (c_text, c_date, c_user_id)
-        VALUES (#{text}, #{date}, #{userId})
+        INSERT INTO t_message (c_text, c_date, c_user_id, c_event_id)
+        VALUES (#{text}, #{date}, #{user.entityId}, #{eventId})
     </insert>
 
     <update id="updateMessage" parameterType="Message">
-        UPDATE t_message SET c_text = #{text}, c_date = #{date}, c_user_id = #{userId}
+        UPDATE t_message SET c_text = #{text}, c_date = #{date}, c_user_id = #{user.entityId}, c_event_id = #{eventId}
         WHERE c_id = #{entityId}
     </update>
 

@@ -32,5 +32,7 @@ public class MessageDto {
     @XmlElement(name = "date")
     @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     private final LocalDateTime date;
+    @XmlElement(name = "eventId")
+    private final Long eventId;
 
 }
