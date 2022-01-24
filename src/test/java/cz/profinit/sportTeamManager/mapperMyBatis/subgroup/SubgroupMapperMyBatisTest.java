@@ -1,6 +1,6 @@
 package cz.profinit.sportTeamManager.mapperMyBatis.subgroup;
 
-import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
+import cz.profinit.sportTeamManager.configuration.MyBatisConfiguration;
 import cz.profinit.sportTeamManager.mapperMyBatis.team.TeamMapperMyBatis;
 import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
@@ -11,16 +11,19 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = MyBatisConfigurationTest.class)
-@ActiveProfiles("database")
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+@ContextConfiguration(classes = MyBatisConfiguration.class)
+@TestPropertySource("/test.properties")
 public class SubgroupMapperMyBatisTest {
 
     @Autowired
