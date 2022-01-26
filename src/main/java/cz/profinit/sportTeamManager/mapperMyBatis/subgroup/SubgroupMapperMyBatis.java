@@ -37,18 +37,4 @@ public interface SubgroupMapperMyBatis {
      * @return list of all subgroups that belongs to team
      */
     List<Subgroup> findSubgroupsByTeamId(Long teamId);
-
-    /**
-     * association between subgroup and user
-     * @param subgroupId id of a parent subgroup
-     * @param userId id of a parent user
-     */
-    void insertSubgroupUser(Long subgroupId, Long userId);
-
-    /**
-     * delete association between subgroup and user
-     * @param subgroupId id of a parent subgroup
-     * @param userId id of a parent user
-     */
-    void deleteSubgroupUser(Long subgroupId, Long userId);
 }

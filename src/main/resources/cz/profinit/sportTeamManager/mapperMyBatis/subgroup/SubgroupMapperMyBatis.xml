@@ -8,7 +8,7 @@
         <id property="entityId" column="c_id"/>
         <result property="name" column="c_name"/>
         <result property="teamId" column="c_team_id"/>
-        
+        <!--
         <collection property="userList" javaType="java.util.ArrayList" ofType="RegisteredUser">
             <id property="entityId" column="u_id"/>
             <result property="name" column="u_name"/>
@@ -17,6 +17,7 @@
             <result property="email" column="c_email"/>
             <result property="role" column="c_role"/>
         </collection>
+        -->
     </resultMap>
 
     <insert id="insertSubgroup" parameterType="Subgroup" useGeneratedKeys="true" keyProperty="entityId">
@@ -34,6 +35,9 @@
     </delete>
 
     <select id="findSubgroupById" parameterType="Long" resultMap="subgroupResultMap">
+        SELECT * FROM t_subgroup WHERE c_id = #{id}
+
+        <!--
         SELECT s.*, u.c_id AS u_id, u.c_name AS u_name
         FROM t_subgroup s
         LEFT JOIN t_subgroup_user su
@@ -41,8 +45,7 @@
         LEFT JOIN t_user u
         ON su.c_user_id = u.c_id
         WHERE s.c_id = #{id}
-
-        <!--SELECT * FROM t_subgroup WHERE c_id = #{id}-->
+        -->
     </select>
 
     <select id="findSubgroupsByTeamId" parameterType="Long" resultMap="subgroupResultMap">
@@ -65,13 +68,4 @@
         WHERE s.c_team_id = #{teamId}
         -->
     </select>
-
-    <insert id="insertSubgroupUser">
-        INSERT INTO t_subgroup_user (c_subgroup_id, c_user_id)
-        VALUES (#{subgroupId}, #{userId})
-    </insert>
-
-    <delete id="deleteSubgroupUser">
-        DELETE FROM t_subgroup_user WHERE c_subgroup_id = #{subgroupId} AND c_user_id = #{userId}
-    </delete>
 </mapper>
