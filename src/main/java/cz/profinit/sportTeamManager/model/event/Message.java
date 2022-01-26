@@ -12,6 +12,7 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -20,11 +21,12 @@ import java.time.LocalDateTime;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Message extends Entity {
 
-    private final RegisteredUser user;
-    private final String text;
-    private final LocalDateTime date;
-    private final Long eventId;
+    private RegisteredUser user;
+    private String text;
+    private LocalDateTime date;
+    private Long eventId;
 
 }
