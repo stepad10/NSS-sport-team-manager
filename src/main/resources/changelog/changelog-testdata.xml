@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
-    <!-- USER -->
+    <!-- USER TEST -->
     <changeSet id="userTestData" author="dstepanek">
         <insert tableName="t_user">
             <column name="c_name" value="Delete"/>
@@ -42,18 +42,19 @@
             <column name="c_email" value="find.byEmail@test.com"/>
             <column name="c_role" value="1"/>
         </insert>
-        <!-- Global user, ID=6 -->
-        <insert tableName="t_user">
-            <column name="c_name" value="Team owner"/>
-            <column name="c_surname" value="Global"/>
-            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
-            <column name="c_email" value="team.owner@test.com"/>
-            <column name="c_role" value="1"/>
-        </insert>
     </changeSet>
 
-    <!-- TEAM -->
+    <!-- TEAM TEST -->
     <changeSet id="teamTestData" author="dstepanek">
+        <!-- All teams owner - user, ID=6 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Teams owner"/>
+            <column name="c_surname" value="Team test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="team@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Team test preset -->
         <insert tableName="t_team">
             <column name="c_name" value="Delete team"/>
             <column name="c_sport" value="ById"/>
@@ -69,19 +70,271 @@
             <column name="c_sport" value="ById/name"/>
             <column name="c_owner" value="6"/>
         </insert>
-        <!-- Global team, ID=4 -->
         <insert tableName="t_team">
-            <column name="c_name" value="Master team"/>
-            <column name="c_sport" value="Global"/>
+            <column name="c_name" value="Find teams"/>
+            <column name="c_sport" value="ByName"/>
             <column name="c_owner" value="6"/>
         </insert>
     </changeSet>
 
-    <!-- SUBGROUP -->
+    <!-- SUBGROUP TEST -->
     <changeSet id="subgroupTestData" author="dstepanek">
-    <insert tableName="t_subgroup">
-        <column name="c_name" value="Update subgroup"/>
-        <column name="c_team_id" value="4"/>
-    </insert>
+        <!-- Team owner - user, ID=7 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Team owner"/>
+            <column name="c_surname" value="Subgroup test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="subgroup@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Parent team, ID=5 -->
+        <insert tableName="t_team">
+            <column name="c_name" value="Parent team"/>
+            <column name="c_sport" value="Subgroup test"/>
+            <column name="c_owner" value="7"/>
+        </insert>
+        <!-- Parent team for find method, ID=6 -->
+        <insert tableName="t_team">
+            <column name="c_name" value="Subgroup find methods"/>
+            <column name="c_sport" value="Subgroup test"/>
+            <column name="c_owner" value="7"/>
+        </insert>
+        <!-- Subgroup test preset -->
+        <insert tableName="t_subgroup">
+            <column name="c_name" value="Update subgroup"/>
+            <column name="c_team_id" value="5"/>
+        </insert>
+        <insert tableName="t_subgroup">
+            <column name="c_name" value="Delete subgroup"/>
+            <column name="c_team_id" value="5"/>
+        </insert>
+        <insert tableName="t_subgroup">
+            <column name="c_name" value="Find subgroup"/>
+            <column name="c_team_id" value="6"/>
+        </insert>
+        <insert tableName="t_subgroup">
+            <column name="c_name" value="Find subgroup by teamId"/>
+            <column name="c_team_id" value="6"/>
+        </insert>
+    </changeSet>
+
+    <!-- SUBGROUP~USER TEST -->
+    <changeSet id="subgroupUserTestData" author="dstepanek">
+        <!-- Team owner - user1, ID=8 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Team owner"/>
+            <column name="c_surname" value="SubgroupUser test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="subgroupUser@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Some user2, ID=9 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Some user"/>
+            <column name="c_surname" value="SubgroupUser test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="subgroupUser2@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Parent team, ID=7 -->
+        <insert tableName="t_team">
+            <column name="c_name" value="Parent team"/>
+            <column name="c_sport" value="SubgroupUser test"/>
+            <column name="c_owner" value="8"/>
+        </insert>
+        <!-- Subgroup for insert/delete, ID=5 -->
+        <insert tableName="t_subgroup">
+            <column name="c_name" value="SubgroupUser insert/delete"/>
+            <column name="c_team_id" value="7"/>
+        </insert>
+        <!-- Subgroup for findUsersBySubgroupId, ID=6 -->
+        <insert tableName="t_subgroup">
+            <column name="c_name" value="SubgroupUser findUsersByTeamId"/>
+            <column name="c_team_id" value="7"/>
+        </insert>
+        <!-- SubgroupUser preset -->
+        <insert tableName="t_subgroup_user">
+            <column name="c_subgroup_id" value="5"/>
+            <column name="c_user_id" value="9"/>
+        </insert>
+        <insert tableName="t_subgroup_user">
+            <column name="c_subgroup_id" value="6"/>
+            <column name="c_user_id" value="8"/>
+        </insert>
+        <insert tableName="t_subgroup_user">
+            <column name="c_subgroup_id" value="6"/>
+            <column name="c_user_id" value="9"/>
+        </insert>
+    </changeSet>
+
+    <!-- PLACE TEST -->
+    <changeSet id="placeTestData" author="dstepanek">
+        <!-- Team owner - user, ID=10 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Team owner"/>
+            <column name="c_surname" value="Place test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="place@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Parent team, ID=8 -->
+        <insert tableName="t_team">
+            <column name="c_name" value="Parent team"/>
+            <column name="c_sport" value="Place test"/>
+            <column name="c_owner" value="10"/>
+        </insert>
+        <!-- Place preset -->
+        <insert tableName="t_place">
+            <column name="c_name" value="Delete place"/>
+            <column name="c_address" value="Place test"/>
+            <column name="c_team_id" value="8"/>
+        </insert>
+        <insert tableName="t_place">
+            <column name="c_name" value="Find place"/>
+            <column name="c_address" value="Place test"/>
+            <column name="c_team_id" value="8"/>
+        </insert>
+        <insert tableName="t_place">
+            <column name="c_name" value="Update place"/>
+            <column name="c_address" value="Place test"/>
+            <column name="c_team_id" value="8"/>
+        </insert>
+    </changeSet>
+
+    <!-- EVENT TEST -->
+    <changeSet id="eventTestData" author="dstepanek">
+        <!-- Team and Event owner - user, ID=11 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Team and Event owner"/>
+            <column name="c_surname" value="Event test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="event@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Parent team, ID=9 -->
+        <insert tableName="t_team">
+            <column name="c_name" value="Parent team"/>
+            <column name="c_sport" value="Event test"/>
+            <column name="c_owner" value="11"/>
+        </insert>
+        <!-- Place, ID=4  -->
+        <insert tableName="t_place">
+            <column name="c_name" value="Update event"/>
+            <column name="c_address" value="Event test"/>
+            <column name="c_team_id" value="9"/>
+        </insert>
+        <!-- Event preset -->
+        <insert tableName="t_event">
+            <column name="c_date" value="2016-06-22 19:10:25"/>
+            <column name="c_capacity" value="2"/>
+            <column name="c_canceled" value="false"/>
+            <column name="c_created_by" value="11"/>
+            <column name="c_place_id" value="4"/>
+        </insert>
+        <insert tableName="t_event">
+            <column name="c_date" value="2016-06-22 19:10:25"/>
+            <column name="c_capacity" value="3"/>
+            <column name="c_canceled" value="false"/>
+            <column name="c_created_by" value="11"/>
+            <column name="c_place_id" value="4"/>
+        </insert>
+    </changeSet>
+    <!-- MESSAGE TEST -->
+    <changeSet id="messageTestData" author="dstepanek">
+        <!-- Team, Event and message owner - user, ID=12 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Team, Event and message owner"/>
+            <column name="c_surname" value="Message test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="message@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Parent team, ID=10 -->
+        <insert tableName="t_team">
+            <column name="c_name" value="Parent team"/>
+            <column name="c_sport" value="Message test"/>
+            <column name="c_owner" value="12"/>
+        </insert>
+        <!-- Place for event, ID=5  -->
+        <insert tableName="t_place">
+            <column name="c_name" value="Event place"/>
+            <column name="c_address" value="Message test"/>
+            <column name="c_team_id" value="10"/>
+        </insert>
+        <!-- Event for message, ID=3 -->
+        <insert tableName="t_event">
+            <column name="c_date" value="2016-06-22 19:10:25"/>
+            <column name="c_capacity" value="3"/>
+            <column name="c_canceled" value="false"/>
+            <column name="c_created_by" value="12"/>
+            <column name="c_place_id" value="5"/>
+        </insert>
+        <!-- Message preset -->
+        <insert tableName="t_message">
+            <column name="c_text" value="Delete message"/>
+            <column name="c_date" value="2016-06-22 19:10:25"/>
+            <column name="c_user_id" value="12"/>
+            <column name="c_event_id" value="3"/>
+        </insert>
+        <insert tableName="t_message">
+            <column name="c_text" value="Find message by message"/>
+            <column name="c_date" value="2016-06-22 19:10:25"/>
+            <column name="c_user_id" value="12"/>
+            <column name="c_event_id" value="3"/>
+        </insert>
+    </changeSet>
+
+    <!-- INVITATION TEST -->
+    <changeSet id="invitationTestData" author="dstepanek">
+        <!-- Team and Event owner, invitation recipient - user, ID=13 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Team, Event owner, invitation recipient"/>
+            <column name="c_surname" value="Invitation test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="invitation@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Parent team, ID=11 -->
+        <insert tableName="t_team">
+            <column name="c_name" value="Parent team"/>
+            <column name="c_sport" value="Invitation test"/>
+            <column name="c_owner" value="13"/>
+        </insert>
+        <!-- Place for event, ID=6 -->
+        <insert tableName="t_place">
+            <column name="c_name" value="Event place"/>
+            <column name="c_address" value="Invitation test"/>
+            <column name="c_team_id" value="11"/>
+        </insert>
+        <!-- Event for message, ID=4 -->
+        <insert tableName="t_event">
+            <column name="c_date" value="2016-06-22 19:10:25"/>
+            <column name="c_capacity" value="4"/>
+            <column name="c_canceled" value="false"/>
+            <column name="c_created_by" value="12"/>
+            <column name="c_place_id" value="5"/>
+        </insert>
+        <!-- Invitation preset -->
+        <insert tableName="t_invitation">
+            <column name="c_created" value="1111-06-22 19:10:25"/>
+            <column name="c_changed" value="NULL"/>
+            <column name="c_status" value="1"/>
+            <column name="c_event_id" value="4"/>
+            <column name="c_user_id" value="13"/>
+        </insert>
+        <insert tableName="t_invitation">
+            <column name="c_created" value="2222-06-22 19:10:25"/>
+            <column name="c_changed" value="NULL"/>
+            <column name="c_status" value="1"/>
+            <column name="c_event_id" value="4"/>
+            <column name="c_user_id" value="13"/>
+        </insert>
+        <insert tableName="t_invitation">
+            <column name="c_created" value="3333-06-22 19:10:25"/>
+            <column name="c_changed" value="NULL"/>
+            <column name="c_status" value="1"/>
+            <column name="c_event_id" value="4"/>
+            <column name="c_user_id" value="13"/>
+        </insert>
     </changeSet>
 </databaseChangeLog>
