@@ -11,10 +11,8 @@ package cz.profinit.sportTeamManager.mapperMyBatis.team;
 
 import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
 import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
-import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.model.user.RoleEnum;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +24,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -44,11 +41,10 @@ public class TeamMapperMyBatisTest {
     @Autowired
     private UserMapperMyBatis userMapperMyBatis;
 
-    private Long userOwnerId = 6L;
-
     @Test
     public void insertTeam() {
-        RegisteredUser owner = userMapperMyBatis.findUserById(userOwnerId);
+        Long userId = 6L;
+        RegisteredUser owner = userMapperMyBatis.findUserById(userId);
         Team team = new Team("Insert team", "Insert", new ArrayList<>(), owner);
         teamMapperMyBatis.insertTeam(team);
         Assert.assertNotNull(team.getEntityId());
@@ -57,7 +53,8 @@ public class TeamMapperMyBatisTest {
 
     @Test
     public void updateTeam() {
-        Team team = teamMapperMyBatis.findTeamById(2L);
+        Long teamId = 2L;
+        Team team = teamMapperMyBatis.findTeamById(teamId);
         String prevName = team.getName();
         team.setName("New updated team name");
         teamMapperMyBatis.updateTeam(team);
@@ -82,10 +79,6 @@ public class TeamMapperMyBatisTest {
     public void findTeamsByName() {
         String teamsName = "Find teams";
         List<Team> foundTeams = teamMapperMyBatis.findTeamsByName(teamsName);
-        Assert.assertEquals(1, foundTeams.size());
-        RegisteredUser owner = userMapperMyBatis.findUserById(userOwnerId);
-        teamMapperMyBatis.insertTeam(new Team(teamsName, "ByName 2", new LinkedList<>(), owner));
-        foundTeams = teamMapperMyBatis.findTeamsByName(teamsName);
         Assert.assertEquals(2, foundTeams.size());
     }
 }

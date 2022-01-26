@@ -38,7 +38,7 @@ public class UserMapperMyBatisTest {
         RegisteredUser regUs = new RegisteredUser(
                 "Insert",
                 "RegUs",
-                "pass1",
+                "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
                 "insert.regUs@test.com",
                 RoleEnum.USER);
         userMapperMyBatis.insertUser(regUs);
@@ -76,7 +76,8 @@ public class UserMapperMyBatisTest {
 
     @Test
     public void findNonExistingUserById() {
-        RegisteredUser regUs = userMapperMyBatis.findUserById(0L);
+        Long userId = 0L;
+        RegisteredUser regUs = userMapperMyBatis.findUserById(userId);
         Assert.assertNull(regUs);
     }
 
@@ -88,7 +89,8 @@ public class UserMapperMyBatisTest {
 
     @Test
     public void updateUser() {
-        RegisteredUser regUs = userMapperMyBatis.findUserById(3L);
+        Long userId = 3L;
+        RegisteredUser regUs = userMapperMyBatis.findUserById(userId);
         String prevEmail = regUs.getEmail();
         regUs.setEmail("update.regUs@updated.com");
         userMapperMyBatis.updateUser(regUs);
