@@ -213,7 +213,7 @@ public class EventServiceImplTest {
      */
     @Test
     public void AddNewInvitationAddsNewInvitation() throws EntityNotFoundException {
-        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, loggedUser);
+        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, loggedUser, 0L);
         eventService.addNewInvitation(0L, invitation);
         Assert.assertEquals(invitation.getEntityId(), eventRepository.findEventById(0L).getInvitationList().get(0).getEntityId());
     }
@@ -225,7 +225,7 @@ public class EventServiceImplTest {
      */
     @Test (expected = EntityNotFoundException.class)
     public void AddNewInvitationToANonExistentEventThrowsEntityNotFoundException() throws EntityNotFoundException {
-        Invitation invitation = new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser);
+        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, loggedUser, 1L);
         eventService.addNewInvitation(1L,invitation);
     }
 

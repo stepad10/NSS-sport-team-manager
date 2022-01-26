@@ -59,8 +59,8 @@ public class StubInvitationService implements InvitationService {
         event.getMessageList().add(new Message(loggedUser,"Testuji",LocalDateTime.now(), event.getEntityId()));
         guest = new Guest("Karel","mxPR4fbWzvai60UMLhD3aw==");
         guest.setEntityId(0L);
-        event.getInvitationList().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser));
-        event.getInvitationList().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,guest));
+        event.getInvitationList().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,loggedUser, event.getEntityId()));
+        event.getInvitationList().add(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,guest, event.getEntityId()));
 
     }
 
@@ -80,7 +80,7 @@ public class StubInvitationService implements InvitationService {
         Event event = eventService.findEventById(eventId);
         User user = userService.findUserByEmail(email);
         if (!invitationRepository.isUserPresent(user, event)) {
-            Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,user));
+            Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId));
             eventService.addNewInvitation(eventId, invitation);
             return invitation;
         } else {
@@ -231,7 +231,7 @@ public class StubInvitationService implements InvitationService {
     public Invitation createGuestInvitation(Long eventId, String name) throws EntityNotFoundException {
         Event event = eventService.findEventById(eventId);
         User user = userService.createNewGuest(name,event.getEntityId());
-        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,user));
+        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId));
         eventService.addNewInvitation(eventId, invitation);
         return  invitation;
     }

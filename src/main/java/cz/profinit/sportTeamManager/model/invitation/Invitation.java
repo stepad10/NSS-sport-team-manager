@@ -25,5 +25,5 @@ public class Invitation extends Entity  {
     private LocalDateTime changed;
     private StatusEnum status;
     private User recipient;
-
+    private Long eventId;
 }
