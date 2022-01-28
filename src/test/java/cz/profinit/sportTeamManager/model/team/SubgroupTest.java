@@ -7,26 +7,26 @@
  */
 package cz.profinit.sportTeamManager.model.team;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.model.user.RegisteredUser;
+import cz.profinit.sportTeamManager.model.user.RoleEnum;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for Subgroup class
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfigurationTest.class)
 public class SubgroupTest {
     private Subgroup subgroup;
     private RegisteredUser user1;

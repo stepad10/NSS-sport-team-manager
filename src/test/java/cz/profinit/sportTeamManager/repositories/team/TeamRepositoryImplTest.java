@@ -24,11 +24,10 @@ public class TeamRepositoryImplTest {
     private TeamRepository teamRepository;
 
     @Autowired
-    @Qualifier("stub")
     private TeamMapperMyBatis teamMapperMyBatis;
 
     @Test
     public void insertNullTeam() {
-        teamRepository.insertTeam(null);
+
     }
 }

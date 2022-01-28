@@ -52,22 +52,6 @@ public class StubUserRepository implements UserRepository {
     }
 
     @Override
-    public RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
-        return null;
-    }
-
-    /**
-     * Gets user email from database what is equal to "is@gmail.com"
-     *
-     * @param email user email
-     * @return true only if email is "is@gmail.com"
-     */
-    @Override
-    public boolean emailExistsInDatabase(String email) {
-        return email.equals("is@gmail.com");
-    }
-
-    @Override
     public RegisteredUser findUserById(Long id) throws EntityNotFoundException {
         return new RegisteredUser(
                 "Ivan",
