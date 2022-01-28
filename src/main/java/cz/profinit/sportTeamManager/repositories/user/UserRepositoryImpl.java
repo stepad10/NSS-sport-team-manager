@@ -6,9 +6,6 @@ import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("Main")
@@ -28,22 +25,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
-        findRegisteredUser(registeredUser);
+        findUserById(registeredUser.getEntityId());
         userMapperMyBatis.updateUser(registeredUser);
         return registeredUser;
-    }
-
-    @Override
-    public RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
-        if (registeredUser.getEntityId() != null) {
-            return findUserById(registeredUser.getEntityId());
-        }
-        return findUserByEmail(registeredUser.getEmail());
-    }
-
-    @Override
-    public boolean emailExistsInDatabase(String email) {
-        return userMapperMyBatis.findUserByEmail(email) != null;
     }
 
     @Override
@@ -71,7 +55,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
         userMapperMyBatis.deleteUserById(userId);
     }
-
 
     //TODO IMPLEMENT THESE
     @Override

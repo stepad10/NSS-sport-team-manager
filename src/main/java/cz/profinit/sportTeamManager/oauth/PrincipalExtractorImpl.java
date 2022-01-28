@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Map;
  * This class is used to extract user information (principals) form authentication mainly by OAuth2 services,
  * currently google and facebook.
  */
+@Component
 public class PrincipalExtractorImpl implements PrincipalExtractor {
     @Autowired
     private AuthenticationFacade authenticationFacade;

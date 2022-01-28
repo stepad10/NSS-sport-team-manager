@@ -7,7 +7,6 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -16,13 +15,11 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @Import({WebApplicationConfiguration.class,
-        PasswordEncoderConfiguration.class,
         AuthenticationConfiguration.class,
-        AuthorizationConfiguration.class,
+        //AuthorizationConfiguration.class,
         AspectConfiguration.class,
         MyBatisConfiguration.class})
 //@EnableGlobalMethodSecurity(securedEnabled = true)
-@ComponentScan
 public class ApplicationConfiguration {
 
 

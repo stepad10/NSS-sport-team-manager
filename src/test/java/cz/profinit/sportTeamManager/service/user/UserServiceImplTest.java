@@ -42,7 +42,7 @@ public class UserServiceImplTest {
     private static final String key = "AES";
 
     @Autowired
-    private ApplicationContext context;
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Before a test create new UserServiceImpl using stub repositories and create two stub users.
@@ -50,9 +50,7 @@ public class UserServiceImplTest {
     @Before
     public void setUp() {
         UserRepository userRepository = new StubUserRepository();
-        UserMapper userMapper = new UserMapper();
 
-        PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
         userService = new UserServiceImpl(passwordEncoder, userRepository);
         user = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         user2 = new RegisteredUser("Tomas", "Smutny", "pass", "ab@gmail.com", RoleEnum.USER);
