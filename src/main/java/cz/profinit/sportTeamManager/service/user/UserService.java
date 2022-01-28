@@ -7,6 +7,7 @@
  */
 package cz.profinit.sportTeamManager.service.user;
 
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -17,7 +18,7 @@ import cz.profinit.sportTeamManager.model.user.RoleEnum;
  * credentials corresponds to any user in database.
  */
 public interface UserService {
-    RegisteredUser newUserRegistration(RegisteredUser newUser) throws EntityNotFoundException;
+    RegisteredUser newUserRegistration(RegisteredUser newUser) throws EntityNotFoundException, EntityAlreadyExistsException;
 
     RegisteredUser findUserByEmail(String email) throws EntityNotFoundException;
 

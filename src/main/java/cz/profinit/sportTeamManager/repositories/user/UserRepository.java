@@ -1,5 +1,6 @@
 package cz.profinit.sportTeamManager.repositories.user;
 
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -10,7 +11,7 @@ public interface UserRepository {
      * check if user already exists in db
      * @param registeredUser user to insert
      */
-    void insertRegisteredUser(RegisteredUser registeredUser);
+    void insertRegisteredUser(RegisteredUser registeredUser) throws EntityAlreadyExistsException;
 
     /**
      * find user, if found then update
@@ -19,21 +20,6 @@ public interface UserRepository {
      * @throws EntityNotFoundException if registeredUser wasn't found
      */
     RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException;
-
-    /**
-     * if user doesn't have id then use email instead
-     * @param registeredUser user to find
-     * @return found user or null
-     * @throws EntityNotFoundException if user wasn't found
-     */
-    RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException;
-
-    /**
-     * checks whether email exists in db
-     * @param email email to find
-     * @return whether email was found
-     */
-    boolean emailExistsInDatabase(String email);
 
     /**
      * find user by email, if null then throw

@@ -9,6 +9,7 @@
 package cz.profinit.sportTeamManager.service.user;
 
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
 import cz.profinit.sportTeamManager.model.user.Guest;
@@ -60,7 +61,7 @@ public class UserServiceImplTest {
      * Tests a successful registration of the new user.
      */
     @Test
-    public void newUserRegistration() {
+    public void newUserRegistration() throws EntityAlreadyExistsException {
         RegisteredUser newUser = userService.newUserRegistration(user2);
         assertEquals(user2.getName(), newUser.getName());
         assertEquals(user2.getSurname(), newUser.getSurname());

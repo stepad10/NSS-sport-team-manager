@@ -1,6 +1,10 @@
 package cz.profinit.sportTeamManager.repositories.user;
 
-import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.user.Guest;
@@ -16,9 +20,9 @@ public class UserRepositoryImpl implements UserRepository {
     private UserMapperMyBatis userMapperMyBatis;
 
     @Override
-    public void insertRegisteredUser(RegisteredUser registeredUser) {
-        if (emailExistsInDatabase(registeredUser.getEmail())) {
-            throw new EmailExistsException("Unable to insert RegisteredUser, email already exists!");
+    public void insertRegisteredUser(RegisteredUser registeredUser) throws EntityAlreadyExistsException {
+        if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) == null) {
+            throw new EntityAlreadyExistsException("User");
         }
         userMapperMyBatis.insertUser(registeredUser);
     }
