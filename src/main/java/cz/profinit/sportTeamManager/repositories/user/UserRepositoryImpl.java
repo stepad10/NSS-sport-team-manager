@@ -28,10 +28,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
-        findUserById(registeredUser.getEntityId());
+    public void updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
+        if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) == null) {
+            throw new EntityNotFoundException("User");
+        }
         userMapperMyBatis.updateUser(registeredUser);
-        return registeredUser;
     }
 
     @Override
