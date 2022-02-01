@@ -10,6 +10,7 @@ import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @Repository
 @Profile("Main")
@@ -20,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
     private UserMapperMyBatis userMapperMyBatis;
 
     @Override
-    public void insertRegisteredUser(RegisteredUser registeredUser) throws EntityAlreadyExistsException {
+    public void insertRegisteredUser(@NonNull RegisteredUser registeredUser) throws EntityAlreadyExistsException {
         if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) != null) {
             throw new EntityAlreadyExistsException("User");
         }
@@ -28,7 +29,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
+    public void updateRegisteredUser(@NonNull RegisteredUser registeredUser) throws EntityNotFoundException {
         if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) == null) {
             throw new EntityNotFoundException("User");
         }
@@ -36,7 +37,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public RegisteredUser findUserByEmail(String email) throws EntityNotFoundException {
+    public RegisteredUser findUserByEmail(@NonNull String email) throws EntityNotFoundException {
         RegisteredUser foundUser = userMapperMyBatis.findUserByEmail(email);
         if (foundUser == null) {
             throw new EntityNotFoundException("User");
@@ -45,7 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public RegisteredUser findUserById(Long id) throws EntityNotFoundException {
+    public RegisteredUser findUserById(@NonNull Long id) throws EntityNotFoundException {
         RegisteredUser foundUser = userMapperMyBatis.findUserById(id);
         if (foundUser == null) {
             throw new EntityNotFoundException("User");
@@ -54,7 +55,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteRegisteredUser(Long userId) throws EntityNotFoundException {
+    public void deleteRegisteredUser(@NonNull Long userId) throws EntityNotFoundException {
         if (userMapperMyBatis.findUserById(userId) == null) {
             throw new EntityNotFoundException("User");
         }
@@ -63,17 +64,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     //TODO IMPLEMENT THESE
     @Override
-    public Guest insertGuest(Guest guest) {
+    public Guest insertGuest(@NonNull Guest guest) {
         return null;
     }
 
     @Override
-    public Guest findGuestByUri(String uri) throws EntityNotFoundException {
+    public Guest findGuestByUri(@NonNull String uri) throws EntityNotFoundException {
         return null;
     }
 
     @Override
-    public Guest updateGuest(Guest guest) {
+    public Guest updateGuest(@NonNull Guest guest) {
         return null;
     }
 }
