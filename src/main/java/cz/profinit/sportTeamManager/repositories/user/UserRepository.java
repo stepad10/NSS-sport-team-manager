@@ -16,10 +16,9 @@ public interface UserRepository {
     /**
      * find user, if found then update
      * @param registeredUser user to update
-     * @return updated user or null
      * @throws EntityNotFoundException if registeredUser wasn't found
      */
-    RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException;
+    void updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException;
 
     /**
      * find user by email, if null then throw

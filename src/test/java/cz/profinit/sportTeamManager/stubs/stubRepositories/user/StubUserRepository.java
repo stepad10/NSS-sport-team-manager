@@ -46,9 +46,8 @@ public class StubUserRepository implements UserRepository {
     }
 
     @Override
-    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
+    public void updateRegisteredUser(RegisteredUser registeredUser) {
         logger.info("User saved to database");
-        return registeredUser;
     }
 
     @Override
