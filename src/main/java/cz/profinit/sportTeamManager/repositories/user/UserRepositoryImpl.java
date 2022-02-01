@@ -21,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void insertRegisteredUser(RegisteredUser registeredUser) throws EntityAlreadyExistsException {
-        if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) == null) {
+        if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) != null) {
             throw new EntityAlreadyExistsException("User");
         }
         userMapperMyBatis.insertUser(registeredUser);
