@@ -52,7 +52,6 @@ public class InvitationServiceImplTest {
 
     private InvitationService invitationService;
     private EventServiceImpl eventService;
-    private UserService userService;
     private RegisteredUser loggedUser;
 
     @Autowired
@@ -66,9 +65,9 @@ public class InvitationServiceImplTest {
      */
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
+        UserService userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
         eventService = new EventServiceImpl(new StubEventRepository(), userService);
-        invitationService = new InvitationServiceImpl(invitationRepository,eventService,userService);
+        invitationService = new InvitationServiceImpl(invitationRepository,eventService, userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
     }
 

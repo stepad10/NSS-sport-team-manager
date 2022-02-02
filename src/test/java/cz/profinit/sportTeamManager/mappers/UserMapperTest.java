@@ -30,8 +30,6 @@ import static org.junit.Assert.assertEquals;
 public class UserMapperTest {
     private RegisteredUser registeredUser1;
     private RegisteredUserDTO registeredUserDTO1;
-    private RegisteredUser registeredUser2;
-    private RegisteredUserDTO registeredUserDTO2;
     private List<RegisteredUser> registeredUserList;
     private List<RegisteredUserDTO> registeredUserDTOList;
     private UserDetailsDTO userDetailsDTO;
@@ -39,9 +37,9 @@ public class UserMapperTest {
     @Before
     public void setUp() {
         registeredUser1 = new RegisteredUser("Tomas", "Smutny", "pass1", "ts@gmail.com", RoleEnum.USER);
-        registeredUser2 = new RegisteredUser("Ivan", "Stastny", "pass2", "is@gmail.com", RoleEnum.USER);
+        RegisteredUser registeredUser2 = new RegisteredUser("Ivan", "Stastny", "pass2", "is@gmail.com", RoleEnum.USER);
         registeredUserDTO1 = new RegisteredUserDTO("Tomas", "Smutny", "ts@gmail.com");
-        registeredUserDTO2 = new RegisteredUserDTO("Ivan", "Stastny", "is@gmail.com");
+        RegisteredUserDTO registeredUserDTO2 = new RegisteredUserDTO("Ivan", "Stastny", "is@gmail.com");
         registeredUserList = new ArrayList<>();
         registeredUserDTOList = new ArrayList<>();
         registeredUserList.add(registeredUser1);

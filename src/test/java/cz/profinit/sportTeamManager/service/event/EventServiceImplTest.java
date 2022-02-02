@@ -54,7 +54,6 @@ import java.util.concurrent.TimeUnit;
 public class EventServiceImplTest {
 
     private EventServiceImpl eventService;
-    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -74,7 +73,7 @@ public class EventServiceImplTest {
      */
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(passwordEncoder, userRepository);
+        UserService userService = new UserServiceImpl(passwordEncoder, userRepository);
         eventService = new EventServiceImpl(eventRepository, userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
         place = new Place("Profinit","Tychonova 2", 1L);

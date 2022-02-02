@@ -64,7 +64,6 @@ public class EventControllerTest {
     private InvitationService invitationService;
 
     private Event event;
-    private RegisteredUser loggedUser;
 
     /**
      * Creates Event data transfer object for comparing with request results.
@@ -72,7 +71,8 @@ public class EventControllerTest {
     @Before
     public void setUp() throws EntityNotFoundException, UserIsAlreadyInEventException {
         Place place = new Place("Profinit","Tychonova 2", 1L);
-        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
+        RegisteredUser loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com",
+                RoleEnum.USER);
         event = new Event(LocalDateTime.now(), 5, false, place, loggedUser, new ArrayList<>(), new ArrayList<>());
         event.setEntityId(0L);
         eventService.createNewEvent(EventMapper.toDto(event));
