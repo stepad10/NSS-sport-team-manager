@@ -13,6 +13,7 @@ import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,15 +23,16 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Event extends Entity {
 
     private LocalDateTime date;
     private Integer capacity;
     private Boolean isCanceled;
     private Place place;
-    final private RegisteredUser createdBy;
-    final private List<Message> MessageList;
-    final private List <Invitation> InvitationList;
+    private RegisteredUser createdBy;
+    private List<Message> MessageList;
+    private List <Invitation> InvitationList;
 
     /**
      * Adds new message to the Event

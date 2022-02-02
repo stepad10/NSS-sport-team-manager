@@ -22,8 +22,8 @@ public class InvitationDto implements Comparable<InvitationDto> {
     private LocalDateTime created;
     private LocalDateTime changed;
     private StatusEnum status;
-    //TODO Replace with UserDto
-    private User isFor;
+    private User isFor; //TODO Replace with UserDto
+    private Long eventId;
 
     /**
      * Method that defines how to compare Invitation entity (by date changed)

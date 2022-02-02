@@ -12,12 +12,6 @@ public interface MessageMapperMyBatis {
 
     /**
      *
-     * @param message to update
-     */
-    void updateMessage(Message message);
-
-    /**
-     *
      * @param id to find Message by
      */
     void deleteMessageById(Long id);
@@ -29,4 +23,9 @@ public interface MessageMapperMyBatis {
      */
     Message findMessageById(Long id);
 
+    /**
+     *
+     * @param message to update
+     */
+    //void updateMessage(Message message);
 }

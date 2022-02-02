@@ -159,10 +159,10 @@ public class InvitationServiceImplTest {
     @Test
     public void returnSortedListReturnsSortedList(){
         List<Invitation> invitationList = new ArrayList<>();
-        invitationList.add(new Invitation(LocalDateTime.now(),LocalDateTime.of(2021,12,6,14,10), StatusEnum.PENDING,loggedUser));
-        invitationList.add(new Invitation(LocalDateTime.now(),LocalDateTime.of(2021,12,5,13,12), StatusEnum.ACCEPTED,loggedUser));
-        invitationList.add(new Invitation(LocalDateTime.now(),LocalDateTime.of(2021,12,7,13,9), StatusEnum.ACCEPTED,loggedUser));
-        invitationList.add(new Invitation(LocalDateTime.now(),LocalDateTime.of(2021,12,6,13,16), StatusEnum.ACCEPTED,loggedUser));
+        invitationList.add(new Invitation(LocalDateTime.now(), LocalDateTime.of(2021,12,6,14,10), StatusEnum.PENDING, loggedUser, 0L));
+        invitationList.add(new Invitation(LocalDateTime.now(), LocalDateTime.of(2021,12,5,13,12), StatusEnum.ACCEPTED, loggedUser, 0L));
+        invitationList.add(new Invitation(LocalDateTime.now(), LocalDateTime.of(2021,12,7,13,9), StatusEnum.ACCEPTED, loggedUser, 0L));
+        invitationList.add(new Invitation(LocalDateTime.now(), LocalDateTime.of(2021,12,6,13,16), StatusEnum.ACCEPTED, loggedUser, 0L));
 
         List<InvitationDto> result = new ArrayList<>();
 

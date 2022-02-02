@@ -23,7 +23,12 @@
     </insert>
 
     <update id="updateEvent" parameterType="Event">
-        UPDATE t_event SET c_date = #{date}, c_capacity = #{capacity}, c_canceled = #{isCanceled}, c_created_by = #{createdBy.entityId}, c_place_id = #{place.entityId}
+        UPDATE t_event SET
+        c_date = #{date},
+        c_capacity = #{capacity},
+        c_canceled = #{isCanceled},
+        <!--c_created_by = #{createdBy.entityId},-->
+        c_place_id = #{place.entityId}
         WHERE c_id = #{entityId}
     </update>
 

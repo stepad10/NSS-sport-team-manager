@@ -10,16 +10,18 @@ package cz.profinit.sportTeamManager.model.event;
 import cz.profinit.sportTeamManager.model.entity.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Class representing Place entity. Contains name and address.
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Place extends Entity {
 
-    private final String name;
-    private final String address;
-    private final Long teamId;
+    private String name;
+    private String address;
+    private Long teamId;
 
 }

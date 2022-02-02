@@ -12,12 +12,6 @@ public interface PlaceMapperMyBatis {
 
     /**
      *
-     * @param place to update
-     */
-    void updatePlace(Place place);
-
-    /**
-     *
      * @param id to find Place by
      */
     void deletePlaceById(Long id);
@@ -28,4 +22,10 @@ public interface PlaceMapperMyBatis {
      * @return found Place or null
      */
     Place findPlaceById(Long id);
+
+    /**
+     *
+     * @param place to update
+     */
+    //void updatePlace(Place place);
 }

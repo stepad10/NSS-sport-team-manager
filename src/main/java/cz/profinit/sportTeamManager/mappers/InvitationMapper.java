@@ -31,7 +31,7 @@ public class InvitationMapper {
      * @return InvitationDto representing given Event
      */
     public static InvitationDto toDto(Invitation invitation) {
-        return new InvitationDto(invitation.getCreated(),invitation.getChanged(),invitation.getStatus(),invitation.getRecipient());
+        return new InvitationDto(invitation.getCreated(),invitation.getChanged(),invitation.getStatus(),invitation.getRecipient(),invitation.getEventId());
     }
 
     /**
@@ -41,7 +41,7 @@ public class InvitationMapper {
      * @return Invitation representing given InvitationDto
      */
     public static Invitation toInvitation(InvitationDto invitationDto) {
-        return new Invitation(invitationDto.getCreated(),invitationDto.getChanged(),invitationDto.getStatus(),invitationDto.getIsFor());
+        return new Invitation(invitationDto.getCreated(),invitationDto.getChanged(),invitationDto.getStatus(),invitationDto.getIsFor(),invitationDto.getEventId());
     }
 
     /**
