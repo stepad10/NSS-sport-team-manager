@@ -31,7 +31,7 @@ public class WebApplicationConfigurationUnitTests extends WebSecurityConfigurerA
     @Autowired
     private PasswordEncoder passwordEncoder;
     private DaoAuthenticationProvider authenticationProvider;
-    private UserRepository userRepository = new StubUserRepository();
+    private final UserRepository userRepository = new StubUserRepository();
     /**
      * Adds stubs authenticated users to in memory storage.
      */
