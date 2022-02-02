@@ -1,15 +1,16 @@
 package cz.profinit.sportTeamManager.repositories.team;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mapperMyBatis.team.TeamMapperMyBatis;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.repositories.subgroup.SubgroupRepository;
 import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @Profile("Main")
@@ -42,7 +43,7 @@ public class TeamRepositoryImpl implements TeamRepository {
     @Override
     public List<Team> findTeamsByName(String teamName) throws EntityNotFoundException {
         List<Team> teams = teamMapperMyBatis.findTeamsByName(teamName);
-        if (teams.size() == 0) throw new EntityNotFoundException("Team");
+        if (teams.isEmpty()) throw new EntityNotFoundException("Team");
         for (Team t : teams) {
             t.setListOfSubgroups(subgroupRepository.findTeamSubgroups(t));
         }

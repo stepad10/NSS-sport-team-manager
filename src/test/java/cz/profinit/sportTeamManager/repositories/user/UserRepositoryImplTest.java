@@ -40,7 +40,6 @@ public class UserRepositoryImplTest {
     @Test
     public void insertRegisteredUserThatIsAlreadyInDb() {
         RegisteredUser regUs = new RegisteredUser();
-        regUs.setEntityId(regUs.getEntityId());
         when(userMapperMyBatis.findUserById(regUs.getEntityId())).thenReturn(regUs);
 
         Assert.assertThrows(EntityAlreadyExistsException.class, () -> userRepository.insertRegisteredUser(regUs));
@@ -59,7 +58,7 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    public void updateNotExistingRegisteredUser() throws EntityNotFoundException {
+    public void updateNotExistingRegisteredUser() {
         RegisteredUser regUs = new RegisteredUser();
         when(userMapperMyBatis.findUserById(regUs.getEntityId())).thenReturn(null);
 
