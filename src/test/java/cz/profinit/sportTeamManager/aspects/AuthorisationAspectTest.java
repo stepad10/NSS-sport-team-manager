@@ -190,11 +190,12 @@ public class AuthorisationAspectTest {
     }
 
     /**
-     * Requests without required authorization
+     * Requests without required authorization TODO
      */
-    //@Test TODO
+    @Test
     public void authorizationNotNeeded() throws EntityNotFoundException {
         Team team = teamService.getTeamById(10L);
         team = teamService.createNewTeam(new Team("A team", "golf", new ArrayList<>(), user_in_team));
+        assertNotNull(team); // TODO - temporary workaround
     }
 }
