@@ -34,7 +34,7 @@ public class SubgroupUserMapperMyBatisTest {
 
     @Test
     public void insertUserToSubgroup() {
-        Long subgroupId = 5L;
+        Long subgroupId = 6L;
         Long userId = 8L;
         Assert.assertEquals(0, subgroupUserMapperMyBatis.findUsersBySubgroupId(subgroupId).size());
         subgroupUserMapperMyBatis.insertSubgroupUser(subgroupId, userId);
@@ -43,7 +43,7 @@ public class SubgroupUserMapperMyBatisTest {
 
     @Test
     public void deleteUserFromSubgroup() {
-        Long subgroupId = 5L;
+        Long subgroupId = 6L;
         Long userId = 9L;
         Assert.assertEquals(1, subgroupUserMapperMyBatis.findUsersBySubgroupId(subgroupId).size());
         subgroupUserMapperMyBatis.deleteSubgroupUser(subgroupId, userId);
@@ -52,7 +52,7 @@ public class SubgroupUserMapperMyBatisTest {
 
     @Test
     public void findUsersBySubgroupId() {
-        Long subgroupId = 6L;
+        Long subgroupId = 7L;
         List<RegisteredUser> userList = subgroupUserMapperMyBatis.findUsersBySubgroupId(subgroupId);
         Assert.assertEquals(2, userList.size());
         userList.forEach(Assert::assertNotNull);

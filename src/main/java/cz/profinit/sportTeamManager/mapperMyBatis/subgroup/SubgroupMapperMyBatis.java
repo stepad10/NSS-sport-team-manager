@@ -4,6 +4,8 @@ import cz.profinit.sportTeamManager.model.team.Subgroup;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface SubgroupMapperMyBatis {
 
     /**
@@ -30,6 +32,14 @@ public interface SubgroupMapperMyBatis {
      * @return found subgroup or null
      */
     Subgroup findSubgroupById(Long id);
+
+    /**
+     *
+     * @param teamId id of a parent team
+     * @param subgroupName name of a desired subgroup
+     * @return found subgroup or null
+     */
+    Subgroup findSubgroupByNameAndTeamId(@Param("teamId") Long teamId, @Param("subgroupName") String subgroupName);
 
     /**
      *
