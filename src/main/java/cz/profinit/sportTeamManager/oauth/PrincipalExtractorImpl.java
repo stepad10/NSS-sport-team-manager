@@ -49,22 +49,24 @@ public class PrincipalExtractorImpl implements PrincipalExtractor {
         Authentication authentication = authenticationFacade.getAuthentication();
         String className = String.valueOf(authentication.getPrincipal().getClass());
         //Google
-        if (className.equals("class org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser")) {
+        switch (className) {
+        case "class org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser": {
             DefaultOidcUser userPrincipals = (DefaultOidcUser) authentication.getPrincipal();
             return userPrincipals.getAttributes();
         }
         //Facebook
-        else if (className.equals("class org.springframework.security.oauth2.core.user.DefaultOAuth2User")) {
+        case "class org.springframework.security.oauth2.core.user.DefaultOAuth2User": {
             DefaultOAuth2User userPrincipals = (DefaultOAuth2User) authentication.getPrincipal();
             return userPrincipals.getAttributes();
         }
         //@WithMockUser
-        else if (className.equals("class org.springframework.security.core.userdetails.User")) {
+        case "class org.springframework.security.core.userdetails.User": {
             User userPrincipals = (User) authentication.getPrincipal();
             Map<String, Object> map = new HashMap<>();
-            map.put("email",userPrincipals.getUsername());
+            map.put("email", userPrincipals.getUsername());
             map.put("name", userPrincipals.getUsername());
             return map;
+        }
         }
         return null;
     }
