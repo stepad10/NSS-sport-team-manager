@@ -8,11 +8,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @AllArgsConstructor
 public class Guest extends User {
-    private static final RoleEnum role = RoleEnum.GUEST;
+
     private String uri;
 
     public Guest(String name, String uri) {
-        super(name);
+        super(name, RoleEnum.GUEST);
         this.uri = uri;
     }
 }

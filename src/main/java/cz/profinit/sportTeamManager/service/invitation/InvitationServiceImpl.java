@@ -60,7 +60,7 @@ public class InvitationServiceImpl implements InvitationService{
         Event event = eventService.findEventById(eventId);
         User user = userService.findUserByEmail(email);
         if (invitationRepository.isUserPresent(user, event)) {
-        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(),LocalDateTime.now(), StatusEnum.PENDING,user));
+        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId));
         eventService.addNewInvitation(eventId, invitation);
         return invitation;
         } else {

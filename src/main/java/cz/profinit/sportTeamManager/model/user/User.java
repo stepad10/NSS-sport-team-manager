@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User extends Entity {
     private String name;
+    private RoleEnum role;
 }
