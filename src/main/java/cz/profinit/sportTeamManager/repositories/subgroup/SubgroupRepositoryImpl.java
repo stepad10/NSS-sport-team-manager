@@ -4,6 +4,8 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
+import cz.profinit.sportTeamManager.repositories.user.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -49,7 +51,10 @@ public class SubgroupRepositoryImpl implements SubgroupRepository {
     @Override
     public List<Subgroup> findTeamSubgroups(Team team) throws EntityNotFoundException {
         List<Subgroup> subgroupList = subgroupMapperMyBatis.findSubgroupsByTeamId(team.getEntityId());
-        if (subgroupList.isEmpty()) throw new EntityNotFoundException("Subgroup");
+        //if (subgroupList.isEmpty()) throw new EntityNotFoundException("Subgroup");
+        for (Subgroup s : subgroupList) {
+            //userRepository.
+        }
         return subgroupList;
     }
 
