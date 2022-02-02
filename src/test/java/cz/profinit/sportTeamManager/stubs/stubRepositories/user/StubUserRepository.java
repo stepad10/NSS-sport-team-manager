@@ -79,7 +79,7 @@ public class StubUserRepository implements UserRepository {
      */
     @Override
     public RegisteredUser findUserByEmail(String userEmail) throws EntityNotFoundException {
-        if (userEmail == "is@seznam.cz") {
+        if (userEmail.equals("is@seznam.cz")) {
             return loggedUser2;
         } else if (userEmail.equals("is@gmail.com")) {
             return loggedUser1;
