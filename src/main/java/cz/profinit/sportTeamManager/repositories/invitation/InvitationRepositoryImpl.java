@@ -37,6 +37,6 @@ public class InvitationRepositoryImpl implements InvitationRepository {
 
     @Override
     public boolean isUserPresent(User user, Event event) {
-        return false;
+        return true;
     }
 }

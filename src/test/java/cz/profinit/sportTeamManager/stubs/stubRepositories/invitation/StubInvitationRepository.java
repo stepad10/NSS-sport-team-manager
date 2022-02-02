@@ -65,10 +65,7 @@ public class StubInvitationRepository implements InvitationRepository {
 
     @Override
     public boolean isUserPresent(User user, Event event) {
-        if (user.getName().equals("Pavel")) {
-            return true;
-        }
-        return false;
+        return !user.getName().equals("Pavel");
     }
 
     @Override
