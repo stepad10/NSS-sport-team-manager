@@ -12,10 +12,12 @@ import cz.profinit.sportTeamManager.model.entity.Entity;
 import cz.profinit.sportTeamManager.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

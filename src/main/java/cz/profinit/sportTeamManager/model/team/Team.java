@@ -14,11 +14,13 @@ import cz.profinit.sportTeamManager.model.entity.Entity;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
  * Class containing all team information such as team name, team sport, list of subgroups and owner.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

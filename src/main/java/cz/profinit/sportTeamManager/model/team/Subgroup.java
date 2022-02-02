@@ -11,6 +11,7 @@ import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.entity.Entity;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.List;
 /**
  * Class containing subgroup information such as subgroup name and user list.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 public class Subgroup extends Entity {
