@@ -7,13 +7,14 @@
  */
 package cz.profinit.sportTeamManager.model.team;
 
+import java.util.List;
+
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.entity.Entity;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 /**
  * Class containing all team information such as team name, team sport, list of subgroups and owner.
@@ -44,13 +45,13 @@ public class Team extends Entity {
      * @return found subgroup
      */
 
-    public Subgroup getTeamSubgroup(String subgroupName) {
+    public Subgroup getTeamSubgroup(String subgroupName) throws EntityNotFoundException {
         for (Subgroup subgroup : listOfSubgroups) {
             if (subgroup.getName().equals(subgroupName)) {
                 return subgroup;
             }
         }
-        throw new RuntimeException("No subgroup found");
+        throw new EntityNotFoundException("Subgroup");
     }
 
     /**
@@ -58,7 +59,7 @@ public class Team extends Entity {
      *
      * @param subgroupName subgroup name what should be removed
      */
-    public void deleteSubgroup(String subgroupName) {
+    public void deleteSubgroup(String subgroupName) throws EntityNotFoundException {
         Subgroup subgroup = getTeamSubgroup(subgroupName);
         listOfSubgroups.remove(subgroup);
     }
@@ -72,8 +73,8 @@ public class Team extends Entity {
     public boolean isSubgroupInTeam(String subgroupName) {
         try {
             this.getTeamSubgroup(subgroupName);
-        } catch (Exception e) {
-            return !(e.getMessage().equals("No subgroup found"));
+        } catch (EntityNotFoundException e) {
+            return false;
         }
         return true;
     }
