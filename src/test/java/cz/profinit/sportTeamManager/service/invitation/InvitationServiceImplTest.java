@@ -90,7 +90,7 @@ public class InvitationServiceImplTest {
      */
     @Test
     public void deleteInvitationDeletesInvitation() throws EntityNotFoundException {
-        Assert.assertEquals(true, invitationService.deleteInvitation(loggedUser.getEmail(),0L));
+        Assert.assertTrue(invitationService.deleteInvitation(loggedUser.getEmail(), 0L));
     }
 
     /**

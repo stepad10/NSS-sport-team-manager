@@ -32,6 +32,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests of team authorization.
@@ -194,8 +195,7 @@ public class AuthorisationAspectTest {
             assertEquals("Access denied", e.getMessage());
         }
 
-
-        assertEquals(null, team);
+        assertNull(team);
     }
 
     /**
