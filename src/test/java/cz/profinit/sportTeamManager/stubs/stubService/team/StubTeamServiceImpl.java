@@ -45,9 +45,9 @@ public class StubTeamServiceImpl implements TeamService {
     public Team createNewTeam(Team team) {
         team.setEntityId(10L);
         team.addNewSubgroup(ALL_USER_SUBGROUP);
-        team.getListOfSubgroups().get(0).addUser(team.getOwner());
+        team.getSubgroupList().get(0).addUser(team.getOwner());
         team.addNewSubgroup(COACHES_SUBGROUP);
-        team.getListOfSubgroups().get(1).addUser(team.getOwner());
+        team.getSubgroupList().get(1).addUser(team.getOwner());
         team.setEntityId(10L);
         logger.info("Saving team");
 
@@ -129,7 +129,7 @@ public class StubTeamServiceImpl implements TeamService {
         subgroupList.add(subgroupA);
         subgroupList.add(subgroupC);
         subgroupList.add(new Subgroup("Empty", team.getEntityId()));
-        team.setListOfSubgroups(subgroupList);
+        team.setSubgroupList(subgroupList);
 
         if (teamId == 10L) {
             team.setEntityId(10L);
@@ -165,8 +165,8 @@ public class StubTeamServiceImpl implements TeamService {
         if (user.getEmail().equals("email@gmail.com")) {
             throw new RuntimeException("User is already in subgroup");
         }
-        team.getListOfSubgroups().get(1).getUserList().add(user);
-        team.getListOfSubgroups().get(0).getUserList().add(user);
+        team.getSubgroupList().get(1).getUserList().add(user);
+        team.getSubgroupList().get(0).getUserList().add(user);
         return team;
     }
 
@@ -183,7 +183,7 @@ public class StubTeamServiceImpl implements TeamService {
         if (user.getEmail().equals("email@gmail.com")) {
             throw new RuntimeException("User is already in team");
         }
-        team.getListOfSubgroups().get(0).getUserList().add(user);
+        team.getSubgroupList().get(0).getUserList().add(user);
         return team;
     }
 
@@ -217,7 +217,7 @@ public class StubTeamServiceImpl implements TeamService {
     public Team deleteSubgroup(Long teamId, String subgroupName) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         if (team.isSubgroupInTeam(subgroupName)) {
-            team.getListOfSubgroups().remove(1);
+            team.getSubgroupList().remove(1);
         } else {
             throw new EntityNotFoundException("Subgroup");
         }

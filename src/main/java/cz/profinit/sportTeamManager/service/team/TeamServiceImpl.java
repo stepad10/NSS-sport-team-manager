@@ -59,7 +59,7 @@ public class TeamServiceImpl implements TeamService {
         team.addNewSubgroup(COACHES_SUBGROUP);
         for (int i = 0;i < 2;i++)
         {
-            Subgroup subgroup = team.getListOfSubgroups().get(i);
+            Subgroup subgroup = team.getSubgroupList().get(i);
             subgroup.setTeamId(team.getEntityId());
             subgroup.addUser(team.getOwner());
             subgroupRepository.insertSubgroup(subgroup);
@@ -252,7 +252,7 @@ public class TeamServiceImpl implements TeamService {
 
         if (!team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) throw new EntityNotFoundException("User");
 
-        for (Subgroup subgroup : team.getListOfSubgroups()) {
+        for (Subgroup subgroup : team.getSubgroupList()) {
             if (subgroup.isUserInList(user)) {
                 subgroup.removeUser(user);
                 subgroupRepository.updateSubgroup(subgroup);
@@ -290,7 +290,7 @@ public class TeamServiceImpl implements TeamService {
             throw new EntityNotFoundException("Subgroup");
         }
 
-        for (Subgroup subgroup : team.getListOfSubgroups()) {
+        for (Subgroup subgroup : team.getSubgroupList()) {
             if (subgroup.getName().equals(subgroupName)) {
                 subgroup.setName(newName);
                 subgroupRepository.updateSubgroup(subgroup);

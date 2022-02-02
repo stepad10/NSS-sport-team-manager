@@ -55,7 +55,7 @@ public class TeamMapperTest {
         subgroupList.add(subgroup2);
         subgroupDTOList.add(subgroupDTO1);
         subgroupDTOList.add(subgroupDTO2);
-        team.setListOfSubgroups(subgroupList);
+        team.setSubgroupList(subgroupList);
         teamDTO.setListOfSubgroups(subgroupDTOList);
     }
 

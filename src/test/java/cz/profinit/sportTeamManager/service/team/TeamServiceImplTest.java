@@ -83,7 +83,7 @@ public class TeamServiceImplTest {
         assertEquals(presetTeam.getName(), newTeam.getName());
         assertEquals(presetTeam.getSport(), newTeam.getSport());
         assertEquals(presetTeam.getOwner(), newTeam.getOwner());
-        assertEquals(presetTeam.getListOfSubgroups(), newTeam.getListOfSubgroups());
+        assertEquals(presetTeam.getSubgroupList(), newTeam.getSubgroupList());
     }
 
     /**
@@ -110,8 +110,8 @@ public class TeamServiceImplTest {
     public void addNewSubgroup() throws EntityNotFoundException, EntityAlreadyExistsException {
         String subgroupName = "Players";
         Team team = teamService.addSubgroup(presetTeam.getEntityId(), subgroupName);
-        assertEquals(4, team.getListOfSubgroups().size());
-        assertEquals(subgroupName, team.getListOfSubgroups().get(3).getName());
+        assertEquals(4, team.getSubgroupList().size());
+        assertEquals(subgroupName, team.getSubgroupList().get(3).getName());
         teamService.addSubgroup(team.getEntityId(), subgroupName);
     }
 
@@ -122,7 +122,7 @@ public class TeamServiceImplTest {
     public void deleteSubgroup() throws EntityNotFoundException {
         String subgroupName = "Empty subgroup";
         teamService.deleteSubgroup(presetTeam.getEntityId(), subgroupName);
-        assertEquals(2, presetTeam.getListOfSubgroups().size());
+        assertEquals(2, presetTeam.getSubgroupList().size());
         teamService.deleteSubgroup(presetTeam.getEntityId(), subgroupName);
     }
 

@@ -45,7 +45,7 @@ public class TeamTest {
         subgroup = new Subgroup("Players", team.getEntityId());
         subgroup.setUserList(userList);
         subgroupList.add(subgroup);
-        team.setListOfSubgroups(subgroupList);
+        team.setSubgroupList(subgroupList);
     }
 
     /**
@@ -54,8 +54,8 @@ public class TeamTest {
     @Test
     public void addNewSubgroup() {
         team.addNewSubgroup("Beginners");
-        assertEquals(2, team.getListOfSubgroups().size());
-        assertEquals("Beginners", team.getListOfSubgroups().get(1).getName());
+        assertEquals(2, team.getSubgroupList().size());
+        assertEquals("Beginners", team.getSubgroupList().get(1).getName());
     }
 
     /**
@@ -72,9 +72,9 @@ public class TeamTest {
      */
     @Test
     public void deleteSubgroup() throws EntityNotFoundException {
-        assertEquals(1, team.getListOfSubgroups().size());
+        assertEquals(1, team.getSubgroupList().size());
         team.deleteSubgroup("Players");
-        assertEquals(0, team.getListOfSubgroups().size());
+        assertEquals(0, team.getSubgroupList().size());
         assertThrows(EntityNotFoundException.class, () -> team.deleteSubgroup("A"));
     }
 

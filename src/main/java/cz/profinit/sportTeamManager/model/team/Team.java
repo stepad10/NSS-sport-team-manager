@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Team extends Entity {
     private String name;
     private String sport;
-    private List<Subgroup> listOfSubgroups;
+    private List<Subgroup> subgroupList;
     private RegisteredUser owner;
 
 
@@ -37,7 +37,7 @@ public class Team extends Entity {
      * @param subgroupName name of the subgroup
      */
     public void addNewSubgroup(String subgroupName) {
-        listOfSubgroups.add(new Subgroup(subgroupName, this.getEntityId()));
+        subgroupList.add(new Subgroup(subgroupName, this.getEntityId()));
     }
 
     /**
@@ -48,7 +48,7 @@ public class Team extends Entity {
      */
 
     public Subgroup getTeamSubgroup(String subgroupName) throws EntityNotFoundException {
-        for (Subgroup subgroup : listOfSubgroups) {
+        for (Subgroup subgroup : subgroupList) {
             if (subgroup.getName().equals(subgroupName)) {
                 return subgroup;
             }
@@ -63,7 +63,7 @@ public class Team extends Entity {
      */
     public void deleteSubgroup(String subgroupName) throws EntityNotFoundException {
         Subgroup subgroup = getTeamSubgroup(subgroupName);
-        listOfSubgroups.remove(subgroup);
+        subgroupList.remove(subgroup);
     }
 
     /**

@@ -14,7 +14,6 @@ import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.event.EventRepository;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
 import cz.profinit.sportTeamManager.service.event.EventService;

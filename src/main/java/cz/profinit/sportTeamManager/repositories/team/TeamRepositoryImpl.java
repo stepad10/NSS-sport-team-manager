@@ -45,7 +45,7 @@ public class TeamRepositoryImpl implements TeamRepository {
         List<Team> teams = teamMapperMyBatis.findTeamsByName(teamName);
         if (teams.isEmpty()) throw new EntityNotFoundException("Team");
         for (Team t : teams) {
-            t.setListOfSubgroups(subgroupRepository.findTeamSubgroups(t));
+            t.setSubgroupList(subgroupRepository.findTeamSubgroups(t));
         }
         return teams;
     }
@@ -54,7 +54,7 @@ public class TeamRepositoryImpl implements TeamRepository {
     public Team findTeamById(Long teamId) throws EntityNotFoundException {
         Team team = teamMapperMyBatis.findTeamById(teamId);
         if (team == null) throw new EntityNotFoundException("Team");
-        team.setListOfSubgroups(subgroupRepository.findTeamSubgroups(team));
+        team.setSubgroupList(subgroupRepository.findTeamSubgroups(team));
         return team;
     }
 
