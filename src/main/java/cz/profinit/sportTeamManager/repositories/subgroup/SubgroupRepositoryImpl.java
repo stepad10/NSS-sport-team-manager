@@ -1,16 +1,17 @@
 package cz.profinit.sportTeamManager.repositories.subgroup;
 
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
-import cz.profinit.sportTeamManager.mapperMyBatis.subgroupUser.SubgroupUserMapperMyBatis;
-import cz.profinit.sportTeamManager.model.team.Subgroup;
-import cz.profinit.sportTeamManager.model.team.Team;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
+import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
+import cz.profinit.sportTeamManager.mapperMyBatis.subgroupUser.SubgroupUserMapperMyBatis;
+import cz.profinit.sportTeamManager.model.team.Subgroup;
+import cz.profinit.sportTeamManager.model.team.Team;
 
 @Repository
 @Profile("Main")
@@ -22,31 +23,42 @@ public class SubgroupRepositoryImpl implements SubgroupRepository {
     @Autowired
     private SubgroupUserMapperMyBatis subgroupUserMapperMyBatis;
 
-    @Override
-    public void insertSubgroup(Subgroup subgroup) {
+    private static final String EX_MSG = "Subgroup";
 
+    @Override
+    public void insertSubgroup(Subgroup subgroup) throws EntityAlreadyExistsException {
+        if (subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroup.getName(), subgroup.getTeamId()) != null) {
+            throw new EntityAlreadyExistsException(EX_MSG);
+        }
+        subgroupMapperMyBatis.insertSubgroup(subgroup);
     }
 
     @Override
-    public void updateSubgroup(Subgroup subgroup) {
-
+    public void updateSubgroup(Subgroup subgroup) throws EntityAlreadyExistsException {
+        if (subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroup.getName(), subgroup.getTeamId()) != null) {
+            throw new EntityAlreadyExistsException(EX_MSG);
+        }
+        subgroupMapperMyBatis.updateSubgroup(subgroup);
     }
 
     @Override
-    public void deleteSubgroup(Subgroup subgroup) {
-
+    public void deleteSubgroup(Subgroup subgroup) throws EntityNotFoundException {
+        if (subgroupMapperMyBatis.findSubgroupById(subgroup.getEntityId()) == null) throw new EntityNotFoundException(EX_MSG);
+        subgroupUserMapperMyBatis.deleteAllSubgroupUsers(subgroup.getEntityId());
+        subgroupMapperMyBatis.deleteSubgroupById(subgroup.getEntityId());
     }
 
     @Override
-    public void deleteAllTeamSubgroups(Team team) {
-
-
+    public void deleteAllTeamSubgroups(Team team) throws EntityNotFoundException {
+        for (Subgroup s : subgroupMapperMyBatis.findSubgroupsByTeamId(team.getEntityId())) {
+            deleteSubgroup(s);
+        }
     }
 
     @Override
     public Subgroup findTeamSubgroupByName(Team team, String subgroupName) throws EntityNotFoundException {
         Subgroup subgroup = subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroupName, team.getEntityId());
-        if (subgroup == null) throw new EntityNotFoundException("Subgroup");
+        if (subgroup == null) throw new EntityNotFoundException(EX_MSG);
         subgroup.setUserList(subgroupUserMapperMyBatis.findUsersBySubgroupId(subgroup.getEntityId()));
         return subgroup;
     }

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Test class for team repository, autowired stub classes
+ * Test class for team repository, mocked necessary classes
  */
 @RunWith(MockitoJUnitRunner.class)
 public class TeamRepositoryImplTest {
@@ -49,7 +49,7 @@ public class TeamRepositoryImplTest {
     }
 
     @Test
-    public void deleteNotExistingTeam() {
+    public void deleteNotExistingTeam() throws EntityNotFoundException {
         Team team = new Team();
         when(teamMapperMyBatis.findTeamById(team.getEntityId())).thenReturn(null);
 

@@ -17,6 +17,9 @@ import cz.profinit.sportTeamManager.repositories.subgroup.SubgroupRepository;
 import cz.profinit.sportTeamManager.repositories.team.TeamRepository;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
 import lombok.AllArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -41,9 +44,10 @@ public class TeamServiceImpl implements TeamService {
     @Autowired
     private SubgroupRepository subgroupRepository;
 
+    private static final Logger LOG = LoggerFactory.getLogger(TeamServiceImpl.class);
 
-    private final String ALL_USER_SUBGROUP = "All Users";
-    private final String COACHES_SUBGROUP = "Coaches";
+    private static final String ALL_USER_SUBGROUP = "All Users";
+    private static final String COACHES_SUBGROUP = "Coaches";
 
 
     /**
@@ -62,8 +66,12 @@ public class TeamServiceImpl implements TeamService {
             Subgroup subgroup = team.getSubgroupList().get(i);
             subgroup.setTeamId(team.getEntityId());
             subgroup.addUser(team.getOwner());
-            subgroupRepository.insertSubgroup(subgroup);
-            //team.getListOfSubgroups().get(i).setEntityId(subgroup.getEntityId());
+            try {
+                subgroupRepository.insertSubgroup(subgroup);
+            } catch (EntityAlreadyExistsException e) {
+                LOG.debug(e.getMessage());
+            }
+
         }
         return team;
 
@@ -234,7 +242,11 @@ public class TeamServiceImpl implements TeamService {
         user = userRepository.findUserByEmail(user.getEmail());
         Subgroup subgroup = team.getTeamSubgroup(subgroupName);
         subgroup.removeUser(user);
-        subgroupRepository.updateSubgroup(subgroup);
+        try {
+            subgroupRepository.updateSubgroup(subgroup);
+        } catch (EntityAlreadyExistsException e) {
+            LOG.debug(e.getMessage());
+        }
         return team;
     }
 
@@ -255,7 +267,11 @@ public class TeamServiceImpl implements TeamService {
         for (Subgroup subgroup : team.getSubgroupList()) {
             if (subgroup.isUserInList(user)) {
                 subgroup.removeUser(user);
-                subgroupRepository.updateSubgroup(subgroup);
+                try {
+                    subgroupRepository.updateSubgroup(subgroup);
+                } catch (EntityAlreadyExistsException e) {
+                    LOG.debug(e.getMessage());
+                }
             }
         }
         return team;
@@ -293,7 +309,11 @@ public class TeamServiceImpl implements TeamService {
         for (Subgroup subgroup : team.getSubgroupList()) {
             if (subgroup.getName().equals(subgroupName)) {
                 subgroup.setName(newName);
-                subgroupRepository.updateSubgroup(subgroup);
+                try {
+                    subgroupRepository.updateSubgroup(subgroup);
+                } catch (EntityAlreadyExistsException e) {
+                    LOG.debug(e.getMessage());
+                }
             }
         }
         return team;
