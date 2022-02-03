@@ -116,6 +116,10 @@
             <column name="c_name" value="Find subgroup by teamId"/>
             <column name="c_team_id" value="6"/>
         </insert>
+        <insert tableName="t_subgroup">
+            <column name="c_name" value="Find subgroup by name and teamId"/>
+            <column name="c_team_id" value="6"/>
+        </insert>
     </changeSet>
 
     <!-- SUBGROUP~USER TEST -->
@@ -142,27 +146,27 @@
             <column name="c_sport" value="SubgroupUser test"/>
             <column name="c_owner" value="8"/>
         </insert>
-        <!-- Subgroup for insert/delete, ID=5 -->
+        <!-- Subgroup for insert/delete, ID=6 -->
         <insert tableName="t_subgroup">
             <column name="c_name" value="SubgroupUser insert/delete"/>
             <column name="c_team_id" value="7"/>
         </insert>
-        <!-- Subgroup for findUsersBySubgroupId, ID=6 -->
+        <!-- Subgroup for findUsersBySubgroupId, ID=7 -->
         <insert tableName="t_subgroup">
             <column name="c_name" value="SubgroupUser findUsersByTeamId"/>
             <column name="c_team_id" value="7"/>
         </insert>
         <!-- SubgroupUser preset -->
         <insert tableName="t_subgroup_user">
-            <column name="c_subgroup_id" value="5"/>
+            <column name="c_subgroup_id" value="6"/>
             <column name="c_user_id" value="9"/>
         </insert>
         <insert tableName="t_subgroup_user">
-            <column name="c_subgroup_id" value="6"/>
+            <column name="c_subgroup_id" value="7"/>
             <column name="c_user_id" value="8"/>
         </insert>
         <insert tableName="t_subgroup_user">
-            <column name="c_subgroup_id" value="6"/>
+            <column name="c_subgroup_id" value="7"/>
             <column name="c_user_id" value="9"/>
         </insert>
     </changeSet>

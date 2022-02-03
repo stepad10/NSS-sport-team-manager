@@ -13,7 +13,6 @@ import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
-import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.InvitationMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
@@ -26,7 +25,6 @@ import cz.profinit.sportTeamManager.service.event.EventServiceImpl;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import cz.profinit.sportTeamManager.service.user.UserServiceImpl;
 import cz.profinit.sportTeamManager.stubs.stubRepositories.event.StubEventRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.invitation.StubInvitationRepository;
 import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -52,7 +50,6 @@ public class InvitationServiceImplTest {
 
     private InvitationService invitationService;
     private EventServiceImpl eventService;
-    private UserService userService;
     private RegisteredUser loggedUser;
 
     @Autowired
@@ -66,9 +63,9 @@ public class InvitationServiceImplTest {
      */
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
+        UserService userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
         eventService = new EventServiceImpl(new StubEventRepository(), userService);
-        invitationService = new InvitationServiceImpl(invitationRepository,eventService,userService);
+        invitationService = new InvitationServiceImpl(invitationRepository,eventService, userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
     }
 
@@ -90,7 +87,7 @@ public class InvitationServiceImplTest {
      */
     @Test
     public void deleteInvitationDeletesInvitation() throws EntityNotFoundException {
-        Assert.assertEquals(true, invitationService.deleteInvitation(loggedUser.getEmail(),0L));
+        Assert.assertTrue(invitationService.deleteInvitation(loggedUser.getEmail(), 0L));
     }
 
     /**

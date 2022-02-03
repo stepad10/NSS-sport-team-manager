@@ -9,6 +9,7 @@ package cz.profinit.sportTeamManager.service.user;
 
 import cz.profinit.sportTeamManager.crypto.Aes;
 import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserOrPasswordNotMatchException;
 import cz.profinit.sportTeamManager.model.user.Guest;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
      * @return registered user
      * @throws EmailExistsException thrown, when given email is already in database
      */
-    public RegisteredUser newUserRegistration(RegisteredUser newUser) throws EmailExistsException {
+    public RegisteredUser newUserRegistration(RegisteredUser newUser) throws EntityAlreadyExistsException {
         if (emailExists(newUser.getEmail())) {
             throw new EmailExistsException(
                     "Account with e-mail address " + newUser.getEmail() + "already exists.");

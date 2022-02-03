@@ -8,20 +8,18 @@
 
 package cz.profinit.sportTeamManager.mappers;
 
-import cz.profinit.sportTeamManager.configuration.ApplicationConfigurationTest;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.user.UserDetailsDTO;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,25 +27,19 @@ import static org.junit.Assert.assertEquals;
  * Unit test for Subgroup class
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = ApplicationConfigurationTest.class)
-@ActiveProfiles({"stub"})
 public class UserMapperTest {
     private RegisteredUser registeredUser1;
     private RegisteredUserDTO registeredUserDTO1;
-    private RegisteredUser registeredUser2;
-    private RegisteredUserDTO registeredUserDTO2;
     private List<RegisteredUser> registeredUserList;
     private List<RegisteredUserDTO> registeredUserDTOList;
     private UserDetailsDTO userDetailsDTO;
-//    @Autowired
-//    private UserMapper mapper;
 
     @Before
     public void setUp() {
         registeredUser1 = new RegisteredUser("Tomas", "Smutny", "pass1", "ts@gmail.com", RoleEnum.USER);
-        registeredUser2 = new RegisteredUser("Ivan", "Stastny", "pass2", "is@gmail.com", RoleEnum.USER);
+        RegisteredUser registeredUser2 = new RegisteredUser("Ivan", "Stastny", "pass2", "is@gmail.com", RoleEnum.USER);
         registeredUserDTO1 = new RegisteredUserDTO("Tomas", "Smutny", "ts@gmail.com");
-        registeredUserDTO2 = new RegisteredUserDTO("Ivan", "Stastny", "is@gmail.com");
+        RegisteredUserDTO registeredUserDTO2 = new RegisteredUserDTO("Ivan", "Stastny", "is@gmail.com");
         registeredUserList = new ArrayList<>();
         registeredUserDTOList = new ArrayList<>();
         registeredUserList.add(registeredUser1);

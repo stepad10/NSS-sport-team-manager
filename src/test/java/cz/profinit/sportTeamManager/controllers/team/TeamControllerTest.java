@@ -51,8 +51,6 @@ public class TeamControllerTest {
     private MockMvc mockMvc;
     private TeamDTO team;
     private RegisteredUserDTO user;
-    private SubgroupDTO subgroupA;
-    private SubgroupDTO subgroupC;
     private String teamXml;
 
     /**
@@ -67,8 +65,8 @@ public class TeamControllerTest {
         userList2.add(user);
         List<SubgroupDTO> subgroupList = new ArrayList<>();
         team = new TeamDTO(10L, "Ateam", "golf", subgroupList, user);
-        subgroupA = new SubgroupDTO("All Users", userList1, team.getId());
-        subgroupC = new SubgroupDTO("Coaches", userList2, team.getId());
+        SubgroupDTO subgroupA = new SubgroupDTO("All Users", userList1, team.getId());
+        SubgroupDTO subgroupC = new SubgroupDTO("Coaches", userList2, team.getId());
         subgroupList.add(subgroupA);
         subgroupList.add(subgroupC);
         subgroupList.add(new SubgroupDTO("Empty", team.getId()));

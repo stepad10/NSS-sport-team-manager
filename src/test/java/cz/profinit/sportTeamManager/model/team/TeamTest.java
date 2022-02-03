@@ -29,7 +29,6 @@ import static org.junit.Assert.*;
 @ContextConfiguration(classes = StubRepositoryConfiguration.class)
 public class TeamTest {
     private Team team;
-    private RegisteredUser user1;
     private Subgroup subgroup;
 
     /**
@@ -40,13 +39,13 @@ public class TeamTest {
         List<RegisteredUser> userList = new ArrayList<>();
         List<Subgroup> subgroupList = new ArrayList<>();
 
-        user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        RegisteredUser user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         userList.add(user1);
         team = new Team("A team", "Vodní lyžování", subgroupList, user1);
         subgroup = new Subgroup("Players", team.getEntityId());
         subgroup.setUserList(userList);
         subgroupList.add(subgroup);
-        team.setListOfSubgroups(subgroupList);
+        team.setSubgroupList(subgroupList);
     }
 
     /**
@@ -55,8 +54,8 @@ public class TeamTest {
     @Test
     public void addNewSubgroup() {
         team.addNewSubgroup("Beginners");
-        assertEquals(2, team.getListOfSubgroups().size());
-        assertEquals("Beginners", team.getListOfSubgroups().get(1).getName());
+        assertEquals(2, team.getSubgroupList().size());
+        assertEquals("Beginners", team.getSubgroupList().get(1).getName());
     }
 
     /**
@@ -65,25 +64,18 @@ public class TeamTest {
     @Test
     public void getTeamSubgroup() throws EntityNotFoundException {
         assertEquals(subgroup, team.getTeamSubgroup("Players"));
-        try {
-            team.getTeamSubgroup("A");
-        } catch (Exception e) {
-            assertEquals("No subgroup found", e.getMessage());
-        }
+        assertThrows(EntityNotFoundException.class, () -> team.getTeamSubgroup("A"));
     }
 
     /**
      * Tests deleting a specific subgroup from a team.
      */
     @Test
-    public void deleteSubgroup() {
+    public void deleteSubgroup() throws EntityNotFoundException {
+        assertEquals(1, team.getSubgroupList().size());
         team.deleteSubgroup("Players");
-        assertEquals(0, team.getListOfSubgroups().size());
-        try {
-            team.deleteSubgroup("A");
-        } catch (Exception e) {
-            assertEquals("No subgroup found", e.getMessage());
-        }
+        assertEquals(0, team.getSubgroupList().size());
+        assertThrows(EntityNotFoundException.class, () -> team.deleteSubgroup("A"));
     }
 
     /**

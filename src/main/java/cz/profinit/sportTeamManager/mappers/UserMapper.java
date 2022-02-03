@@ -34,10 +34,9 @@ public class UserMapper {
      * @return mapped RegisteredUser to RegisteredUser  data transfer object
      */
     public static RegisteredUserDTO mapRegisteredUserToRegisteredUserDTO(RegisteredUser registeredUser) {
-        RegisteredUserDTO registeredUserDTO = new RegisteredUserDTO(registeredUser.getName(),
+        return new RegisteredUserDTO(registeredUser.getName(),
                 registeredUser.getSurname(),
                 registeredUser.getEmail());
-        return registeredUserDTO;
     }
 
     /**
@@ -47,12 +46,11 @@ public class UserMapper {
      * @return mapped RegisteredUser data transfer object to RegisteredUser
      */
     public static RegisteredUser mapRegisteredUserDTOToRegisteredUser(RegisteredUserDTO registeredUserDTO) {
-        RegisteredUser registeredUser = new RegisteredUser(registeredUserDTO.getName(),
+        return new RegisteredUser(registeredUserDTO.getName(),
                 registeredUserDTO.getSurname(),
                 null,
                 registeredUserDTO.getEmail(),
                 RoleEnum.USER);
-        return registeredUser;
     }
 
     /**

@@ -9,6 +9,7 @@
 package cz.profinit.sportTeamManager.service.user;
 
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
 import cz.profinit.sportTeamManager.model.user.Guest;
@@ -42,7 +43,7 @@ public class UserServiceImplTest {
     private static final String key = "AES";
 
     @Autowired
-    private ApplicationContext context;
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Before a test create new UserServiceImpl using stub repositories and create two stub users.
@@ -50,9 +51,7 @@ public class UserServiceImplTest {
     @Before
     public void setUp() {
         UserRepository userRepository = new StubUserRepository();
-        UserMapper userMapper = new UserMapper();
 
-        PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
         userService = new UserServiceImpl(passwordEncoder, userRepository);
         user = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
         user2 = new RegisteredUser("Tomas", "Smutny", "pass", "ab@gmail.com", RoleEnum.USER);
@@ -62,7 +61,7 @@ public class UserServiceImplTest {
      * Tests a successful registration of the new user.
      */
     @Test
-    public void newUserRegistration() {
+    public void newUserRegistration() throws EntityAlreadyExistsException {
         RegisteredUser newUser = userService.newUserRegistration(user2);
         assertEquals(user2.getName(), newUser.getName());
         assertEquals(user2.getSurname(), newUser.getSurname());

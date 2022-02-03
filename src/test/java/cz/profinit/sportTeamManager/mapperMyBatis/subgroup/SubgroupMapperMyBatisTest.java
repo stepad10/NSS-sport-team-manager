@@ -1,18 +1,20 @@
 package cz.profinit.sportTeamManager.mapperMyBatis.subgroup;
 
-import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
-import cz.profinit.sportTeamManager.model.team.Subgroup;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
+import cz.profinit.sportTeamManager.configuration.MyBatisConfigurationTest;
+import cz.profinit.sportTeamManager.model.team.Subgroup;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
@@ -30,6 +32,16 @@ public class SubgroupMapperMyBatisTest {
         subgroupMapperMyBatis.insertSubgroup(subgroup);
         Assert.assertNotNull(subgroup.getEntityId());
         Assert.assertNotNull(subgroupMapperMyBatis.findSubgroupById(subgroup.getEntityId()));
+    }
+
+    @Test
+    public void insertSubgroupThatAlreadyExists() {
+        Long teamId = 5L;
+        String subgroupName = "New subgroup";
+        Subgroup subgroup1 = new Subgroup(subgroupName, teamId);
+        Subgroup subgroup2 = new Subgroup(subgroupName, teamId);
+        subgroupMapperMyBatis.insertSubgroup(subgroup1);
+        Assert.assertThrows(DuplicateKeyException.class, () -> subgroupMapperMyBatis.insertSubgroup(subgroup2));
     }
 
     @Test
@@ -60,6 +72,23 @@ public class SubgroupMapperMyBatisTest {
     public void findSubgroupsByTeamId() {
         Long teamId = 6L;
         List<Subgroup> subgroupList = subgroupMapperMyBatis.findSubgroupsByTeamId(teamId);
-        Assert.assertEquals(2, subgroupList.size());
+        Assert.assertEquals(3, subgroupList.size());
+    }
+
+    @Test
+    public void findSubgroupByNameAndTeamId() {
+        Long teamId = 6L;
+        String subgroupName = "Find subgroup by name and teamId";
+        Subgroup foundSubgroup = subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroupName, teamId);
+        Assert.assertNotNull(foundSubgroup);
+        Assert.assertEquals(subgroupName, foundSubgroup.getName());
+    }
+
+    @Test
+    public void findNotExistingSubgroupByNameAndTeamId() {
+        Long teamId = 0L;
+        String subgroupName = "";
+        Subgroup foundSubgroup = subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroupName, teamId);
+        Assert.assertNull(foundSubgroup);
     }
 }

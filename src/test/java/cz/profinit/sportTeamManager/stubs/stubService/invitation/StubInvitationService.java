@@ -6,6 +6,14 @@
  * Author: M. Halamka
  */package cz.profinit.sportTeamManager.stubs.stubService.invitation;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import cz.profinit.sportTeamManager.crypto.Aes;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
@@ -24,13 +32,6 @@ import cz.profinit.sportTeamManager.repositories.invitation.InvitationRepository
 import cz.profinit.sportTeamManager.service.event.EventService;
 import cz.profinit.sportTeamManager.service.invitation.InvitationService;
 import cz.profinit.sportTeamManager.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Stub implementation of Invitation service interface. Includes all business logic related to invitations.
@@ -40,16 +41,16 @@ public class StubInvitationService implements InvitationService {
 
     @Autowired
     InvitationRepository invitationRepository;
+
     @Autowired
     EventService eventService;
+
     @Autowired
     UserService userService;
-
 
     Event event;
     RegisteredUser loggedUser;
     Guest guest;
-
 
     public StubInvitationService() {
         Place place = new Place("Profinit","Tychonova 2", 1L);
@@ -64,8 +65,6 @@ public class StubInvitationService implements InvitationService {
 
     }
 
-
-
     /**
      * Creates now invitation and saves it to repository
      *
@@ -79,7 +78,7 @@ public class StubInvitationService implements InvitationService {
     public Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
         Event event = eventService.findEventById(eventId);
         User user = userService.findUserByEmail(email);
-        if (!invitationRepository.isUserPresent(user, event)) {
+        if (invitationRepository.isUserPresent(user, event)) {
             Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId));
             eventService.addNewInvitation(eventId, invitation);
             return invitation;
@@ -195,7 +194,7 @@ public class StubInvitationService implements InvitationService {
         Long eventId = Long.parseLong(decryptedUri.split("-")[1]);
         Event event;
 
-        if (eventId == this.event.getEntityId()){
+        if (eventId.equals(this.event.getEntityId())){
             event = this.event;
         } else {
             throw new EntityNotFoundException("Event");

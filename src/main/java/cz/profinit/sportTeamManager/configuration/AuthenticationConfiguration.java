@@ -30,11 +30,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ComponentScan(basePackageClasses = AuthenticationFacade.class)
 @Profile("Main")
 public class AuthenticationConfiguration {
+
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ApplicationContext context;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Initialize Authentication provider.
@@ -43,8 +44,6 @@ public class AuthenticationConfiguration {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         UserDetailsService userDetailsService = new UserDetailServiceImpl(userRepository);
-        UserDetails userDetails = new UserDetailsImpl();
-        PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;

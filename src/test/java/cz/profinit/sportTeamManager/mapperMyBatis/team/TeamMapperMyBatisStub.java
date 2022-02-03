@@ -34,7 +34,7 @@ public class TeamMapperMyBatisStub implements TeamMapperMyBatis {
     public List<Team> findTeamsByName(String name) {
         logger.info("STUB: Finding teams by name in database!");
         if (name.equals("urMamaTeam")) return null;
-        List<Team> teams = new ArrayList<Team>();
+        List<Team> teams = new ArrayList<>();
         teams.add(new Team(name, "Famfrpal", new ArrayList<>(), new RegisteredUser()));
         teams.add(new Team(name, "Pokopana", new ArrayList<>(), new RegisteredUser()));
         return teams;

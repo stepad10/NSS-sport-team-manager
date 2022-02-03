@@ -13,6 +13,7 @@ import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.List;
 /**
  * Class representing Event entity. Contains date, place, maxPersonAttendance, isCanceled, createdBy, listOfMessages and listOfInvitations
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,16 +33,16 @@ public class Event extends Entity {
     private Boolean isCanceled;
     private Place place;
     private RegisteredUser createdBy;
-    private List<Message> MessageList;
-    private List <Invitation> InvitationList;
+    private List<Message> messageList;
+    private List <Invitation> invitationList;
 
     /**
      * Adds new message to the Event
      * @param message Message that needs to be saved.
      */
     public void addNewMessage (Message message){
-        if(!MessageList.contains(message)){
-            MessageList.add(message);
+        if(!messageList.contains(message)){
+            messageList.add(message);
         }
     }
 
@@ -49,8 +51,8 @@ public class Event extends Entity {
      * @param invitation Invitation that needs to be saved.
      */
     public void addNewInvitation (Invitation invitation){
-        if(!InvitationList.contains(invitation)){
-            InvitationList.add(invitation);
+        if(!invitationList.contains(invitation)){
+            invitationList.add(invitation);
         }
     }
 }

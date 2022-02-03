@@ -17,10 +17,8 @@ import static org.junit.Assert.assertEquals;
 
 public class SubgroupMapperTest {
     private Subgroup subgroup1;
-    private Subgroup subgroup2;
     private List<Subgroup> subgroupList;
     private SubgroupDTO subgroupDTO1;
-    private SubgroupDTO subgroupDTO2;
     private List<SubgroupDTO> subgroupDTOList;
     private TeamDTO teamDTO;
     private Team team;
@@ -43,11 +41,11 @@ public class SubgroupMapperTest {
         registeredUserDTOList2.add(registeredUserDTO1);
         subgroup1 = new Subgroup("Players", 10L);
         subgroup1.setUserList(registeredUserList);
-        subgroup2 = new Subgroup("Coaches", 10L);
+        Subgroup subgroup2 = new Subgroup("Coaches", 10L);
         subgroup2.setUserList(registeredUserList2);
         subgroupDTO1 = new SubgroupDTO("Players", 10L);
         subgroupDTO1.setUserList(registeredUserDTOList);
-        subgroupDTO2 = new SubgroupDTO("Coaches", 10L);
+        SubgroupDTO subgroupDTO2 = new SubgroupDTO("Coaches", 10L);
         subgroupDTO2.setUserList(registeredUserDTOList2);
         subgroupList = new ArrayList<>();
         subgroupList.add(subgroup1);

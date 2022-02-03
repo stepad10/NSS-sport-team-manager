@@ -23,9 +23,9 @@ import java.util.logging.Logger;
 public class StubUserRepository implements UserRepository {
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
     public static RegisteredUser loggedUser1 = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
-    private RegisteredUser loggedUser2 = new RegisteredUser("Pavel", "Smutny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@seznam.cz", RoleEnum.USER);
-    private RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER);
-    private RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
+    private final RegisteredUser loggedUser2 = new RegisteredUser("Pavel", "Smutny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@seznam.cz", RoleEnum.USER);
+    private final RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER);
+    private final RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
     public static RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
 
     @Override
@@ -46,25 +46,8 @@ public class StubUserRepository implements UserRepository {
     }
 
     @Override
-    public RegisteredUser updateRegisteredUser(RegisteredUser registeredUser) {
+    public void updateRegisteredUser(RegisteredUser registeredUser) {
         logger.info("User saved to database");
-        return registeredUser;
-    }
-
-    @Override
-    public RegisteredUser findRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException {
-        return null;
-    }
-
-    /**
-     * Gets user email from database what is equal to "is@gmail.com"
-     *
-     * @param email user email
-     * @return true only if email is "is@gmail.com"
-     */
-    @Override
-    public boolean emailExistsInDatabase(String email) {
-        return email.equals("is@gmail.com");
     }
 
     @Override
@@ -96,17 +79,18 @@ public class StubUserRepository implements UserRepository {
      */
     @Override
     public RegisteredUser findUserByEmail(String userEmail) throws EntityNotFoundException {
-        if (userEmail == "is@seznam.cz") {
+        switch (userEmail) {
+        case "is@seznam.cz":
             return loggedUser2;
-        } else if (userEmail.equals("is@gmail.com")) {
+        case "is@gmail.com":
             return loggedUser1;
-        } else if (userEmail.equals("is@email.cz")) {
+        case "is@email.cz":
             return loggedUser3;
-        } else if (userEmail.equals("ts@gmail.com")) {
+        case "ts@gmail.com":
             return loggedUser4;
-        } else if (userEmail.equals("email@gmail.com")) {
+        case "email@gmail.com":
             return loggedUser5;
-        } else {
+        default:
             throw new EntityNotFoundException("User");
         }
     }

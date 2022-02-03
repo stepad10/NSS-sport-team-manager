@@ -232,9 +232,9 @@ public class EventController {
             return invitationService.OrderListOfInvitationByDateForSpecificStatus(InvitationMapper.toDtoList(eventService.getAllInvitations(eventId)), status);
         } catch (EntityNotFoundException | IllegalArgumentException e) {
             e.printStackTrace();
-            if (e.getMessage().contains("entity"))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
-            else {
+            if (e.getMessage().contains("entity")) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
+            } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
             }
         }

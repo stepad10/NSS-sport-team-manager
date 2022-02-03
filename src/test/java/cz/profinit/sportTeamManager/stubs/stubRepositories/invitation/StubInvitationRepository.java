@@ -40,7 +40,7 @@ public class StubInvitationRepository implements InvitationRepository {
     }
 
     public Invitation getInvitationById(Long id) throws EntityNotFoundException {
-        if (id == invitation.getEntityId()){
+        if (id.equals(invitation.getEntityId())){
             return invitation;
         } else {
             throw new EntityNotFoundException("Invitation");
@@ -56,7 +56,7 @@ public class StubInvitationRepository implements InvitationRepository {
 
     @Override
     public boolean deleteInvitation(User user, Event event) throws EntityNotFoundException {
-        if (user.getName() != loggedUser.getName() || event.getEntityId() != 0L){
+        if (!user.getName().equals(loggedUser.getName()) || event.getEntityId() != 0L){
             throw new EntityNotFoundException("Invitation");
         } else {
             return true;
@@ -65,10 +65,7 @@ public class StubInvitationRepository implements InvitationRepository {
 
     @Override
     public boolean isUserPresent(User user, Event event) {
-        if (user.getName() == "Pavel") {
-            return true;
-        }
-        return false;
+        return !user.getName().equals("Pavel");
     }
 
     @Override

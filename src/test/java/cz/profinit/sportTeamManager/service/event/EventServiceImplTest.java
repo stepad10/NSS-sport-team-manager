@@ -12,7 +12,6 @@ import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.dto.event.EventDto;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.InvitationMapper;
 import cz.profinit.sportTeamManager.mappers.PlaceMapper;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
@@ -28,14 +27,12 @@ import cz.profinit.sportTeamManager.repositories.event.EventRepository;
 import cz.profinit.sportTeamManager.repositories.user.UserRepository;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import cz.profinit.sportTeamManager.service.user.UserServiceImpl;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.event.StubEventRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -54,7 +51,6 @@ import java.util.concurrent.TimeUnit;
 public class EventServiceImplTest {
 
     private EventServiceImpl eventService;
-    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -74,7 +70,7 @@ public class EventServiceImplTest {
      */
     @Before
     public void setUp() {
-        userService = new UserServiceImpl(passwordEncoder, userRepository);
+        UserService userService = new UserServiceImpl(passwordEncoder, userRepository);
         eventService = new EventServiceImpl(eventRepository, userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
         place = new Place("Profinit","Tychonova 2", 1L);

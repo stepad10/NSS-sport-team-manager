@@ -28,7 +28,7 @@ public class MessageMapper {
      * @return MessageDto representing given Message
      */
     public static MessageDto toDto(Message message) {
-        return new MessageDto(UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) message.getUser()),message.getText(),message.getDate(), message.getEventId());
+        return new MessageDto(UserMapper.mapRegisteredUserToRegisteredUserDTO(message.getUser()),message.getText(),message.getDate(), message.getEventId());
     }
 
     /**

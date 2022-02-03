@@ -49,7 +49,7 @@ public class TeamMapper {
     public static TeamDTO mapTeamToTeamDto(Team team) {
         return new TeamDTO(team.getEntityId(), team.getName(),
                 team.getSport(),
-                SubgroupMapper.mapSubgroupListToSubgroupDTOList(team.getListOfSubgroups()),
+                SubgroupMapper.mapSubgroupListToSubgroupDTOList(team.getSubgroupList()),
                 UserMapper.mapRegisteredUserToRegisteredUserDTO(team.getOwner()));
     }
 }

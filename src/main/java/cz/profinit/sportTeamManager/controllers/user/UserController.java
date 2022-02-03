@@ -9,6 +9,7 @@ package cz.profinit.sportTeamManager.controllers.user;
 
 import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
 import cz.profinit.sportTeamManager.dto.user.UserDetailsDTO;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.HttpExceptionHandler;
 import cz.profinit.sportTeamManager.mappers.UserMapper;
@@ -57,9 +58,8 @@ public class UserController {
     @PostMapping("/user/registration")
     public void registerNewUser(@RequestBody UserDetailsDTO newUser, HttpServletRequest request) {
         RegisteredUser registeredUser = UserMapper.mapUserDetailsDTOToRegisteredUser(newUser);
-        System.out.println(newUser);
         try {
-            registeredUser = userService.newUserRegistration(registeredUser);
+            userService.newUserRegistration(registeredUser);
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
@@ -90,7 +90,7 @@ public class UserController {
      * @param request http request
      * @deprecated Maybe will be used later.
      */
-//DEPRICATED
+//DEPRECATED
     @PostMapping("/login")
     public void userLogin(@RequestBody UserDetailsDTO user, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
@@ -183,7 +183,7 @@ public class UserController {
                         RoleEnum.USER);
                 try {
                     userService.newUserRegistration(user);
-                } catch (EntityNotFoundException ex) {
+                } catch (EntityNotFoundException | EntityAlreadyExistsException ex) {
                     HttpExceptionHandler.httpErrorMessages(ex);
                 }
                 return "Registration successful";

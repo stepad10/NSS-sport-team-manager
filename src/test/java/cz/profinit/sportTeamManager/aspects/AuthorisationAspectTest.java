@@ -32,6 +32,8 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests of team authorization.
@@ -70,49 +72,39 @@ public class AuthorisationAspectTest {
     @Test
     @WithMockUser(username="email@gmail.com",roles={"USER","ADMIN"})
     public void authorizationSuccess() throws EntityNotFoundException, EntityAlreadyExistsException {
-        Team team = null;
+        Team team;
 
         team = teamService.changeTeamName(10L, "dd");
-        assertNotEquals(null, team);
+        assertNotNull(team);
 
-        team = null;
         team = teamService.changeTeamSport(10L, "dd");
-        assertNotEquals(null, team);
+        assertNotNull(team);
 
-        team = null;
         team = teamService.changeTeamOwner(10L, user_in_team);
-        assertNotEquals(null, team);
+        assertNotNull(team);
 
-        team = null;
         team = teamService.addUserToSubgroup(10L, "All Users", user_in_subgroups);
-        assertNotEquals(null, team);
+        assertNotNull(team);
 
-        team = null;
         team = teamService.addUserToTeam(10L, user_in_subgroups);
-        assertNotEquals(null, team);
+        assertNotNull(team);
 
-        team = null;
         team = teamService.addSubgroup(10L, "dd");
-        assertNotEquals(null, team);
+        assertNotNull(team);
 
-        team = null;
         team = teamService.deleteSubgroup(10L, "Empty");
-        assertNotEquals(null, team);
+        assertNotNull(team);
 
-        team = null;
         team = teamService.deleteUserFromSubgroup(10L, "Coaches", user_in_team);
-        assertNotEquals(null, team);
+        assertNotNull(team);
 
-        team = null;
         team = teamService.deleteUserFromTeam(10L, user_in_team);
-        assertNotEquals(null, team);
+        assertNotNull(team);
 
         teamService.deleteTeam(10L);
 
-        team = null;
         team = teamService.changeSubgroupName(10L, "Empty", "DD");
-        assertNotEquals(null, team);
-
+        assertNotNull(team);
     }
 
     /**
@@ -194,18 +186,16 @@ public class AuthorisationAspectTest {
             assertEquals("Access denied", e.getMessage());
         }
 
-
-        assertEquals(null, team);
+        assertNull(team);
     }
 
     /**
-     * Requests without required authorization
+     * Requests without required authorization TODO
      */
     @Test
     public void authorizationNotNeeded() throws EntityNotFoundException {
         Team team = teamService.getTeamById(10L);
         team = teamService.createNewTeam(new Team("A team", "golf", new ArrayList<>(), user_in_team));
+        assertNotNull(team); // TODO - temporary workaround
     }
-
-
 }

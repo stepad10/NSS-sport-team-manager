@@ -17,7 +17,6 @@ import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import cz.profinit.sportTeamManager.model.user.User;
 import cz.profinit.sportTeamManager.repositories.event.EventRepository;
 import org.springframework.stereotype.Repository;
 

@@ -16,12 +16,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class TeamMapperTest {
-    private Subgroup subgroup1;
-    private Subgroup subgroup2;
-    private List<Subgroup> subgroupList;
-    private SubgroupDTO subgroupDTO1;
-    private SubgroupDTO subgroupDTO2;
-    private List<SubgroupDTO> subgroupDTOList;
     private Team team;
     private TeamDTO teamDTO;
 
@@ -42,26 +36,26 @@ public class TeamMapperTest {
         registeredUserDTOList.add(registeredUserDTO2);
         registeredUserDTOList2.add(registeredUserDTO1);
 
-        subgroupList = new ArrayList<>();
-        subgroupDTOList = new ArrayList<>();
+        List<Subgroup> subgroupList = new ArrayList<>();
+        List<SubgroupDTO> subgroupDTOList = new ArrayList<>();
         team = new Team("A team", "golf", subgroupList, registeredUser1);
         team.setEntityId(10L);
         teamDTO = new TeamDTO(10L, "A team", "golf", subgroupDTOList, registeredUserDTO1);
 
-        subgroup1 = new Subgroup("Players", team.getEntityId());
+        Subgroup subgroup1 = new Subgroup("Players", team.getEntityId());
         subgroup1.setUserList(registeredUserList);
-        subgroup2 = new Subgroup("Coaches", team.getEntityId());
+        Subgroup subgroup2 = new Subgroup("Coaches", team.getEntityId());
         subgroup2.setUserList(registeredUserList2);
-        subgroupDTO1 = new SubgroupDTO("Players", teamDTO.getId());
+        SubgroupDTO subgroupDTO1 = new SubgroupDTO("Players", teamDTO.getId());
         subgroupDTO1.setUserList(registeredUserDTOList);
-        subgroupDTO2 = new SubgroupDTO("Coaches", teamDTO.getId());
+        SubgroupDTO subgroupDTO2 = new SubgroupDTO("Coaches", teamDTO.getId());
         subgroupDTO2.setUserList(registeredUserDTOList2);
 
         subgroupList.add(subgroup1);
         subgroupList.add(subgroup2);
         subgroupDTOList.add(subgroupDTO1);
         subgroupDTOList.add(subgroupDTO2);
-        team.setListOfSubgroups(subgroupList);
+        team.setSubgroupList(subgroupList);
         teamDTO.setListOfSubgroups(subgroupDTOList);
     }
 
