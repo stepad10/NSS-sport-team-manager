@@ -7,6 +7,7 @@ import cz.profinit.sportTeamManager.model.team.Team;
 import java.util.List;
 
 public interface SubgroupRepository {
+
     void insertSubgroup(Subgroup subgroup);
 
     void updateSubgroup(Subgroup subgroup);
@@ -17,5 +18,10 @@ public interface SubgroupRepository {
 
     Subgroup findTeamSubgroupByName(Team team, String subgroupName) throws EntityNotFoundException;
 
-    List<Subgroup> findTeamSubgroups(Team team) throws EntityNotFoundException;
+    /**
+     * finds all subgroups of a team and fill userLists of subgroups
+     * @param team parent of subgroups
+     * @return list of subgroups belonging to team
+     */
+    List<Subgroup> findTeamSubgroups(Team team);
 }

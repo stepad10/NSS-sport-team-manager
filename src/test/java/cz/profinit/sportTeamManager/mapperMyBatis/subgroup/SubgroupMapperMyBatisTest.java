@@ -67,8 +67,16 @@ public class SubgroupMapperMyBatisTest {
     public void findSubgroupByNameAndTeamId() {
         Long teamId = 6L;
         String subgroupName = "Find subgroup by name and teamId";
-        Subgroup foundSubgroup = subgroupMapperMyBatis.findSubgroupByNameAndTeamId(teamId, subgroupName);
+        Subgroup foundSubgroup = subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroupName, teamId);
         Assert.assertNotNull(foundSubgroup);
         Assert.assertEquals(subgroupName, foundSubgroup.getName());
+    }
+
+    @Test
+    public void findNotExistingSubgroupByNameAndTeamId() {
+        Long teamId = 0L;
+        String subgroupName = "";
+        Subgroup foundSubgroup = subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroupName, teamId);
+        Assert.assertNull(foundSubgroup);
     }
 }

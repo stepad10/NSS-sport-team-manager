@@ -35,11 +35,11 @@ public interface SubgroupMapperMyBatis {
 
     /**
      *
-     * @param teamId id of a parent team
      * @param subgroupName name of a desired subgroup
+     * @param teamId id of a parent team
      * @return found subgroup or null
      */
-    Subgroup findSubgroupByNameAndTeamId(@Param("teamId") Long teamId, @Param("subgroupName") String subgroupName);
+    Subgroup findSubgroupByNameAndTeamId(@Param("subgroupName") String subgroupName, @Param("teamId") Long teamId);
 
     /**
      *
