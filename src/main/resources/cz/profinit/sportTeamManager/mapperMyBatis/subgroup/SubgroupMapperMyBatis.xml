@@ -48,7 +48,7 @@
         -->
     </select>
 
-    <select id="findSubgroupByNameAndTeamId" parameterType="Map" resultMap="subgroupResultMap">
+    <select id="findSubgroupByNameAndTeamId" resultMap="subgroupResultMap">
         SELECT * FROM t_subgroup WHERE c_team_id = #{teamId} AND c_name = #{subgroupName}
     </select>
 
