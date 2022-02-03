@@ -21,6 +21,12 @@ public interface SubgroupUserMapperMyBatis {
     void deleteSubgroupUser(Long subgroupId, Long userId);
 
     /**
+     * deletes every association between subgroup and users
+     * @param subgroupId id of a parent subgroup
+     */
+    void deleteAllSubgroupUsers(Long subgroupId);
+
+    /**
      * find all RegisterUsers of a Subgroup by its id
      * @param subgroupId id of a parent Subgroup
      * @return list of all RegisteredUsers of a Subgroup
