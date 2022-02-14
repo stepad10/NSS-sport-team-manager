@@ -60,9 +60,10 @@ public class InvitationServiceImpl implements InvitationService{
         Event event = eventService.findEventById(eventId);
         User user = userService.findUserByEmail(email);
         if (invitationRepository.isUserPresent(user, event)) {
-        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId));
-        eventService.addNewInvitation(eventId, invitation);
-        return invitation;
+            Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId);
+            invitationRepository.insertInvitation(invitation);
+            eventService.addNewInvitation(eventId, invitation);
+            return invitation;
         } else {
             throw new UserIsAlreadyInEventException();
         }
@@ -189,8 +190,9 @@ public class InvitationServiceImpl implements InvitationService{
      */
     public Invitation createGuestInvitation (Long eventId, String name) throws EntityNotFoundException {
         Event event = eventService.findEventById(eventId);
-        User user = userService.createNewGuest(name,event.getEntityId());
-        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId));
+        User user = userService.createNewGuest(name, event.getEntityId());
+        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId);
+        invitationRepository.insertInvitation(invitation);
         eventService.addNewInvitation(eventId, invitation);
         return invitation;
     }

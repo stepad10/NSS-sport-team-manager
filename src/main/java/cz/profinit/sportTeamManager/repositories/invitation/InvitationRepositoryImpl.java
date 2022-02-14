@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 @Profile("Main")
 public class InvitationRepositoryImpl implements InvitationRepository {
     @Override
-    public Invitation createNewInvitation(Invitation invitation) {
-        return null;
+    public void insertInvitation(Invitation invitation) {
+
     }
 
     @Override

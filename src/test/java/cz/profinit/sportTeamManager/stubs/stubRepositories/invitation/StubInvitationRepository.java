@@ -34,9 +34,8 @@ public class StubInvitationRepository implements InvitationRepository {
     }
 
     @Override
-    public Invitation createNewInvitation(Invitation invitation) {
+    public void insertInvitation(Invitation invitation) {
         this.invitation = invitation;
-        return invitation;
     }
 
     public Invitation getInvitationById(Long id) throws EntityNotFoundException {
