@@ -20,6 +20,6 @@ public interface InvitationRepository {
     Invitation getInvitationById(Long id) throws EntityNotFoundException;
     Invitation getInvitationByUserEmailAndEventId(Long eventId, String email) throws EntityNotFoundException;
     boolean deleteInvitation(User user, Event event) throws EntityNotFoundException;
-    boolean isUserPresent(User user, Event event);
+    boolean isUserInvitedToEvent(String userEmail, Long eventId) throws EntityNotFoundException;
 
 }

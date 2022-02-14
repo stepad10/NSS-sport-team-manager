@@ -63,8 +63,9 @@ public class StubInvitationRepository implements InvitationRepository {
     }
 
     @Override
-    public boolean isUserPresent(User user, Event event) {
-        return !user.getName().equals("Pavel");
+    public boolean isUserInvitedToEvent(String userEmail, Long eventId) throws EntityNotFoundException {
+        if (eventId == 1L) throw new EntityNotFoundException("Event");
+        return userEmail.equals("ts@gmail.com");
     }
 
     @Override

@@ -127,7 +127,7 @@ public class InvitationServiceImplTest {
     public void createNewInvitationsFromListThrowsUserIsAlreadyInEventException() throws EntityNotFoundException, UserIsAlreadyInEventException {
         List<RegisteredUser> users = new ArrayList<>();
         users.add(new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER));
-        users.add(new RegisteredUser("Pavel", "Smutny", "pass", "is@seznam.cz", RoleEnum.USER));
+        users.add(new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER));
 
         List<Invitation> invitationList = invitationService.createNewInvitationsFromList(users, 0L);
     }
@@ -141,12 +141,7 @@ public class InvitationServiceImplTest {
         List<RegisteredUser> users = new ArrayList<>();
         users.add(new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER));
         users.add(new RegisteredUser("Pavel", "Smutny", "pass", "is@seznam.cz", RoleEnum.USER));
-
-        try {
-            List<Invitation> invitationList = invitationService.createNewInvitationsFromList(users, 1L);
-        } catch (EntityNotFoundException e){
-            Assert.assertEquals("Event entity not found!",e.getMessage());
-        }
+        Assert.assertThrows(EntityNotFoundException.class ,() -> invitationService.createNewInvitationsFromList(users, 1L));
     }
 
     /**
@@ -189,7 +184,7 @@ public class InvitationServiceImplTest {
      */
     @Test (expected = UserIsAlreadyInEventException.class)
     public void invitingUserWhichIsAlreadyInvitedThrowsUserIsAlreadyInEventException() throws EntityNotFoundException, UserIsAlreadyInEventException {
-        invitationService.createNewInvitation("is@seznam.cz",0L);
+        invitationService.createNewInvitation("ts@gmail.com",0L);
     }
 
     /**
@@ -299,11 +294,11 @@ public class InvitationServiceImplTest {
      * @throws EntityNotFoundException thrown when Entity is not found
      */
     @Test
-    public void changeStatusInvitationChangesStatusInvitation() throws NonValidUriException, EntityNotFoundException {
+    public void changeGuestsInvitationStatusChangesInvitationStatus() throws NonValidUriException, EntityNotFoundException {
         Invitation invitation = invitationService.changeGuestInvitation("mxPR4fbWzvai60UMLhD3aw==",StatusEnum.ACCEPTED);
 
         Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getRecipient()).getUri());
-        Assert.assertEquals("Karel",invitation.getRecipient().getName());
+        Assert.assertEquals("Karel", invitation.getRecipient().getName());
         Assert.assertEquals(RoleEnum.GUEST, ((Guest) invitation.getRecipient()).getRole());
         Assert.assertEquals(StatusEnum.ACCEPTED, invitation.getStatus());
     }
