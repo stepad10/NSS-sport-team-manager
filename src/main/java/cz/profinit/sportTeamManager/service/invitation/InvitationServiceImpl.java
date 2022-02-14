@@ -118,7 +118,7 @@ public class InvitationServiceImpl implements InvitationService{
     public List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
         List<Invitation> invitationList = new ArrayList<>();
         for(RegisteredUser user: userList){
-            invitationList.add(createNewInvitation(user.getEmail(),eventId));
+            invitationList.add(createNewInvitation(user.getEmail(), eventId));
         }
         return invitationList;
     }

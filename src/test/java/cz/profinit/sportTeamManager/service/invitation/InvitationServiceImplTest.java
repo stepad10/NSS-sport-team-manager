@@ -101,7 +101,6 @@ public class InvitationServiceImplTest {
         Assert.assertEquals(invitationRepository.getInvitationByUserEmailAndEventId(0L,"is@gmail.com").getStatus(),StatusEnum.ACCEPTED);
     }
 
-
     /**
      * Testing createNewInvitationsFromList. Positive ending.
      * @throws EntityNotFoundException throws if entity is not found
