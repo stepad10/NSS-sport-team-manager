@@ -79,11 +79,11 @@ public class InvitationServiceImpl implements InvitationService{
      * @throws EntityNotFoundException if entity is not found.
      */
     public Invitation changeInvitationStatus(Long eventId, String email, StatusEnum status) throws EntityNotFoundException {
-        Invitation invitation = findInvitationByEventIdAndEmail(eventId,email);
-
+        Invitation invitation = findInvitationByEventIdAndEmail(eventId, email);
         invitation.setStatus(status);
         invitation.setChanged(LocalDateTime.now());
-        return invitationRepository.updateInvitation(invitation);
+        invitationRepository.updateInvitation(invitation);
+        return invitation;
     }
 
     /**

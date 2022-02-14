@@ -16,8 +16,8 @@ public class InvitationRepositoryImpl implements InvitationRepository {
     }
 
     @Override
-    public Invitation updateInvitation(Invitation invitation) {
-        return null;
+    public void updateInvitation(Invitation invitation) {
+
     }
 
     @Override

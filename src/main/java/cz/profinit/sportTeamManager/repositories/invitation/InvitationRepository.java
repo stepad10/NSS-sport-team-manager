@@ -16,7 +16,7 @@ import cz.profinit.sportTeamManager.model.user.User;
 public interface InvitationRepository {
 
     void insertInvitation(Invitation invitation);
-    Invitation updateInvitation(Invitation invitation);
+    void updateInvitation(Invitation invitation);
     Invitation getInvitationById(Long id) throws EntityNotFoundException;
     Invitation getInvitationByUserEmailAndEventId(Long eventId, String email) throws EntityNotFoundException;
     boolean deleteInvitation(User user, Event event) throws EntityNotFoundException;

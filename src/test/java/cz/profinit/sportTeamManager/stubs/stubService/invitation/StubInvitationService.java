@@ -102,7 +102,8 @@ public class StubInvitationService implements InvitationService {
 
         invitation.setStatus(status);
         invitation.setChanged(LocalDateTime.now());
-        return invitationRepository.updateInvitation(invitation);
+        invitationRepository.updateInvitation(invitation);
+        return invitation;
     }
 
     /**

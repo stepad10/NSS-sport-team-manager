@@ -68,7 +68,7 @@ public class StubInvitationRepository implements InvitationRepository {
     }
 
     @Override
-    public Invitation updateInvitation(Invitation invitation) {
-        return this.invitation = invitation;
+    public void updateInvitation(Invitation invitation) {
+        this.invitation = invitation;
     }
 }
