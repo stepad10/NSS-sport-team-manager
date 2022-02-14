@@ -98,7 +98,7 @@ public class InvitationServiceImplTest {
     public void changeInvitationStatusChangesInvitationStatus() throws EntityNotFoundException {
         invitationService.changeInvitationStatus(0L,"is@gmail.com",StatusEnum.ACCEPTED);
 
-        Assert.assertEquals(invitationRepository.getInvitationByUserEmailAndEventId(0L,"is@gmail.com").getStatus(),StatusEnum.ACCEPTED);
+        Assert.assertEquals(invitationRepository.findInvitationByEventIdAndUserEmail(0L,"is@gmail.com").getStatus(),StatusEnum.ACCEPTED);
     }
 
     /**
@@ -174,7 +174,7 @@ public class InvitationServiceImplTest {
      */
     @Test (expected = EntityNotFoundException.class)
     public void gettingNonExistingInvitationThrowsEntityNotFoundException() throws EntityNotFoundException {
-        invitationRepository.getInvitationById(1L);
+        invitationRepository.findInvitationById(1L);
     }
 
     /**
@@ -193,7 +193,7 @@ public class InvitationServiceImplTest {
      */
     @Test (expected = EntityNotFoundException.class)
     public void changeInvitationStatusOfNonExistingInvitationThrowsEntityNotFoundException() throws EntityNotFoundException {
-        Invitation invitation = invitationRepository.getInvitationById(1L);
+        Invitation invitation = invitationRepository.findInvitationById(1L);
        invitationService.changeInvitationStatus(0L,"is@seznam.cz",StatusEnum.ACCEPTED);
     }
 

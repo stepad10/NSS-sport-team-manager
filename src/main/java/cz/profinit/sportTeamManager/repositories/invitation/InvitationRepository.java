@@ -17,8 +17,8 @@ public interface InvitationRepository {
 
     void insertInvitation(Invitation invitation);
     void updateInvitation(Invitation invitation);
-    Invitation getInvitationById(Long id) throws EntityNotFoundException;
-    Invitation getInvitationByUserEmailAndEventId(Long eventId, String email) throws EntityNotFoundException;
+    Invitation findInvitationById(Long id) throws EntityNotFoundException;
+    Invitation findInvitationByEventIdAndUserEmail(Long eventId, String userEmail) throws EntityNotFoundException;
     boolean deleteInvitation(User user, Event event) throws EntityNotFoundException;
     boolean isUserInvitedToEvent(String userEmail, Long eventId) throws EntityNotFoundException;
 

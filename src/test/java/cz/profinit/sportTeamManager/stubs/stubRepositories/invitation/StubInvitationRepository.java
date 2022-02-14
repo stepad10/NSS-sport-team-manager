@@ -38,7 +38,7 @@ public class StubInvitationRepository implements InvitationRepository {
         this.invitation = invitation;
     }
 
-    public Invitation getInvitationById(Long id) throws EntityNotFoundException {
+    public Invitation findInvitationById(Long id) throws EntityNotFoundException {
         if (id.equals(invitation.getEntityId())){
             return invitation;
         } else {
@@ -47,8 +47,8 @@ public class StubInvitationRepository implements InvitationRepository {
     }
 
     @Override
-    public Invitation getInvitationByUserEmailAndEventId(Long eventId, String email) throws EntityNotFoundException {
-        if (eventId == 0L && email.equals("is@gmail.com"))
+    public Invitation findInvitationByEventIdAndUserEmail(Long eventId, String userEmail) throws EntityNotFoundException {
+        if (eventId == 0L && userEmail.equals("is@gmail.com"))
             return invitation;
         throw new EntityNotFoundException("Invitation");
     }

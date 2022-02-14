@@ -21,12 +21,12 @@ public class InvitationRepositoryImpl implements InvitationRepository {
     }
 
     @Override
-    public Invitation getInvitationById(Long id) throws EntityNotFoundException {
+    public Invitation findInvitationById(Long id) throws EntityNotFoundException {
         return null;
     }
 
     @Override
-    public Invitation getInvitationByUserEmailAndEventId(Long eventId, String email) throws EntityNotFoundException {
+    public Invitation findInvitationByEventIdAndUserEmail(Long eventId, String userEmail) throws EntityNotFoundException {
         return null;
     }
 
