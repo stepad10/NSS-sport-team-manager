@@ -31,8 +31,7 @@ public class InvitationRepositoryImpl implements InvitationRepository {
     }
 
     @Override
-    public boolean deleteInvitation(User user, Event event) throws EntityNotFoundException {
-        return false;
+    public void deleteInvitation(String userEmail, Long eventId) throws EntityNotFoundException {
     }
 
     @Override

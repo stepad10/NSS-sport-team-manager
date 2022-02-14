@@ -38,7 +38,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Profile("Main")
-public class InvitationServiceImpl implements InvitationService{
+public class InvitationServiceImpl implements InvitationService {
 
     @Autowired
     InvitationRepository invitationRepository;
@@ -123,15 +123,12 @@ public class InvitationServiceImpl implements InvitationService{
     /**
      * Methods deletes user invitation for selected event
      *
-     * @param email email of user whose invitation will be deleted
+     * @param userEmail email of user whose invitation will be deleted
      * @param eventId ID of event on which invitation will be deleted
      * @throws EntityNotFoundException if entity was not found.
      */
-    public boolean deleteInvitation (String email, Long eventId) throws EntityNotFoundException {
-        User user = userService.findUserByEmail(email);
-        Event event = eventService.findEventById(eventId);
-
-        return invitationRepository.deleteInvitation(user,event);
+    public void deleteInvitation (String userEmail, Long eventId) throws EntityNotFoundException {
+        invitationRepository.deleteInvitation(userEmail, eventId);
     }
 
     /**

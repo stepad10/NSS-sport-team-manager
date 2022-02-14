@@ -169,11 +169,8 @@ public class StubInvitationService implements InvitationService {
      * @throws EntityNotFoundException if entity was not found.
      */
     @Override
-    public boolean deleteInvitation(String email, Long eventId) throws EntityNotFoundException {
-        User user = userService.findUserByEmail(email);
-        Event event = eventService.findEventById(eventId);
-
-        return invitationRepository.deleteInvitation(user,event);
+    public void deleteInvitation (String email, Long eventId) throws EntityNotFoundException {
+        invitationRepository.deleteInvitation(email, eventId);
     }
 
     /**

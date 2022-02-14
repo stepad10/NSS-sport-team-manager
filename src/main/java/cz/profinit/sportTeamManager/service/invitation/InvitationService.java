@@ -25,7 +25,7 @@ public interface InvitationService {
     Invitation findInvitationByEventIdAndEmail(Long eventId,String email) throws EntityNotFoundException;
     List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException;
     List<InvitationDto> OrderListOfInvitationByDateForSpecificStatus (List<InvitationDto> invitationDtoList, StatusEnum status);
-    boolean deleteInvitation (String email, Long eventId) throws EntityNotFoundException;
+    void deleteInvitation (String email, Long eventId) throws EntityNotFoundException;
     Invitation getGuestInvitation (String uri) throws EntityNotFoundException, NonValidUriException;
     Invitation createGuestInvitation (Long eventId, String name) throws EntityNotFoundException;
     Invitation changeGuestInvitation (String uri, StatusEnum status) throws NonValidUriException, EntityNotFoundException;

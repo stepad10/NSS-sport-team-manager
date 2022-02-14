@@ -85,9 +85,9 @@ public class InvitationServiceImplTest {
     /**
      * Testing delete of invitation. Positive ending
      */
-    @Test
+    @Test(expected = Test.None.class)
     public void deleteInvitationDeletesInvitation() throws EntityNotFoundException {
-        Assert.assertTrue(invitationService.deleteInvitation(loggedUser.getEmail(), 0L));
+        invitationService.deleteInvitation(loggedUser.getEmail(), 0L);
     }
 
     /**
@@ -202,33 +202,24 @@ public class InvitationServiceImplTest {
      */
     @Test
     public void deleteInvitationThrowsEntityNotFoundForNonExistingInvitation() {
-        try {
-            invitationService.deleteInvitation("is@email.cz", 0L);
-        } catch (EntityNotFoundException e){
-            Assert.assertEquals("Invitation entity not found!",e.getMessage());
-        }
+        Exception exception = Assert.assertThrows(EntityNotFoundException.class,() -> invitationService.deleteInvitation("xx@email.cz", 1L));
+        Assert.assertEquals(new EntityNotFoundException("Invitation").getMessage(), exception.getMessage());
     }
     /**
      * Testing deletion of Invitation. User is not present. EntityNotFoundException expected
      */
     @Test
     public void deleteInvitationThrowsEntityNotFoundForNonExistingUser() {
-        try {
-            invitationService.deleteInvitation("is@emil.cz", 0L);
-        } catch (EntityNotFoundException e){
-            Assert.assertEquals("User entity not found!",e.getMessage());
-        }
+        Exception exception = Assert.assertThrows(EntityNotFoundException.class,() -> invitationService.deleteInvitation("xx@email.cz", 0L));
+        Assert.assertEquals(new EntityNotFoundException("RegisteredUser").getMessage(), exception.getMessage());
     }
     /**
      * Testing deletion of Invitation. Event is not present. EntityNotFoundException expected
      */
     @Test
     public void deleteInvitationThrowsEntityNotFoundForNonExistingEvent() {
-        try {
-            invitationService.deleteInvitation("is@email.cz", 1L);
-        } catch (EntityNotFoundException e){
-            Assert.assertEquals("Event entity not found!",e.getMessage());
-        }
+        Exception exception = Assert.assertThrows(EntityNotFoundException.class,() -> invitationService.deleteInvitation("is@gmail.com", 1L));
+        Assert.assertEquals(new EntityNotFoundException("Event").getMessage(), exception.getMessage());
     }
 
     /**

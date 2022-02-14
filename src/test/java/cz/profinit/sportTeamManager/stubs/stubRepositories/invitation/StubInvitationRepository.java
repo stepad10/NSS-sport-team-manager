@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 public class StubInvitationRepository implements InvitationRepository {
 
     Invitation invitation;
-    User loggedUser;
+    RegisteredUser loggedUser;
 
     public StubInvitationRepository() {
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
@@ -48,17 +48,21 @@ public class StubInvitationRepository implements InvitationRepository {
 
     @Override
     public Invitation findInvitationByEventIdAndUserEmail(Long eventId, String userEmail) throws EntityNotFoundException {
-        if (eventId == 0L && userEmail.equals("is@gmail.com"))
+        if (eventId == 0L && loggedUser.getEmail().equals(userEmail))
             return invitation;
         throw new EntityNotFoundException("Invitation");
     }
 
     @Override
-    public boolean deleteInvitation(User user, Event event) throws EntityNotFoundException {
-        if (!user.getName().equals(loggedUser.getName()) || event.getEntityId() != 0L){
+    public void deleteInvitation(String userEmail, Long eventId) throws EntityNotFoundException {
+        if (eventId != 0L && !loggedUser.getEmail().equals(userEmail)) {
             throw new EntityNotFoundException("Invitation");
-        } else {
-            return true;
+        }
+        if (eventId != 0L) {
+            throw new EntityNotFoundException("Event");
+        }
+        if (!loggedUser.getEmail().equals(userEmail)) {
+            throw new EntityNotFoundException("RegisteredUser");
         }
     }
 
