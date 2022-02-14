@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 /**
  * Class representing Place entity. Contains name and address.
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

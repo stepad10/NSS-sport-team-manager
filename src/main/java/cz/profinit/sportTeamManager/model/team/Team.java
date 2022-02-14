@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 /**
  * Class containing all team information such as team name, team sport, list of subgroups and owner.
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

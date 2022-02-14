@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Class containing subgroup information such as subgroup name and user list.
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @NoArgsConstructor
 public class Subgroup extends Entity {

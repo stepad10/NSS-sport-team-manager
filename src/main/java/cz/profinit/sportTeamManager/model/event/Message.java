@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 /**
  * Class representing Message entity. Contains user, who sent message, message itself, and date when message was send.
  */
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
