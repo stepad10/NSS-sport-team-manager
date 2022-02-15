@@ -12,6 +12,7 @@ package cz.profinit.sportTeamManager.controllers.event;
 import cz.profinit.sportTeamManager.dto.event.EventDto;
 import cz.profinit.sportTeamManager.dto.event.MessageDto;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
@@ -164,7 +165,7 @@ public class EventController {
     public InvitationDto addNewInvitation(@PathVariable Long eventId, @PathVariable String email){
         try {
            return InvitationMapper.toDto(invitationService.createNewInvitation(email,eventId));
-        } catch (EntityNotFoundException | UserIsAlreadyInEventException e) {
+        } catch (EntityNotFoundException | UserIsAlreadyInEventException | EntityAlreadyExistsException e) {
             e.printStackTrace();
             if (e.getMessage().contains("entity")) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
@@ -251,7 +252,7 @@ public class EventController {
     public String createNewGuest (@PathVariable String name, @PathVariable Long eventId){
         try {
             return ((Guest) invitationService.createGuestInvitation(eventId,name).getRecipient()).getUri();
-        } catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
             e.printStackTrace();
             if (e.getMessage().contains("entity"))
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);

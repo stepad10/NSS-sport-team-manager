@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import cz.profinit.sportTeamManager.crypto.Aes;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
@@ -75,7 +76,8 @@ public class StubInvitationService implements InvitationService {
      * @throws UserIsAlreadyInEventException user was already invited to an Event
      */
     @Override
-    public Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
+    public Invitation createNewInvitation(String email, Long eventId)
+            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
         if (invitationRepository.isUserInvitedToEvent(email, eventId)) {
             throw new UserIsAlreadyInEventException();
         }
@@ -135,7 +137,8 @@ public class StubInvitationService implements InvitationService {
      * @throws EntityNotFoundException if entity was not found.
      */
     @Override
-    public List<Invitation> createNewInvitationsFromList(List<RegisteredUser> userList, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
+    public List<Invitation> createNewInvitationsFromList(List<RegisteredUser> userList, Long eventId)
+            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
         List<Invitation> invitationList = new ArrayList<>();
         for(RegisteredUser user: userList){
             invitationList.add(createNewInvitation(user.getEmail(),eventId));
@@ -224,7 +227,7 @@ public class StubInvitationService implements InvitationService {
      * @throws EntityNotFoundException thrown when Event entity is not found
      */
     @Override
-    public Invitation createGuestInvitation(Long eventId, String name) throws EntityNotFoundException {
+    public Invitation createGuestInvitation(Long eventId, String name) throws EntityNotFoundException, EntityAlreadyExistsException {
         Event event = eventService.findEventById(eventId);
         User user = userService.createNewGuest(name,event.getEntityId());
         Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId);

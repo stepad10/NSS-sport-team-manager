@@ -10,6 +10,7 @@ package cz.profinit.sportTeamManager.service.invitation;
 
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
@@ -73,7 +74,7 @@ public class InvitationServiceImplTest {
      * Testing creation of a new invitation. Positive ending
      */
     @Test
-    public void createNewInvitationCreatesNewInvitation() throws EntityNotFoundException, UserIsAlreadyInEventException {
+    public void createNewInvitationCreatesNewInvitation() throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
         Invitation invitation = invitationService.createNewInvitation(loggedUser.getEmail(),0L);
 
         Assert.assertEquals(invitation.getStatus(),StatusEnum.PENDING);
@@ -107,7 +108,8 @@ public class InvitationServiceImplTest {
      * @throws UserIsAlreadyInEventException thrown when user is already invited
      */
     @Test
-    public void createNewInvitationsFromListCreatesNewInvitations() throws EntityNotFoundException, UserIsAlreadyInEventException {
+    public void createNewInvitationsFromListCreatesNewInvitations() throws EntityNotFoundException, UserIsAlreadyInEventException,
+            EntityAlreadyExistsException {
         List<RegisteredUser> users = new ArrayList<>();
         users.add(new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER));
         users.add(new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER));
@@ -124,7 +126,8 @@ public class InvitationServiceImplTest {
      * @throws UserIsAlreadyInEventException thrown when user is already invited
      */
     @Test (expected = UserIsAlreadyInEventException.class)
-    public void createNewInvitationsFromListThrowsUserIsAlreadyInEventException() throws EntityNotFoundException, UserIsAlreadyInEventException {
+    public void createNewInvitationsFromListThrowsUserIsAlreadyInEventException()
+            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
         List<RegisteredUser> users = new ArrayList<>();
         users.add(new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER));
         users.add(new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER));
@@ -183,7 +186,8 @@ public class InvitationServiceImplTest {
      * @throws UserIsAlreadyInEventException Throws when user is already invited to the event.
      */
     @Test (expected = UserIsAlreadyInEventException.class)
-    public void invitingUserWhichIsAlreadyInvitedThrowsUserIsAlreadyInEventException() throws EntityNotFoundException, UserIsAlreadyInEventException {
+    public void invitingUserWhichIsAlreadyInvitedThrowsUserIsAlreadyInEventException()
+            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
         invitationService.createNewInvitation("ts@gmail.com",0L);
     }
 
@@ -228,7 +232,7 @@ public class InvitationServiceImplTest {
      * @throws EntityNotFoundException if Event entity is not found
      */
     @Test
-    public void createGuestInvitationCreatesNewGuestInvitation() throws EntityNotFoundException {
+    public void createGuestInvitationCreatesNewGuestInvitation() throws EntityNotFoundException, EntityAlreadyExistsException {
         Invitation invitation = invitationService.createGuestInvitation(0L,"Karel");
 
         Assert.assertEquals("mxPR4fbWzvai60UMLhD3aw==", ((Guest) invitation.getRecipient()).getUri());
@@ -243,7 +247,7 @@ public class InvitationServiceImplTest {
     public void createGuestInvitationThrowsEntityNotFoundExceptionForNonExistentEvent() {
         try {
             Invitation invitation = invitationService.createGuestInvitation(1L,"Karel");
-        } catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
             Assert.assertEquals("Event entity not found!",e.getMessage());
         }
     }
