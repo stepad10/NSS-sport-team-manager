@@ -293,9 +293,41 @@
         <!-- Team and Event owner, invitation recipient - user, ID=13 -->
         <insert tableName="t_user">
             <column name="c_name" value="Team, Event owner, invitation recipient"/>
-            <column name="c_surname" value="Invitation test"/>
+            <column name="c_surname" value="Insert invitation test"/>
             <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
-            <column name="c_email" value="invitation@test.com"/>
+            <column name="c_email" value="insert@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Recipient user, ID=14 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Invitation recipient 2"/>
+            <column name="c_surname" value="Delete invitation test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="delete@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Recipient user, ID=15 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Invitation recipient 3"/>
+            <column name="c_surname" value="Find invitation by id test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="findById@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Recipient user, ID=16 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Invitation recipient 4"/>
+            <column name="c_surname" value="Update invitation test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="update@test.com"/>
+            <column name="c_role" value="1"/>
+        </insert>
+        <!-- Recipient user, ID=17 -->
+        <insert tableName="t_user">
+            <column name="c_name" value="Invitation recipient 5"/>
+            <column name="c_surname" value="Find inv by event and user id test"/>
+            <column name="c_password" value="$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2"/>
+            <column name="c_email" value="findByEmailIdAndUserId@test.com"/>
             <column name="c_role" value="1"/>
         </insert>
         <!-- Parent team, ID=11 -->
@@ -324,21 +356,28 @@
             <column name="c_changed" value="NULL"/>
             <column name="c_status" value="1"/>
             <column name="c_event_id" value="4"/>
-            <column name="c_user_id" value="13"/>
+            <column name="c_user_id" value="14"/>
         </insert>
         <insert tableName="t_invitation">
             <column name="c_created" value="2222-06-22 19:10:25"/>
             <column name="c_changed" value="NULL"/>
             <column name="c_status" value="1"/>
             <column name="c_event_id" value="4"/>
-            <column name="c_user_id" value="13"/>
+            <column name="c_user_id" value="15"/>
         </insert>
         <insert tableName="t_invitation">
             <column name="c_created" value="3333-06-22 19:10:25"/>
             <column name="c_changed" value="NULL"/>
             <column name="c_status" value="1"/>
             <column name="c_event_id" value="4"/>
-            <column name="c_user_id" value="13"/>
+            <column name="c_user_id" value="16"/>
+        </insert>
+        <insert tableName="t_invitation">
+            <column name="c_created" value="4444-06-22 19:10:25"/>
+            <column name="c_changed" value="NULL"/>
+            <column name="c_status" value="1"/>
+            <column name="c_event_id" value="4"/>
+            <column name="c_user_id" value="17"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
