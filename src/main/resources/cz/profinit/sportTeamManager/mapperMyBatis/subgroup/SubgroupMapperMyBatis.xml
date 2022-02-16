@@ -26,7 +26,9 @@
     </insert>
 
     <update id="updateSubgroup" parameterType="Subgroup">
-        UPDATE t_subgroup SET c_name = #{name}, c_team_id = #{teamId}
+        UPDATE t_subgroup
+        SET c_name = #{name}
+        <!--, c_team_id = #{teamId}-->
         WHERE c_id = #{entityId}
     </update>
 

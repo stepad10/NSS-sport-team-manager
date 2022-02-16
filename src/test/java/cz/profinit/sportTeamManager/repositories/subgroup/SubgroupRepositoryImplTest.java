@@ -62,19 +62,32 @@ public class SubgroupRepositoryImplTest {
     }
 
     @Test
-    public void updateSubgroup() throws EntityAlreadyExistsException {
+    public void updateSubgroup() throws EntityNotFoundException, EntityAlreadyExistsException {
         Subgroup subgroup = new Subgroup();
+        when(subgroupMapperMyBatis.findSubgroupById(subgroup.getEntityId())).thenReturn(subgroup);
         when(subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroup.getName(), subgroup.getTeamId())).thenReturn(null);
         subgroupRepository.updateSubgroup(subgroup);
+        verify(subgroupMapperMyBatis, times(1)).findSubgroupById(subgroup.getEntityId());
         verify(subgroupMapperMyBatis, times(1)).findSubgroupByNameAndTeamId(subgroup.getName(), subgroup.getTeamId());
         verify(subgroupMapperMyBatis, times(1)).updateSubgroup(subgroup);
     }
 
     @Test
+    public void updateSubgroupThatDoesNotExist() {
+        Subgroup subgroup = new Subgroup();
+        when(subgroupMapperMyBatis.findSubgroupById(subgroup.getEntityId())).thenReturn(null);
+        Assert.assertThrows(EntityNotFoundException.class, () -> subgroupRepository.updateSubgroup(subgroup));
+        verify(subgroupMapperMyBatis, times(1)).findSubgroupById(subgroup.getEntityId());
+        verify(subgroupMapperMyBatis, times(0)).updateSubgroup(subgroup);
+    }
+
+    @Test
     public void updateSubgroupThatAlreadyExistsInATeam() {
         Subgroup subgroup = new Subgroup();
+        when(subgroupMapperMyBatis.findSubgroupById(subgroup.getEntityId())).thenReturn(subgroup);
         when(subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroup.getName(), subgroup.getTeamId())).thenReturn(subgroup);
         Assert.assertThrows(EntityAlreadyExistsException.class, () -> subgroupRepository.updateSubgroup(subgroup));
+        verify(subgroupMapperMyBatis, times(1)).findSubgroupById(subgroup.getEntityId());
         verify(subgroupMapperMyBatis, times(1)).findSubgroupByNameAndTeamId(subgroup.getName(), subgroup.getTeamId());
         verify(subgroupMapperMyBatis, times(0)).updateSubgroup(subgroup);
     }

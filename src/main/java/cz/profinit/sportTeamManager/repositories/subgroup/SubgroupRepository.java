@@ -11,7 +11,13 @@ public interface SubgroupRepository {
 
     void insertSubgroup(Subgroup subgroup) throws EntityAlreadyExistsException;
 
-    void updateSubgroup(Subgroup subgroup) throws EntityAlreadyExistsException;
+    /**
+     * Updates only name of a subgroup
+     * @param subgroup to update
+     * @throws EntityAlreadyExistsException if team already has a subgroup with new name
+     * @throws EntityNotFoundException if subgroup couldn't be found
+     */
+    void updateSubgroup(Subgroup subgroup) throws EntityAlreadyExistsException, EntityNotFoundException;
 
     void deleteSubgroup(Subgroup subgroup) throws EntityNotFoundException;
 

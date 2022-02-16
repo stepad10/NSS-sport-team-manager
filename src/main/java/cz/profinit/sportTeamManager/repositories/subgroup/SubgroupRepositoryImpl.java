@@ -34,7 +34,10 @@ public class SubgroupRepositoryImpl implements SubgroupRepository {
     }
 
     @Override
-    public void updateSubgroup(Subgroup subgroup) throws EntityAlreadyExistsException {
+    public void updateSubgroup(Subgroup subgroup) throws EntityAlreadyExistsException, EntityNotFoundException {
+        if (subgroupMapperMyBatis.findSubgroupById(subgroup.getEntityId()) == null) {
+            throw new EntityNotFoundException(EX_MSG);
+        }
         if (subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroup.getName(), subgroup.getTeamId()) != null) {
             throw new EntityAlreadyExistsException(EX_MSG);
         }
