@@ -27,10 +27,12 @@ public class InvitationRepositoryImpl implements InvitationRepository {
     @Autowired
     private EventRepository eventRepository;
 
+    private static final String EX_MSG = "Invitation";
+
     @Override
     public void insertInvitation(@NonNull Invitation invitation) throws EntityNotFoundException, EntityAlreadyExistsException {
         if (invitationMapperMyBatis.findInvitationById(invitation.getEntityId()) != null) {
-            throw new EntityAlreadyExistsException("Invitation");
+            throw new EntityAlreadyExistsException(EX_MSG);
         }
         userRepository.findUserById(invitation.getRecipient().getEntityId());
         eventRepository.findEventById(invitation.getEventId());
@@ -40,7 +42,7 @@ public class InvitationRepositoryImpl implements InvitationRepository {
     @Override
     public void updateInvitation(@NonNull Invitation invitation) throws EntityNotFoundException {
         if (invitationMapperMyBatis.findInvitationById(invitation.getEntityId()) == null) {
-            throw new EntityNotFoundException("Invitation");
+            throw new EntityNotFoundException(EX_MSG);
         }
         invitation.setChanged(LocalDateTime.now());
         invitationMapperMyBatis.updateInvitation(invitation);
@@ -50,7 +52,7 @@ public class InvitationRepositoryImpl implements InvitationRepository {
     public Invitation findInvitationById(Long id) throws EntityNotFoundException {
         Invitation foundInvitation = invitationMapperMyBatis.findInvitationById(id);
         if (foundInvitation == null) {
-            throw new EntityNotFoundException("Invitation");
+            throw new EntityNotFoundException(EX_MSG);
         }
         return foundInvitation;
     }
@@ -59,7 +61,7 @@ public class InvitationRepositoryImpl implements InvitationRepository {
     public Invitation findInvitationByEventIdAndUserEmail(Long eventId, String userEmail) throws EntityNotFoundException {
         Invitation foundInvitation = invitationMapperMyBatis.findInvitationByEventIdAndUserId(eventId, userRepository.findUserByEmail(userEmail).getEntityId());
         if (foundInvitation == null) {
-            throw new EntityNotFoundException("Invitation");
+            throw new EntityNotFoundException(EX_MSG);
         }
         return foundInvitation;
     }
