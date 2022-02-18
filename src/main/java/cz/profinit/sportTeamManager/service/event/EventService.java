@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface EventService {
 
-    Event createNewEvent(EventDto eventDto);
+    Event createNewEvent(EventDto eventDto) throws EntityNotFoundException;
     Event updateEvent (EventDto eventDto, Long eventId) throws EntityNotFoundException;
     Event findEventById(Long id) throws EntityNotFoundException;
     Message addNewMessage (String email, String messageStr, Long eventId) throws EntityNotFoundException;

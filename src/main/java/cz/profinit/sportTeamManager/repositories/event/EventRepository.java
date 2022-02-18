@@ -16,7 +16,7 @@ import cz.profinit.sportTeamManager.model.event.Event;
  */
 public interface EventRepository {
 
-    Event insertEvent(Event event);
+    Event insertEvent(Event event) throws EntityNotFoundException;
     Event findEventById(Long id) throws EntityNotFoundException;
-    Event updateEvent(Event event);
+    void updateEvent(Event event) throws EntityNotFoundException;
 }

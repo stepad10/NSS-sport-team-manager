@@ -47,7 +47,7 @@ public class EventServiceImpl implements EventService{
      * @param eventDto EventDto class, from which is new Event created
      * @return Event that was saved into database
      */
-    public Event createNewEvent(EventDto eventDto){
+    public Event createNewEvent(EventDto eventDto) throws EntityNotFoundException {
         return eventRepository.insertEvent(EventMapper.toEvent(eventDto));
     }
 
@@ -66,8 +66,8 @@ public class EventServiceImpl implements EventService{
         event.setPlace(PlaceMapper.toPlace(eventDto.getPlace()));
         event.setCapacity(eventDto.getCapacity());
         event.setIsCanceled(eventDto.isCanceled());
-
-        return eventRepository.updateEvent(event);
+        eventRepository.updateEvent(event);
+        return event;
     }
 
     /**
@@ -91,7 +91,8 @@ public class EventServiceImpl implements EventService{
     public Event changeEventStatus (Long eventId) throws EntityNotFoundException {
         Event event = findEventById(eventId);
         event.setIsCanceled(!event.getIsCanceled());
-        return eventRepository.updateEvent(event);
+        eventRepository.updateEvent(event);
+        return event;
     }
 
     /**

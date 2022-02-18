@@ -74,7 +74,7 @@ public class EventController {
      */
     @PostMapping (value = "/event")
     @ResponseStatus (HttpStatus.CREATED)
-    public EventDto createNewEvent (@RequestBody EventDto eventDto){
+    public EventDto createNewEvent (@RequestBody EventDto eventDto) throws EntityNotFoundException {
         return EventMapper.toDto(eventService.createNewEvent(eventDto));
     }
 

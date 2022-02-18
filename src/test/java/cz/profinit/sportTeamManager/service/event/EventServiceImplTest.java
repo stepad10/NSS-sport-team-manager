@@ -80,7 +80,7 @@ public class EventServiceImplTest {
      * Testing creation of a new Event. Positive ending.
      */
     @Test
-    public void createNewEventCreatesNewEvent(){
+    public void createNewEventCreatesNewEvent() throws EntityNotFoundException {
         EventDto eventDto = new EventDto(0L,LocalDateTime.now(),6, false, PlaceMapper.toDto(place), UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) loggedUser));
         Event event = eventService.createNewEvent(eventDto);
         Assert.assertEquals(eventDto.getDate(),event.getDate());

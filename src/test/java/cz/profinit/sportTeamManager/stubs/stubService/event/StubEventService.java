@@ -45,7 +45,7 @@ public class StubEventService implements EventService {
      * @return Event that was saved into database
      */
     @Override
-    public Event createNewEvent(EventDto eventDto) {
+    public Event createNewEvent(EventDto eventDto) throws EntityNotFoundException {
         return eventRepository.insertEvent(EventMapper.toEvent(eventDto));
     }
 
@@ -64,8 +64,9 @@ public class StubEventService implements EventService {
         event.setPlace(PlaceMapper.toPlace(eventDto.getPlace()));
         event.setCapacity(eventDto.getCapacity());
         event.setIsCanceled(eventDto.isCanceled());
-
-        return eventRepository.updateEvent(event);    }
+        eventRepository.updateEvent(event);
+        return event;
+    }
 
     /**
      * Finds Entity in database by ID.
@@ -121,7 +122,8 @@ public class StubEventService implements EventService {
     public Event changeEventStatus(Long eventId) throws EntityNotFoundException {
         Event event = findEventById(eventId);
         event.setIsCanceled(!event.getIsCanceled());
-        return eventRepository.updateEvent(event);
+        eventRepository.updateEvent(event);
+        return event;
     }
 
     /**
@@ -136,7 +138,8 @@ public class StubEventService implements EventService {
     public Event addNewInvitation(Long eventId, Invitation invitation) throws EntityNotFoundException {
         Event event = findEventById(eventId);
         event.addNewInvitation(invitation);
-        return  eventRepository.updateEvent(event);
+        eventRepository.updateEvent(event);
+        return event;
     }
 
     /**
