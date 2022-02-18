@@ -46,7 +46,7 @@ public class StubEventService implements EventService {
      */
     @Override
     public Event createNewEvent(EventDto eventDto) {
-        return eventRepository.createNewEvent(EventMapper.toEvent(eventDto));
+        return eventRepository.insertEvent(EventMapper.toEvent(eventDto));
     }
 
     /**

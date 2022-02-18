@@ -39,7 +39,7 @@ public class StubEventRepository implements EventRepository {
     }
 
     @Override
-    public Event createNewEvent(Event event) {
+    public Event insertEvent(Event event) {
         this.event = event;
         return event;
     }

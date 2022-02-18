@@ -48,7 +48,7 @@ public class EventServiceImpl implements EventService{
      * @return Event that was saved into database
      */
     public Event createNewEvent(EventDto eventDto){
-        return eventRepository.createNewEvent(EventMapper.toEvent(eventDto));
+        return eventRepository.insertEvent(EventMapper.toEvent(eventDto));
     }
 
 
