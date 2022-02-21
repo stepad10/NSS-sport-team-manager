@@ -46,7 +46,9 @@ public class StubEventService implements EventService {
      */
     @Override
     public Event createNewEvent(EventDto eventDto) throws EntityNotFoundException {
-        return eventRepository.insertEvent(EventMapper.toEvent(eventDto));
+        Event event = EventMapper.toEvent(eventDto);
+        eventRepository.insertEvent(event);
+        return event;
     }
 
     /**

@@ -18,12 +18,11 @@ public class EventRepositoryImpl implements EventRepository {
     private static final String EX_MSG = "Event";
 
     @Override
-    public Event insertEvent(Event event) throws EntityNotFoundException {
+    public void insertEvent(Event event) throws EntityNotFoundException {
         if (eventMapperMyBatis.findEventById(event.getEntityId()) == null) {
             throw new EntityNotFoundException(EX_MSG);
         }
         eventMapperMyBatis.insertEvent(event);
-        return event;
     }
 
     @Override

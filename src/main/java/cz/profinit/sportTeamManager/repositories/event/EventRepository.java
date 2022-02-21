@@ -17,12 +17,11 @@ import cz.profinit.sportTeamManager.model.event.Event;
 public interface EventRepository {
 
     /**
-     * TODO return not needed, but hard to change
+     *
      * @param event to insert
-     * @return inserted event
      * @throws EntityNotFoundException if Event could not be found
      */
-    Event insertEvent(Event event) throws EntityNotFoundException;
+    void insertEvent(Event event) throws EntityNotFoundException;
 
     /**
      *
