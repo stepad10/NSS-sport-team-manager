@@ -10,6 +10,7 @@ package cz.profinit.sportTeamManager.service.invitation;
 
 import cz.profinit.sportTeamManager.crypto.Aes;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
@@ -38,7 +39,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Profile("Main")
-public class InvitationServiceImpl implements InvitationService{
+public class InvitationServiceImpl implements InvitationService {
 
     @Autowired
     InvitationRepository invitationRepository;
@@ -56,16 +57,15 @@ public class InvitationServiceImpl implements InvitationService{
      * @throws EntityNotFoundException if entity is not found.
      * @throws UserIsAlreadyInEventException user was already invited to an Event
      */
-    public Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
-        Event event = eventService.findEventById(eventId);
-        User user = userService.findUserByEmail(email);
-        if (invitationRepository.isUserPresent(user, event)) {
-        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId));
-        eventService.addNewInvitation(eventId, invitation);
-        return invitation;
-        } else {
+    public Invitation createNewInvitation(String email, Long eventId)
+            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
+        if (invitationRepository.isUserInvitedToEvent(email, eventId)) {
             throw new UserIsAlreadyInEventException();
         }
+        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, userService.findUserByEmail(email), eventId);
+        invitationRepository.insertInvitation(invitation);
+        eventService.addNewInvitation(eventId, invitation);
+        return invitation;
     }
 
     /**
@@ -78,11 +78,11 @@ public class InvitationServiceImpl implements InvitationService{
      * @throws EntityNotFoundException if entity is not found.
      */
     public Invitation changeInvitationStatus(Long eventId, String email, StatusEnum status) throws EntityNotFoundException {
-        Invitation invitation = findInvitationByEventIdAndEmail(eventId,email);
-
+        Invitation invitation = findInvitationByEventIdAndEmail(eventId, email);
         invitation.setStatus(status);
         invitation.setChanged(LocalDateTime.now());
-        return invitationRepository.updateInvitation(invitation);
+        invitationRepository.updateInvitation(invitation);
+        return invitation;
     }
 
     /**
@@ -114,10 +114,11 @@ public class InvitationServiceImpl implements InvitationService{
      * @return List of created invitations
      * @throws EntityNotFoundException if entity was not found.
      */
-    public List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException {
+    public List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId)
+            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
         List<Invitation> invitationList = new ArrayList<>();
         for(RegisteredUser user: userList){
-            invitationList.add(createNewInvitation(user.getEmail(),eventId));
+            invitationList.add(createNewInvitation(user.getEmail(), eventId));
         }
         return invitationList;
     }
@@ -125,15 +126,12 @@ public class InvitationServiceImpl implements InvitationService{
     /**
      * Methods deletes user invitation for selected event
      *
-     * @param email email of user whose invitation will be deleted
+     * @param userEmail email of user whose invitation will be deleted
      * @param eventId ID of event on which invitation will be deleted
      * @throws EntityNotFoundException if entity was not found.
      */
-    public boolean deleteInvitation (String email, Long eventId) throws EntityNotFoundException {
-        User user = userService.findUserByEmail(email);
-        Event event = eventService.findEventById(eventId);
-
-        return invitationRepository.deleteInvitation(user,event);
+    public void deleteInvitation (String userEmail, Long eventId) throws EntityNotFoundException {
+        invitationRepository.deleteInvitation(userEmail, eventId);
     }
 
     /**
@@ -187,10 +185,11 @@ public class InvitationServiceImpl implements InvitationService{
      * @return Created Invitation
      * @throws EntityNotFoundException thrown when event entity is not found
      */
-    public Invitation createGuestInvitation (Long eventId, String name) throws EntityNotFoundException {
+    public Invitation createGuestInvitation (Long eventId, String name) throws EntityNotFoundException, EntityAlreadyExistsException {
         Event event = eventService.findEventById(eventId);
-        User user = userService.createNewGuest(name,event.getEntityId());
-        Invitation invitation = invitationRepository.createNewInvitation(new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId));
+        User user = userService.createNewGuest(name, event.getEntityId());
+        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId);
+        invitationRepository.insertInvitation(invitation);
         eventService.addNewInvitation(eventId, invitation);
         return invitation;
     }

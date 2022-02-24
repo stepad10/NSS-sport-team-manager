@@ -10,6 +10,7 @@ package cz.profinit.sportTeamManager.controllers.event;
 
 import cz.profinit.sportTeamManager.SportTeamManagerApplication;
 import cz.profinit.sportTeamManager.dto.event.EventDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
@@ -69,7 +70,7 @@ public class EventControllerTest {
      * Creates Event data transfer object for comparing with request results.
      */
     @Before
-    public void setUp() throws EntityNotFoundException, UserIsAlreadyInEventException {
+    public void setUp() throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
         Place place = new Place("Profinit","Tychonova 2", 1L);
         RegisteredUser loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com",
                 RoleEnum.USER);

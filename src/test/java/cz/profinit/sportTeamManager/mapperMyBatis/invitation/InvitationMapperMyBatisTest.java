@@ -40,26 +40,34 @@ public class InvitationMapperMyBatisTest {
     }
 
     @Test
-    public void deletePlaceById() {
+    public void deleteInvitationById() {
         Long invitationId = 1L;
         invitationMapperMyBatis.deleteInvitationById(invitationId);
         Assert.assertNull(invitationMapperMyBatis.findInvitationById(invitationId));
     }
 
     @Test
-    public void findPlaceById() {
+    public void findInvitationById() {
         Long invitationId = 2L;
         Invitation invitation = invitationMapperMyBatis.findInvitationById(invitationId);
         Assert.assertNotNull(invitation);
     }
 
      @Test
-     public void updateMessage() {
+     public void updateInvitation() {
      Long invitationId = 3L;
      Invitation invitation = invitationMapperMyBatis.findInvitationById(invitationId);
      StatusEnum prevStatus = invitation.getStatus();
      invitation.setStatus(StatusEnum.PENDING);
      invitationMapperMyBatis.updateInvitation(invitation);
      Assert.assertNotEquals(prevStatus, invitation.getStatus());
+     }
+
+     @Test
+    public void findInvitationByEventIdAndUserId() {
+        Long eventId = 4L;
+        Long userId = 17L;
+        Invitation invitation = invitationMapperMyBatis.findInvitationByEventIdAndUserId(eventId, userId);
+        Assert.assertNotNull(invitation);
      }
 }

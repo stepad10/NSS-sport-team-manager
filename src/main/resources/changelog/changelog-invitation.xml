@@ -42,6 +42,7 @@
                 <constraints nullable="false" foreignKeyName="invitation_user_fk" references="t_user(c_id)"/>
             </column>
         </createTable>
+        <addUniqueConstraint tableName="t_invitation" constraintName="event_id_user_id" columnNames="c_event_id, c_user_id"/>
     </changeSet>
 
 </databaseChangeLog>

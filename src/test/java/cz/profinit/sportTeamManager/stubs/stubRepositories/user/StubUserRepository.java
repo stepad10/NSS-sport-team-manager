@@ -64,10 +64,6 @@ public class StubUserRepository implements UserRepository {
     public void deleteRegisteredUser(Long userId) {
 
     }
-    public RegisteredUser findUserById(long id) {
-        return null;
-    }
-
 
     /**
      * Returns users found by email. Returns two possible users with email address from loggedUser1 up to loggedUser5.
@@ -80,10 +76,10 @@ public class StubUserRepository implements UserRepository {
     @Override
     public RegisteredUser findUserByEmail(String userEmail) throws EntityNotFoundException {
         switch (userEmail) {
-        case "is@seznam.cz":
-            return loggedUser2;
         case "is@gmail.com":
             return loggedUser1;
+        case "is@seznam.cz":
+            return loggedUser2;
         case "is@email.cz":
             return loggedUser3;
         case "ts@gmail.com":

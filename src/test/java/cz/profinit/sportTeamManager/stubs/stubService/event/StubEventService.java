@@ -7,6 +7,7 @@
  */package cz.profinit.sportTeamManager.stubs.stubService.event;
 
 import cz.profinit.sportTeamManager.dto.event.EventDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.PlaceMapper;
@@ -45,8 +46,10 @@ public class StubEventService implements EventService {
      * @return Event that was saved into database
      */
     @Override
-    public Event createNewEvent(EventDto eventDto) {
-        return eventRepository.createNewEvent(EventMapper.toEvent(eventDto));
+    public Event createNewEvent(EventDto eventDto) throws EntityAlreadyExistsException {
+        Event event = EventMapper.toEvent(eventDto);
+        eventRepository.insertEvent(event);
+        return event;
     }
 
     /**
@@ -64,8 +67,9 @@ public class StubEventService implements EventService {
         event.setPlace(PlaceMapper.toPlace(eventDto.getPlace()));
         event.setCapacity(eventDto.getCapacity());
         event.setIsCanceled(eventDto.isCanceled());
-
-        return eventRepository.updateEvent(event);    }
+        eventRepository.updateEvent(event);
+        return event;
+    }
 
     /**
      * Finds Entity in database by ID.
@@ -121,7 +125,8 @@ public class StubEventService implements EventService {
     public Event changeEventStatus(Long eventId) throws EntityNotFoundException {
         Event event = findEventById(eventId);
         event.setIsCanceled(!event.getIsCanceled());
-        return eventRepository.updateEvent(event);
+        eventRepository.updateEvent(event);
+        return event;
     }
 
     /**
@@ -136,7 +141,8 @@ public class StubEventService implements EventService {
     public Event addNewInvitation(Long eventId, Invitation invitation) throws EntityNotFoundException {
         Event event = findEventById(eventId);
         event.addNewInvitation(invitation);
-        return  eventRepository.updateEvent(event);
+        eventRepository.updateEvent(event);
+        return event;
     }
 
     /**

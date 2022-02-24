@@ -7,7 +7,15 @@
  */
 package cz.profinit.sportTeamManager.service.event;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
+
 import cz.profinit.sportTeamManager.dto.event.EventDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.PlaceMapper;
@@ -18,16 +26,10 @@ import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.repositories.event.EventRepository;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Service handling Event and Message entities.
- * Contains methods that creates and modifies Event and Message entities or
+ * Contains methods that create and modifies Event and Message entities or
  * finds Event entity.
  */
 @Service
@@ -47,8 +49,10 @@ public class EventServiceImpl implements EventService{
      * @param eventDto EventDto class, from which is new Event created
      * @return Event that was saved into database
      */
-    public Event createNewEvent(EventDto eventDto){
-        return eventRepository.createNewEvent(EventMapper.toEvent(eventDto));
+    public Event createNewEvent(EventDto eventDto) throws EntityAlreadyExistsException {
+        Event event = EventMapper.toEvent(eventDto);
+        eventRepository.insertEvent(event);
+        return event;
     }
 
 
@@ -56,7 +60,7 @@ public class EventServiceImpl implements EventService{
      * Updates event to correspond with given DTO
      *
      * @param eventDto EvenDto class, from which is Event updated.
-     * @param eventId Id of event that should be updated
+     * @param eventId ID of event that should be updated
      * @return Updated event
      * @throws EntityNotFoundException if event was not found
      */
@@ -66,8 +70,8 @@ public class EventServiceImpl implements EventService{
         event.setPlace(PlaceMapper.toPlace(eventDto.getPlace()));
         event.setCapacity(eventDto.getCapacity());
         event.setIsCanceled(eventDto.isCanceled());
-
-        return eventRepository.updateEvent(event);
+        eventRepository.updateEvent(event);
+        return event;
     }
 
     /**
@@ -91,7 +95,8 @@ public class EventServiceImpl implements EventService{
     public Event changeEventStatus (Long eventId) throws EntityNotFoundException {
         Event event = findEventById(eventId);
         event.setIsCanceled(!event.getIsCanceled());
-        return eventRepository.updateEvent(event);
+        eventRepository.updateEvent(event);
+        return event;
     }
 
     /**

@@ -9,6 +9,7 @@
 package cz.profinit.sportTeamManager.service.invitation;
 
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
 import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
@@ -20,13 +21,14 @@ import java.util.List;
 
 public interface InvitationService {
 
-    Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException;
+    Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException;
     Invitation changeInvitationStatus(Long eventId, String email, StatusEnum status) throws EntityNotFoundException;
     Invitation findInvitationByEventIdAndEmail(Long eventId,String email) throws EntityNotFoundException;
-    List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException;
+    List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId)
+            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException;
     List<InvitationDto> OrderListOfInvitationByDateForSpecificStatus (List<InvitationDto> invitationDtoList, StatusEnum status);
-    boolean deleteInvitation (String email, Long eventId) throws EntityNotFoundException;
+    void deleteInvitation (String email, Long eventId) throws EntityNotFoundException;
     Invitation getGuestInvitation (String uri) throws EntityNotFoundException, NonValidUriException;
-    Invitation createGuestInvitation (Long eventId, String name) throws EntityNotFoundException;
+    Invitation createGuestInvitation (Long eventId, String name) throws EntityNotFoundException, EntityAlreadyExistsException;
     Invitation changeGuestInvitation (String uri, StatusEnum status) throws NonValidUriException, EntityNotFoundException;
 }

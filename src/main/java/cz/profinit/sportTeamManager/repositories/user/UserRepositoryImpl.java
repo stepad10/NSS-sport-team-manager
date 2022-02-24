@@ -20,10 +20,12 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     private UserMapperMyBatis userMapperMyBatis;
 
+    private static final String EX_MSG = "User";
+
     @Override
     public void insertRegisteredUser(@NonNull RegisteredUser registeredUser) throws EntityAlreadyExistsException {
         if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) != null) {
-            throw new EntityAlreadyExistsException("User");
+            throw new EntityAlreadyExistsException(EX_MSG);
         }
         userMapperMyBatis.insertUser(registeredUser);
     }
@@ -31,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void updateRegisteredUser(@NonNull RegisteredUser registeredUser) throws EntityNotFoundException {
         if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) == null) {
-            throw new EntityNotFoundException("User");
+            throw new EntityNotFoundException(EX_MSG);
         }
         userMapperMyBatis.updateUser(registeredUser);
     }
@@ -40,7 +42,7 @@ public class UserRepositoryImpl implements UserRepository {
     public RegisteredUser findUserByEmail(@NonNull String email) throws EntityNotFoundException {
         RegisteredUser foundUser = userMapperMyBatis.findUserByEmail(email);
         if (foundUser == null) {
-            throw new EntityNotFoundException("User");
+            throw new EntityNotFoundException(EX_MSG);
         }
         return foundUser;
     }
@@ -49,7 +51,7 @@ public class UserRepositoryImpl implements UserRepository {
     public RegisteredUser findUserById(@NonNull Long id) throws EntityNotFoundException {
         RegisteredUser foundUser = userMapperMyBatis.findUserById(id);
         if (foundUser == null) {
-            throw new EntityNotFoundException("User");
+            throw new EntityNotFoundException(EX_MSG);
         }
         return foundUser;
     }
@@ -57,7 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void deleteRegisteredUser(@NonNull Long userId) throws EntityNotFoundException {
         if (userMapperMyBatis.findUserById(userId) == null) {
-            throw new EntityNotFoundException("User");
+            throw new EntityNotFoundException(EX_MSG);
         }
         userMapperMyBatis.deleteUserById(userId);
     }

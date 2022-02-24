@@ -5,13 +5,13 @@ import cz.profinit.sportTeamManager.model.invitation.Invitation;
 public interface InvitationMapperMyBatis {
 
     /**
-     * insert Invitation to database and update it's entityId
+     * Insert Invitation to database and update it's entityId
      * @param invitation to insert
      */
     void insertInvitation(Invitation invitation);
 
     /**
-     *
+     * Updates only changed LocalDateTime and status enum
      * @param invitation to update
      */
     void updateInvitation(Invitation invitation);
@@ -29,4 +29,11 @@ public interface InvitationMapperMyBatis {
      */
     Invitation findInvitationById(Long id);
 
+    /**
+     *
+     * @param eventId parent event of a invitation
+     * @param userId user recipient of invitation
+     * @return found Invitation or null
+     */
+    Invitation findInvitationByEventIdAndUserId(Long eventId, Long userId);
 }

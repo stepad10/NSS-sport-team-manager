@@ -39,9 +39,8 @@ public class StubEventRepository implements EventRepository {
     }
 
     @Override
-    public Event createNewEvent(Event event) {
+    public void insertEvent(Event event) {
         this.event = event;
-        return event;
     }
 
     @Override
@@ -54,8 +53,7 @@ public class StubEventRepository implements EventRepository {
     }
 
     @Override
-    public Event updateEvent(Event event) {
+    public void updateEvent(Event event) {
         this.event = event;
-        return event;
     }
 }

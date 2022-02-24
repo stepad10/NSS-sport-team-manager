@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Test class for team repository, autowired stub classes
+ * Test class for team repository, mocked necessary classes
  */
 @RunWith(MockitoJUnitRunner.class)
 public class TeamRepositoryImplTest {
@@ -49,11 +49,11 @@ public class TeamRepositoryImplTest {
     }
 
     @Test
-    public void deleteNotExistingTeam() {
+    public void deleteNotExistingTeam() throws EntityNotFoundException {
         Team team = new Team();
         when(teamMapperMyBatis.findTeamById(team.getEntityId())).thenReturn(null);
-
-        Assert.assertThrows(EntityNotFoundException.class, () -> teamRepository.deleteTeam(team));
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> teamRepository.deleteTeam(team));
+        Assert.assertEquals(new EntityNotFoundException("Team").getMessage(), ex.getMessage());
         verify(teamMapperMyBatis, times(1)).findTeamById(team.getEntityId());
         verify(subgroupRepository, times(0)).deleteAllTeamSubgroups(team);
         verify(teamMapperMyBatis, times(0)).deleteTeamById(team.getEntityId());
@@ -63,9 +63,7 @@ public class TeamRepositoryImplTest {
     public void deleteTeamSuccessfully() throws EntityNotFoundException {
         Team team = new Team();
         when(teamMapperMyBatis.findTeamById(team.getEntityId())).thenReturn(team);
-
         teamRepository.deleteTeam(team);
-
         verify(teamMapperMyBatis, times(1)).findTeamById(team.getEntityId());
         verify(subgroupRepository, times(1)).deleteAllTeamSubgroups(team);
         verify(teamMapperMyBatis, times(1)).deleteTeamById(team.getEntityId());
@@ -75,9 +73,7 @@ public class TeamRepositoryImplTest {
     public void updateTeam() throws EntityNotFoundException {
         Team team = new Team();
         when(teamMapperMyBatis.findTeamById(team.getEntityId())).thenReturn(team);
-
         teamRepository.updateTeam(team);
-
         verify(teamMapperMyBatis, times(1)).findTeamById(team.getEntityId());
         verify(teamMapperMyBatis, times(1)).updateTeam(team);
     }
@@ -86,9 +82,8 @@ public class TeamRepositoryImplTest {
     public void updateNotExistingTeam() {
         Team team = new Team();
         when(teamMapperMyBatis.findTeamById(team.getEntityId())).thenReturn(null);
-
-        Assert.assertThrows(EntityNotFoundException.class, () -> teamRepository.updateTeam(team));
-
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> teamRepository.updateTeam(team));
+        Assert.assertEquals(new EntityNotFoundException("Team").getMessage(), ex.getMessage());
         verify(teamMapperMyBatis, times(1)).findTeamById(team.getEntityId());
         verify(teamMapperMyBatis, times(0)).updateTeam(team);
     }
@@ -96,9 +91,8 @@ public class TeamRepositoryImplTest {
     @Test
     public void findTeamsByNameFoundNoTeams() {
         String teamsName = "";
-
-        Assert.assertThrows(EntityNotFoundException.class, () -> teamRepository.findTeamsByName(teamsName));
-
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> teamRepository.findTeamsByName(teamsName));
+        Assert.assertEquals(new EntityNotFoundException("Team").getMessage(), ex.getMessage());
         verify(teamMapperMyBatis, times(1)).findTeamsByName(teamsName);
     }
 
@@ -116,7 +110,6 @@ public class TeamRepositoryImplTest {
         when(subgroupRepository.findTeamSubgroups(team1)).thenReturn(new ArrayList<>());
         when(subgroupRepository.findTeamSubgroups(team2)).thenReturn(new ArrayList<>());
         teamRepository.findTeamsByName(teamsName);
-
         verify(subgroupRepository, times(1)).findTeamSubgroups(team1);
         verify(subgroupRepository,  times(1)).findTeamSubgroups(team2);
         verify(teamMapperMyBatis, times(1)).findTeamsByName(teamsName);
@@ -126,8 +119,8 @@ public class TeamRepositoryImplTest {
     public void findNotExistingTeamById() {
         Long teamId = 0L;
         when(teamMapperMyBatis.findTeamById(teamId)).thenReturn(null);
-
-        Assert.assertThrows(EntityNotFoundException.class, () -> teamRepository.findTeamById(teamId));
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> teamRepository.findTeamById(teamId));
+        Assert.assertEquals(new EntityNotFoundException("Team").getMessage(), ex.getMessage());
         verify(teamMapperMyBatis, times(1)).findTeamById(teamId);
     }
 
@@ -135,7 +128,6 @@ public class TeamRepositoryImplTest {
     public void findTeamById() throws EntityNotFoundException {
         Long teamId = 1L;
         when(teamMapperMyBatis.findTeamById(teamId)).thenReturn(new Team());
-
         Team foundTeam = teamRepository.findTeamById(teamId);
         Assert.assertNotNull(foundTeam);
         verify(teamMapperMyBatis, times(1)).findTeamById(teamId);

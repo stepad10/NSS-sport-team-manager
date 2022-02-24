@@ -8,6 +8,7 @@
 package cz.profinit.sportTeamManager.service.event;
 
 import cz.profinit.sportTeamManager.dto.event.EventDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public interface EventService {
 
-    Event createNewEvent(EventDto eventDto);
+    Event createNewEvent(EventDto eventDto) throws EntityAlreadyExistsException;
     Event updateEvent (EventDto eventDto, Long eventId) throws EntityNotFoundException;
     Event findEventById(Long id) throws EntityNotFoundException;
     Message addNewMessage (String email, String messageStr, Long eventId) throws EntityNotFoundException;

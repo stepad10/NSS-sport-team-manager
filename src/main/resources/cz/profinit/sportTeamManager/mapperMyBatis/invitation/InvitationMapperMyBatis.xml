@@ -36,4 +36,8 @@
     <select id="findInvitationById" parameterType="Long" resultMap="invitationResultMap">
         SELECT * FROM t_invitation WHERE c_id = #{id}
     </select>
+
+    <select id="findInvitationByEventIdAndUserId" resultMap="invitationResultMap">
+        SELECT * FROM t_invitation WHERE c_event_id = #{eventId} AND c_user_id = #{userId}
+    </select>
 </mapper>
