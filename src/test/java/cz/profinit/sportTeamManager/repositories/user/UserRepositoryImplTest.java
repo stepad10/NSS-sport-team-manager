@@ -41,8 +41,8 @@ public class UserRepositoryImplTest {
     public void insertRegisteredUserThatIsAlreadyInDb() {
         RegisteredUser regUs = new RegisteredUser();
         when(userMapperMyBatis.findUserById(regUs.getEntityId())).thenReturn(regUs);
-
-        Assert.assertThrows(EntityAlreadyExistsException.class, () -> userRepository.insertRegisteredUser(regUs));
+        Exception ex = Assert.assertThrows(EntityAlreadyExistsException.class, () -> userRepository.insertRegisteredUser(regUs));
+        Assert.assertEquals(new EntityAlreadyExistsException("User").getMessage(), ex.getMessage());
         verify(userMapperMyBatis, times(1)).findUserById(regUs.getEntityId());
         verify(userMapperMyBatis, times(0)).insertUser(regUs);
     }
@@ -51,7 +51,6 @@ public class UserRepositoryImplTest {
     public void insertRegisteredUserSuccessfully() throws EntityAlreadyExistsException {
         RegisteredUser regUs = new RegisteredUser();
         when(userMapperMyBatis.findUserById(regUs.getEntityId())).thenReturn(null);
-
         userRepository.insertRegisteredUser(regUs);
         verify(userMapperMyBatis, times(1)).findUserById(regUs.getEntityId());
         verify(userMapperMyBatis, times(1)).insertUser(regUs);
@@ -61,8 +60,8 @@ public class UserRepositoryImplTest {
     public void updateNotExistingRegisteredUser() {
         RegisteredUser regUs = new RegisteredUser();
         when(userMapperMyBatis.findUserById(regUs.getEntityId())).thenReturn(null);
-
-        Assert.assertThrows(EntityNotFoundException.class, () -> userRepository.updateRegisteredUser(regUs));
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> userRepository.updateRegisteredUser(regUs));
+        Assert.assertEquals(new EntityNotFoundException("User").getMessage(), ex.getMessage());
         verify(userMapperMyBatis, times(1)).findUserById(regUs.getEntityId());
         verify(userMapperMyBatis, times(0)).updateUser(regUs);
     }
@@ -71,7 +70,6 @@ public class UserRepositoryImplTest {
     public void updateRegisteredUser() throws EntityNotFoundException {
         RegisteredUser regUs = new RegisteredUser();
         when(userMapperMyBatis.findUserById(regUs.getEntityId())).thenReturn(regUs);
-
         userRepository.updateRegisteredUser(regUs);
         verify(userMapperMyBatis, times(1)).findUserById(regUs.getEntityId());
         verify(userMapperMyBatis, times(1)).updateUser(regUs);
@@ -81,8 +79,8 @@ public class UserRepositoryImplTest {
     public void findNotExistingRegisteredUserById() {
         Long userId = 0L;
         when(userMapperMyBatis.findUserById(userId)).thenReturn(null);
-
-        Assert.assertThrows(EntityNotFoundException.class, () -> userRepository.findUserById(userId));
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> userRepository.findUserById(userId));
+        Assert.assertEquals(new EntityNotFoundException("User").getMessage(), ex.getMessage());
         verify(userMapperMyBatis, times(1)).findUserById(userId);
     }
 
@@ -90,7 +88,6 @@ public class UserRepositoryImplTest {
     public void findRegisteredUserById() throws EntityNotFoundException {
         Long userId = 1L;
         when(userMapperMyBatis.findUserById(userId)).thenReturn(new RegisteredUser());
-
         RegisteredUser regUs = userRepository.findUserById(userId);
         Assert.assertNotNull(regUs);
         verify(userMapperMyBatis, times(1)).findUserById(userId);
@@ -100,8 +97,8 @@ public class UserRepositoryImplTest {
     public void findNotExistingRegisteredUserByEmail() {
         String userEmail = "";
         when(userMapperMyBatis.findUserByEmail(userEmail)).thenReturn(null);
-
-        Assert.assertThrows(EntityNotFoundException.class, () -> userRepository.findUserByEmail(userEmail));
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> userRepository.findUserByEmail(userEmail));
+        Assert.assertEquals(new EntityNotFoundException("User").getMessage(), ex.getMessage());
         verify(userMapperMyBatis, times(1)).findUserByEmail(userEmail);
     }
 
@@ -109,7 +106,6 @@ public class UserRepositoryImplTest {
     public void findRegisteredUserByEmail() throws EntityNotFoundException {
         String userEmail = "";
         when(userMapperMyBatis.findUserByEmail(userEmail)).thenReturn(new RegisteredUser());
-
         RegisteredUser regUs = userRepository.findUserByEmail(userEmail);
         Assert.assertNotNull(regUs);
         verify(userMapperMyBatis, times(1)).findUserByEmail(userEmail);
@@ -119,8 +115,8 @@ public class UserRepositoryImplTest {
     public void deleteNotExistingRegisteredUser() {
         Long userId = 0L;
         when(userMapperMyBatis.findUserById(userId)).thenReturn(null);
-
-        Assert.assertThrows(EntityNotFoundException.class, () -> userRepository.deleteRegisteredUser(userId));
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> userRepository.deleteRegisteredUser(userId));
+        Assert.assertEquals(new EntityNotFoundException("User").getMessage(), ex.getMessage());
         verify(userMapperMyBatis, times(1)).findUserById(userId);
         verify(userMapperMyBatis, times(0)).deleteUserById(userId);
     }
@@ -129,7 +125,6 @@ public class UserRepositoryImplTest {
     public void deleteRegisteredUser() throws EntityNotFoundException {
         Long userId = 1L;
         when(userMapperMyBatis.findUserById(userId)).thenReturn(new RegisteredUser());
-
         userRepository.deleteRegisteredUser(userId);
         verify(userMapperMyBatis, times(1)).findUserById(userId);
         verify(userMapperMyBatis, times(1)).deleteUserById(userId);

@@ -106,7 +106,8 @@ public class SubgroupRepositoryImplTest {
     public void deleteNotExistingSubgroup() {
         Subgroup subgroup = new Subgroup();
         when(subgroupMapperMyBatis.findSubgroupById(subgroup.getEntityId())).thenReturn(null);
-        Assert.assertThrows(EntityNotFoundException.class, () -> subgroupRepository.deleteSubgroup(subgroup));
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> subgroupRepository.deleteSubgroup(subgroup));
+        Assert.assertEquals(new EntityNotFoundException("Subgroup").getMessage(), ex.getMessage());
         verify(subgroupMapperMyBatis, times(1)).findSubgroupById(subgroup.getEntityId());
         verify(subgroupUserMapperMyBatis, times(0)).deleteAllSubgroupUsers(subgroup.getEntityId());
         verify(subgroupMapperMyBatis, times(0)).deleteSubgroupById(subgroup.getEntityId());
@@ -148,7 +149,8 @@ public class SubgroupRepositoryImplTest {
         Subgroup subgroup = new Subgroup();
         Team team = new Team();
         when(subgroupMapperMyBatis.findSubgroupByNameAndTeamId(subgroup.getName(), subgroup.getTeamId())).thenReturn(null);
-        Assert.assertThrows(EntityNotFoundException.class, () -> subgroupRepository.findTeamSubgroupByName(team, subgroup.getName()));
+        Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> subgroupRepository.findTeamSubgroupByName(team, subgroup.getName()));
+        Assert.assertEquals(new EntityNotFoundException("Subgroup").getMessage(), ex.getMessage());
         verify(subgroupMapperMyBatis, times(1)).findSubgroupByNameAndTeamId(subgroup.getName(), subgroup.getTeamId());
         verify(subgroupUserMapperMyBatis, times(0)).findUsersBySubgroupId(subgroup.getEntityId());
     }
