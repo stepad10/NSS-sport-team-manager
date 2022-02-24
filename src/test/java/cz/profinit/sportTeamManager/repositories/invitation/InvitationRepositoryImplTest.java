@@ -11,9 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.mapperMyBatis.event.EventMapperMyBatis;
 import cz.profinit.sportTeamManager.mapperMyBatis.invitation.InvitationMapperMyBatis;
-import cz.profinit.sportTeamManager.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
@@ -40,19 +38,12 @@ public class InvitationRepositoryImplTest {
     private EventRepositoryImpl eventRepository;
 
     @Mock
-    private UserMapperMyBatis UserMapperMyBatis;
-
-    @Mock
-    private EventMapperMyBatis eventMapperMyBatis;
-
-    @Mock
     private InvitationMapperMyBatis invitationMapperMyBatis;
 
     @Before
     public void init() {
         MockitoAnnotations.openMocks(this);
     }
-
 
     @Test
     public void insertNewSubgroup() throws EntityAlreadyExistsException, EntityNotFoundException {
