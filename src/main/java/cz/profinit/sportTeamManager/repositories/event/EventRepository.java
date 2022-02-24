@@ -8,6 +8,7 @@
 
 package cz.profinit.sportTeamManager.repositories.event;
 
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.event.Event;
 
@@ -19,9 +20,9 @@ public interface EventRepository {
     /**
      *
      * @param event to insert
-     * @throws EntityNotFoundException if Event could not be found
+     * @throws EntityAlreadyExistsException if Event already exists
      */
-    void insertEvent(Event event) throws EntityNotFoundException;
+    void insertEvent(Event event) throws EntityAlreadyExistsException;
 
     /**
      *

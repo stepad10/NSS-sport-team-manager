@@ -11,6 +11,7 @@ package cz.profinit.sportTeamManager.service.event;
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.dto.event.EventDto;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.InvitationMapper;
 import cz.profinit.sportTeamManager.mappers.PlaceMapper;
@@ -80,7 +81,7 @@ public class EventServiceImplTest {
      * Testing creation of a new Event. Positive ending.
      */
     @Test
-    public void createNewEventCreatesNewEvent() throws EntityNotFoundException {
+    public void createNewEventCreatesNewEvent() throws EntityAlreadyExistsException {
         EventDto eventDto = new EventDto(0L,LocalDateTime.now(),6, false, PlaceMapper.toDto(place), UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) loggedUser));
         Event event = eventService.createNewEvent(eventDto);
         Assert.assertEquals(eventDto.getDate(),event.getDate());

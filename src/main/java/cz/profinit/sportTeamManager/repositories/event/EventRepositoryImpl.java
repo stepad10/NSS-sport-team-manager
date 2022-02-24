@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mapperMyBatis.event.EventMapperMyBatis;
 import cz.profinit.sportTeamManager.model.event.Event;
@@ -18,9 +19,9 @@ public class EventRepositoryImpl implements EventRepository {
     private static final String EX_MSG = "Event";
 
     @Override
-    public void insertEvent(Event event) throws EntityNotFoundException {
-        if (eventMapperMyBatis.findEventById(event.getEntityId()) == null) {
-            throw new EntityNotFoundException(EX_MSG);
+    public void insertEvent(Event event) throws EntityAlreadyExistsException {
+        if (eventMapperMyBatis.findEventById(event.getEntityId()) != null) {
+            throw new EntityAlreadyExistsException(EX_MSG);
         }
         eventMapperMyBatis.insertEvent(event);
     }

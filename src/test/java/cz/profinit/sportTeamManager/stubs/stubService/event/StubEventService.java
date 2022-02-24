@@ -7,6 +7,7 @@
  */package cz.profinit.sportTeamManager.stubs.stubService.event;
 
 import cz.profinit.sportTeamManager.dto.event.EventDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.PlaceMapper;
@@ -45,7 +46,7 @@ public class StubEventService implements EventService {
      * @return Event that was saved into database
      */
     @Override
-    public Event createNewEvent(EventDto eventDto) throws EntityNotFoundException {
+    public Event createNewEvent(EventDto eventDto) throws EntityAlreadyExistsException {
         Event event = EventMapper.toEvent(eventDto);
         eventRepository.insertEvent(event);
         return event;

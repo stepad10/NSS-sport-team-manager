@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import cz.profinit.sportTeamManager.dto.event.EventDto;
+import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
 import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.mappers.EventMapper;
 import cz.profinit.sportTeamManager.mappers.PlaceMapper;
@@ -48,7 +49,7 @@ public class EventServiceImpl implements EventService{
      * @param eventDto EventDto class, from which is new Event created
      * @return Event that was saved into database
      */
-    public Event createNewEvent(EventDto eventDto) throws EntityNotFoundException {
+    public Event createNewEvent(EventDto eventDto) throws EntityAlreadyExistsException {
         Event event = EventMapper.toEvent(eventDto);
         eventRepository.insertEvent(event);
         return event;
