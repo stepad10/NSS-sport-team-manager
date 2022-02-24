@@ -8,8 +8,8 @@
 
 package cz.profinit.sportTeamManager.dto.event;
 
-import cz.profinit.sportTeamManager.adapters.LocalDateTimeAdapter;
-import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
+import cz.profinit.sportTeamManager.adapter.LocalDateTimeAdapter;
+import cz.profinit.sportTeamManager.dto.user.RegisteredUserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 public class MessageDto {
 
     @XmlElement(name = "user")
-    private final RegisteredUserDTO user;
+    private final RegisteredUserDto user;
     @XmlElement(name = "text")
     private final String text;
     @XmlElement(name = "date")

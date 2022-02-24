@@ -10,23 +10,23 @@ package cz.profinit.sportTeamManager.service.invitation;
 
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
-import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
-import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
-import cz.profinit.sportTeamManager.mappers.InvitationMapper;
+import cz.profinit.sportTeamManager.exception.EntityAlreadyExistsException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exception.NonValidUriException;
+import cz.profinit.sportTeamManager.exception.UserIsAlreadyInEventException;
+import cz.profinit.sportTeamManager.mapper.InvitationMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import cz.profinit.sportTeamManager.repositories.invitation.InvitationRepository;
+import cz.profinit.sportTeamManager.repository.invitation.InvitationRepository;
 import cz.profinit.sportTeamManager.service.event.EventServiceImpl;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import cz.profinit.sportTeamManager.service.user.UserServiceImpl;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.event.StubEventRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
+import cz.profinit.sportTeamManager.repository.event.EventRepositoryStub;
+import cz.profinit.sportTeamManager.repository.user.UserRepositoryStub;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,8 +64,8 @@ public class InvitationServiceImplTest {
      */
     @Before
     public void setUp() {
-        UserService userService = new UserServiceImpl(passwordEncoder, new StubUserRepository());
-        eventService = new EventServiceImpl(new StubEventRepository(), userService);
+        UserService userService = new UserServiceImpl(passwordEncoder, new UserRepositoryStub());
+        eventService = new EventServiceImpl(new EventRepositoryStub(), userService);
         invitationService = new InvitationServiceImpl(invitationRepository,eventService, userService);
         loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
     }

@@ -9,16 +9,14 @@
 package cz.profinit.sportTeamManager.configuration;
 
 import cz.profinit.sportTeamManager.oauth.PrincipalExtractorImpl;
-import cz.profinit.sportTeamManager.repositories.user.UserRepository;
+import cz.profinit.sportTeamManager.repository.user.UserRepository;
 import cz.profinit.sportTeamManager.service.user.AuthenticationFacade;
 import cz.profinit.sportTeamManager.service.user.AuthenticationFacadeImpl;
-import cz.profinit.sportTeamManager.service.user.UserDetailServiceImpl;
-import cz.profinit.sportTeamManager.service.user.UserDetailsImpl;
+import cz.profinit.sportTeamManager.service.user.UserDetailsServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -43,7 +41,7 @@ public class AuthenticationConfiguration {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        UserDetailsService userDetailsService = new UserDetailServiceImpl(userRepository);
+        UserDetailsService userDetailsService = new UserDetailsServiceImpl(userRepository);
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;

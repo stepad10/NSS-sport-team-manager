@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Profile;
  */
 @Configuration
 @Profile({"stub_repository"})
-@ComponentScan(basePackages = "cz.profinit.sportTeamManager.stubs.stubRepositories")
+@ComponentScan(basePackages = "cz.profinit.sportTeamManager.repository.stubRepositories")
 @Import(PasswordEncoderConfiguration.class)
 public class StubRepositoryConfiguration {
 

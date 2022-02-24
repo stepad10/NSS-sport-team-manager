@@ -15,15 +15,15 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import cz.profinit.sportTeamManager.dto.event.EventDto;
-import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.mappers.EventMapper;
-import cz.profinit.sportTeamManager.mappers.PlaceMapper;
+import cz.profinit.sportTeamManager.exception.EntityAlreadyExistsException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
+import cz.profinit.sportTeamManager.mapper.EventMapper;
+import cz.profinit.sportTeamManager.mapper.PlaceMapper;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.repositories.event.EventRepository;
+import cz.profinit.sportTeamManager.repository.event.EventRepository;
 import cz.profinit.sportTeamManager.service.user.UserService;
 import lombok.AllArgsConstructor;
 

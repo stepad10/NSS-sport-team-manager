@@ -16,6 +16,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  */
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan("cz.profinit.sportTeamManager.aspects")
+@ComponentScan("cz.profinit.sportTeamManager.aspect")
 public class AspectConfiguration {
 }

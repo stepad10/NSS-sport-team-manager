@@ -7,8 +7,8 @@
  */
 package cz.profinit.sportTeamManager.dto.event;
 
-import cz.profinit.sportTeamManager.adapters.LocalDateTimeAdapter;
-import cz.profinit.sportTeamManager.dto.user.RegisteredUserDTO;
+import cz.profinit.sportTeamManager.adapter.LocalDateTimeAdapter;
+import cz.profinit.sportTeamManager.dto.user.RegisteredUserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,7 +42,7 @@ public class EventDto {
     @XmlElement(name = "place")
     private PlaceDto place;
     @XmlElement(name = "createdBy")
-    private RegisteredUserDTO createdBy;
+    private RegisteredUserDto createdBy;
 
 
 }

@@ -8,8 +8,8 @@
 package cz.profinit.sportTeamManager.service.event;
 
 import cz.profinit.sportTeamManager.dto.event.EventDto;
-import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exception.EntityAlreadyExistsException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.event.Event;
 import cz.profinit.sportTeamManager.model.event.Message;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
