@@ -9,10 +9,10 @@
 package cz.profinit.sportTeamManager.service.invitation;
 
 import cz.profinit.sportTeamManager.dto.invitation.InvitationDto;
-import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.exceptions.NonValidUriException;
-import cz.profinit.sportTeamManager.exceptions.UserIsAlreadyInEventException;
+import cz.profinit.sportTeamManager.exception.EntityAlreadyExistsException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exception.NonValidUriException;
+import cz.profinit.sportTeamManager.exception.UserIsAlreadyInEventException;
 import cz.profinit.sportTeamManager.model.invitation.Invitation;
 import cz.profinit.sportTeamManager.model.invitation.StatusEnum;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;

@@ -9,19 +9,17 @@
 package cz.profinit.sportTeamManager.service.user;
 
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
-import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.mappers.UserMapper;
+import cz.profinit.sportTeamManager.exception.EntityAlreadyExistsException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import cz.profinit.sportTeamManager.repositories.user.UserRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.user.StubUserRepository;
+import cz.profinit.sportTeamManager.repository.user.UserRepository;
+import cz.profinit.sportTeamManager.repository.user.UserRepositoryStub;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -50,7 +48,7 @@ public class UserServiceImplTest {
      */
     @Before
     public void setUp() {
-        UserRepository userRepository = new StubUserRepository();
+        UserRepository userRepository = new UserRepositoryStub();
 
         userService = new UserServiceImpl(passwordEncoder, userRepository);
         user = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);

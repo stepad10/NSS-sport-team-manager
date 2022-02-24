@@ -7,15 +7,15 @@
  */
 package cz.profinit.sportTeamManager.service.team;
 
-import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.exceptions.UserIsInSubgroupException;
+import cz.profinit.sportTeamManager.exception.EntityAlreadyExistsException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exception.UserIsInSubgroupException;
 import cz.profinit.sportTeamManager.model.team.Subgroup;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
-import cz.profinit.sportTeamManager.repositories.subgroup.SubgroupRepository;
-import cz.profinit.sportTeamManager.repositories.team.TeamRepository;
-import cz.profinit.sportTeamManager.repositories.user.UserRepository;
+import cz.profinit.sportTeamManager.repository.subgroup.SubgroupRepository;
+import cz.profinit.sportTeamManager.repository.team.TeamRepository;
+import cz.profinit.sportTeamManager.repository.user.UserRepository;
 import lombok.AllArgsConstructor;
 
 import org.slf4j.Logger;

@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @EnableAspectJAutoProxy
 @Profile({"aspects"})
-@ComponentScan("cz.profinit.sportTeamManager.aspects")
+@ComponentScan("cz.profinit.sportTeamManager.aspect")
 public class AspectConfigurationTest {
 
 }

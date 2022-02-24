@@ -8,14 +8,14 @@
 package cz.profinit.sportTeamManager.service.user;
 
 import cz.profinit.sportTeamManager.crypto.Aes;
-import cz.profinit.sportTeamManager.exceptions.EmailExistsException;
-import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
-import cz.profinit.sportTeamManager.exceptions.UserOrPasswordNotMatchException;
+import cz.profinit.sportTeamManager.exception.EmailExistsException;
+import cz.profinit.sportTeamManager.exception.EntityAlreadyExistsException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exception.UserOrPasswordNotMatchException;
 import cz.profinit.sportTeamManager.model.user.Guest;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import cz.profinit.sportTeamManager.repositories.user.UserRepository;
+import cz.profinit.sportTeamManager.repository.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

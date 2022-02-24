@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
 

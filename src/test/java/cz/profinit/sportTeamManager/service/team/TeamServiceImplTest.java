@@ -9,15 +9,15 @@
 package cz.profinit.sportTeamManager.service.team;
 
 import cz.profinit.sportTeamManager.configuration.StubRepositoryConfiguration;
-import cz.profinit.sportTeamManager.exceptions.EntityAlreadyExistsException;
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exception.EntityAlreadyExistsException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Team;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import cz.profinit.sportTeamManager.model.user.RoleEnum;
-import cz.profinit.sportTeamManager.repositories.subgroup.SubgroupRepository;
-import cz.profinit.sportTeamManager.repositories.team.TeamRepository;
-import cz.profinit.sportTeamManager.repositories.user.UserRepository;
-import cz.profinit.sportTeamManager.stubs.stubRepositories.team.StubTeamRepository;
+import cz.profinit.sportTeamManager.repository.subgroup.SubgroupRepository;
+import cz.profinit.sportTeamManager.repository.team.TeamRepository;
+import cz.profinit.sportTeamManager.repository.user.UserRepository;
+import cz.profinit.sportTeamManager.repository.team.TeamRepositoryStub;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,7 +61,7 @@ public class TeamServiceImplTest {
     public void setUp() {
         teamService = new TeamServiceImpl(teamRepository, userRepository,subgroupRepository);
 
-        presetTeam = StubTeamRepository.getPresetTeam();
+        presetTeam = TeamRepositoryStub.getPresetTeam();
         presetUser = presetTeam.getOwner();
 
         dummyUser = new RegisteredUser(

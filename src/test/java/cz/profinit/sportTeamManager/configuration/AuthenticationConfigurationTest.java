@@ -8,10 +8,10 @@
 package cz.profinit.sportTeamManager.configuration;
 
 import cz.profinit.sportTeamManager.oauth.PrincipalExtractorImpl;
-import cz.profinit.sportTeamManager.repositories.user.UserRepository;
+import cz.profinit.sportTeamManager.repository.user.UserRepository;
 import cz.profinit.sportTeamManager.service.user.AuthenticationFacade;
 import cz.profinit.sportTeamManager.service.user.AuthenticationFacadeImpl;
-import cz.profinit.sportTeamManager.service.user.UserDetailServiceImpl;
+import cz.profinit.sportTeamManager.service.user.UserDetailsServiceImpl;
 import cz.profinit.sportTeamManager.service.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -47,7 +47,7 @@ public class AuthenticationConfigurationTest {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        UserDetailsService userDetailsService = new UserDetailServiceImpl(userRepository);
+        UserDetailsService userDetailsService = new UserDetailsServiceImpl(userRepository);
         UserDetails userDetails = new UserDetailsImpl();
         PasswordEncoder passwordEncoder = context.getBean(PasswordEncoder.class);
         authenticationProvider.setUserDetailsService(userDetailsService);

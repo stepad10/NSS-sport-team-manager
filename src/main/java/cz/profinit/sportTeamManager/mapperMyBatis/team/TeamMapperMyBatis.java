@@ -1,6 +1,5 @@
 package cz.profinit.sportTeamManager.mapperMyBatis.team;
 
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.team.Team;
 
 import java.util.List;

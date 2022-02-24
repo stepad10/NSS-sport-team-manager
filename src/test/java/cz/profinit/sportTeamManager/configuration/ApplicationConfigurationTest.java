@@ -7,11 +7,6 @@
  */
 package cz.profinit.sportTeamManager.configuration;
 
-import cz.profinit.sportTeamManager.controllers.team.TeamController;
-import cz.profinit.sportTeamManager.controllers.user.UserController;
-import cz.profinit.sportTeamManager.oauth.PrincipalExtractorImpl;
-
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 

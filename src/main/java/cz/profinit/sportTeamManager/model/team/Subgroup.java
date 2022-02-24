@@ -7,7 +7,7 @@
  */
 package cz.profinit.sportTeamManager.model.team;
 
-import cz.profinit.sportTeamManager.exceptions.EntityNotFoundException;
+import cz.profinit.sportTeamManager.exception.EntityNotFoundException;
 import cz.profinit.sportTeamManager.model.entity.Entity;
 import cz.profinit.sportTeamManager.model.user.RegisteredUser;
 import lombok.Data;
