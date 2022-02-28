@@ -7,13 +7,7 @@
  */
 package cz.profinit.stm.aspect;
 
-import cz.profinit.stm.SportTeamManagerApplication;
-import cz.profinit.stm.exception.EntityAlreadyExistsException;
-import cz.profinit.stm.exception.EntityNotFoundException;
-import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.repository.user.UserRepository;
-import cz.profinit.stm.service.team.TeamService;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,15 +18,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
+import cz.profinit.stm.SportTeamManagerApplicationTest;
+import cz.profinit.stm.exception.EntityAlreadyExistsException;
+import cz.profinit.stm.exception.EntityNotFoundException;
+import cz.profinit.stm.model.team.Team;
+import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.repository.user.UserRepository;
+import cz.profinit.stm.service.team.TeamService;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -40,12 +38,11 @@ import static org.junit.Assert.assertNull;
  * Tests of team authorization.
  */
 @RunWith(SpringRunner.class)
-@ActiveProfiles({"authorization", "stub_services", "aspects", "authentication","webFull"})
+@ActiveProfiles({"authorization", "stub_repository", "stub_services", "aspects", "authentication"})
 @EnableAspectJAutoProxy
 @WebAppConfiguration
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = AuthorisationAspect.class)
-@SpringBootTest(classes = SportTeamManagerApplication.class)
+@SpringBootTest(classes = SportTeamManagerApplicationTest.class)
 public class AuthorisationAspectTest {
     private RegisteredUser user_in_team;
     private RegisteredUser user_in_subgroups;
@@ -54,8 +51,6 @@ public class AuthorisationAspectTest {
     private TeamService teamService;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private MockMvc mockMvc;
 
     /**
      * Creating stub users
@@ -65,7 +60,6 @@ public class AuthorisationAspectTest {
         user_in_team = userRepository.findUserByEmail("email@gmail.com");
         user_in_subgroups = userRepository.findUserByEmail("is@gmail.com");
     }
-
 
     /**
      * Authorized requests

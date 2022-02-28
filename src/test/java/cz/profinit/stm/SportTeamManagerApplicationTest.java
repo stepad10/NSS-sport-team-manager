@@ -9,8 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import cz.profinit.stm.configuration.ApplicationConfigurationTest;
 
-@SpringBootApplication
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @ContextConfiguration(classes = ApplicationConfigurationTest.class)
 public class SportTeamManagerApplicationTest {
 

@@ -1,9 +1,6 @@
 package cz.profinit.stm.mapperMyBatis.subgroupUser;
 
-import cz.profinit.stm.configuration.MyBatisConfigurationTest;
-import cz.profinit.stm.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
-import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
-import cz.profinit.stm.model.user.RegisteredUser;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,11 +12,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
+import cz.profinit.stm.configuration.MyBatisConfiguration;
+import cz.profinit.stm.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
+import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
+import cz.profinit.stm.model.user.RegisteredUser;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@ContextConfiguration(classes = MyBatisConfigurationTest.class)
+@ContextConfiguration(classes = MyBatisConfiguration.class)
 @TestPropertySource("/test.properties")
 public class SubgroupUserMapperMyBatisTest {
 

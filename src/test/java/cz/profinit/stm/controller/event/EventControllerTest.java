@@ -9,6 +9,7 @@
 package cz.profinit.stm.controller.event;
 
 import cz.profinit.stm.SportTeamManagerApplication;
+import cz.profinit.stm.SportTeamManagerApplicationTest;
 import cz.profinit.stm.dto.event.EventDto;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
@@ -51,7 +52,7 @@ import java.util.ArrayList;
  * Test Event controller.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SportTeamManagerApplication.class)
+@SpringBootTest(classes = SportTeamManagerApplicationTest.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @WebAppConfiguration
 @AutoConfigureMockMvc
@@ -357,7 +358,7 @@ public class EventControllerTest {
     @Test
     public void addNewInvitationTwiceThrowsUserAlreadyInvitedException() throws Exception {
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/event/0/invitation/is@seznam.cz")).
+                        MockMvcRequestBuilders.post("/event/0/invitation/is@gmail.com")).
                 andExpect(MockMvcResultMatchers.status().isConflict()).
                 andExpect((MockMvcResultMatchers.status().reason("User is already invited!")));
 
@@ -406,10 +407,10 @@ public class EventControllerTest {
     @WithUserDetails("is@gmail.com")
     public void changeInvitationStatusForInvalidStatusValueReturnsBadRequestHttpStatus() throws Exception {
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/event/0/invitation/statusChange/ACEPTED")).
+                        MockMvcRequestBuilders.post("/event/0/invitation/statusChange/ACCEPTED")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
                 andExpect((MockMvcResultMatchers.status()
-                        .reason("No enum constant cz.profinit.sportTeamManager.model.invitation.StatusEnum.ACEPTED")));
+                        .reason("No enum constant cz.profinit.stm.model.invitation.StatusEnum.ACCEPTED")));
     }
 
     /**
@@ -444,7 +445,7 @@ public class EventControllerTest {
     }
 
     /**
-     * Testing getSortedInvitationList returns list with invitations for a given incorrect status and a existing event, HttpStatus.BAD_REQUEST expected
+     * Testing getSortedInvitationList returns list with invitations for a given incorrect status and existing event, HttpStatus.BAD_REQUEST expected
      *
      * @throws Exception if request is invalid
      */
@@ -454,7 +455,7 @@ public class EventControllerTest {
                         MockMvcRequestBuilders.get("/event/0/invitations/SENDING/sorted")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
                 andExpect((MockMvcResultMatchers.status()
-                        .reason("No enum constant cz.profinit.sportTeamManager.model.invitation.StatusEnum.SENDING")));
+                        .reason("No enum constant cz.profinit.stm.model.invitation.StatusEnum.SENDING")));
     }
 
     /**
@@ -558,6 +559,6 @@ public class EventControllerTest {
                         MockMvcRequestBuilders.post("/guest/invitation/mxPR4fbWzvai60UMLhD3aw==/statusChange/THROWN")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
         andExpect((MockMvcResultMatchers.status()
-                .reason("No enum constant cz.profinit.sportTeamManager.model.invitation.StatusEnum.THROWN")));
+                .reason("No enum constant cz.profinit.stm.model.invitation.StatusEnum.THROWN")));
     }
 }
