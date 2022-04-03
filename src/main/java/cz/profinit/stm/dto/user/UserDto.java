@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NoArgsConstructor
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RegisteredUserDto {
+public class UserDto {
 
     @NotNull
     @XmlElement(name = "name")
@@ -36,6 +36,4 @@ public class RegisteredUserDto {
 
     @NotNull
     private String email;
-
-
 }

@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
-public class Guest extends User {
+public class Guest extends UserParent {
 
     private String uri;
 

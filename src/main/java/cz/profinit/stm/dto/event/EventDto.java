@@ -8,7 +8,7 @@
 package cz.profinit.stm.dto.event;
 
 import cz.profinit.stm.adapter.LocalDateTimeAdapter;
-import cz.profinit.stm.dto.user.RegisteredUserDto;
+import cz.profinit.stm.dto.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,7 +42,7 @@ public class EventDto {
     @XmlElement(name = "place")
     private PlaceDto place;
     @XmlElement(name = "createdBy")
-    private RegisteredUserDto createdBy;
+    private UserDto createdBy;
 
 
 }

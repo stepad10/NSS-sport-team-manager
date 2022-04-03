@@ -1,7 +1,6 @@
 package cz.profinit.stm.typeHandler;
 
 import cz.profinit.stm.model.invitation.StatusEnum;
-
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 

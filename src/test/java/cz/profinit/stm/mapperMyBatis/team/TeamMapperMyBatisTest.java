@@ -9,9 +9,10 @@
 
 package cz.profinit.stm.mapperMyBatis.team;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cz.profinit.stm.configuration.MyBatisConfiguration;
+import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
+import cz.profinit.stm.model.team.Team;
+import cz.profinit.stm.model.user.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,10 +23,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import cz.profinit.stm.configuration.MyBatisConfiguration;
-import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
-import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Unit tests for Team mapper
@@ -45,7 +44,7 @@ public class TeamMapperMyBatisTest {
     @Test
     public void insertTeam() {
         Long userId = 6L;
-        RegisteredUser owner = userMapperMyBatis.findUserById(userId);
+        User owner = userMapperMyBatis.findUserById(userId);
         Team team = new Team("Insert team", "Insert", new ArrayList<>(), owner);
         teamMapperMyBatis.insertTeam(team);
         Assert.assertNotNull(team.getEntityId());

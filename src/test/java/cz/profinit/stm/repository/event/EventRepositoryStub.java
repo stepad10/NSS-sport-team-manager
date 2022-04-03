@@ -15,9 +15,7 @@ import cz.profinit.stm.model.event.Message;
 import cz.profinit.stm.model.event.Place;
 import cz.profinit.stm.model.invitation.Invitation;
 import cz.profinit.stm.model.invitation.StatusEnum;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
-
+import cz.profinit.stm.model.user.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -29,11 +27,11 @@ import java.util.ArrayList;
 public class EventRepositoryStub implements EventRepository {
 
     Event event;
-    RegisteredUser loggedUser;
+    User loggedUser;
 
     public EventRepositoryStub() {
         Place place = new Place("Profinit","Tychonova 2", 1L);
-        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
+        loggedUser = new User("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com");
         event = new Event(LocalDateTime.now(), 6, false, place, loggedUser, new ArrayList<>(), new ArrayList<>());
         event.setEntityId(0L);
         event.getMessageList().add(new Message(loggedUser,"Testuji",LocalDateTime.now(), event.getEntityId()));

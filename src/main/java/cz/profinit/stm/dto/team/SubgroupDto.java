@@ -8,7 +8,7 @@
 
 package cz.profinit.stm.dto.team;
 
-import cz.profinit.stm.dto.user.RegisteredUserDto;
+import cz.profinit.stm.dto.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +30,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SubgroupDto {
     private String name;
-    private List<RegisteredUserDto> userList;
+    private List<UserDto> userList;
     private Long teamId;
 
     public SubgroupDto(String name, Long teamId) {
@@ -44,7 +44,7 @@ public class SubgroupDto {
      *
      * @param user user which should be added
      */
-    public void addUser(RegisteredUserDto user) {
+    public void addUser(UserDto user) {
         userList.add(user);
     }
 }

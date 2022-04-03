@@ -10,8 +10,8 @@ package cz.profinit.stm.service.user;
 
 
 import cz.profinit.stm.exception.UserOrPasswordNotMatchException;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.repository.user.UserRepository;
+import cz.profinit.stm.model.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -42,7 +42,7 @@ public class UserDetailsServiceStub implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        RegisteredUser user = new RegisteredUser();
+        User user = new User();
         if (userEmail.equals("is@seznam.cz") ||
                 userEmail.equals("is@gmail.com") ||
                 userEmail.equals("is@email.cz") ||

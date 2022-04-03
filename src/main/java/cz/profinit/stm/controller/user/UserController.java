@@ -7,18 +7,16 @@
  */
 package cz.profinit.stm.controller.user;
 
-import cz.profinit.stm.dto.user.RegisteredUserDto;
 import cz.profinit.stm.dto.user.UserDetailsDto;
+import cz.profinit.stm.dto.user.UserDto;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.exception.HttpExceptionHandler;
 import cz.profinit.stm.mapper.UserMapper;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
+import cz.profinit.stm.model.user.User;
 import cz.profinit.stm.oauth.PrincipalExtractorImpl;
 import cz.profinit.stm.service.user.AuthenticationFacade;
 import cz.profinit.stm.service.user.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -58,9 +56,9 @@ public class UserController {
      */
     @PostMapping("/user/registration")
     public void registerNewUser(@RequestBody UserDetailsDto newUser, HttpServletRequest request) {
-        RegisteredUser registeredUser = UserMapper.mapUserDetailsDTOToRegisteredUser(newUser);
+        User user = UserMapper.mapUserDetailsDTOToUser(newUser);
         try {
-            userService.newUserRegistration(registeredUser);
+            userService.newUserRegistration(user);
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
@@ -74,14 +72,14 @@ public class UserController {
      * @return registered user data transfer object
      */
     @GetMapping("/user/{userEmail}")
-    public RegisteredUserDto refreshUser(@PathVariable String userEmail) {
-        RegisteredUser user = new RegisteredUser();
+    public UserDto refreshUser(@PathVariable String userEmail) {
+        User user = new User();
         try {
             user = userService.findUserByEmail(userEmail);
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
-        return UserMapper.mapRegisteredUserToRegisteredUserDTO(user);
+        return UserMapper.mapUserToUserDTO(user);
     }
 
     /**
@@ -117,14 +115,14 @@ public class UserController {
      * @return user DTO with updated name
      */
     @PutMapping("user/{userEmail}/name/{userNewName}")
-    public RegisteredUserDto changeUserName(@PathVariable String userEmail, @PathVariable String userNewName) {
-        RegisteredUser user = new RegisteredUser();
+    public UserDto changeUserName(@PathVariable String userEmail, @PathVariable String userNewName) {
+        User user = new User();
         try {
             user = userService.changeUserName(userEmail,userNewName);
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
-        return UserMapper.mapRegisteredUserToRegisteredUserDTO(user);
+        return UserMapper.mapUserToUserDTO(user);
     }
 
     /**
@@ -135,14 +133,14 @@ public class UserController {
      * @return user DTO with updated surname
      */
     @PutMapping("user/{userEmail}/surname/{userNewSurname}")
-    public RegisteredUserDto changeUserSurname(@PathVariable String userEmail, @PathVariable String userNewSurname) {
-        RegisteredUser user = new RegisteredUser();
+    public UserDto changeUserSurname(@PathVariable String userEmail, @PathVariable String userNewSurname) {
+        User user = new User();
         try {
             user = userService.changeUserSurname(userEmail,userNewSurname);
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
-        return UserMapper.mapRegisteredUserToRegisteredUserDTO(user);
+        return UserMapper.mapUserToUserDTO(user);
     }
 
     /**
@@ -153,14 +151,14 @@ public class UserController {
      * @return user DTO with updated surname
      */
     @PutMapping("user/{userEmail}/email/{userNewEmail}")
-    public RegisteredUserDto changeUserEmail(@PathVariable String userEmail, @PathVariable String userNewEmail) {
-        RegisteredUser user = new RegisteredUser();
+    public UserDto changeUserEmail(@PathVariable String userEmail, @PathVariable String userNewEmail) {
+        User user = new User();
         try {
             user = userService.changeUserEmail(userEmail,userNewEmail);
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
-        return UserMapper.mapRegisteredUserToRegisteredUserDTO(user);
+        return UserMapper.mapUserToUserDTO(user);
     }
 
     /**
@@ -176,12 +174,11 @@ public class UserController {
             userService.findUserByEmail(email);
         } catch (Exception e) {
             if (e.getMessage().equals("User entity not found!")) {
-                RegisteredUser user = new RegisteredUser(
+                User user = new User(
                         principalExtractor.getPrincipalNameAndSurname()[0],
                         principalExtractor.getPrincipalNameAndSurname()[1],
                         "",
-                        email,
-                        RoleEnum.USER);
+                        email);
                 try {
                     userService.newUserRegistration(user);
                 } catch (EntityNotFoundException | EntityAlreadyExistsException ex) {

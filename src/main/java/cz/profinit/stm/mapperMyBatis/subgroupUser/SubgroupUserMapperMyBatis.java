@@ -1,6 +1,6 @@
 package cz.profinit.stm.mapperMyBatis.subgroupUser;
 
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 
 import java.util.List;
 
@@ -31,5 +31,5 @@ public interface SubgroupUserMapperMyBatis {
      * @param subgroupId id of a parent Subgroup
      * @return list of all RegisteredUsers of a Subgroup
      */
-    List<RegisteredUser> findUsersBySubgroupId(Long subgroupId);
+    List<User> findUsersBySubgroupId(Long subgroupId);
 }

@@ -11,9 +11,8 @@ import cz.profinit.stm.crypto.Aes;
 import cz.profinit.stm.exception.EmailExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.user.Guest;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.model.user.RoleEnum;
-
+import cz.profinit.stm.model.user.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -25,11 +24,11 @@ import java.util.Objects;
 @Service
 public class UserServiceStub implements UserService {
 
-    private final RegisteredUser loggedUser1 = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
-    private final RegisteredUser loggedUser2 = new RegisteredUser("Pavel", "Smutny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@seznam.cz", RoleEnum.USER);
-    private final RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER);
-    private final RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
-    private final RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
+    private final User loggedUser1 = new User("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com");
+    private final User loggedUser2 = new User("Pavel", "Smutny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@seznam.cz");
+    private final User loggedUser3 = new User("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz");
+    private final User loggedUser4 = new User("Tomas", "Smutny", "pass2", "ts@gmail.com");
+    private final User loggedUser5 = new User("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com");
 
     private final Guest guest = new Guest("Karel","mxPR4fbWzvai60UMLhD3aw==");
 
@@ -44,21 +43,21 @@ public class UserServiceStub implements UserService {
      * @throws EmailExistsException thrown if new user email is equal to "email@gmail.com"
      */
     @Override
-    public RegisteredUser newUserRegistration(RegisteredUser newUser) throws EmailExistsException {
+    public User newUserRegistration(User newUser) throws EmailExistsException {
 
         if (newUser.getEmail().equals("email@gmail.com")) {
             throw new EmailExistsException(
                     "Account with e-mail address " + newUser.getEmail() + "already exists.");
         }
 
-        RegisteredUser registeredUser = new RegisteredUser();
-        registeredUser.setName(newUser.getName());
-        registeredUser.setSurname(newUser.getSurname());
-        registeredUser.setEmail(newUser.getEmail());
-        registeredUser.setRole(RoleEnum.USER);
+        User user = new User();
+        user.setName(newUser.getName());
+        user.setSurname(newUser.getSurname());
+        user.setEmail(newUser.getEmail());
+        user.setRole(RoleEnum.USER);
 
-        registeredUser.setPassword("hashedPassword");
-        return registeredUser;
+        user.setPassword("hashedPassword");
+        return user;
     }
 
     /**
@@ -66,8 +65,8 @@ public class UserServiceStub implements UserService {
      *
      * @return
      */
-    public RegisteredUser getLogedUser() {
-        return new RegisteredUser("Adam", "Stastny", "pass", "email@gmail.com", RoleEnum.USER);
+    public User getLogedUser() {
+        return new User("Adam", "Stastny", "pass", "email@gmail.com");
     }
 
     /**
@@ -79,14 +78,13 @@ public class UserServiceStub implements UserService {
      * @throws EntityNotFoundException if user is not found
      */
     @Override
-    public RegisteredUser changeUserName(String email, String newName) throws EntityNotFoundException {
-        RegisteredUser user = findUserByEmail(email);
-        RegisteredUser userOut = new RegisteredUser(
+    public User changeUserName(String email, String newName) throws EntityNotFoundException {
+        User user = findUserByEmail(email);
+        User userOut = new User(
                 user.getName(),
                 user.getSurname(),
                 user.getPassword(),
-                user.getEmail(),
-                RoleEnum.USER);
+                user.getEmail());
         userOut.setName(newName);
         return userOut;
     }
@@ -100,14 +98,13 @@ public class UserServiceStub implements UserService {
      * @throws EntityNotFoundException if user is not found
      */
     @Override
-    public RegisteredUser changeUserSurname(String email, String newSurname) throws EntityNotFoundException {
-        RegisteredUser user = findUserByEmail(email);
-        RegisteredUser userOut = new RegisteredUser(
+    public User changeUserSurname(String email, String newSurname) throws EntityNotFoundException {
+        User user = findUserByEmail(email);
+        User userOut = new User(
                 user.getName(),
                 user.getSurname(),
                 user.getPassword(),
-                user.getEmail(),
-                RoleEnum.USER);
+                user.getEmail());
         userOut.setSurname(newSurname);
         return userOut;
     }
@@ -121,17 +118,16 @@ public class UserServiceStub implements UserService {
      * @throws EntityNotFoundException if user is not found
      */
     @Override
-    public RegisteredUser changeUserEmail(String email, String newEmail) throws EntityNotFoundException {
-        RegisteredUser user = findUserByEmail(email);
+    public User changeUserEmail(String email, String newEmail) throws EntityNotFoundException {
+        User user = findUserByEmail(email);
         if (emailExists(newEmail)) {
             throw new EmailExistsException("Account with e-mail address " + newEmail + " already exists.");
         }
-        RegisteredUser userOut = new RegisteredUser(
+        User userOut = new User(
                 user.getName(),
                 user.getSurname(),
                 user.getPassword(),
-                user.getEmail(),
-                RoleEnum.USER);
+                user.getEmail());
         userOut.setEmail(newEmail);
         return userOut;
     }
@@ -146,8 +142,8 @@ public class UserServiceStub implements UserService {
      * @throws EntityNotFoundException if user is not found
      */
     @Override
-    public RegisteredUser changeUserRole(String email, RoleEnum newRole) throws EntityNotFoundException {
-        RegisteredUser user = findUserByEmail(email);
+    public User changeUserRole(String email, RoleEnum newRole) throws EntityNotFoundException {
+        User user = findUserByEmail(email);
         user.setRole(newRole);
         return user;
     }
@@ -193,8 +189,8 @@ public class UserServiceStub implements UserService {
      * @throws EntityNotFoundException thrown if new user email is not equal to "email@gmail.com" or "ts@gmail.com"
      */
     @Override
-    public RegisteredUser findUserByEmail(String email) throws EntityNotFoundException {
-        RegisteredUser user = new RegisteredUser();
+    public User findUserByEmail(String email) throws EntityNotFoundException {
+        User user = new User();
         if (Objects.equals(email, "is@seznam.cz")) {
             return loggedUser2;
         } else if (email.equals("is@gmail.com")) {

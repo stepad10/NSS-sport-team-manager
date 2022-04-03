@@ -1,8 +1,9 @@
 package cz.profinit.stm.mapperMyBatis.event;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
+import cz.profinit.stm.configuration.MyBatisConfiguration;
+import cz.profinit.stm.mapperMyBatis.place.PlaceMapperMyBatis;
+import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
+import cz.profinit.stm.model.event.Event;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,10 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import cz.profinit.stm.configuration.MyBatisConfiguration;
-import cz.profinit.stm.mapperMyBatis.place.PlaceMapperMyBatis;
-import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
-import cz.profinit.stm.model.event.Event;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})

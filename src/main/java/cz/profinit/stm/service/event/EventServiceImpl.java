@@ -7,13 +7,6 @@
  */
 package cz.profinit.stm.service.event;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
-
 import cz.profinit.stm.dto.event.EventDto;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
@@ -22,10 +15,16 @@ import cz.profinit.stm.mapper.PlaceMapper;
 import cz.profinit.stm.model.event.Event;
 import cz.profinit.stm.model.event.Message;
 import cz.profinit.stm.model.invitation.Invitation;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.repository.event.EventRepository;
 import cz.profinit.stm.service.user.UserService;
+import cz.profinit.stm.model.user.User;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Service handling Event and Message entities.
@@ -109,7 +108,7 @@ public class EventServiceImpl implements EventService{
      * @throws EntityNotFoundException if entity is not found.
      */
     public Message addNewMessage (String email, String messageStr, Long eventId) throws EntityNotFoundException {
-        RegisteredUser user = userService.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         Event event =  findEventById(eventId);
         Message message = new Message(user, messageStr, LocalDateTime.now(), eventId);
         event.addNewMessage(message);

@@ -8,7 +8,7 @@
         <result property="text" column="c_text"/>
         <result property="date" column="c_date"/>
         <result property="eventId" column="c_event_id"/>
-        <association property="user" javaType="RegisteredUser">
+        <association property="user" javaType="User">
             <id property="entityId" column="c_user_id"/>
         </association>
     </resultMap>

@@ -1,13 +1,12 @@
 package cz.profinit.stm.repository.event;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.mapperMyBatis.event.EventMapperMyBatis;
 import cz.profinit.stm.model.event.Event;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("Main")

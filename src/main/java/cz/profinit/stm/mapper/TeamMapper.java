@@ -35,7 +35,7 @@ public class TeamMapper {
         Team team = new Team(teamDto.getName(),
                 teamDto.getSport(),
                 SubgroupMapper.mapSubgroupDTOListToSubgroupList(teamDto.getListOfSubgroups()),
-                UserMapper.mapRegisteredUserDTOToRegisteredUser(teamDto.getOwner()));
+                UserMapper.mapUserDTOToUser(teamDto.getOwner()));
         team.setEntityId(teamDto.getId());
         return team;
     }
@@ -50,6 +50,6 @@ public class TeamMapper {
         return new TeamDto(team.getEntityId(), team.getName(),
                 team.getSport(),
                 SubgroupMapper.mapSubgroupListToSubgroupDTOList(team.getSubgroupList()),
-                UserMapper.mapRegisteredUserToRegisteredUserDTO(team.getOwner()));
+                UserMapper.mapUserToUserDTO(team.getOwner()));
     }
 }

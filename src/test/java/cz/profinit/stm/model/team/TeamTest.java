@@ -9,9 +9,7 @@ package cz.profinit.stm.model.team;
 
 import cz.profinit.stm.configuration.StubRepositoryConfiguration;
 import cz.profinit.stm.exception.EntityNotFoundException;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
-
+import cz.profinit.stm.model.user.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,10 +35,10 @@ public class TeamTest {
      */
     @Before
     public void setUp() {
-        List<RegisteredUser> userList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
         List<Subgroup> subgroupList = new ArrayList<>();
 
-        RegisteredUser user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
+        User user1 = new User("Ivan", "Stastny", "pass", "is@gmail.com");
         userList.add(user1);
         team = new Team("A team", "Vodní lyžování", subgroupList, user1);
         subgroup = new Subgroup("Players", team.getEntityId());

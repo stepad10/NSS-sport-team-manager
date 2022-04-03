@@ -12,12 +12,11 @@ import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.exception.UserIsInSubgroupException;
 import cz.profinit.stm.model.team.Subgroup;
 import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.repository.subgroup.SubgroupRepository;
 import cz.profinit.stm.repository.team.TeamRepository;
 import cz.profinit.stm.repository.user.UserRepository;
+import cz.profinit.stm.model.user.User;
 import lombok.AllArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +110,7 @@ public class TeamServiceImpl implements TeamService {
      * @throws EntityNotFoundException if user is not found
      * @throws RuntimeException if user is not in All Users subgroup
      */
-    public Team changeTeamOwner(Long teamId, RegisteredUser user) throws EntityNotFoundException, EntityAlreadyExistsException {
+    public Team changeTeamOwner(Long teamId, User user) throws EntityNotFoundException, EntityAlreadyExistsException {
         Team team = getTeamById(teamId);
         if (!team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) {
             throw new EntityNotFoundException("User");
@@ -145,7 +144,7 @@ public class TeamServiceImpl implements TeamService {
      * @throws EntityNotFoundException   when user is not found
      * @throws UserIsInSubgroupException when user is already in subgroup
      */
-    public Team addUserToSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityAlreadyExistsException, EntityNotFoundException {
+    public Team addUserToSubgroup(Long teamId, String subgroupName, User user) throws EntityAlreadyExistsException, EntityNotFoundException {
         Team team = getTeamById(teamId);
         user = userRepository.findUserByEmail(user.getEmail());
 
@@ -173,7 +172,7 @@ public class TeamServiceImpl implements TeamService {
      * @return updated team with added user
      * @throws EntityNotFoundException when user is not found
      */
-    public Team addUserToTeam(Long teamId, RegisteredUser user) throws EntityAlreadyExistsException, EntityNotFoundException {
+    public Team addUserToTeam(Long teamId, User user) throws EntityAlreadyExistsException, EntityNotFoundException {
         Team team = getTeamById(teamId);
         user = userRepository.findUserByEmail(user.getEmail());
         if (team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) {
@@ -237,7 +236,7 @@ public class TeamServiceImpl implements TeamService {
      * @return team with updated subgroup excluding a removed user
      * @throws EntityNotFoundException when user is not found
      */
-    public Team deleteUserFromSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityNotFoundException {
+    public Team deleteUserFromSubgroup(Long teamId, String subgroupName, User user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         user = userRepository.findUserByEmail(user.getEmail());
         Subgroup subgroup = team.getTeamSubgroup(subgroupName);
@@ -258,7 +257,7 @@ public class TeamServiceImpl implements TeamService {
      * @return team excluding a removed user
      * @throws EntityNotFoundException when user is not found
      */
-    public Team deleteUserFromTeam(Long teamId, RegisteredUser user) throws EntityNotFoundException {
+    public Team deleteUserFromTeam(Long teamId, User user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         user = userRepository.findUserById(user.getEntityId());
 

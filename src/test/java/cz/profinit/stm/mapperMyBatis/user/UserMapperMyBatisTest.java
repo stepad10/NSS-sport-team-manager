@@ -1,4 +1,4 @@
-/*
+package cz.profinit.stm.mapperMyBatis.user;/*
  * UserMapperMyBatis
  *
  * 0.1
@@ -6,8 +6,8 @@
  * Author: D. Štěpánek
  */
 
-package cz.profinit.stm.mapperMyBatis.user;
-
+import cz.profinit.stm.configuration.MyBatisConfiguration;
+import cz.profinit.stm.model.user.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,10 +17,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import cz.profinit.stm.configuration.MyBatisConfiguration;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
 
 /**
  * Unit tests for User mapper
@@ -35,27 +31,26 @@ public class UserMapperMyBatisTest {
     private UserMapperMyBatis userMapperMyBatis;
 
     @Test
-    public void insertRegisteredUser() {
-        RegisteredUser regUs = new RegisteredUser(
+    public void insertUser() {
+        User regUs = new User(
                 "Insert",
                 "RegUs",
                 "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
-                "insert.regUs@test.com",
-                RoleEnum.USER);
+                "insert.regUs@test.com");
         userMapperMyBatis.insertUser(regUs);
         Assert.assertNotNull(regUs.getEntityId());
         Assert.assertNotNull(userMapperMyBatis.findUserById(regUs.getEntityId()));
     }
 
     @Test
-    public void DeleteRegisteredUserById() {
+    public void DeleteUserById() {
         Long userId = 1L;
         userMapperMyBatis.deleteUserById(userId);
         Assert.assertNull(userMapperMyBatis.findUserById(userId));
     }
 
     @Test
-    public void DeleteRegisteredUserByEmail() {
+    public void DeleteUserByEmail() {
         String userEmail = "delete.byEmail@test.com";
         userMapperMyBatis.deleteUserByEmail(userEmail);
         Assert.assertNull(userMapperMyBatis.findUserByEmail(userEmail));
@@ -64,34 +59,34 @@ public class UserMapperMyBatisTest {
     @Test
     public void findUserByEmail() {
         String userEmail = "find.byEmail@test.com";
-        RegisteredUser foundUser = userMapperMyBatis.findUserByEmail(userEmail);
+        User foundUser = userMapperMyBatis.findUserByEmail(userEmail);
         Assert.assertNotNull(foundUser);
     }
 
     @Test
     public void findUserById() {
         Long userId = 4L;
-        RegisteredUser foundUser = userMapperMyBatis.findUserById(userId);
+        User foundUser = userMapperMyBatis.findUserById(userId);
         Assert.assertNotNull(foundUser);
     }
 
     @Test
     public void findNonExistingUserById() {
         Long userId = 0L;
-        RegisteredUser regUs = userMapperMyBatis.findUserById(userId);
+        User regUs = userMapperMyBatis.findUserById(userId);
         Assert.assertNull(regUs);
     }
 
     @Test
     public void findNonExistingUserByEmail() {
-        RegisteredUser regUs = userMapperMyBatis.findUserByEmail("");
+        User regUs = userMapperMyBatis.findUserByEmail("");
         Assert.assertNull(regUs);
     }
 
     @Test
     public void updateUser() {
         Long userId = 3L;
-        RegisteredUser regUs = userMapperMyBatis.findUserById(userId);
+        User regUs = userMapperMyBatis.findUserById(userId);
         String prevEmail = regUs.getEmail();
         regUs.setEmail("update.regUs@updated.com");
         userMapperMyBatis.updateUser(regUs);

@@ -7,21 +7,19 @@
  */
 package cz.profinit.stm.model.team;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cz.profinit.stm.exception.EntityNotFoundException;
+import cz.profinit.stm.model.user.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import cz.profinit.stm.exception.EntityNotFoundException;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit test for Subgroup class
@@ -29,18 +27,18 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 public class SubgroupTest {
     private Subgroup subgroup;
-    private RegisteredUser user1;
-    private RegisteredUser user2;
+    private User user1;
+    private User user2;
 
     /**
      * Before a test create a subgroup with one user.
      */
     @Before
     public void setUp() {
-        List<RegisteredUser> userList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
 
-        user1 = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
-        user2 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
+        user1 = new User("Ivan", "Stastny", "pass", "is@gmail.com");
+        user2 = new User("Tomas", "Smutny", "pass2", "ts@gmail.com");
         userList.add(user1);
         subgroup = new Subgroup("Players", 0L);
         subgroup.setUserList(userList);
@@ -73,7 +71,7 @@ public class SubgroupTest {
      */
     @Test(expected = EntityNotFoundException.class)
     public void getUser() throws EntityNotFoundException {
-        RegisteredUser regUs = subgroup.getUser(user1.getEmail());
+        User regUs = subgroup.getUser(user1.getEmail());
         assertEquals(regUs, user1);
         subgroup.getUser(user2.getEmail());
     }

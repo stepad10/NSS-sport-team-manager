@@ -8,7 +8,6 @@
 package cz.profinit.stm.configuration;
 
 import cz.profinit.stm.aspect.AuthorisationAspect;
-
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

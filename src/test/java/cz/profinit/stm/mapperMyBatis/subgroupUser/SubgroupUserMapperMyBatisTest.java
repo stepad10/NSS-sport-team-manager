@@ -1,7 +1,9 @@
 package cz.profinit.stm.mapperMyBatis.subgroupUser;
 
-import java.util.List;
-
+import cz.profinit.stm.configuration.MyBatisConfiguration;
+import cz.profinit.stm.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
+import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
+import cz.profinit.stm.model.user.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,10 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import cz.profinit.stm.configuration.MyBatisConfiguration;
-import cz.profinit.stm.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
-import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
-import cz.profinit.stm.model.user.RegisteredUser;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
@@ -53,7 +52,7 @@ public class SubgroupUserMapperMyBatisTest {
     @Test
     public void findUsersBySubgroupId() {
         Long subgroupId = 7L;
-        List<RegisteredUser> userList = subgroupUserMapperMyBatis.findUsersBySubgroupId(subgroupId);
+        List<User> userList = subgroupUserMapperMyBatis.findUsersBySubgroupId(subgroupId);
         Assert.assertEquals(2, userList.size());
         userList.forEach(Assert::assertNotNull);
     }

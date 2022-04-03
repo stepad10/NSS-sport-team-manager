@@ -9,7 +9,7 @@
 package cz.profinit.stm.model.invitation;
 
 import cz.profinit.stm.model.entity.Entity;
-import cz.profinit.stm.model.user.User;
+import cz.profinit.stm.model.user.UserParent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +26,6 @@ public class Invitation extends Entity  {
     private LocalDateTime created;
     private LocalDateTime changed;
     private StatusEnum status;
-    private User recipient;
+    private UserParent recipient;
     private Long eventId;
 }

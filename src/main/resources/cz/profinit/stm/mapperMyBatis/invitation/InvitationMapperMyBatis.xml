@@ -9,7 +9,7 @@
         <result property="changed" column="c_changed"/>
         <result property="status" column="c_status"/>
         <result property="eventId" column="c_event_id"/>
-        <association property="recipient" javaType="RegisteredUser">
+        <association property="recipient" javaType="User">
             <id property="entityId" column="c_user_id"/>
         </association>
     </resultMap>

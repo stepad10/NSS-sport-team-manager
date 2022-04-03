@@ -1,5 +1,13 @@
 package cz.profinit.stm.repository.invitation;
 
+import cz.profinit.stm.exception.EntityAlreadyExistsException;
+import cz.profinit.stm.exception.EntityNotFoundException;
+import cz.profinit.stm.mapperMyBatis.invitation.InvitationMapperMyBatis;
+import cz.profinit.stm.model.event.Event;
+import cz.profinit.stm.model.invitation.Invitation;
+import cz.profinit.stm.repository.event.EventRepositoryImpl;
+import cz.profinit.stm.repository.user.UserRepositoryImpl;
+import cz.profinit.stm.model.user.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,18 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import cz.profinit.stm.exception.EntityAlreadyExistsException;
-import cz.profinit.stm.exception.EntityNotFoundException;
-import cz.profinit.stm.mapperMyBatis.invitation.InvitationMapperMyBatis;
-import cz.profinit.stm.model.event.Event;
-import cz.profinit.stm.model.invitation.Invitation;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.repository.event.EventRepositoryImpl;
-import cz.profinit.stm.repository.user.UserRepositoryImpl;
-
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Test class for invitation repository, mocked necessary classes
@@ -48,7 +45,7 @@ public class InvitationRepositoryImplTest {
     @Test
     public void insertNewSubgroup() throws EntityAlreadyExistsException, EntityNotFoundException {
         Invitation invitation = new Invitation();
-        invitation.setRecipient(new RegisteredUser());
+        invitation.setRecipient(new User());
         when(invitationMapperMyBatis.findInvitationById(invitation.getEntityId())).thenReturn(null);
         invitationRepository.insertInvitation(invitation);
         verify(invitationMapperMyBatis, times(1)).findInvitationById(invitation.getEntityId());
@@ -88,7 +85,7 @@ public class InvitationRepositoryImplTest {
     public void deleteInvitation() throws EntityNotFoundException {
         Invitation invitation = new Invitation();
         Event event = new Event();
-        RegisteredUser regUs = new RegisteredUser();
+        User regUs = new User();
         when(userRepository.findUserByEmail(regUs.getEmail())).thenReturn(regUs);
         when(invitationMapperMyBatis.findInvitationByEventIdAndUserId(event.getEntityId(), regUs.getEntityId())).thenReturn(invitation);
         invitationRepository.deleteInvitation(regUs.getName(), event.getEntityId());
@@ -101,7 +98,7 @@ public class InvitationRepositoryImplTest {
     public void deleteInvitationThatDoesNotExist() throws EntityNotFoundException {
         Invitation invitation = new Invitation();
         Event event = new Event();
-        RegisteredUser regUs = new RegisteredUser();
+        User regUs = new User();
         when(userRepository.findUserByEmail(regUs.getEmail())).thenReturn(regUs);
         when(invitationMapperMyBatis.findInvitationByEventIdAndUserId(event.getEntityId(), regUs.getEntityId())).thenReturn(null);
         Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> invitationRepository.deleteInvitation(regUs.getName(), event.getEntityId()));
@@ -132,7 +129,7 @@ public class InvitationRepositoryImplTest {
     public void findInvitationByEventIdAndUserEmail() throws EntityNotFoundException {
         Invitation invitation = new Invitation();
         Event event = new Event();
-        RegisteredUser regUs = new RegisteredUser();
+        User regUs = new User();
         when(userRepository.findUserByEmail(regUs.getEmail())).thenReturn(regUs);
         when(invitationMapperMyBatis.findInvitationByEventIdAndUserId(event.getEntityId(), regUs.getEntityId())).thenReturn(invitation);
         invitationRepository.findInvitationByEventIdAndUserEmail(event.getEntityId(), regUs.getEmail());
@@ -143,7 +140,7 @@ public class InvitationRepositoryImplTest {
     @Test
     public void findInvitationThatDoesNotExistByEventIdAndUserEmail() throws EntityNotFoundException {
         Event event = new Event();
-        RegisteredUser regUs = new RegisteredUser();
+        User regUs = new User();
         when(userRepository.findUserByEmail(regUs.getEmail())).thenReturn(regUs);
         when(invitationMapperMyBatis.findInvitationByEventIdAndUserId(event.getEntityId(), regUs.getEntityId())).thenReturn(null);
         Exception ex = Assert.assertThrows(EntityNotFoundException.class, () -> invitationRepository.findInvitationByEventIdAndUserEmail(event.getEntityId(), regUs.getEmail()));

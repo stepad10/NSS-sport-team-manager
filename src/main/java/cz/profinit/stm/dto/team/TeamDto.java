@@ -7,7 +7,7 @@
  */
 package cz.profinit.stm.dto.team;
 
-import cz.profinit.stm.dto.user.RegisteredUserDto;
+import cz.profinit.stm.dto.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +36,7 @@ public class TeamDto {
     @XmlElement(name = "listOfSubgroups")
     private List<SubgroupDto> listOfSubgroups;
     @XmlElement(name = "owner")
-    private RegisteredUserDto owner;
+    private UserDto owner;
 
     /**
      * Obtains a subgroup defined by name from a list of the subgroups.

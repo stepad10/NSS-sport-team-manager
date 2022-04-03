@@ -1,7 +1,6 @@
 package cz.profinit.stm.typeHandler;
 
 import cz.profinit.stm.model.user.RoleEnum;
-
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 

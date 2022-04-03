@@ -1,6 +1,6 @@
 package cz.profinit.stm.mapperMyBatis.user;
 
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 
 public interface UserMapperMyBatis {
 
@@ -9,20 +9,20 @@ public interface UserMapperMyBatis {
      * @param email to find RegisteredUser by
      * @return found RegisteredUser or null
      */
-    RegisteredUser findUserByEmail(String email);
+    User findUserByEmail(String email);
 
     /**
      *
      * @param id to find RegisteredUser by
      * @return found RegisteredUser or null
      */
-    RegisteredUser findUserById(Long id);
+    User findUserById(Long id);
 
     /**
      * insert RegisteredUser to database and update it's entityId
      * @param user to insert
      */
-    void insertUser(RegisteredUser user);
+    void insertUser(User user);
 
     /**
      *
@@ -40,5 +40,5 @@ public interface UserMapperMyBatis {
      * update RegisteredUser in database
      * @param user user to be updated
      */
-    void updateUser(RegisteredUser user);
+    void updateUser(User user);
 }

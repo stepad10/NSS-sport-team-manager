@@ -11,9 +11,8 @@ import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.mapper.TeamMapper;
 import cz.profinit.stm.model.team.Subgroup;
 import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.repository.user.UserRepository;
-
+import cz.profinit.stm.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -92,7 +91,7 @@ public class TeamServiceStub implements TeamService {
      * @return team with changed owner
      */
     @Override
-    public Team changeTeamOwner(Long teamId, RegisteredUser user) throws EntityNotFoundException {
+    public Team changeTeamOwner(Long teamId, User user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         if (!team.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user)) {
             throw new RuntimeException("User is not in team");
@@ -114,11 +113,11 @@ public class TeamServiceStub implements TeamService {
      * @return Team
      */
     public Team getTeamById(Long teamId) throws EntityNotFoundException {
-        RegisteredUser user = userRepository.findUserByEmail("email@gmail.com");
+        User user = userRepository.findUserByEmail("email@gmail.com");
 
-        List<RegisteredUser> userList1 = new ArrayList<>();
+        List<User> userList1 = new ArrayList<>();
         userList1.add(user);
-        List<RegisteredUser> userList2 = new ArrayList<>();
+        List<User> userList2 = new ArrayList<>();
         userList2.add(user);
         List<Subgroup> subgroupList = new ArrayList<>();
         Team team = new Team("Ateam", "golf", subgroupList, user);
@@ -141,7 +140,7 @@ public class TeamServiceStub implements TeamService {
             team.getTeamSubgroup("All Users").setTeamId(20L);
             team.getTeamSubgroup("Coaches").setTeamId(20L);
             team.getTeamSubgroup("Empty").setTeamId(20L);
-            RegisteredUser newMember = userRepository.findUserByEmail("ts@gmail.com");
+            User newMember = userRepository.findUserByEmail("ts@gmail.com");
             team.getTeamSubgroup("All Users").addUser(newMember);
             team.getTeamSubgroup("Coaches").addUser(newMember);
         } else {
@@ -160,7 +159,7 @@ public class TeamServiceStub implements TeamService {
      * @return updated team
      */
     @Override
-    public Team addUserToSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityNotFoundException {
+    public Team addUserToSubgroup(Long teamId, String subgroupName, User user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         if (user.getEmail().equals("email@gmail.com")) {
             throw new RuntimeException("User is already in subgroup");
@@ -178,7 +177,7 @@ public class TeamServiceStub implements TeamService {
      * @return updated team
      */
     @Override
-    public Team addUserToTeam(Long teamId, RegisteredUser user) throws EntityNotFoundException {
+    public Team addUserToTeam(Long teamId, User user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         if (user.getEmail().equals("email@gmail.com")) {
             throw new RuntimeException("User is already in team");
@@ -234,7 +233,7 @@ public class TeamServiceStub implements TeamService {
      * @throws EntityNotFoundException thrown when team do not contain selected subgroup
      */
     @Override
-    public Team deleteUserFromSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityNotFoundException {
+    public Team deleteUserFromSubgroup(Long teamId, String subgroupName, User user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         if (!team.isSubgroupInTeam(subgroupName)) {
             throw new EntityNotFoundException("Subgroup");
@@ -253,7 +252,7 @@ public class TeamServiceStub implements TeamService {
      * @throws EntityNotFoundException when user is not found
      */
     @Override
-    public Team deleteUserFromTeam(Long teamId, RegisteredUser user) throws EntityNotFoundException {
+    public Team deleteUserFromTeam(Long teamId, User user) throws EntityNotFoundException {
         Team team = getTeamById(teamId);
         try {
             team.getTeamSubgroup("All Users").removeUser(user);

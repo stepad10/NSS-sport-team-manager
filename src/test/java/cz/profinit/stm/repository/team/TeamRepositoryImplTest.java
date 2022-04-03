@@ -1,8 +1,9 @@
 package cz.profinit.stm.repository.team;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cz.profinit.stm.exception.EntityNotFoundException;
+import cz.profinit.stm.mapperMyBatis.team.TeamMapperMyBatis;
+import cz.profinit.stm.model.team.Team;
+import cz.profinit.stm.repository.subgroup.SubgroupRepositoryImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,14 +13,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import cz.profinit.stm.exception.EntityNotFoundException;
-import cz.profinit.stm.mapperMyBatis.team.TeamMapperMyBatis;
-import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.repository.subgroup.SubgroupRepositoryImpl;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Test class for team repository, mocked necessary classes

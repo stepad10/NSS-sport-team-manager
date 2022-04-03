@@ -11,7 +11,7 @@ package cz.profinit.stm.service.team;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 
 /**
  * Team service interface.
@@ -50,7 +50,7 @@ public interface TeamService {
      * @throws EntityNotFoundException if user is not found
      * @throws RuntimeException        if user is not in All Users subgroup
      */
-    Team changeTeamOwner(Long teamId, RegisteredUser user) throws EntityNotFoundException, EntityAlreadyExistsException;
+    Team changeTeamOwner(Long teamId, User user) throws EntityNotFoundException, EntityAlreadyExistsException;
 
     /**
      * Gets team from repository
@@ -70,7 +70,7 @@ public interface TeamService {
      * @param user         user which we want to add to the subgroup
      * @return team with updated subgroup now including added user
      */
-    Team addUserToSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityNotFoundException, EntityAlreadyExistsException;
+    Team addUserToSubgroup(Long teamId, String subgroupName, User user) throws EntityNotFoundException, EntityAlreadyExistsException;
 
     /**
      * Adds a user to the team by adding it to the default subgroup "All users".
@@ -80,7 +80,7 @@ public interface TeamService {
      * @param user   user which should be added
      * @return updated team with added user
      */
-    Team addUserToTeam(Long teamId, RegisteredUser user) throws EntityNotFoundException, EntityAlreadyExistsException;
+    Team addUserToTeam(Long teamId, User user) throws EntityNotFoundException, EntityAlreadyExistsException;
 
     /**
      * Adds a new subgroup of selected id to the determined team. Team is selected by its name.
@@ -108,7 +108,7 @@ public interface TeamService {
      * @param user         user which should be removed
      * @return team with updated subgroup excluding a removed user
      */
-    Team deleteUserFromSubgroup(Long teamId, String subgroupName, RegisteredUser user) throws EntityNotFoundException;
+    Team deleteUserFromSubgroup(Long teamId, String subgroupName, User user) throws EntityNotFoundException;
 
     /**
      * Removes user form all subgroups of determined team.
@@ -117,7 +117,7 @@ public interface TeamService {
      * @param user   user which should be removed
      * @return team excluding a removed user
      */
-    Team deleteUserFromTeam(Long teamId, RegisteredUser user) throws EntityNotFoundException;
+    Team deleteUserFromTeam(Long teamId, User user) throws EntityNotFoundException;
 
     /**
      * Removes team from database

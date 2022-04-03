@@ -10,7 +10,7 @@ package cz.profinit.stm.model.event;
 
 import cz.profinit.stm.model.entity.Entity;
 import cz.profinit.stm.model.invitation.Invitation;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,7 +32,7 @@ public class Event extends Entity {
     private Integer capacity;
     private Boolean isCanceled;
     private Place place;
-    private RegisteredUser createdBy;
+    private User createdBy;
     private List<Message> messageList;
     private List <Invitation> invitationList;
 

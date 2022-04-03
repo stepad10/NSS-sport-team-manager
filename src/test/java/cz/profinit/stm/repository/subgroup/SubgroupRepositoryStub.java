@@ -3,7 +3,6 @@ package cz.profinit.stm.repository.subgroup;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.team.Subgroup;
 import cz.profinit.stm.model.team.Team;
-
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

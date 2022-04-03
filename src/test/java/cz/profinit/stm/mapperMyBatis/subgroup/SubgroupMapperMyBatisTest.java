@@ -1,7 +1,7 @@
 package cz.profinit.stm.mapperMyBatis.subgroup;
 
-import java.util.List;
-
+import cz.profinit.stm.configuration.MyBatisConfiguration;
+import cz.profinit.stm.model.team.Subgroup;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import cz.profinit.stm.configuration.MyBatisConfiguration;
-import cz.profinit.stm.model.team.Subgroup;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})

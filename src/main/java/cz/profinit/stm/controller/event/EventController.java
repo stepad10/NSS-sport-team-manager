@@ -15,7 +15,6 @@ import cz.profinit.stm.dto.invitation.InvitationDto;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.exception.NonValidUriException;
-import cz.profinit.stm.exception.UserIsAlreadyInEventException;
 import cz.profinit.stm.mapper.EventMapper;
 import cz.profinit.stm.mapper.InvitationMapper;
 import cz.profinit.stm.mapper.MessageMapper;
@@ -26,7 +25,6 @@ import cz.profinit.stm.service.event.EventService;
 import cz.profinit.stm.service.invitation.InvitationService;
 import cz.profinit.stm.service.user.AuthenticationFacade;
 import cz.profinit.stm.service.user.UserDetailsImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;

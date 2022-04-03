@@ -7,8 +7,13 @@
  */
 package cz.profinit.stm.aspect;
 
-import java.util.ArrayList;
-
+import cz.profinit.stm.SportTeamManagerApplicationTest;
+import cz.profinit.stm.exception.EntityAlreadyExistsException;
+import cz.profinit.stm.exception.EntityNotFoundException;
+import cz.profinit.stm.model.team.Team;
+import cz.profinit.stm.repository.user.UserRepository;
+import cz.profinit.stm.service.team.TeamService;
+import cz.profinit.stm.model.user.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,19 +25,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 
-import cz.profinit.stm.SportTeamManagerApplicationTest;
-import cz.profinit.stm.exception.EntityAlreadyExistsException;
-import cz.profinit.stm.exception.EntityNotFoundException;
-import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.repository.user.UserRepository;
-import cz.profinit.stm.service.team.TeamService;
+import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * Tests of team authorization.
@@ -44,8 +40,8 @@ import static org.junit.Assert.assertNull;
 @AutoConfigureMockMvc
 @SpringBootTest(classes = SportTeamManagerApplicationTest.class)
 public class AuthorisationAspectTest {
-    private RegisteredUser user_in_team;
-    private RegisteredUser user_in_subgroups;
+    private User user_in_team;
+    private User user_in_subgroups;
 
     @Autowired
     private TeamService teamService;

@@ -10,8 +10,7 @@ package cz.profinit.stm.controller.team;
 import cz.profinit.stm.SportTeamManagerApplicationTest;
 import cz.profinit.stm.dto.team.SubgroupDto;
 import cz.profinit.stm.dto.team.TeamDto;
-import cz.profinit.stm.dto.user.RegisteredUserDto;
-
+import cz.profinit.stm.dto.user.UserDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +50,7 @@ public class TeamControllerTest {
     @Autowired
     private MockMvc mockMvc;
     private TeamDto team;
-    private RegisteredUserDto user;
+    private UserDto user;
     private String teamXml;
 
     /**
@@ -59,10 +58,10 @@ public class TeamControllerTest {
      */
     @Before
     public void setUp() throws JAXBException {
-        user = new RegisteredUserDto("Adam", "Stastny", "email@gmail.com");
-        List<RegisteredUserDto> userList1 = new ArrayList<>();
+        user = new UserDto("Adam", "Stastny", "email@gmail.com");
+        List<UserDto> userList1 = new ArrayList<>();
         userList1.add(user);
-        List<RegisteredUserDto> userList2 = new ArrayList<>();
+        List<UserDto> userList2 = new ArrayList<>();
         userList2.add(user);
         List<SubgroupDto> subgroupList = new ArrayList<>();
         team = new TeamDto(10L, "Ateam", "golf", subgroupList, user);
@@ -189,7 +188,7 @@ public class TeamControllerTest {
      */
     @Test
     public void changeTeamOwner() throws Exception {
-        RegisteredUserDto newOwner = new RegisteredUserDto("Tomas", "Smutny", "ts@gmail.com");
+        UserDto newOwner = new UserDto("Tomas", "Smutny", "ts@gmail.com");
         team.getTeamSubgroup("All Users").addUser(newOwner);
         team.getTeamSubgroup("All Users").setTeamId(20L);
         team.getTeamSubgroup("Coaches").addUser(newOwner);
@@ -361,7 +360,7 @@ public class TeamControllerTest {
      */
     @Test
     public void addUserToTeam() throws Exception {
-        RegisteredUserDto user2 = new RegisteredUserDto("Tomas", "Smutny", "ts@gmail.com");
+        UserDto user2 = new UserDto("Tomas", "Smutny", "ts@gmail.com");
         team.getTeamSubgroup("All Users").addUser(user2);
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDto.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -522,7 +521,7 @@ public class TeamControllerTest {
      */
     @Test
     public void addUserToSubgroup() throws Exception {
-        RegisteredUserDto user2 = new RegisteredUserDto("Tomas", "Smutny", "ts@gmail.com");
+        UserDto user2 = new UserDto("Tomas", "Smutny", "ts@gmail.com");
         team.getTeamSubgroup("All Users").addUser(user2);
         team.getTeamSubgroup("Coaches").addUser(user2);
         JAXBContext jaxbContext = JAXBContext.newInstance(TeamDto.class);

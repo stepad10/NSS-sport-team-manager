@@ -1,16 +1,15 @@
 package cz.profinit.stm.repository.team;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.mapperMyBatis.team.TeamMapperMyBatis;
 import cz.profinit.stm.model.team.Team;
 import cz.profinit.stm.repository.subgroup.SubgroupRepository;
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @Profile("Main")

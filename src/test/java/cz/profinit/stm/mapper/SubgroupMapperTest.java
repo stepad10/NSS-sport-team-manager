@@ -2,12 +2,10 @@ package cz.profinit.stm.mapper;
 
 import cz.profinit.stm.dto.team.SubgroupDto;
 import cz.profinit.stm.dto.team.TeamDto;
-import cz.profinit.stm.dto.user.RegisteredUserDto;
 import cz.profinit.stm.model.team.Subgroup;
 import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
-
+import cz.profinit.stm.dto.user.UserDto;
+import cz.profinit.stm.model.user.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,28 +25,28 @@ public class SubgroupMapperTest {
 
     @Before
     public void setUp() {
-        RegisteredUser registeredUser1 = new RegisteredUser("Tomas", "Smutny", null, "ts@gmail.com", RoleEnum.USER);
-        RegisteredUser registeredUser2 = new RegisteredUser("Ivan", "Stastny", null, "is@gmail.com", RoleEnum.USER);
-        RegisteredUserDto registeredUserDto1 = new RegisteredUserDto("Tomas", "Smutny", "ts@gmail.com");
-        RegisteredUserDto registeredUserDto2 = new RegisteredUserDto("Ivan", "Stastny", "is@gmail.com");
-        List<RegisteredUser> registeredUserList = new ArrayList<>();
-        List<RegisteredUser> registeredUserList2 = new ArrayList<>();
-        List<RegisteredUserDto> registeredUserDtoList = new ArrayList<>();
-        List<RegisteredUserDto> registeredUserDtoList2 = new ArrayList<>();
-        registeredUserList.add(registeredUser1);
-        registeredUserList.add(registeredUser2);
-        registeredUserList2.add(registeredUser1);
-        registeredUserDtoList.add(registeredUserDto1);
-        registeredUserDtoList.add(registeredUserDto2);
-        registeredUserDtoList2.add(registeredUserDto1);
+        User user1 = new User("Tomas", "Smutny", null, "ts@gmail.com");
+        User user2 = new User("Ivan", "Stastny", null, "is@gmail.com");
+        UserDto userDto1 = new UserDto("Tomas", "Smutny", "ts@gmail.com");
+        UserDto userDto2 = new UserDto("Ivan", "Stastny", "is@gmail.com");
+        List<User> userList = new ArrayList<>();
+        List<User> userList2 = new ArrayList<>();
+        List<UserDto> userDtoList = new ArrayList<>();
+        List<UserDto> userDtoList2 = new ArrayList<>();
+        userList.add(user1);
+        userList.add(user2);
+        userList2.add(user1);
+        userDtoList.add(userDto1);
+        userDtoList.add(userDto2);
+        userDtoList2.add(userDto1);
         subgroup1 = new Subgroup("Players", 10L);
-        subgroup1.setUserList(registeredUserList);
+        subgroup1.setUserList(userList);
         Subgroup subgroup2 = new Subgroup("Coaches", 10L);
-        subgroup2.setUserList(registeredUserList2);
+        subgroup2.setUserList(userList2);
         subgroupDto1 = new SubgroupDto("Players", 10L);
-        subgroupDto1.setUserList(registeredUserDtoList);
+        subgroupDto1.setUserList(userDtoList);
         SubgroupDto subgroupDto2 = new SubgroupDto("Coaches", 10L);
-        subgroupDto2.setUserList(registeredUserDtoList2);
+        subgroupDto2.setUserList(userDtoList2);
         subgroupList = new ArrayList<>();
         subgroupList.add(subgroup1);
         subgroupList.add(subgroup2);

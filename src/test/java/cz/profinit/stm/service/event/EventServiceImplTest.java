@@ -21,14 +21,12 @@ import cz.profinit.stm.model.event.Message;
 import cz.profinit.stm.model.event.Place;
 import cz.profinit.stm.model.invitation.Invitation;
 import cz.profinit.stm.model.invitation.StatusEnum;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
 import cz.profinit.stm.model.user.User;
+import cz.profinit.stm.model.user.UserParent;
 import cz.profinit.stm.repository.event.EventRepository;
 import cz.profinit.stm.repository.user.UserRepository;
 import cz.profinit.stm.service.user.UserService;
 import cz.profinit.stm.service.user.UserServiceImpl;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,7 +60,7 @@ public class EventServiceImplTest {
     @Autowired
     private EventRepository eventRepository;
 
-    private User loggedUser;
+    private UserParent loggedUser;
     private Place place;
 
 
@@ -73,7 +71,7 @@ public class EventServiceImplTest {
     public void setUp() {
         UserService userService = new UserServiceImpl(passwordEncoder, userRepository);
         eventService = new EventServiceImpl(eventRepository, userService);
-        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
+        loggedUser = new User("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com");
         place = new Place("Profinit","Tychonova 2", 1L);
     }
 
@@ -82,7 +80,7 @@ public class EventServiceImplTest {
      */
     @Test
     public void createNewEventCreatesNewEvent() throws EntityAlreadyExistsException {
-        EventDto eventDto = new EventDto(0L,LocalDateTime.now(),6, false, PlaceMapper.toDto(place), UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) loggedUser));
+        EventDto eventDto = new EventDto(0L,LocalDateTime.now(),6, false, PlaceMapper.toDto(place), UserMapper.mapUserToUserDTO((User) loggedUser));
         Event event = eventService.createNewEvent(eventDto);
         Assert.assertEquals(eventDto.getDate(),event.getDate());
     }
@@ -97,7 +95,7 @@ public class EventServiceImplTest {
     public void updateEventUpdatesEvent() throws EntityNotFoundException, InterruptedException {
 
         TimeUnit.MILLISECONDS.sleep(2); //Had to put it here, because event and eventDto can be created in exact same time.
-        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(), 6, false, PlaceMapper.toDto(place), UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) loggedUser));
+        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(), 6, false, PlaceMapper.toDto(place), UserMapper.mapUserToUserDTO((User) loggedUser));
         Assert.assertNotEquals(eventRepository.findEventById(0L).getDate(),eventDtoUpdated.getDate());
         Event event = eventService.updateEvent(eventDtoUpdated, 0L);
         Assert.assertEquals(eventDtoUpdated.getDate(),event.getDate());
@@ -110,7 +108,7 @@ public class EventServiceImplTest {
      */
     @Test (expected = EntityNotFoundException.class)
     public void updateNonExistingEventThrowsEntityNotFound() throws EntityNotFoundException {
-        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(), 6, false, PlaceMapper.toDto(place), UserMapper.mapRegisteredUserToRegisteredUserDTO((RegisteredUser) loggedUser));
+        EventDto eventDtoUpdated = new EventDto(0L,LocalDateTime.now(), 6, false, PlaceMapper.toDto(place), UserMapper.mapUserToUserDTO((User) loggedUser));
         eventService.updateEvent(eventDtoUpdated, 1L);
     }
 

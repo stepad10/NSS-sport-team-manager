@@ -8,7 +8,7 @@
 package cz.profinit.stm.model.event;
 
 import cz.profinit.stm.model.entity.Entity;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Message extends Entity {
 
-    private RegisteredUser user;
+    private User user;
     private String text;
     private LocalDateTime date;
     private Long eventId;

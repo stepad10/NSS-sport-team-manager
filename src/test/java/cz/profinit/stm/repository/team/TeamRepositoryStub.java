@@ -10,9 +10,8 @@ package cz.profinit.stm.repository.team;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.team.Subgroup;
 import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.repository.user.UserRepositoryStub;
-
+import cz.profinit.stm.model.user.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -40,9 +39,9 @@ public class TeamRepositoryStub implements TeamRepository {
     }
 
     private static void setPresetTeam() {
-        RegisteredUser owner = UserRepositoryStub.loggedUser1;
+        User owner = UserRepositoryStub.loggedUser1;
         owner.setEntityId(1L);
-        RegisteredUser presetUser = UserRepositoryStub.loggedUser5;
+        User presetUser = UserRepositoryStub.loggedUser5;
         presetUser.setEntityId(2L);
         Subgroup allUsersSubgroup = new Subgroup("All Users", 1L);
         allUsersSubgroup.addUser(owner);

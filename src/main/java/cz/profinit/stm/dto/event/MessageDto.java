@@ -9,7 +9,7 @@
 package cz.profinit.stm.dto.event;
 
 import cz.profinit.stm.adapter.LocalDateTimeAdapter;
-import cz.profinit.stm.dto.user.RegisteredUserDto;
+import cz.profinit.stm.dto.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 public class MessageDto {
 
     @XmlElement(name = "user")
-    private final RegisteredUserDto user;
+    private final UserDto user;
     @XmlElement(name = "text")
     private final String text;
     @XmlElement(name = "date")

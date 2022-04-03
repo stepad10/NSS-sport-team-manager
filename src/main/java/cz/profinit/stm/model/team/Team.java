@@ -7,15 +7,15 @@
  */
 package cz.profinit.stm.model.team;
 
-import java.util.List;
-
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.entity.Entity;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * Class containing all team information such as team name, team sport, list of subgroups and owner.
@@ -28,7 +28,7 @@ public class Team extends Entity {
     private String name;
     private String sport;
     private List<Subgroup> subgroupList;
-    private RegisteredUser owner;
+    private User owner;
 
 
     /**

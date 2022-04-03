@@ -7,10 +7,9 @@
  */
 package cz.profinit.stm.mapper;
 
-import cz.profinit.stm.dto.user.RegisteredUserDto;
 import cz.profinit.stm.dto.user.UserDetailsDto;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
+import cz.profinit.stm.dto.user.UserDto;
+import cz.profinit.stm.model.user.User;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * Provides mapping from RegisteredUser data transfer object to RegisteredUser entity in both ways.
+ * Provides mapping from User data transfer object to User entity in both ways.
  */
 @Component
 @Profile({"test", "Main","stub_services"})
@@ -28,63 +27,61 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     /**
-     * Maps a single RegisteredUser to its data transfer object.
+     * Maps a single User to its data transfer object.
      *
-     * @param registeredUser RegisteredUser to be mapped
-     * @return mapped RegisteredUser to RegisteredUser  data transfer object
+     * @param user User to be mapped
+     * @return mapped User to User  data transfer object
      */
-    public static RegisteredUserDto mapRegisteredUserToRegisteredUserDTO(RegisteredUser registeredUser) {
-        return new RegisteredUserDto(registeredUser.getName(),
-                registeredUser.getSurname(),
-                registeredUser.getEmail());
+    public static UserDto mapUserToUserDTO(User user) {
+        return new UserDto(user.getName(),
+                user.getSurname(),
+                user.getEmail());
     }
 
     /**
-     * Maps a single RegisteredUser data transfer object to a single RegisteredUser.
+     * Maps a single User data transfer object to a single User.
      *
-     * @param registeredUserDTO RegisteredUser data transfer object to be mapped
-     * @return mapped RegisteredUser data transfer object to RegisteredUser
+     * @param userDTO User data transfer object to be mapped
+     * @return mapped User data transfer object to User
      */
-    public static RegisteredUser mapRegisteredUserDTOToRegisteredUser(RegisteredUserDto registeredUserDTO) {
-        return new RegisteredUser(registeredUserDTO.getName(),
-                registeredUserDTO.getSurname(),
+    public static User mapUserDTOToUser(UserDto userDTO) {
+        return new User(userDTO.getName(),
+                userDTO.getSurname(),
                 null,
-                registeredUserDTO.getEmail(),
-                RoleEnum.USER);
+                userDTO.getEmail());
     }
 
     /**
-     * Maps list of  RegisteredUser to its data transfer object.
+     * Maps list of  User to its data transfer object.
      *
-     * @param registeredUserList list of RegisteredUser to be mapped
-     * @return mapped list of RegisteredUser to list of RegisteredUser data transfer object
+     * @param userList list of User to be mapped
+     * @return mapped list of User to list of User data transfer object
      */
-    public static List<RegisteredUserDto> mapRegisteredUserListToRegisteredUserDTOList(List<RegisteredUser> registeredUserList) {
-        return registeredUserList.stream().map(UserMapper::mapRegisteredUserToRegisteredUserDTO).collect(Collectors.toList());
+    public static List<UserDto> mapUserListToUserDTOList(List<User> userList) {
+        return userList.stream().map(UserMapper::mapUserToUserDTO).collect(Collectors.toList());
     }
 
     /**
-     * Maps a list of RegisteredUser data transfer object to list of RegisteredUser.
+     * Maps a list of User data transfer object to list of User.
      *
-     * @param registeredUserList list of RegisteredUser data transfer object to be mapped
-     * @return mapped list of RegisteredUser data transfer object to list of RegisteredUser
+     * @param UserList list of dUser data transfer object to be mapped
+     * @return mapped list of User data transfer object to list of User
      */
-    public static List<RegisteredUser> mapRegisteredUserDTOListToRegisteredUserList(List<RegisteredUserDto> registeredUserList) {
-        return registeredUserList.stream().map(UserMapper::mapRegisteredUserDTOToRegisteredUser).collect(Collectors.toList());
+    public static List<User> mapUserDTOListToUserList(List<UserDto> UserList) {
+        return UserList.stream().map(UserMapper::mapUserDTOToUser).collect(Collectors.toList());
     }
 
     /**
-     * Maps a UserDetailsDTO to Registered user.
+     * Maps a UserDetailsDTO to user.
      *
      * @param userDetailsDTO user details data transfer object to be mapped
-     * @return mapped RegisteredUser
+     * @return mapped User
      */
-    public static RegisteredUser mapUserDetailsDTOToRegisteredUser(UserDetailsDto userDetailsDTO) {
-        return new RegisteredUser(userDetailsDTO.getUserName(),
+    public static User mapUserDetailsDTOToUser(UserDetailsDto userDetailsDTO) {
+        return new User(userDetailsDTO.getUserName(),
                 userDetailsDTO.getSurname(),
                 userDetailsDTO.getPassword(),
-                userDetailsDTO.getName(),
-                RoleEnum.USER);
+                userDetailsDTO.getName());
     }
 
 }

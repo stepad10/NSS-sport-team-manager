@@ -18,8 +18,8 @@ import cz.profinit.stm.model.event.Event;
 import cz.profinit.stm.model.invitation.Invitation;
 import cz.profinit.stm.model.invitation.StatusEnum;
 import cz.profinit.stm.model.user.Guest;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.model.user.User;
+import cz.profinit.stm.model.user.UserParent;
 import cz.profinit.stm.repository.invitation.InvitationRepository;
 import cz.profinit.stm.service.event.EventService;
 import cz.profinit.stm.service.user.UserService;
@@ -96,7 +96,7 @@ public class InvitationServiceImpl implements InvitationService {
     public Invitation findInvitationByEventIdAndEmail(Long eventId,String email) throws EntityNotFoundException {
         Event event = eventService.findEventById(eventId);
         List <Invitation> invitationList = event.getInvitationList();
-        User user = userService.findUserByEmail(email);
+        UserParent user = userService.findUserByEmail(email);
 
         for (Invitation invitation : invitationList){
             if (invitation.getRecipient().equals(user)){
@@ -114,10 +114,10 @@ public class InvitationServiceImpl implements InvitationService {
      * @return List of created invitations
      * @throws EntityNotFoundException if entity was not found.
      */
-    public List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId)
-            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
+    public List<Invitation> createNewInvitationsFromList (List<User> userList, Long eventId)
+            throws EntityNotFoundException, EntityAlreadyExistsException {
         List<Invitation> invitationList = new ArrayList<>();
-        for(RegisteredUser user: userList){
+        for(User user: userList){
             invitationList.add(createNewInvitation(user.getEmail(), eventId));
         }
         return invitationList;
@@ -187,8 +187,8 @@ public class InvitationServiceImpl implements InvitationService {
      */
     public Invitation createGuestInvitation (Long eventId, String name) throws EntityNotFoundException, EntityAlreadyExistsException {
         Event event = eventService.findEventById(eventId);
-        User user = userService.createNewGuest(name, event.getEntityId());
-        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId);
+        Guest guest = userService.createNewGuest(name, event.getEntityId());
+        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, guest, eventId);
         invitationRepository.insertInvitation(invitation);
         eventService.addNewInvitation(eventId, invitation);
         return invitation;

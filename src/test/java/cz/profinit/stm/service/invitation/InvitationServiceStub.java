@@ -6,14 +6,6 @@
  * Author: M. Halamka
  */package cz.profinit.stm.service.invitation;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import cz.profinit.stm.crypto.Aes;
 import cz.profinit.stm.dto.invitation.InvitationDto;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
@@ -26,12 +18,18 @@ import cz.profinit.stm.model.event.Place;
 import cz.profinit.stm.model.invitation.Invitation;
 import cz.profinit.stm.model.invitation.StatusEnum;
 import cz.profinit.stm.model.user.Guest;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
 import cz.profinit.stm.model.user.User;
+import cz.profinit.stm.model.user.UserParent;
 import cz.profinit.stm.repository.invitation.InvitationRepository;
 import cz.profinit.stm.service.event.EventService;
 import cz.profinit.stm.service.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Stub implementation of Invitation service interface. Includes all business logic related to invitations.
@@ -49,12 +47,12 @@ public class InvitationServiceStub implements InvitationService {
     UserService userService;
 
     Event event;
-    RegisteredUser loggedUser;
+    User loggedUser;
     Guest guest;
 
     public InvitationServiceStub() {
         Place place = new Place("Profinit","Tychonova 2", 1L);
-        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
+        loggedUser = new User("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com");
         event = new Event(LocalDateTime.now(),6,false, place, loggedUser,new ArrayList<>(),new ArrayList<>());
         event.setEntityId(0L);
         event.getMessageList().add(new Message(loggedUser,"Testuji",LocalDateTime.now(), event.getEntityId()));
@@ -117,7 +115,7 @@ public class InvitationServiceStub implements InvitationService {
     public Invitation findInvitationByEventIdAndEmail(Long eventId,String email) throws EntityNotFoundException {
         Event event = eventService.findEventById(eventId);
         List <Invitation> invitationList = event.getInvitationList();
-        User user = userService.findUserByEmail(email);
+        UserParent user = userService.findUserByEmail(email);
 
         for (Invitation invitation : invitationList){
             if (invitation.getRecipient().equals(user)){
@@ -136,10 +134,10 @@ public class InvitationServiceStub implements InvitationService {
      * @throws EntityNotFoundException if entity was not found.
      */
     @Override
-    public List<Invitation> createNewInvitationsFromList(List<RegisteredUser> userList, Long eventId)
-            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
+    public List<Invitation> createNewInvitationsFromList(List<User> userList, Long eventId)
+            throws EntityNotFoundException, EntityAlreadyExistsException {
         List<Invitation> invitationList = new ArrayList<>();
-        for(RegisteredUser user: userList){
+        for(User user: userList){
             invitationList.add(createNewInvitation(user.getEmail(),eventId));
         }
         return invitationList;    }
@@ -228,8 +226,8 @@ public class InvitationServiceStub implements InvitationService {
     @Override
     public Invitation createGuestInvitation(Long eventId, String name) throws EntityNotFoundException, EntityAlreadyExistsException {
         Event event = eventService.findEventById(eventId);
-        User user = userService.createNewGuest(name,event.getEntityId());
-        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, user, eventId);
+        Guest guest = userService.createNewGuest(name,event.getEntityId());
+        Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, guest, eventId);
         invitationRepository.insertInvitation(invitation);
         eventService.addNewInvitation(eventId, invitation);
         return  invitation;

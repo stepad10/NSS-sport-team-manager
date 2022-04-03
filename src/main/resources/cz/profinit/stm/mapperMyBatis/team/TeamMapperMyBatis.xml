@@ -8,7 +8,7 @@
         <result property="name" column="c_name"/>
         <result property="sport" column="c_sport"/>
 
-        <association property="owner" javaType="RegisteredUser">
+        <association property="owner" javaType="User">
             <id property="entityId" column="c_owner"/>
         </association>
     </resultMap>

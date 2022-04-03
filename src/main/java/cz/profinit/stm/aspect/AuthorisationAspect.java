@@ -9,11 +9,10 @@ package cz.profinit.stm.aspect;
 
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 import cz.profinit.stm.oauth.PrincipalExtractorImpl;
 import cz.profinit.stm.service.team.TeamService;
 import cz.profinit.stm.service.user.UserService;
-
 import org.aopalliance.aop.Advice;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -53,7 +52,7 @@ public class AuthorisationAspect implements Advice {
     public void CoachAuthorisation(JoinPoint point) throws EntityNotFoundException {
 
         Team team;
-        RegisteredUser user;
+        User user;
         String userEmail = principalExtractor.getPrincipalEmail();
 
         team = teamService.getTeamById((Long) point.getArgs()[0]);
@@ -76,7 +75,7 @@ public class AuthorisationAspect implements Advice {
     @Before("execution(public * *..UserService.*(..))" +
             " && !execution(public * *..UserService.newUserRegistration(..))")
     public void UserAuthorisation(JoinPoint point) {
-        RegisteredUser user = null;
+        User user = null;
         String userEmail = principalExtractor.getPrincipalEmail();
         if (!userEmail.equals(point.getArgs()[0])) {
             throw new RuntimeException("Access denied");

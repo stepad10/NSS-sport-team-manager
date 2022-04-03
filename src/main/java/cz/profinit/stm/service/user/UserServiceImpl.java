@@ -13,9 +13,9 @@ import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.exception.UserOrPasswordNotMatchException;
 import cz.profinit.stm.model.user.Guest;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.model.user.RoleEnum;
 import cz.profinit.stm.repository.user.UserRepository;
+import cz.profinit.stm.model.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -45,24 +45,24 @@ public class UserServiceImpl implements UserService {
      * @return registered user
      * @throws EmailExistsException thrown, when given email is already in database
      */
-    public RegisteredUser newUserRegistration(RegisteredUser newUser) throws EntityAlreadyExistsException {
+    public User newUserRegistration(User newUser) throws EntityAlreadyExistsException {
         if (emailExists(newUser.getEmail())) {
             throw new EmailExistsException(
                     "Account with e-mail address " + newUser.getEmail() + "already exists.");
         }
 
-        RegisteredUser registeredUser = new RegisteredUser();
+        User user = new User();
 
-        registeredUser.setName(newUser.getName());
-        registeredUser.setSurname(newUser.getSurname());
-        registeredUser.setEmail(newUser.getEmail());
-        registeredUser.setRole(RoleEnum.USER);
+        user.setName(newUser.getName());
+        user.setSurname(newUser.getSurname());
+        user.setEmail(newUser.getEmail());
+        user.setRole(RoleEnum.USER);
 
-        registeredUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
-        userRepository.insertRegisteredUser(registeredUser);
+        userRepository.insertUser(user);
 
-        return registeredUser;
+        return user;
     }
 
     /**
@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService {
      * @return Logged user if successful
      * @throws UserOrPasswordNotMatchException if the logging credentials do not match any user in the database
      */
-    public RegisteredUser userLogIn(String userEmail, String password) throws UserOrPasswordNotMatchException {
-        RegisteredUser user = new RegisteredUser();
+    public User userLogIn(String userEmail, String password) throws UserOrPasswordNotMatchException {
+        User user = new User();
 
         try {
             user = userRepository.findUserByEmail(userEmail);
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
      * @return found user
      * @throws EntityNotFoundException thrown if user is not found in database
      */
-    public RegisteredUser findUserByEmail(String email) throws EntityNotFoundException {
+    public User findUserByEmail(String email) throws EntityNotFoundException {
         return userRepository.findUserByEmail(email);
     }
 
@@ -130,10 +130,10 @@ public class UserServiceImpl implements UserService {
      * @throws EntityNotFoundException if user is not found
      */
     @Override
-    public RegisteredUser changeUserName(String email, String newName) throws EntityNotFoundException {
-        RegisteredUser user = findUserByEmail(email);
+    public User changeUserName(String email, String newName) throws EntityNotFoundException {
+        User user = findUserByEmail(email);
         user.setName(newName);
-        userRepository.updateRegisteredUser(user);
+        userRepository.updateUser(user);
         return user;
     }
 
@@ -146,10 +146,10 @@ public class UserServiceImpl implements UserService {
      * @throws EntityNotFoundException if user is not found
      */
     @Override
-    public RegisteredUser changeUserSurname(String email, String newSurname) throws EntityNotFoundException {
-        RegisteredUser user = findUserByEmail(email);
+    public User changeUserSurname(String email, String newSurname) throws EntityNotFoundException {
+        User user = findUserByEmail(email);
         user.setSurname(newSurname);
-        userRepository.updateRegisteredUser(user);
+        userRepository.updateUser(user);
         return user;
     }
 
@@ -162,13 +162,13 @@ public class UserServiceImpl implements UserService {
      * @throws EntityNotFoundException if user is not found
      */
     @Override
-    public RegisteredUser changeUserEmail(String email, String newEmail) throws EntityNotFoundException {
-        RegisteredUser user = findUserByEmail(email);
+    public User changeUserEmail(String email, String newEmail) throws EntityNotFoundException {
+        User user = findUserByEmail(email);
         if (emailExists(newEmail)) {
             throw new EmailExistsException("Account with e-mail address " + newEmail + "already exists.");
         }
         user.setEmail(newEmail);
-        userRepository.updateRegisteredUser(user);
+        userRepository.updateUser(user);
         return user;
     }
 
@@ -182,10 +182,10 @@ public class UserServiceImpl implements UserService {
      * @throws EntityNotFoundException if user is not found
      */
     @Override
-    public RegisteredUser changeUserRole(String email, RoleEnum newRole) throws EntityNotFoundException {
-        RegisteredUser user = findUserByEmail(email);
+    public User changeUserRole(String email, RoleEnum newRole) throws EntityNotFoundException {
+        User user = findUserByEmail(email);
         user.setRole(newRole);
-        userRepository.updateRegisteredUser(user);
+        userRepository.updateUser(user);
         return user;
     }
 

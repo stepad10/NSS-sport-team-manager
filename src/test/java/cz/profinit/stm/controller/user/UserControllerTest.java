@@ -9,9 +9,8 @@ package cz.profinit.stm.controller.user;
 
 import cz.profinit.stm.SportTeamManagerApplicationTest;
 import cz.profinit.stm.configuration.WebApplicationConfigurationTest;
-import cz.profinit.stm.dto.user.RegisteredUserDto;
 import cz.profinit.stm.dto.user.UserDetailsDto;
-
+import cz.profinit.stm.dto.user.UserDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,18 +51,18 @@ public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    private RegisteredUserDto newUser;
+    private UserDto newUser;
     private String newUserString;
     private UserDetailsDto newUserDetails;
-    private RegisteredUserDto loggedUser;
+    private UserDto loggedUser;
 
     /**
      * Before tests create DTO.
      */
     @Before
     public void setup() throws JAXBException {
-        newUser = new RegisteredUserDto("Ivan", "Stastny", "mail@mail.com");
-        loggedUser = new RegisteredUserDto("Adam", "Stastny", "email@gmail.com");
+        newUser = new UserDto("Ivan", "Stastny", "mail@mail.com");
+        loggedUser = new UserDto("Adam", "Stastny", "email@gmail.com");
         newUserDetails = new UserDetailsDto(newUser.getEmail(), "pass");
     }
 
@@ -135,7 +134,7 @@ public class UserControllerTest {
     public void changeUserName() throws Exception {
 
         loggedUser.setName("Emil");
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisteredUserDto.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(UserDto.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();
         jaxbMarshaller.marshal(loggedUser, sw);
@@ -159,7 +158,7 @@ public class UserControllerTest {
     @Test
     public void changeUserSurname() throws Exception {
         loggedUser.setSurname("Kypry");
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisteredUserDto.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(UserDto.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();
         jaxbMarshaller.marshal(loggedUser, sw);
@@ -184,7 +183,7 @@ public class UserControllerTest {
     @Test
     public void changeUserEmail() throws Exception {
         loggedUser.setEmail("mymail@gmail.com");
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisteredUserDto.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(UserDto.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         StringWriter sw = new StringWriter();
         jaxbMarshaller.marshal(loggedUser, sw);

@@ -1,17 +1,16 @@
 package cz.profinit.stm.repository.subgroup;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.mapperMyBatis.subgroup.SubgroupMapperMyBatis;
 import cz.profinit.stm.mapperMyBatis.subgroupUser.SubgroupUserMapperMyBatis;
 import cz.profinit.stm.model.team.Subgroup;
 import cz.profinit.stm.model.team.Team;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @Profile("Main")

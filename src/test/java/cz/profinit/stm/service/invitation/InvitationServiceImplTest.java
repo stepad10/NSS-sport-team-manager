@@ -19,15 +19,14 @@ import cz.profinit.stm.model.event.Event;
 import cz.profinit.stm.model.invitation.Invitation;
 import cz.profinit.stm.model.invitation.StatusEnum;
 import cz.profinit.stm.model.user.Guest;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.model.user.RoleEnum;
+import cz.profinit.stm.repository.event.EventRepositoryStub;
 import cz.profinit.stm.repository.invitation.InvitationRepository;
+import cz.profinit.stm.repository.user.UserRepositoryStub;
 import cz.profinit.stm.service.event.EventServiceImpl;
 import cz.profinit.stm.service.user.UserService;
 import cz.profinit.stm.service.user.UserServiceImpl;
-import cz.profinit.stm.repository.event.EventRepositoryStub;
-import cz.profinit.stm.repository.user.UserRepositoryStub;
-
+import cz.profinit.stm.model.user.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +51,7 @@ public class InvitationServiceImplTest {
 
     private InvitationService invitationService;
     private EventServiceImpl eventService;
-    private RegisteredUser loggedUser;
+    private User loggedUser;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -68,7 +67,7 @@ public class InvitationServiceImplTest {
         UserService userService = new UserServiceImpl(passwordEncoder, new UserRepositoryStub());
         eventService = new EventServiceImpl(new EventRepositoryStub(), userService);
         invitationService = new InvitationServiceImpl(invitationRepository,eventService, userService);
-        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
+        loggedUser = new User("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com");
     }
 
     /**
@@ -111,9 +110,9 @@ public class InvitationServiceImplTest {
     @Test
     public void createNewInvitationsFromListCreatesNewInvitations() throws EntityNotFoundException, UserIsAlreadyInEventException,
             EntityAlreadyExistsException {
-        List<RegisteredUser> users = new ArrayList<>();
-        users.add(new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER));
-        users.add(new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER));
+        List<User> users = new ArrayList<>();
+        users.add(new User("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com"));
+        users.add(new User("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz"));
 
         List<Invitation> invitationList = invitationService.createNewInvitationsFromList(users, 0L);
 
@@ -124,14 +123,14 @@ public class InvitationServiceImplTest {
     /**
      * Testing createNewInvitationsFromList with same user throws UserIsAlreadyInEventException
      * @throws EntityNotFoundException throws if entity is not found
-     * @throws UserIsAlreadyInEventException thrown when user is already invited
+     * @throws EntityAlreadyExistsException thrown when user is already invited
      */
-    @Test (expected = UserIsAlreadyInEventException.class)
+    @Test (expected = EntityAlreadyExistsException.class)
     public void createNewInvitationsFromListThrowsUserIsAlreadyInEventException()
-            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
-        List<RegisteredUser> users = new ArrayList<>();
-        users.add(new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER));
-        users.add(new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER));
+            throws EntityNotFoundException, EntityAlreadyExistsException {
+        List<User> users = new ArrayList<>();
+        users.add(new User("Ivan", "Stastny", "pass", "is@gmail.com"));
+        users.add(new User("Tomas", "Smutny", "pass2", "ts@gmail.com"));
 
         List<Invitation> invitationList = invitationService.createNewInvitationsFromList(users, 0L);
     }
@@ -142,9 +141,9 @@ public class InvitationServiceImplTest {
      */
     @Test
     public void createNewInvitationsFromListThrowsEntityNotFoundException() throws  UserIsAlreadyInEventException {
-        List<RegisteredUser> users = new ArrayList<>();
-        users.add(new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER));
-        users.add(new RegisteredUser("Pavel", "Smutny", "pass", "is@seznam.cz", RoleEnum.USER));
+        List<User> users = new ArrayList<>();
+        users.add(new User("Ivan", "Stastny", "pass", "is@gmail.com"));
+        users.add(new User("Pavel", "Smutny", "pass", "is@seznam.cz"));
         Assert.assertThrows(EntityNotFoundException.class ,() -> invitationService.createNewInvitationsFromList(users, 1L));
     }
 

@@ -14,10 +14,9 @@ import cz.profinit.stm.mapper.PlaceMapper;
 import cz.profinit.stm.model.event.Event;
 import cz.profinit.stm.model.event.Message;
 import cz.profinit.stm.model.invitation.Invitation;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.repository.event.EventRepository;
 import cz.profinit.stm.repository.user.UserRepository;
-
+import cz.profinit.stm.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -94,7 +93,7 @@ public class EventServiceStub implements EventService {
      */
     @Override
     public Message addNewMessage(String email, String messageStr, Long eventId) throws EntityNotFoundException {
-        RegisteredUser user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email);
         Event event =  findEventById(eventId);
         Message message = new Message(user, messageStr, LocalDateTime.now(), eventId);
         event.addNewMessage(message);

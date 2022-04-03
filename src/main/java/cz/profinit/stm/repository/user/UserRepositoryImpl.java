@@ -1,16 +1,15 @@
 package cz.profinit.stm.repository.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
 import cz.profinit.stm.model.user.Guest;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("Main")
@@ -23,24 +22,24 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String EX_MSG = "User";
 
     @Override
-    public void insertRegisteredUser(@NonNull RegisteredUser registeredUser) throws EntityAlreadyExistsException {
-        if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) != null) {
+    public void insertUser(@NonNull User user) throws EntityAlreadyExistsException {
+        if (userMapperMyBatis.findUserById(user.getEntityId()) != null) {
             throw new EntityAlreadyExistsException(EX_MSG);
         }
-        userMapperMyBatis.insertUser(registeredUser);
+        userMapperMyBatis.insertUser(user);
     }
 
     @Override
-    public void updateRegisteredUser(@NonNull RegisteredUser registeredUser) throws EntityNotFoundException {
-        if (userMapperMyBatis.findUserById(registeredUser.getEntityId()) == null) {
+    public void updateUser(@NonNull User user) throws EntityNotFoundException {
+        if (userMapperMyBatis.findUserById(user.getEntityId()) == null) {
             throw new EntityNotFoundException(EX_MSG);
         }
-        userMapperMyBatis.updateUser(registeredUser);
+        userMapperMyBatis.updateUser(user);
     }
 
     @Override
-    public RegisteredUser findUserByEmail(@NonNull String email) throws EntityNotFoundException {
-        RegisteredUser foundUser = userMapperMyBatis.findUserByEmail(email);
+    public User findUserByEmail(@NonNull String email) throws EntityNotFoundException {
+        User foundUser = userMapperMyBatis.findUserByEmail(email);
         if (foundUser == null) {
             throw new EntityNotFoundException(EX_MSG);
         }
@@ -48,8 +47,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public RegisteredUser findUserById(@NonNull Long id) throws EntityNotFoundException {
-        RegisteredUser foundUser = userMapperMyBatis.findUserById(id);
+    public User findUserById(@NonNull Long id) throws EntityNotFoundException {
+        User foundUser = userMapperMyBatis.findUserById(id);
         if (foundUser == null) {
             throw new EntityNotFoundException(EX_MSG);
         }
@@ -57,7 +56,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteRegisteredUser(@NonNull Long userId) throws EntityNotFoundException {
+    public void deleteUser(@NonNull Long userId) throws EntityNotFoundException {
         if (userMapperMyBatis.findUserById(userId) == null) {
             throw new EntityNotFoundException(EX_MSG);
         }

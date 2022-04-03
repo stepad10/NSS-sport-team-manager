@@ -12,11 +12,10 @@ import cz.profinit.stm.dto.team.TeamDto;
 import cz.profinit.stm.exception.HttpExceptionHandler;
 import cz.profinit.stm.mapper.TeamMapper;
 import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 import cz.profinit.stm.oauth.PrincipalExtractorImpl;
 import cz.profinit.stm.service.team.TeamService;
 import cz.profinit.stm.service.user.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +63,7 @@ public class TeamController {
     @PostMapping("/team/createTeam/{name}/{sport}")
     public TeamDto createNewTeam(@PathVariable String name, @PathVariable String sport) {
         String email = principalExtractor.getPrincipalEmail();
-        RegisteredUser user = null;
+        User user = null;
         try {
             user = userService.findUserByEmail(email);
         } catch (Exception e) {
@@ -157,7 +156,7 @@ public class TeamController {
     @PutMapping("team/{teamId}/user/{userEmail}")
     public TeamDto addUserToTeam(@PathVariable Long teamId, @PathVariable String userEmail) {
 
-        RegisteredUser user = new RegisteredUser();
+        User user = new User();
         Team team = new Team();
 
         try {
@@ -185,7 +184,7 @@ public class TeamController {
      */
     @DeleteMapping("team/{teamId}/user/{userEmail}")
     public TeamDto deleteUserFromTeam(@PathVariable Long teamId, @PathVariable String userEmail) {
-        RegisteredUser user = new RegisteredUser();
+        User user = new User();
         Team team = new Team();
 
         try {
@@ -216,7 +215,7 @@ public class TeamController {
                                           @PathVariable String subgroupName,
                                           @PathVariable String userEmail) {
 
-        RegisteredUser user = new RegisteredUser();
+        User user = new User();
         Team team = new Team();
 
         try {
@@ -248,7 +247,7 @@ public class TeamController {
                                      @PathVariable String subgroupName,
                                      @PathVariable String userEmail) {
 
-        RegisteredUser user = new RegisteredUser();
+        User user = new User();
         Team team = new Team();
 
         try {
@@ -331,7 +330,7 @@ public class TeamController {
      */
     @PutMapping("team/{teamId}/teamOwner/{newOwnerEmail}")
     public TeamDto changeTeamOwner(@PathVariable Long teamId, @PathVariable String newOwnerEmail) {
-        RegisteredUser user = new RegisteredUser();
+        User user = new User();
         Team team = new Team();
         try {
             user = userService.findUserByEmail(newOwnerEmail);

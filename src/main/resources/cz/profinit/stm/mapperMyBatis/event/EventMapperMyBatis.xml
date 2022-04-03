@@ -12,7 +12,7 @@
         <association property="place" javaType="Place">
             <id property="entityId" column="c_place_id"/>
         </association>
-        <association property="createdBy" javaType="RegisteredUser">
+        <association property="createdBy" javaType="User">
             <id property="entityId" column="c_created_by"/>
         </association>
     </resultMap>

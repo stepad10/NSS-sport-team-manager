@@ -8,19 +8,17 @@
 
 package cz.profinit.stm.mapper;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import cz.profinit.stm.dto.user.UserDetailsDto;
+import cz.profinit.stm.dto.user.UserDto;
+import cz.profinit.stm.model.user.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import cz.profinit.stm.dto.user.RegisteredUserDto;
-import cz.profinit.stm.dto.user.UserDetailsDto;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,53 +27,53 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringRunner.class)
 public class UserMapperTest {
-    private RegisteredUser registeredUser1;
-    private RegisteredUserDto registeredUserDto1;
-    private List<RegisteredUser> registeredUserList;
-    private List<RegisteredUserDto> registeredUserDtoList;
+    private User user1;
+    private UserDto userDto1;
+    private List<User> userList;
+    private List<UserDto> userDtoList;
     private UserDetailsDto userDetailsDTO;
 
     @Before
     public void setUp() {
-        registeredUser1 = new RegisteredUser("Tomas", "Smutny", "pass1", "ts@gmail.com", RoleEnum.USER);
-        RegisteredUser registeredUser2 = new RegisteredUser("Ivan", "Stastny", "pass2", "is@gmail.com", RoleEnum.USER);
-        registeredUserDto1 = new RegisteredUserDto("Tomas", "Smutny", "ts@gmail.com");
-        RegisteredUserDto registeredUserDto2 = new RegisteredUserDto("Ivan", "Stastny", "is@gmail.com");
-        registeredUserList = new ArrayList<>();
-        registeredUserDtoList = new ArrayList<>();
-        registeredUserList.add(registeredUser1);
-        registeredUserList.add(registeredUser2);
-        registeredUserDtoList.add(registeredUserDto1);
-        registeredUserDtoList.add(registeredUserDto2);
+        user1 = new User("Tomas", "Smutny", "pass1", "ts@gmail.com");
+        User user2 = new User("Ivan", "Stastny", "pass2", "is@gmail.com");
+        userDto1 = new UserDto("Tomas", "Smutny", "ts@gmail.com");
+        UserDto userDto2 = new UserDto("Ivan", "Stastny", "is@gmail.com");
+        userList = new ArrayList<>();
+        userDtoList = new ArrayList<>();
+        userList.add(user1);
+        userList.add(user2);
+        userDtoList.add(userDto1);
+        userDtoList.add(userDto2);
         userDetailsDTO = new UserDetailsDto("ts@gmail.com", "pass1", "Tomas", "Smutny");
     }
 
     @Test
-    public void mapRegistredUserToRegistredUserDTO() {
-        Assert.assertEquals(registeredUserDto1, UserMapper.mapRegisteredUserToRegisteredUserDTO(registeredUser1));
+    public void mapUserToUserDTO() {
+        Assert.assertEquals(userDto1, UserMapper.mapUserToUserDTO(user1));
     }
 
     @Test
-    public void mapRegistredUserDTOToRegistredUser() {
-        registeredUser1.setPassword(null);
-        Assert.assertEquals(registeredUser1, UserMapper.mapRegisteredUserDTOToRegisteredUser(registeredUserDto1));
+    public void mapUserDTOToUser() {
+        user1.setPassword(null);
+        Assert.assertEquals(user1, UserMapper.mapUserDTOToUser(userDto1));
     }
 
     @Test
-    public void mapRegistredUserDTOListToRegistredUserList() {
-        registeredUserList.get(0).setPassword(null);
-        registeredUserList.get(1).setPassword(null);
-        assertEquals(registeredUserList, UserMapper.mapRegisteredUserDTOListToRegisteredUserList(registeredUserDtoList));
+    public void mapUserDTOListToUserList() {
+        userList.get(0).setPassword(null);
+        userList.get(1).setPassword(null);
+        assertEquals(userList, UserMapper.mapUserDTOListToUserList(userDtoList));
 
     }
 
     @Test
-    public void mapRegistredUserListToRegistredUserDTOList() {
-        assertEquals(registeredUserDtoList, UserMapper.mapRegisteredUserListToRegisteredUserDTOList(registeredUserList));
+    public void mapUserListToUserDTOList() {
+        assertEquals(userDtoList, UserMapper.mapUserListToUserDTOList(userList));
     }
 
     @Test
-    public void mapUserDetailsDTOToRegisteredUser() {
-        Assert.assertEquals(registeredUser1, UserMapper.mapUserDetailsDTOToRegisteredUser(userDetailsDTO));
+    public void mapUserDetailsDTOToUser() {
+        Assert.assertEquals(user1, UserMapper.mapUserDetailsDTOToUser(userDetailsDTO));
     }
 }

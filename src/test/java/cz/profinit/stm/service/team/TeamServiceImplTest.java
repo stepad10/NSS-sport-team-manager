@@ -12,13 +12,11 @@ import cz.profinit.stm.configuration.StubRepositoryConfiguration;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.team.Team;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
 import cz.profinit.stm.repository.subgroup.SubgroupRepository;
 import cz.profinit.stm.repository.team.TeamRepository;
-import cz.profinit.stm.repository.user.UserRepository;
 import cz.profinit.stm.repository.team.TeamRepositoryStub;
-
+import cz.profinit.stm.repository.user.UserRepository;
+import cz.profinit.stm.model.user.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,9 +39,9 @@ public class TeamServiceImplTest {
 
     private final String ALL_USER_SUBGROUP = "All Users";
     private final String COACHES_SUBGROUP = "Coaches";
-    private RegisteredUser presetUser;
+    private User presetUser;
     private Team presetTeam;
-    private RegisteredUser dummyUser;
+    private User dummyUser;
 
     private TeamServiceImpl teamService;
 
@@ -66,12 +64,11 @@ public class TeamServiceImplTest {
         presetTeam = TeamRepositoryStub.getPresetTeam();
         presetUser = presetTeam.getOwner();
 
-        dummyUser = new RegisteredUser(
+        dummyUser = new User(
                 "Honza",
                 "Kral",
                 "asd",
-                "a@b.c",
-                RoleEnum.USER);
+                "a@b.c");
         dummyUser.setEntityId(99L);
     }
 
@@ -133,7 +130,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void addUserToTeam() throws EntityNotFoundException, EntityAlreadyExistsException {
-        RegisteredUser user = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
+        User user = new User("Tomas", "Smutny", "pass2", "ts@gmail.com");
         teamService.addUserToTeam(presetTeam.getEntityId(), user);
         assertTrue(presetTeam.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user));
     }
@@ -143,7 +140,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void addUserToSubgroupWhoIsNotInAllUsers() throws EntityNotFoundException, EntityAlreadyExistsException {
-        RegisteredUser user = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
+        User user = new User("Tomas", "Smutny", "pass2", "ts@gmail.com");
         teamService.addUserToSubgroup(presetTeam.getEntityId(), "Coaches", user);
         assertTrue(presetTeam.getTeamSubgroup(COACHES_SUBGROUP).isUserInList(user));
         assertTrue(presetTeam.getTeamSubgroup(ALL_USER_SUBGROUP).isUserInList(user));
@@ -242,7 +239,7 @@ public class TeamServiceImplTest {
      */
     @Test
     public void changeTeamOwnerWhoIsNotInCoaches() throws EntityNotFoundException, EntityAlreadyExistsException {
-        RegisteredUser user = presetTeam.getTeamSubgroup(ALL_USER_SUBGROUP).getUser("email@gmail.com");
+        User user = presetTeam.getTeamSubgroup(ALL_USER_SUBGROUP).getUser("email@gmail.com");
         teamService.changeTeamOwner(presetTeam.getEntityId(), user);
         assertTrue(presetTeam.getTeamSubgroup(COACHES_SUBGROUP).isUserInList(user));
         Assert.assertEquals(user, presetTeam.getOwner());

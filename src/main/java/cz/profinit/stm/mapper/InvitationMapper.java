@@ -10,7 +10,6 @@ package cz.profinit.stm.mapper;
 
 import cz.profinit.stm.dto.invitation.InvitationDto;
 import cz.profinit.stm.model.invitation.Invitation;
-
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

@@ -9,9 +9,7 @@ package cz.profinit.stm.repository.user;
 
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.user.Guest;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
-
+import cz.profinit.stm.model.user.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -24,46 +22,45 @@ import java.util.logging.Logger;
 @Profile("stub_repository")
 public class UserRepositoryStub implements UserRepository {
     private final Logger logger = Logger.getLogger(String.valueOf(getClass()));
-    public static RegisteredUser loggedUser1 = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
-    private final RegisteredUser loggedUser2 = new RegisteredUser("Pavel", "Smutny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@seznam.cz", RoleEnum.USER);
-    private final RegisteredUser loggedUser3 = new RegisteredUser("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz", RoleEnum.USER);
-    private final RegisteredUser loggedUser4 = new RegisteredUser("Tomas", "Smutny", "pass2", "ts@gmail.com", RoleEnum.USER);
-    public static RegisteredUser loggedUser5 = new RegisteredUser("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com", RoleEnum.USER);
+    public static User loggedUser1 = new User("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com");
+    private final User loggedUser2 = new User("Pavel", "Smutny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@seznam.cz");
+    private final User loggedUser3 = new User("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz");
+    private final User loggedUser4 = new User("Tomas", "Smutny", "pass2", "ts@gmail.com");
+    public static User loggedUser5 = new User("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com");
 
     @Override
-    public void insertRegisteredUser(RegisteredUser registeredUser) {
+    public void insertUser(User user) {
         logger.info("User saved to database");
-        registeredUser.setEntityId(10L);
+        user.setEntityId(10L);
     }
 
     /**
      * Virtually save user to database
      *
-     * @param registeredUser saving user
+     * @param user saving user
      * @return saved user
      */
-    public RegisteredUser createRegistredUser(RegisteredUser registeredUser) {
+    public User createUser(User user) {
         logger.info("User saved to database");
-        return registeredUser;
+        return user;
     }
 
     @Override
-    public void updateRegisteredUser(RegisteredUser registeredUser) {
+    public void updateUser(User user) {
         logger.info("User saved to database");
     }
 
     @Override
-    public RegisteredUser findUserById(Long id) throws EntityNotFoundException {
-        return new RegisteredUser(
+    public User findUserById(Long id) throws EntityNotFoundException {
+        return new User(
                 "Ivan",
                 "Stastny",
                 "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2",
-                "is@gmail.com",
-                RoleEnum.USER);
+                "is@gmail.com");
     }
 
     @Override
-    public void deleteRegisteredUser(Long userId) {
+    public void deleteUser(Long userId) {
 
     }
 
@@ -76,7 +73,7 @@ public class UserRepositoryStub implements UserRepository {
      * @throws EntityNotFoundException when email is not equeal to any loggedUser
      */
     @Override
-    public RegisteredUser findUserByEmail(String userEmail) throws EntityNotFoundException {
+    public User findUserByEmail(String userEmail) throws EntityNotFoundException {
         switch (userEmail) {
         case "is@gmail.com":
             return loggedUser1;

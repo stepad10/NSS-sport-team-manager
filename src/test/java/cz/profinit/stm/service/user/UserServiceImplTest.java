@@ -12,11 +12,10 @@ import cz.profinit.stm.configuration.StubRepositoryConfiguration;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.user.Guest;
-import cz.profinit.stm.model.user.RegisteredUser;
 import cz.profinit.stm.model.user.RoleEnum;
 import cz.profinit.stm.repository.user.UserRepository;
 import cz.profinit.stm.repository.user.UserRepositoryStub;
-
+import cz.profinit.stm.model.user.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +25,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Unit tests for User service implementation
@@ -36,8 +37,8 @@ import static org.junit.Assert.*;
 @ActiveProfiles({"stub_repository"})
 public class UserServiceImplTest {
     private UserServiceImpl userService;
-    private RegisteredUser user;
-    private RegisteredUser user2;
+    private User user;
+    private User user2;
 
     private static final String key = "AES";
 
@@ -52,8 +53,8 @@ public class UserServiceImplTest {
         UserRepository userRepository = new UserRepositoryStub();
 
         userService = new UserServiceImpl(passwordEncoder, userRepository);
-        user = new RegisteredUser("Ivan", "Stastny", "pass", "is@gmail.com", RoleEnum.USER);
-        user2 = new RegisteredUser("Tomas", "Smutny", "pass", "ab@gmail.com", RoleEnum.USER);
+        user = new User("Ivan", "Stastny", "pass", "is@gmail.com");
+        user2 = new User("Tomas", "Smutny", "pass", "ab@gmail.com");
     }
 
     /**
@@ -61,7 +62,7 @@ public class UserServiceImplTest {
      */
     @Test
     public void newUserRegistration() throws EntityAlreadyExistsException {
-        RegisteredUser newUser = userService.newUserRegistration(user2);
+        User newUser = userService.newUserRegistration(user2);
         assertEquals(user2.getName(), newUser.getName());
         assertEquals(user2.getSurname(), newUser.getSurname());
         assertEquals(user2.getEmail(), newUser.getEmail());
@@ -87,7 +88,7 @@ public class UserServiceImplTest {
      */
     @Test
     public void userLogInSuccess() {
-        RegisteredUser user = userService.userLogIn("is@gmail.com", "pass");
+        User user = userService.userLogIn("is@gmail.com", "pass");
         assertEquals("is@gmail.com", user.getEmail());
         assertEquals("$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", user.getPassword());
         assertEquals("Stastny", user.getSurname());
@@ -101,7 +102,7 @@ public class UserServiceImplTest {
     @Test
     public void userLogInNotExistingUser() {
         try {
-            RegisteredUser user = userService.userLogIn("is@gmal.com", "pass");
+            User user = userService.userLogIn("is@gmal.com", "pass");
             assertNull(user);
         } catch (Exception e) {
             assertEquals("User and password do not match", e.getMessage());
@@ -114,7 +115,7 @@ public class UserServiceImplTest {
     @Test
     public void userLogInBadPassword() {
         try {
-            RegisteredUser user = userService.userLogIn("is@gmail.com", "pass24");
+            User user = userService.userLogIn("is@gmail.com", "pass24");
             assertNull(user);
         } catch (Exception e) {
             assertEquals("User and password do not match", e.getMessage());

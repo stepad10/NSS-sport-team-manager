@@ -10,7 +10,6 @@ package cz.profinit.stm.mapper;
 
 import cz.profinit.stm.dto.event.EventDto;
 import cz.profinit.stm.model.event.Event;
-
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +30,7 @@ public class EventMapper {
      */
     public static EventDto toDto(Event event) {
         return new EventDto(event.getEntityId(), event.getDate(), event.getCapacity(), event.getIsCanceled(),
-                PlaceMapper.toDto(event.getPlace()), UserMapper.mapRegisteredUserToRegisteredUserDTO(event.getCreatedBy()));
+                PlaceMapper.toDto(event.getPlace()), UserMapper.mapUserToUserDTO(event.getCreatedBy()));
     }
 
     /**
@@ -42,7 +41,7 @@ public class EventMapper {
      */
     public static Event toEvent(EventDto eventDto) {
         //TODO předělat ID
-        Event event = new Event(eventDto.getDate(), eventDto.getCapacity(), eventDto.isCanceled(), PlaceMapper.toPlace(eventDto.getPlace()), UserMapper.mapRegisteredUserDTOToRegisteredUser(eventDto.getCreatedBy()), new ArrayList<>(), new ArrayList<>());
+        Event event = new Event(eventDto.getDate(), eventDto.getCapacity(), eventDto.isCanceled(), PlaceMapper.toPlace(eventDto.getPlace()), UserMapper.mapUserDTOToUser(eventDto.getCreatedBy()), new ArrayList<>(), new ArrayList<>());
         event.setEntityId(eventDto.getId());
         return event;
     }

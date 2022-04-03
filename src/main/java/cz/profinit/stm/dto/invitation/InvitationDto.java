@@ -9,7 +9,7 @@
 package cz.profinit.stm.dto.invitation;
 
 import cz.profinit.stm.model.invitation.StatusEnum;
-import cz.profinit.stm.model.user.User;
+import cz.profinit.stm.model.user.UserParent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -22,7 +22,7 @@ public class InvitationDto implements Comparable<InvitationDto> {
     private LocalDateTime created;
     private LocalDateTime changed;
     private StatusEnum status;
-    private User isFor; //TODO Replace with UserDto
+    private UserParent isFor; //TODO Replace with UserDto
     private Long eventId;
 
     /**

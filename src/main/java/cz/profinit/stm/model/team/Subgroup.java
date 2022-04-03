@@ -9,7 +9,7 @@ package cz.profinit.stm.model.team;
 
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.entity.Entity;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Subgroup extends Entity {
     private String name;
-    private List<RegisteredUser> userList;
+    private List<User> userList;
     private Long teamId;
 
 
@@ -48,7 +48,7 @@ public class Subgroup extends Entity {
      *
      * @param user user which should be added
      */
-    public void addUser(RegisteredUser user) {
+    public void addUser(User user) {
         userList.add(user);
     }
 
@@ -57,7 +57,7 @@ public class Subgroup extends Entity {
      *
      * @param user user which should be removed
      */
-    public void removeUser(RegisteredUser user) throws EntityNotFoundException {
+    public void removeUser(User user) throws EntityNotFoundException {
         if (userList.contains(user)) {
             userList.remove(user);
         } else {
@@ -71,8 +71,8 @@ public class Subgroup extends Entity {
      * @return found user
      * @throws EntityNotFoundException if no user was found
      */
-    public RegisteredUser getUser(String email) throws EntityNotFoundException {
-        for (RegisteredUser regUs : userList) {
+    public User getUser(String email) throws EntityNotFoundException {
+        for (User regUs : userList) {
             if (regUs.getEmail().equals(email)) {
                 return regUs;
             }
@@ -86,7 +86,7 @@ public class Subgroup extends Entity {
      * @param user user which is looked for
      * @return true if user is in subgroup, false if not.
      */
-    public boolean isUserInList(RegisteredUser user) {
+    public boolean isUserInList(User user) {
         return userList.contains(user);
     }
 

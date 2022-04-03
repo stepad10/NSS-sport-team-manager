@@ -8,7 +8,6 @@
 
 package cz.profinit.stm.controller.event;
 
-import cz.profinit.stm.SportTeamManagerApplication;
 import cz.profinit.stm.SportTeamManagerApplicationTest;
 import cz.profinit.stm.dto.event.EventDto;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
@@ -17,11 +16,9 @@ import cz.profinit.stm.exception.UserIsAlreadyInEventException;
 import cz.profinit.stm.mapper.EventMapper;
 import cz.profinit.stm.model.event.Event;
 import cz.profinit.stm.model.event.Place;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
 import cz.profinit.stm.service.event.EventService;
 import cz.profinit.stm.service.invitation.InvitationService;
-
+import cz.profinit.stm.model.user.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,8 +71,7 @@ public class EventControllerTest {
     @Before
     public void setUp() throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
         Place place = new Place("Profinit","Tychonova 2", 1L);
-        RegisteredUser loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com",
-                RoleEnum.USER);
+        User loggedUser = new User("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com");
         event = new Event(LocalDateTime.now(), 5, false, place, loggedUser, new ArrayList<>(), new ArrayList<>());
         event.setEntityId(0L);
         eventService.createNewEvent(EventMapper.toDto(event));

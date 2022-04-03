@@ -15,7 +15,7 @@ import cz.profinit.stm.exception.NonValidUriException;
 import cz.profinit.stm.exception.UserIsAlreadyInEventException;
 import cz.profinit.stm.model.invitation.Invitation;
 import cz.profinit.stm.model.invitation.StatusEnum;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
 
 import java.util.List;
 
@@ -24,8 +24,8 @@ public interface InvitationService {
     Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, EntityAlreadyExistsException;
     Invitation changeInvitationStatus(Long eventId, String email, StatusEnum status) throws EntityNotFoundException;
     Invitation findInvitationByEventIdAndEmail(Long eventId,String email) throws EntityNotFoundException;
-    List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId)
-            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException;
+    List<Invitation> createNewInvitationsFromList (List<User> userList, Long eventId)
+            throws EntityNotFoundException, EntityAlreadyExistsException;
     List<InvitationDto> OrderListOfInvitationByDateForSpecificStatus (List<InvitationDto> invitationDtoList, StatusEnum status);
     void deleteInvitation (String email, Long eventId) throws EntityNotFoundException;
     Invitation getGuestInvitation (String uri) throws EntityNotFoundException, NonValidUriException;

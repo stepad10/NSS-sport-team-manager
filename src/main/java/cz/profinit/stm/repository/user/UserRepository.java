@@ -3,22 +3,23 @@ package cz.profinit.stm.repository.user;
 import cz.profinit.stm.exception.EntityAlreadyExistsException;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.user.Guest;
-import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.User;
+import lombok.NonNull;
 
 public interface UserRepository {
 
     /**
      * check if user already exists in db
-     * @param registeredUser user to insert
+     * @param user user to insert
      */
-    void insertRegisteredUser(RegisteredUser registeredUser) throws EntityAlreadyExistsException;
+    void insertUser(@NonNull User user) throws EntityAlreadyExistsException;
 
     /**
      * find user, if found then update
-     * @param registeredUser user to update
+     * @param user user to update
      * @throws EntityNotFoundException if registeredUser wasn't found
      */
-    void updateRegisteredUser(RegisteredUser registeredUser) throws EntityNotFoundException;
+    void updateUser(@NonNull User user) throws EntityNotFoundException;
 
     /**
      * find user by email, if null then throw
@@ -26,7 +27,7 @@ public interface UserRepository {
      * @return found user
      * @throws EntityNotFoundException if user wasn't found
      */
-    RegisteredUser findUserByEmail(String email) throws EntityNotFoundException;
+    User findUserByEmail(String email) throws EntityNotFoundException;
 
     /**
      * find user by id, if null then throw
@@ -34,7 +35,7 @@ public interface UserRepository {
      * @return found user
      * @throws EntityNotFoundException if user wasn't found
      */
-    RegisteredUser findUserById(Long id) throws EntityNotFoundException;
+    User findUserById(Long id) throws EntityNotFoundException;
 
 
     /**
@@ -42,7 +43,7 @@ public interface UserRepository {
      * @param userId id to find user to delete
      * @throws EntityNotFoundException user to be deleted wasn't found
      */
-    void deleteRegisteredUser(Long userId) throws EntityNotFoundException;
+    void deleteUser(Long userId) throws EntityNotFoundException;
 
     Guest insertGuest(Guest guest);
     Guest findGuestByUri(String uri) throws EntityNotFoundException;

@@ -1,16 +1,21 @@
 package cz.profinit.stm.model.user;
 
-import cz.profinit.stm.model.entity.Entity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class User extends Entity {
-    private String name;
-    private RoleEnum role;
+public class User extends UserParent {
+    private String surname;
+    private String password;
+    private String email;
+
+    public User(String name, String surname, String password, String email) {
+        super(name, RoleEnum.USER);
+        this.surname = surname;
+        this.password = password;
+        this.email = email;
+    }
 }

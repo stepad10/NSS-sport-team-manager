@@ -12,9 +12,7 @@ package cz.profinit.stm.repository.invitation;
 import cz.profinit.stm.exception.EntityNotFoundException;
 import cz.profinit.stm.model.invitation.Invitation;
 import cz.profinit.stm.model.invitation.StatusEnum;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
-
+import cz.profinit.stm.model.user.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -25,10 +23,10 @@ import java.time.LocalDateTime;
 public class InvitationRepositoryStub implements InvitationRepository {
 
     Invitation invitation;
-    RegisteredUser loggedUser;
+    User loggedUser;
 
     public InvitationRepositoryStub() {
-        loggedUser = new RegisteredUser("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com", RoleEnum.USER);
+        loggedUser = new User("Ivan", "Stastny", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@gmail.com");
         invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, loggedUser, 0L);
         invitation.setEntityId(0L);
     }

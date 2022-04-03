@@ -13,7 +13,6 @@ import cz.profinit.stm.repository.user.UserRepository;
 import cz.profinit.stm.service.user.AuthenticationFacade;
 import cz.profinit.stm.service.user.AuthenticationFacadeImpl;
 import cz.profinit.stm.service.user.UserDetailsServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

@@ -11,10 +11,8 @@ import cz.profinit.stm.oauth.PrincipalExtractorImpl;
 import cz.profinit.stm.repository.user.UserRepository;
 import cz.profinit.stm.service.user.AuthenticationFacade;
 import cz.profinit.stm.service.user.AuthenticationFacadeImpl;
-import cz.profinit.stm.service.user.UserDetailsServiceImpl;
 import cz.profinit.stm.service.user.UserDetailsImpl;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import cz.profinit.stm.service.user.UserDetailsServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +22,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.ActiveProfiles;
 
 
 /**
