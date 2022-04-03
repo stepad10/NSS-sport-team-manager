@@ -32,21 +32,14 @@ import org.springframework.test.context.ActiveProfiles;
  */
 @Configuration
 @Profile("authentication")
-@ActiveProfiles("stub_repository")
 @Import(PasswordEncoderConfiguration.class)
 public class AuthenticationConfigurationTest {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ApplicationContext context;
-
-
 
     /**
      * Initialize Authentication provider.
      */
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider authenticationProvider(ApplicationContext context, UserRepository userRepository) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         UserDetailsService userDetailsService = new UserDetailsServiceImpl(userRepository);
         UserDetails userDetails = new UserDetailsImpl();

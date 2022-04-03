@@ -55,12 +55,12 @@ public class InvitationServiceImpl implements InvitationService {
      * @param eventId ID of event for which is new invitation is created
      * @return created invitation
      * @throws EntityNotFoundException if entity is not found.
-     * @throws UserIsAlreadyInEventException user was already invited to an Event
+     * @throws EntityNotFoundException user was already invited to an Event
      */
     public Invitation createNewInvitation(String email, Long eventId)
-            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
+            throws EntityNotFoundException, EntityAlreadyExistsException {
         if (invitationRepository.isUserInvitedToEvent(email, eventId)) {
-            throw new UserIsAlreadyInEventException();
+            throw new EntityAlreadyExistsException("User");
         }
         Invitation invitation = new Invitation(LocalDateTime.now(), LocalDateTime.now(), StatusEnum.PENDING, userService.findUserByEmail(email), eventId);
         invitationRepository.insertInvitation(invitation);

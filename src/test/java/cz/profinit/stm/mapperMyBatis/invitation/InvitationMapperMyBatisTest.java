@@ -1,9 +1,6 @@
 package cz.profinit.stm.mapperMyBatis.invitation;
 
-import cz.profinit.stm.configuration.MyBatisConfigurationTest;
-import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
-import cz.profinit.stm.model.invitation.Invitation;
-import cz.profinit.stm.model.invitation.StatusEnum;
+import java.time.LocalDateTime;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,11 +12,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
+import cz.profinit.stm.configuration.MyBatisConfiguration;
+import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
+import cz.profinit.stm.model.invitation.Invitation;
+import cz.profinit.stm.model.invitation.StatusEnum;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@ContextConfiguration(classes = MyBatisConfigurationTest.class)
+@ContextConfiguration(classes = MyBatisConfiguration.class)
 @TestPropertySource("/test.properties")
 public class InvitationMapperMyBatisTest {
 

@@ -183,13 +183,11 @@ public class InvitationServiceImplTest {
 
     /**
      * Testing creation of a new exception with user who was already invited throws exception.
-     * @throws EntityNotFoundException Throws when entity is not found.
-     * @throws UserIsAlreadyInEventException Throws when user is already invited to the event.
      */
-    @Test (expected = UserIsAlreadyInEventException.class)
-    public void invitingUserWhichIsAlreadyInvitedThrowsUserIsAlreadyInEventException()
-            throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException {
-        invitationService.createNewInvitation("ts@gmail.com",0L);
+    @Test
+    public void invitingUserWhichIsAlreadyInvitedThrowsUserIsAlreadyInEventException() {
+        Exception e = Assert.assertThrows(EntityAlreadyExistsException.class, () -> invitationService.createNewInvitation("ts@gmail.com",0L));
+        Assert.assertEquals(new EntityAlreadyExistsException("User").getMessage(), e.getMessage());
     }
 
     /**

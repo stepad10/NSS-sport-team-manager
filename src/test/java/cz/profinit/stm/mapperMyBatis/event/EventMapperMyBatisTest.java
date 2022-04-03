@@ -1,9 +1,7 @@
 package cz.profinit.stm.mapperMyBatis.event;
 
-import cz.profinit.stm.configuration.MyBatisConfigurationTest;
-import cz.profinit.stm.mapperMyBatis.place.PlaceMapperMyBatis;
-import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
-import cz.profinit.stm.model.event.Event;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,12 +13,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import cz.profinit.stm.configuration.MyBatisConfiguration;
+import cz.profinit.stm.mapperMyBatis.place.PlaceMapperMyBatis;
+import cz.profinit.stm.mapperMyBatis.user.UserMapperMyBatis;
+import cz.profinit.stm.model.event.Event;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@ContextConfiguration(classes = MyBatisConfigurationTest.class)
+@ContextConfiguration(classes = MyBatisConfiguration.class)
 @TestPropertySource("/test.properties")
 public class EventMapperMyBatisTest {
 

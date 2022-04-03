@@ -8,10 +8,6 @@
 
 package cz.profinit.stm.mapperMyBatis.user;
 
-import cz.profinit.stm.configuration.MyBatisConfigurationTest;
-import cz.profinit.stm.model.user.RegisteredUser;
-import cz.profinit.stm.model.user.RoleEnum;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,12 +18,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import cz.profinit.stm.configuration.MyBatisConfiguration;
+import cz.profinit.stm.model.user.RegisteredUser;
+import cz.profinit.stm.model.user.RoleEnum;
+
 /**
  * Unit tests for User mapper
  */
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@ContextConfiguration(classes = MyBatisConfigurationTest.class)
+@ContextConfiguration(classes = MyBatisConfiguration.class)
 @TestPropertySource("/test.properties")
 public class UserMapperMyBatisTest {
 
