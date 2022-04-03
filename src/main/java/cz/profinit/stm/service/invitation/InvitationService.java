@@ -21,7 +21,7 @@ import java.util.List;
 
 public interface InvitationService {
 
-    Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, UserIsAlreadyInEventException, EntityAlreadyExistsException;
+    Invitation createNewInvitation(String email, Long eventId) throws EntityNotFoundException, EntityAlreadyExistsException;
     Invitation changeInvitationStatus(Long eventId, String email, StatusEnum status) throws EntityNotFoundException;
     Invitation findInvitationByEventIdAndEmail(Long eventId,String email) throws EntityNotFoundException;
     List<Invitation> createNewInvitationsFromList (List<RegisteredUser> userList, Long eventId)

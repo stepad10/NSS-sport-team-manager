@@ -12,6 +12,7 @@ import cz.profinit.stm.service.user.UserServiceStub;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,10 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @Profile({"stub_service"})
-@ComponentScan(basePackageClasses = { TeamServiceStub.class, UserServiceStub.class})
+@ComponentScan(basePackages = "cz.profinit.stm.repository")
+@Import(PasswordEncoderConfiguration.class)
 public class StubServiceConfiguration {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

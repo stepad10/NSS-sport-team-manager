@@ -28,14 +28,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @Import(PasswordEncoderConfiguration.class)
 public class WebApplicationConfigurationTest extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    private DaoAuthenticationProvider authenticationProvider;
-    private final UserRepository userRepository = new UserRepositoryStub();
+
     /**
      * Adds stubs authenticated users to in memory storage.
      */
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(final AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("user1").password(passwordEncoder.encode("1")).roles("USER")
                 .and()

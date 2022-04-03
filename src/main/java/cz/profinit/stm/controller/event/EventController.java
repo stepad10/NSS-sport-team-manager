@@ -167,11 +167,11 @@ public class EventController {
     public InvitationDto addNewInvitation(@PathVariable Long eventId, @PathVariable String email){
         try {
            return InvitationMapper.toDto(invitationService.createNewInvitation(email,eventId));
-        } catch (EntityNotFoundException | UserIsAlreadyInEventException | EntityAlreadyExistsException e) {
+        } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
             e.printStackTrace();
-            if (e.getMessage().contains("entity")) {
+            if (e.getClass().equals(EntityNotFoundException.class)) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-            } else if (e.getMessage().contains("User is already invited!")){
+            } else if (e.getClass().equals(EntityAlreadyExistsException.class)){
                 throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage(), e);
             }
         }
@@ -212,9 +212,9 @@ public class EventController {
             return InvitationMapper.toDto(invitationService.changeInvitationStatus(eventId, userDetails.getUsername(),status));
         } catch (EntityNotFoundException | IllegalArgumentException e) {
             e.printStackTrace();
-            if (e.getMessage().contains("entity"))
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
-            else{
+            if (e.getClass().equals(EntityNotFoundException.class)) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+            } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
             }
         }
@@ -235,7 +235,7 @@ public class EventController {
             return invitationService.OrderListOfInvitationByDateForSpecificStatus(InvitationMapper.toDtoList(eventService.getAllInvitations(eventId)), status);
         } catch (EntityNotFoundException | IllegalArgumentException e) {
             e.printStackTrace();
-            if (e.getMessage().contains("entity")) {
+            if (e.getClass().equals(EntityNotFoundException.class)) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
@@ -256,7 +256,7 @@ public class EventController {
             return ((Guest) invitationService.createGuestInvitation(eventId,name).getRecipient()).getUri();
         } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
             e.printStackTrace();
-            if (e.getMessage().contains("entity"))
+            if (e.getClass().equals(EntityNotFoundException.class))
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
             else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
@@ -276,7 +276,7 @@ public class EventController {
             return InvitationMapper.toDto(invitationService.getGuestInvitation(uri));
         } catch (EntityNotFoundException | NonValidUriException e) {
             e.printStackTrace();
-            if (e.getMessage().contains("entity"))
+            if (e.getClass().equals(EntityNotFoundException.class))
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
             else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
@@ -298,7 +298,7 @@ public class EventController {
             return InvitationMapper.toDto(invitationService.changeGuestInvitation(uri,status));
         } catch (EntityNotFoundException | IllegalArgumentException | NonValidUriException e) {
             e.printStackTrace();
-            if (e.getMessage().contains("entity"))
+            if (e.getClass().equals(EntityNotFoundException.class))
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(),e);
             else{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage(),e);
