@@ -29,7 +29,6 @@ public class Subgroup extends Entity {
     private List<User> userList;
     private Long teamId;
 
-
     /**
      * Sole class constructor.
      *
@@ -41,7 +40,6 @@ public class Subgroup extends Entity {
         this.teamId = teamId;
         this.userList = new ArrayList<>();
     }
-
 
     /**
      * Adds user to the user list.
@@ -89,5 +87,4 @@ public class Subgroup extends Entity {
     public boolean isUserInList(User user) {
         return userList.contains(user);
     }
-
 }

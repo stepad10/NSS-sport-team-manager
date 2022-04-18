@@ -27,6 +27,7 @@ public class UserRepositoryStub implements UserRepository {
     private final User loggedUser3 = new User("Jirka", "Vesely", "$2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "is@email.cz");
     private final User loggedUser4 = new User("Tomas", "Smutny", "pass2", "ts@gmail.com");
     public static User loggedUser5 = new User("Adam", "Stastny", "2a$10$ruiQYEnc3bXdhWuCC/q.E.D.1MFk2thcPO/fVrAuFDuugjm3XuLZ2", "email@gmail.com");
+    private final Guest guest = new Guest("Tom","UG1qimsuz2RsW5MrAQM0Wg==");
 
     @Override
     public void insertUser(User user) {
@@ -93,16 +94,23 @@ public class UserRepositoryStub implements UserRepository {
     //TODO IMPLEMENT THESE
     @Override
     public Guest insertGuest(Guest guest) {
-        return null;
+        guest.setEntityId(1L);
+        return guest;
     }
 
     @Override
     public Guest findGuestByUri(String uri) throws EntityNotFoundException {
-        return null;
+        if (uri.equals("UG1qimsuz2RsW5MrAQM0Wg==")) {
+            return guest;
+        } else if (uri.equals("jsem_place_holder")) {
+            return guest;
+        } else {
+            throw new EntityNotFoundException("Guest");
+        }
     }
 
     @Override
     public Guest updateGuest(Guest guest) {
-        return null;
+        return guest;
     }
 }

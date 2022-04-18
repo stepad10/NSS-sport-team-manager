@@ -178,7 +178,8 @@ public class UserServiceStub implements UserService {
             return guest;
         } else {
             throw new EntityNotFoundException("Guest");
-        }    }
+        }
+    }
 
     /**
      * Returns STUB user found by email. Two possible users with email "email@gmail.com" or "ts@gmail.com" are returned.

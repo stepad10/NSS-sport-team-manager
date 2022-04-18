@@ -354,9 +354,9 @@ public class EventControllerTest {
     @Test
     public void addNewInvitationTwiceThrowsUserAlreadyInvitedException() throws Exception {
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/event/0/invitation/is@gmail.com")).
+                        MockMvcRequestBuilders.post("/event/0/invitation/dvakrat@gmail.com")).
                 andExpect(MockMvcResultMatchers.status().isConflict()).
-                andExpect((MockMvcResultMatchers.status().reason("User is already invited!")));
+                andExpect((MockMvcResultMatchers.status().reason(new EntityAlreadyExistsException("User").getMessage())));
 
     }
 
@@ -403,10 +403,10 @@ public class EventControllerTest {
     @WithUserDetails("is@gmail.com")
     public void changeInvitationStatusForInvalidStatusValueReturnsBadRequestHttpStatus() throws Exception {
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/event/0/invitation/statusChange/ACCEPTED")).
+                        MockMvcRequestBuilders.post("/event/0/invitation/statusChange/NONEXISTENT")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
                 andExpect((MockMvcResultMatchers.status()
-                        .reason("No enum constant cz.profinit.stm.model.invitation.StatusEnum.ACCEPTED")));
+                        .reason("No enum constant eu.profinit.stm.model.invitation.StatusEnum.NONEXISTENT")));
     }
 
     /**
@@ -451,7 +451,7 @@ public class EventControllerTest {
                         MockMvcRequestBuilders.get("/event/0/invitations/SENDING/sorted")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
                 andExpect((MockMvcResultMatchers.status()
-                        .reason("No enum constant cz.profinit.stm.model.invitation.StatusEnum.SENDING")));
+                        .reason("No enum constant eu.profinit.stm.model.invitation.StatusEnum.SENDING")));
     }
 
     /**
@@ -555,6 +555,6 @@ public class EventControllerTest {
                         MockMvcRequestBuilders.post("/guest/invitation/mxPR4fbWzvai60UMLhD3aw==/statusChange/THROWN")).
                 andExpect(MockMvcResultMatchers.status().isBadRequest()).
         andExpect((MockMvcResultMatchers.status()
-                .reason("No enum constant cz.profinit.stm.model.invitation.StatusEnum.THROWN")));
+                .reason("No enum constant eu.profinit.stm.model.invitation.StatusEnum.THROWN")));
     }
 }

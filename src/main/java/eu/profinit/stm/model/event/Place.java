@@ -25,5 +25,4 @@ public class Place extends Entity {
     private String name;
     private String address;
     private Long teamId;
-
 }

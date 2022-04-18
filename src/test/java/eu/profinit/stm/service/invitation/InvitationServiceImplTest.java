@@ -121,18 +121,19 @@ public class InvitationServiceImplTest {
     }
 
     /**
-     * Testing createNewInvitationsFromList with same user throws UserIsAlreadyInEventException
+     * Testing createNewInvitationsFromList with same user throws EntityAlreadyExistsException
      * @throws EntityNotFoundException throws if entity is not found
      * @throws EntityAlreadyExistsException thrown when user is already invited
      */
-    @Test (expected = EntityAlreadyExistsException.class)
+    @Test
     public void createNewInvitationsFromListThrowsUserIsAlreadyInEventException()
             throws EntityNotFoundException, EntityAlreadyExistsException {
         List<User> users = new ArrayList<>();
-        users.add(new User("Ivan", "Stastny", "pass", "is@gmail.com"));
-        users.add(new User("Tomas", "Smutny", "pass2", "ts@gmail.com"));
+        users.add(new User("Ivan", "Stastny", "pass", "dvakrat@gmail.com"));
+        users.add(new User("Tomas", "Smutny", "pass2", "dvakrat@gmail.com"));
 
-        List<Invitation> invitationList = invitationService.createNewInvitationsFromList(users, 0L);
+        Exception e = Assert.assertThrows(EntityAlreadyExistsException.class, () -> invitationService.createNewInvitationsFromList(users, 0L));
+        Assert.assertEquals(new EntityAlreadyExistsException("User").getMessage(), e.getMessage());
     }
 
     /**
@@ -164,11 +165,11 @@ public class InvitationServiceImplTest {
             result.add(InvitationMapper.toDto(invitation));
         }
 
-        result = invitationService.OrderListOfInvitationByDateForSpecificStatus(result,StatusEnum.ACCEPTED);
+        result = invitationService.OrderListOfInvitationByDateForSpecificStatus(result, StatusEnum.ACCEPTED);
 
-        Assert.assertEquals(invitationList.get(1).getChanged(),result.get(0).getChanged());
-        Assert.assertEquals(invitationList.get(3).getChanged(),result.get(1).getChanged());
-        Assert.assertEquals(invitationList.get(2).getChanged(),result.get(2).getChanged());
+        Assert.assertEquals(invitationList.get(1).getChanged(), result.get(0).getChanged());
+        Assert.assertEquals(invitationList.get(3).getChanged(), result.get(1).getChanged());
+        Assert.assertEquals(invitationList.get(2).getChanged(), result.get(2).getChanged());
     }
 
     /**
@@ -185,7 +186,7 @@ public class InvitationServiceImplTest {
      */
     @Test
     public void invitingUserWhichIsAlreadyInvitedThrowsUserIsAlreadyInEventException() {
-        Exception e = Assert.assertThrows(EntityAlreadyExistsException.class, () -> invitationService.createNewInvitation("ts@gmail.com",0L));
+        Exception e = Assert.assertThrows(EntityAlreadyExistsException.class, () -> invitationService.createNewInvitation("dvakrat@gmail.com",0L));
         Assert.assertEquals(new EntityAlreadyExistsException("User").getMessage(), e.getMessage());
     }
 

@@ -39,6 +39,7 @@ public class UserServiceImplTest {
     private UserServiceImpl userService;
     private User user;
     private User user2;
+    private Guest guestDetails;
 
     private static final String key = "AES";
 
@@ -55,6 +56,7 @@ public class UserServiceImplTest {
         userService = new UserServiceImpl(passwordEncoder, userRepository);
         user = new User("Ivan", "Stastny", "pass", "is@gmail.com");
         user2 = new User("Tomas", "Smutny", "pass", "ab@gmail.com");
+        guestDetails = new Guest("Tom", "UG1qimsuz2RsW5MrAQM0Wg==");
     }
 
     /**
@@ -128,10 +130,10 @@ public class UserServiceImplTest {
      */
     @Test
     public void createNewGuestCreatesNewGuest() throws EntityNotFoundException {
-        Guest guest = userService.createNewGuest("Karel", 0L);
-        assertEquals("Karel",guest.getName());
-        assertEquals(RoleEnum.GUEST,guest.getRole());
-        assertEquals("mxPR4fbWzvai60UMLhD3aw==",guest.getUri());
+        Guest guest = userService.createNewGuest(guestDetails.getName(), 0L);
+        assertEquals(guestDetails.getName(), guest.getName());
+        assertEquals(guestDetails.getRole(), guest.getRole());
+        assertEquals(guestDetails.getUri(), guest.getUri());
     }
 
     /**
@@ -140,10 +142,10 @@ public class UserServiceImplTest {
      */
     @Test
     public void findGuestByUriFindsGuestByUri() throws EntityNotFoundException {
-       Guest guest =  userService.findGuestByUri("mxPR4fbWzvai60UMLhD3aw==");
-        assertEquals("Karel",guest.getName());
-        assertEquals(RoleEnum.GUEST,guest.getRole());
-        assertEquals("mxPR4fbWzvai60UMLhD3aw==",guest.getUri());
+       Guest guest =  userService.findGuestByUri(guestDetails.getUri());
+        assertEquals(guestDetails.getName(), guest.getName());
+        assertEquals(guestDetails.getRole(), guest.getRole());
+        assertEquals(guestDetails.getUri(), guest.getUri());
     }
 
     /**
@@ -152,7 +154,7 @@ public class UserServiceImplTest {
     @Test
     public void findGuestByUriThrownEntityNotFoundExceptionForNonExistentGuest() {
         try {
-            userService.findGuestByUri("mxPR4fbWzvai60UMLhD3aw==");
+            userService.findGuestByUri(guestDetails.getUri());
         } catch (EntityNotFoundException e) {
             assertEquals("Guest entity not found!", e.getMessage());
         }

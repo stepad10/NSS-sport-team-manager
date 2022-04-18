@@ -24,7 +24,7 @@
                 <constraints nullable="false" foreignKeyName="event_user_fk" references="t_user(c_id)"/>
             </column>
             <column name="c_place_id" type="INT">
-                <constraints nullable="false" foreignKeyName="event_place_fk" references="t_place(c_id)"/>
+                <constraints nullable="true" foreignKeyName="event_place_fk" references="t_place(c_id)"/>
             </column>
         </createTable>
     </changeSet>

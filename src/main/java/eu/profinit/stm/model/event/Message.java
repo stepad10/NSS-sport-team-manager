@@ -29,5 +29,4 @@ public class Message extends Entity {
     private String text;
     private LocalDateTime date;
     private Long eventId;
-
 }

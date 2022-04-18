@@ -136,10 +136,11 @@ public class InvitationServiceStub implements InvitationService {
     public List<Invitation> createNewInvitationsFromList(List<User> userList, Long eventId)
             throws EntityNotFoundException, EntityAlreadyExistsException {
         List<Invitation> invitationList = new ArrayList<>();
-        for(User user: userList){
-            invitationList.add(createNewInvitation(user.getEmail(),eventId));
+        for(User user: userList) {
+            invitationList.add(createNewInvitation(user.getEmail(), eventId));
         }
-        return invitationList;    }
+        return invitationList;
+    }
 
     /**
      * Filter invitation list by status and sort it according to "changed" date from oldest to newest
@@ -234,7 +235,7 @@ public class InvitationServiceStub implements InvitationService {
 
     /**
      * Finds invitation by uri and changes its status
-     * @param uri identificaton od invitation
+     * @param uri identification od invitation
      * @param status status to which invitation should be changed
      * @return updated invitation
      * @throws NonValidUriException thrown when uri is not valid

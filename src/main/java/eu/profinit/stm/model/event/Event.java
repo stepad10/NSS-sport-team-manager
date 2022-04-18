@@ -40,8 +40,8 @@ public class Event extends Entity {
      * Adds new message to the Event
      * @param message Message that needs to be saved.
      */
-    public void addNewMessage (Message message){
-        if(!messageList.contains(message)){
+    public void addNewMessage (Message message) {
+        if (!messageList.contains(message)) {
             messageList.add(message);
         }
     }
@@ -50,8 +50,8 @@ public class Event extends Entity {
      * Adds new invitation to the Event
      * @param invitation Invitation that needs to be saved.
      */
-    public void addNewInvitation (Invitation invitation){
-        if(!invitationList.contains(invitation)){
+    public void addNewInvitation (Invitation invitation) {
+        if (!invitationList.contains(invitation)) {
             invitationList.add(invitation);
         }
     }

@@ -67,7 +67,7 @@ public class InvitationRepositoryStub implements InvitationRepository {
     @Override
     public boolean isUserInvitedToEvent(String userEmail, Long eventId) throws EntityNotFoundException {
         if (eventId == 1L) throw new EntityNotFoundException("Event");
-        return userEmail.equals("ts@gmail.com");
+        return userEmail.equals("dvakrat@gmail.com");
     }
 
     @Override

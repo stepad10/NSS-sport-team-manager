@@ -30,7 +30,6 @@ public class Team extends Entity {
     private List<Subgroup> subgroupList;
     private User owner;
 
-
     /**
      * Create a new subgroup and adds it to the list of subgroups.
      *
