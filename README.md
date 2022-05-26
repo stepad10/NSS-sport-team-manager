@@ -3,3 +3,5 @@
 Aplikace slouží k podpoře organizace týmových aktivit.
 
 Popis funkcí je uveden na wiki
+
+Cache: browser a MyBatis cache
