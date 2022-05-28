@@ -10,8 +10,15 @@ import { LoginComponent } from './login/login.component';
 import { ProcessHttpMsgService } from './services/process-http-msg.service';
 import { UserService } from './services/user.service';
 import { baseURL } from './shared/base-url';
+import { RegisterComponent } from './user/register/register.component';
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HeaderComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HeaderComponent,
+    HomeComponent,
+    RegisterComponent,
+  ],
   imports: [
     AppRoutingModule,
     BrowserModule,

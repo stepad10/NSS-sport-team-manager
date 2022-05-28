@@ -1,76 +1,78 @@
-<div class="row no-gutters mt-4">
-    <div class="col-md-6 mx-auto p-0">
-        <div class="card">
-            <div class="login-box">
-                <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label
-                        for="tab-1" class="tab">Login</label> <input id="tab-2" type="radio" name="tab"
-                        class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
-                    <div class="login-space">
-                        <div class="login">
-                            <form [formGroup]="loginForm" (ngSubmit)="onSubmitLF()">
-                                <div class="group">
-                                    <label for="user" class="label form-label">Email</label>
-                                    <input id="user" type="text" class="input" placeholder="Enter your email"
-                                        formControlName="email">
-                                </div>
-                                <div class="group">
-                                    <label for="pass" class="label form-label">Password</label>
-                                    <input id="pass" type="password" class="input" data-type="password"
-                                        placeholder="Enter your password" formControlName="password">
-                                </div>
-                                <div class="group">
-                                    <button type="submit" class="button" value="Sign In"></button>
-                                </div>
-                                <div class="foot">
-                                    <a href="#">Forgot Password? TODO</a>
-                                </div>
-                                <div class="group">
-                                    <div *ngIf="lf['email'].errors" class="invalid-feedback">
-                                        <div *ngIf="lf['email'].errors['required']">Email is required </div>
-                                        <div *ngIf="lf['email'].errors['email']">Email is invalid </div>
-                                    </div>
-                                    <div *ngIf="lf['password'].errors" class="invalid-feedback">
-                                        <div *ngIf="lf['password'].errors['required']">Password is required </div>
-                                        <div *ngIf="lf['password'].errors['minlength']"> Password must be at least 6
-                                            characters </div>
-                                        <div *ngIf="lf['password'].errors['maxlength']"> Username must not exceed 40
-                                            characters </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="sign-up-form">
-                            <div class="group">
-                                <label for="user" class="label form-label">Name</label>
-                                <input id="user" type="text" class="input" placeholder="Enter your name">
-                            </div>
-                            <div class="group">
-                                <label for="user" class="label form-label">Surname</label>
-                                <input id="user" type="text" class="input" placeholder="Enter your surname">
-                            </div>
-                            <div class="group"> <label for="pass" class="label form-label">Password</label>
-                                <input id="pass" type="password" class="input" data-type="password"
-                                    placeholder="Create your password">
-                            </div>
-                            <div class="group">
-                                <label for="pass" class="label form-label">Repeat Password</label>
-                                <input id="pass" type="password" class="input" data-type="password"
-                                    placeholder="Repeat your password">
-                            </div>
-                            <div class="group">
-                                <label for="pass" class="label form-label">Email Address</label>
-                                <input id="pass" type="text" class="input" placeholder="Enter your email address">
-                            </div>
-                            <div class="group">
-                                <input type="submit" class="button" value="Sign Up">
-                            </div>
-                            <div class="foot">
-                                <label for="tab-1">Already Member?</label>
-                            </div>
-                        </div>
+<div class="container-fluid ps-md-0">
+  <div class="row g-0">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="col-md-4 col-lg-6">
+      <div class="login d-flex align-items-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto">
+              <h3 class="login-heading mb-4">Welcome back!</h3>
+
+              <!-- Sign In Form -->
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="form-floating mb-3">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="name@example.com"
+                    formControlName="email"
+                    class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                    id="inputEmail4"
+                  />
+                  <div
+                    *ngIf="submitted && f['email'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['email'].errors['required']">
+                      Email is required
                     </div>
+                    <div *ngIf="f['email'].errors['email']">
+                      Email must be a valid email address
+                    </div>
+                  </div>
+                  <label for="floatingInput">Email address</label>
                 </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="floatingPassword"
+                    placeholder="Password"
+                    formControlName="password"
+                    [ngClass]="{
+                      'is-invalid': submitted && f['password'].errors
+                    }"
+                    id="inputPassword4"
+                  />
+                  <div
+                    *ngIf="submitted && f['password'].errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f['password'].errors['required']">
+                      Password is required
+                    </div>
+                  </div>
+                  <label for="floatingPassword">Password</label>
+                </div>
+
+                <div class="d-grid">
+                  <button
+                    class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2"
+                    type="submit"
+                  >
+                    Sign in
+                  </button>
+                  <div class="text-center">
+                    <a class="small" routerLink="/register">Don't have account?</a>
+                  </div>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
