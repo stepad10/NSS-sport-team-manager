@@ -30,12 +30,11 @@ export class RegisterComponent implements OnInit {
         passwordConfirm: ['', Validators.required],
       },
       {
-        validators: [Validation.match('password', 'confirmPassword')],
+        validators: [Validation.match('password', 'passwordConfirm')],
       }
     );
   }
 
-  //Add user form actions
   get f() {
     return this.registerForm.controls;
   }
@@ -45,7 +44,6 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    //True if all the fields are filled
     if (this.submitted) {
       alert('Great!!');
     }

@@ -14,12 +14,11 @@
                   <input
                     type="email"
                     class="form-control"
-                    id="floatingInput"
+                    id="floatingEmail"
                     placeholder="name@example.com"
                     formControlName="email"
                     class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
-                    id="inputEmail4"
                   />
                   <div
                     *ngIf="submitted && f['email'].errors"
@@ -44,7 +43,6 @@
                     [ngClass]="{
                       'is-invalid': submitted && f['password'].errors
                     }"
-                    id="inputPassword4"
                   />
                   <div
                     *ngIf="submitted && f['password'].errors"
@@ -52,6 +50,12 @@
                   >
                     <div *ngIf="f['password'].errors['required']">
                       Password is required
+                    </div>
+                    <div *ngIf="f['password'].errors['minlength']">
+                      Minimum password length is 6 chars
+                    </div>
+                    <div *ngIf="f['password'].errors['maxlength']">
+                      Maximum password length is 40 chars
                     </div>
                   </div>
                   <label for="floatingPassword">Password</label>
@@ -65,7 +69,9 @@
                     Sign in
                   </button>
                   <div class="text-center">
-                    <a class="small" routerLink="/register">Don't have account?</a>
+                    <a class="small" routerLink="/register"
+                      >Don't have account?</a
+                    >
                   </div>
                 </div>
               </form>

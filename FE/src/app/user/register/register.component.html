@@ -92,6 +92,12 @@
                     <div *ngIf="f['password'].errors['required']">
                       Password is required
                     </div>
+                    <div *ngIf="f['password'].errors['minlength']">
+                      Minimum password length is 6 chars
+                    </div>
+                    <div *ngIf="f['password'].errors['maxlength']">
+                      Maximum password length is 40 chars
+                    </div>
                   </div>
                   <label for="floatingPassword">Password</label>
                 </div>
@@ -112,6 +118,9 @@
                   >
                     <div *ngIf="f['passwordConfirm'].errors['required']">
                       Confirm password is required
+                    </div>
+                    <div *ngIf="f['passwordConfirm'].errors['matching']">
+                      Passwords doesn't match
                     </div>
                   </div>
                   <label for="floatingPasswordConfirm">Confirm password</label>
