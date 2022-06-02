@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,9 +8,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { ProcessHttpMsgService } from './services/process-http-msg.service';
-import { UserService } from './services/user.service';
-import { baseURL } from './shared/base-url';
+import { authInterceptorProviders } from './shared/auth.interceptor';
 import { RegisterComponent } from './user/register/register.component';
 @NgModule({
   declarations: [
@@ -24,12 +23,9 @@ import { RegisterComponent } from './user/register/register.component';
     BrowserModule,
     MdbCollapseModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
-  providers: [
-    UserService,
-    ProcessHttpMsgService,
-    { provide: 'BaseURL', useValue: baseURL },
-  ],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

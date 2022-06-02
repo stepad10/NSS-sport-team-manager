@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 import Validation from '../../shared/validation';
 
 @Component({
@@ -9,9 +12,16 @@ import Validation from '../../shared/validation';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
-  submitted = false;
+  isFormSubmitted = false;
+  isRegisterFailed = false;
+  errorMessage = '';
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private authService: AuthService,
+    private tokenStorage: TokenStorageService,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group(
@@ -38,14 +48,23 @@ export class RegisterComponent implements OnInit {
   get f() {
     return this.registerForm.controls;
   }
+
   onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid
+    this.isFormSubmitted = true;
     if (this.registerForm.invalid) {
       return;
     }
-    if (this.submitted) {
-      alert('Great!!');
-    }
+    this.authService.register(this.registerForm).subscribe({
+      next: (data) => {
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUser(data.user);
+        this.isRegisterFailed = false;
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.errorMessage = err.message;
+        this.isRegisterFailed = true;
+      },
+    });
   }
 }

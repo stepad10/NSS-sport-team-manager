@@ -18,10 +18,12 @@
                     placeholder="name@example.com"
                     formControlName="email"
                     class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                    [ngClass]="{
+                      'is-invalid': isFormSubmitted && f['email'].errors
+                    }"
                   />
                   <div
-                    *ngIf="submitted && f['email'].errors"
+                    *ngIf="isFormSubmitted && f['email'].errors"
                     class="invalid-feedback"
                   >
                     <div *ngIf="f['email'].errors['required']">
@@ -41,11 +43,11 @@
                     placeholder="Password"
                     formControlName="password"
                     [ngClass]="{
-                      'is-invalid': submitted && f['password'].errors
+                      'is-invalid': isFormSubmitted && f['password'].errors
                     }"
                   />
                   <div
-                    *ngIf="submitted && f['password'].errors"
+                    *ngIf="isFormSubmitted && f['password'].errors"
                     class="invalid-feedback"
                   >
                     <div *ngIf="f['password'].errors['required']">
@@ -72,6 +74,13 @@
                     <a class="small" routerLink="/register"
                       >Don't have account?</a
                     >
+                    <div
+                      class="alert alert-danger"
+                      role="alert"
+                      *ngIf="isLoginFailed"
+                    >
+                      Login failed: {{ errorMessage }}
+                    </div>
                   </div>
                 </div>
               </form>

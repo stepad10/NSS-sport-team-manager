@@ -32,9 +32,9 @@ public class WebApplicationConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").permitAll()
+                .and().formLogin().permitAll()
                 .and().oauth2Login().defaultSuccessUrl("/loginSuccess").failureUrl("/loginFailure")
-                .and().logout().invalidateHttpSession(true)
+                .and().logout().logoutUrl("/logout").invalidateHttpSession(true)
                 .clearAuthentication(true).logoutSuccessUrl("/logoutSuccess").deleteCookies("JSESSIONID").permitAll()
                 .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and().exceptionHandling().accessDeniedPage("/accessDenied");
