@@ -46,6 +46,7 @@ public class AuthorisationAspect implements Advice {
      * @param point joint point data
      * @throws EntityNotFoundException if user or team are not found
      */
+    /*
     @Before("execution(public * *..TeamService.*(..)) " +
             "&& !execution(public * *..TeamService..getTeamById(..))" +
             " && !execution(public * *..TeamService..createNewTeam(..))")
@@ -63,15 +64,14 @@ public class AuthorisationAspect implements Advice {
         }
 
     }
-
+*/
     /**
      * Checks if currently authenticated user is not try to access or change details of other users.
      * Called before all UserService methods except newUserRegistration.
      *
      * @param point joint point data
      */
-
-
+/*
     @Before("execution(public * *..UserService.*(..))" +
             " && !execution(public * *..UserService.newUserRegistration(..))")
     public void UserAuthorisation(JoinPoint point) {
@@ -81,4 +81,6 @@ public class AuthorisationAspect implements Advice {
             throw new RuntimeException("Access denied");
         }
     }
+
+ */
 }

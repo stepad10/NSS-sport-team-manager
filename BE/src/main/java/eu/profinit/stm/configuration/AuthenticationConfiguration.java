@@ -40,12 +40,11 @@ public class AuthenticationConfiguration {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        UserDetailsService userDetailsService = new UserDetailsServiceImpl(userRepository);
+        UserDetailsService userDetailsService = new UserDetailsServiceImpl(userRepository); // TODO remove arg
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
-
 
     @Bean
     AuthenticationFacade authenticationFacade() {

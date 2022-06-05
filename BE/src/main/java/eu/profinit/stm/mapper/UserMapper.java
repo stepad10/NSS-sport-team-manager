@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * Provides mapping from User data transfer object to User entity in both ways.
  */
 @Component
-@Profile({"test", "Main","stub_services"})
+@Profile({"test", "Main", "stub_services"})
 @NoArgsConstructor
 public class UserMapper {
 

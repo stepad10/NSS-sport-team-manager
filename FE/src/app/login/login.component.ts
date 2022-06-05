@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { TokenStorageService } from '../services/token-storage.service';
+import { AppConstants } from '../shared/app.constants';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,10 @@ export class LoginComponent implements OnInit {
   isFormSubmitted = false;
   isLoginFailed = false;
   errorMessage = '';
+
+  googleURL = AppConstants.GOOGLE_AUTH_URL;
+  facebookURL = AppConstants.FACEBOOK_AUTH_URL;
+  githubURL = AppConstants.GITHUB_AUTH_URL;
 
   constructor(
     private authService: AuthService,
@@ -45,11 +50,13 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+    console.log(this.loginForm.value);
     this.authService.login(this.loginForm).subscribe({
       next: (data) => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data.user);
         this.isLoginFailed = false;
+        window.location.reload;
         this.router.navigate(['/']);
       },
       error: (err) => {

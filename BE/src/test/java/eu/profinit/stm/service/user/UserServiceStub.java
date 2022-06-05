@@ -8,13 +8,21 @@
 package eu.profinit.stm.service.user;
 
 import eu.profinit.stm.crypto.Aes;
+import eu.profinit.stm.dto.SignUpRequest;
+import eu.profinit.stm.dto.SocialProvider;
+import eu.profinit.stm.dto.user.LocalUser;
 import eu.profinit.stm.exception.EmailExistsException;
+import eu.profinit.stm.exception.EntityAlreadyExistsException;
 import eu.profinit.stm.exception.EntityNotFoundException;
+import eu.profinit.stm.exception.UserAlreadyExistAuthenticationException;
 import eu.profinit.stm.model.user.Guest;
 import eu.profinit.stm.model.user.RoleEnum;
 import eu.profinit.stm.model.user.User;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -179,6 +187,16 @@ public class UserServiceStub implements UserService {
         } else {
             throw new EntityNotFoundException("Guest");
         }
+    }
+
+    @Override
+    public User registerNewUser(SignUpRequest signUpRequest) throws UserAlreadyExistAuthenticationException, EntityAlreadyExistsException {
+        return null;
+    }
+
+    @Override
+    public LocalUser processUserRegistration(SocialProvider socialProvider, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo) throws EntityNotFoundException, EntityAlreadyExistsException {
+        return null;
     }
 
     /**

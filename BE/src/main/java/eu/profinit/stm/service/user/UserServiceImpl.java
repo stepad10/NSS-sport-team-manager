@@ -7,20 +7,32 @@
  */
 package eu.profinit.stm.service.user;
 
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import eu.profinit.stm.crypto.Aes;
-import eu.profinit.stm.exception.EmailExistsException;
-import eu.profinit.stm.exception.EntityAlreadyExistsException;
-import eu.profinit.stm.exception.EntityNotFoundException;
-import eu.profinit.stm.exception.UserOrPasswordNotMatchException;
+import eu.profinit.stm.dto.SignUpRequest;
+import eu.profinit.stm.dto.SocialProvider;
+import eu.profinit.stm.dto.user.LocalUser;
+import eu.profinit.stm.exception.*;
 import eu.profinit.stm.model.user.Guest;
 import eu.profinit.stm.model.user.RoleEnum;
 import eu.profinit.stm.repository.user.UserRepository;
 import eu.profinit.stm.model.user.User;
+import eu.profinit.stm.security.oauth2.user.OAuth2UserInfo;
+import eu.profinit.stm.security.oauth2.user.OAuth2UserInfoFactory;
+import eu.profinit.stm.util.GeneralUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Map;
 
 
 /**
@@ -33,9 +45,9 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserRepository userRepository;
-
-
 
     /**
      * Register a new user to the database. Before registration, checks if given email address is in the database.
@@ -108,7 +120,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     /**
      * Gets a user form database sought by email.
      *
@@ -120,11 +131,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByEmail(email);
     }
 
-
     /**
      * Changes user name.
      *
-     * @param email email address of user to find him in database
+     * @param email   email address of user to find him in database
      * @param newName new user name
      * @return user with changed name
      * @throws EntityNotFoundException if user is not found
@@ -140,7 +150,7 @@ public class UserServiceImpl implements UserService {
     /**
      * Changes user surname
      *
-     * @param email email address of user to find him in database
+     * @param email      email address of user to find him in database
      * @param newSurname new user surname
      * @return user with changed surname
      * @throws EntityNotFoundException if user is not found
@@ -156,7 +166,7 @@ public class UserServiceImpl implements UserService {
     /**
      * Changes user email. Before checks if email is not already taken.
      *
-     * @param email email address of user to find him in database
+     * @param email    email address of user to find him in database
      * @param newEmail new email address
      * @return user with changed email address
      * @throws EntityNotFoundException if user is not found
@@ -172,11 +182,10 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-
     /**
      * Changes user role.
      *
-     * @param email email address of user to find him in database
+     * @param email   email address of user to find him in database
      * @param newRole new user role
      * @return user with changed user role
      * @throws EntityNotFoundException if user is not found
@@ -191,17 +200,18 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Creates new Guest by AES encrypting (guest id + "-" + event id) and saves it to database.
-     * @param name Guest name
+     *
+     * @param name    Guest name
      * @param eventId id of event for which we want to create an invitation
      * @return Guest that has been created
      * @throws EntityNotFoundException thrown when Event entity is not found
      */
     @Override
-    public Guest createNewGuest (String name, Long eventId) throws EntityNotFoundException {
+    public Guest createNewGuest(String name, Long eventId) throws EntityNotFoundException {
         //TODO maybe generate this
         String placeholderUri = "jsem_place_holder";
 
-        userRepository.insertGuest(new Guest(name,placeholderUri));
+        userRepository.insertGuest(new Guest(name, placeholderUri));
         Guest guest = userRepository.findGuestByUri(placeholderUri);
         String uri = Aes.encrypt(guest.getEntityId() + "-" + eventId);
 
@@ -213,6 +223,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Calls repository that will find guest by URI or throws exception
+     *
      * @param uri identification of guest
      * @return desired Guest
      * @throws EntityNotFoundException thrown when Guest entity is not found
@@ -220,5 +231,63 @@ public class UserServiceImpl implements UserService {
     @Override
     public Guest findGuestByUri(String uri) throws EntityNotFoundException {
         return userRepository.findGuestByUri(uri);
+    }
+
+    @Override
+    public User registerNewUser(final SignUpRequest signUpRequest) throws UserAlreadyExistAuthenticationException, EntityAlreadyExistsException {
+        try {
+            userRepository.findUserByEmail(signUpRequest.getEmail());
+        } catch (EntityNotFoundException e) {
+            User user = buildUser(signUpRequest);
+            userRepository.insertUser(user);
+            return user;
+        }
+        throw new UserAlreadyExistAuthenticationException("User with email " + signUpRequest.getEmail() + " already exist");
+    }
+
+    private User buildUser(final SignUpRequest formDTO) {
+        User user = new User();
+        user.setName(formDTO.getName());
+        user.setSurname(formDTO.getSurname());
+        user.setEmail(formDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(formDTO.getPassword()));
+        user.setRole(RoleEnum.USER);
+        user.setSocialProvider(formDTO.getSocialProvider());
+        //user.setEnabled(true);
+        //user.setProviderUserId(formDTO.getProviderUserId());
+        return user;
+    }
+
+    @Override
+    public LocalUser processUserRegistration(SocialProvider socialProvider, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo) throws EntityAlreadyExistsException {
+        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(socialProvider, attributes);
+        if (StringUtils.isBlank(oAuth2UserInfo.getName())) {
+            throw new OAuth2AuthenticationProcessingException("Name not found from OAuth2 provider");
+        } else if (StringUtils.isBlank(oAuth2UserInfo.getEmail())) {
+            throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
+        }
+        SignUpRequest userDetails = toUserRegistrationObject(socialProvider, oAuth2UserInfo);
+        User user;
+        try {
+            user = findUserByEmail(oAuth2UserInfo.getEmail());
+            if (!socialProvider.equals(user.getSocialProvider()) && !SocialProvider.LOCAL.equals(user.getSocialProvider())) {
+                throw new OAuth2AuthenticationProcessingException(
+                        "Looks like you're signed up with " + user.getSocialProvider() + " account. Please use your " + user.getSocialProvider() + " account to login.");
+            }
+            updateExistingUser(user, oAuth2UserInfo);
+        } catch (EntityNotFoundException e) {
+            user = registerNewUser(userDetails);
+        }
+        return LocalUser.create(user, attributes, idToken, userInfo);
+    }
+
+    private void updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) throws EntityAlreadyExistsException {
+        existingUser.setName(oAuth2UserInfo.getName());
+        userRepository.insertUser(existingUser);
+    }
+
+    private SignUpRequest toUserRegistrationObject(SocialProvider socialProvider, OAuth2UserInfo oAuth2UserInfo) {
+        return SignUpRequest.getBuilder().addProviderUserID(oAuth2UserInfo.getId()).addName(oAuth2UserInfo.getName()).addEmail(oAuth2UserInfo.getEmail())
+                .addSocialProvider(socialProvider).addPassword("changeit").build(); // TODO change it
     }
 }

@@ -18,15 +18,14 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 /**
  * Configuration of a web services, mainly of authorization provider and http security protocols.
  */
+/*
 @Configuration
 @EnableWebSecurity
 @EnableWebMvc
 @Profile("Main")
+
 public class WebApplicationConfiguration extends WebSecurityConfigurerAdapter {
 
-    /**
-     * Sets http security authorization protocols.
-     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -42,3 +41,4 @@ public class WebApplicationConfiguration extends WebSecurityConfigurerAdapter {
 
 
 }
+*/

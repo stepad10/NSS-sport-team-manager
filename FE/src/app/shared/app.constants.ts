@@ -15,8 +15,6 @@ export class AppConstants {
     AppConstants.OAUTH2_URL + 'facebook' + AppConstants.REDIRECT_URL;
   public static GITHUB_AUTH_URL =
     AppConstants.OAUTH2_URL + 'github' + AppConstants.REDIRECT_URL;
-  public static LINKEDIN_AUTH_URL =
-    AppConstants.OAUTH2_URL + 'linkedin' + AppConstants.REDIRECT_URL;
 
   public static httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

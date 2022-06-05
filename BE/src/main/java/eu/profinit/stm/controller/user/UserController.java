@@ -7,6 +7,7 @@
  */
 package eu.profinit.stm.controller.user;
 
+import eu.profinit.stm.dto.SocialProvider;
 import eu.profinit.stm.dto.user.UserDetailsDto;
 import eu.profinit.stm.dto.user.UserDto;
 import eu.profinit.stm.exception.EntityAlreadyExistsException;
@@ -89,7 +90,7 @@ public class UserController {
      * @param request http request
      * @deprecated Maybe will be used later.
      */
-//DEPRECATED
+    @Deprecated
     @PostMapping("/login")
     public void userLogin(@RequestBody UserDetailsDto user, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
@@ -110,7 +111,7 @@ public class UserController {
     /**
      * Changes name of the user.
      *
-     * @param userEmail user what name should be changed
+     * @param userEmail   user what name should be changed
      * @param userNewName new name of the user
      * @return user DTO with updated name
      */
@@ -118,7 +119,7 @@ public class UserController {
     public UserDto changeUserName(@PathVariable String userEmail, @PathVariable String userNewName) {
         User user = new User();
         try {
-            user = userService.changeUserName(userEmail,userNewName);
+            user = userService.changeUserName(userEmail, userNewName);
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
@@ -128,7 +129,7 @@ public class UserController {
     /**
      * Changes surname of the user.
      *
-     * @param userEmail user what surname should be changed
+     * @param userEmail      user what surname should be changed
      * @param userNewSurname new surname of the user
      * @return user DTO with updated surname
      */
@@ -136,7 +137,7 @@ public class UserController {
     public UserDto changeUserSurname(@PathVariable String userEmail, @PathVariable String userNewSurname) {
         User user = new User();
         try {
-            user = userService.changeUserSurname(userEmail,userNewSurname);
+            user = userService.changeUserSurname(userEmail, userNewSurname);
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
@@ -146,7 +147,7 @@ public class UserController {
     /**
      * Changes email of the user.
      *
-     * @param userEmail user what surname should be changed
+     * @param userEmail    user what surname should be changed
      * @param userNewEmail new surname of the user
      * @return user DTO with updated surname
      */
@@ -154,7 +155,7 @@ public class UserController {
     public UserDto changeUserEmail(@PathVariable String userEmail, @PathVariable String userNewEmail) {
         User user = new User();
         try {
-            user = userService.changeUserEmail(userEmail,userNewEmail);
+            user = userService.changeUserEmail(userEmail, userNewEmail);
         } catch (Exception e) {
             HttpExceptionHandler.httpErrorMessages(e);
         }
@@ -178,7 +179,8 @@ public class UserController {
                         principalExtractor.getPrincipalNameAndSurname()[0],
                         principalExtractor.getPrincipalNameAndSurname()[1],
                         "",
-                        email);
+                        email,
+                        SocialProvider.LOCAL);
                 try {
                     userService.newUserRegistration(user);
                 } catch (EntityNotFoundException | EntityAlreadyExistsException ex) {

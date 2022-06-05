@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -14,8 +14,8 @@ export class AuthService {
     return this.http.post(
       AppConstants.AUTH_API + 'signin',
       {
-        email: loginForm.controls['email'],
-        password: loginForm.controls['password'],
+        email: loginForm.value['email'],
+        password: loginForm.value['password'],
       },
       AppConstants.httpOptions
     );
@@ -25,11 +25,11 @@ export class AuthService {
     return this.http.post(
       AppConstants.AUTH_API + 'signup',
       {
-        name: registerForm.controls['name'],
-        surname: registerForm.controls['surname'],
-        email: registerForm.controls['email'],
-        password: registerForm.controls['password'],
-        //passwordConfirm: registerForm.controls['passwordConfirm'],
+        name: registerForm.value['name'],
+        surname: registerForm.value['surname'],
+        email: registerForm.value['email'],
+        password: registerForm.value['password'],
+        //passwordConfirm: registerForm.value['passwordConfirm'],
         socialProvider: 'LOCAL',
       },
       AppConstants.httpOptions

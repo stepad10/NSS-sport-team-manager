@@ -60,6 +60,7 @@ export class RegisterComponent implements OnInit {
         this.tokenStorage.saveUser(data.user);
         this.isRegisterFailed = false;
         this.router.navigate(['/login']);
+        window.location.reload;
       },
       error: (err) => {
         this.errorMessage = err.message;
