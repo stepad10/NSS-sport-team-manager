@@ -1,6 +1,6 @@
 package eu.profinit.stm.security.oauth2;
 
-import eu.profinit.stm.dto.SocialProvider;
+import eu.profinit.stm.model.user.SocialProviderEnum;
 import eu.profinit.stm.exception.OAuth2AuthenticationProcessingException;
 import eu.profinit.stm.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -36,12 +33,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
         try {
-            Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
-            SocialProvider provider = SocialProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId());
-            if (provider.equals(SocialProvider.LINKEDIN)) {
-                populateEmailAddressFromLinkedIn(oAuth2UserRequest, attributes);
-            }
-            return userService.processUserRegistration(provider, attributes, null, null);
+            SocialProviderEnum provider = SocialProviderEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase(Locale.ROOT));
+            return userService.processUserRegistration(provider, new HashMap<>(oAuth2User.getAttributes()), null, null);
         } catch (AuthenticationException ex) {
             throw ex;
         } catch (Exception ex) {

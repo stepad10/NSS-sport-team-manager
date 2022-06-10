@@ -7,7 +7,10 @@
  */
 package eu.profinit.stm.controller.user;
 
-import eu.profinit.stm.dto.SocialProvider;
+import eu.profinit.stm.configuration.CurrentUser;
+import eu.profinit.stm.dto.user.LocalUser;
+import eu.profinit.stm.dto.user.UserInfo;
+import eu.profinit.stm.model.user.SocialProviderEnum;
 import eu.profinit.stm.dto.user.UserDetailsDto;
 import eu.profinit.stm.dto.user.UserDto;
 import eu.profinit.stm.exception.EntityAlreadyExistsException;
@@ -18,8 +21,11 @@ import eu.profinit.stm.model.user.User;
 import eu.profinit.stm.oauth.PrincipalExtractorImpl;
 import eu.profinit.stm.service.user.AuthenticationFacade;
 import eu.profinit.stm.service.user.UserService;
+import eu.profinit.stm.util.GeneralUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -47,6 +53,12 @@ public class UserController {
     private PrincipalExtractorImpl principalExtractor;
     @Autowired
     private AuthenticationFacade authenticationFacade;
+
+    @GetMapping("/user/me")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<UserInfo> getCurrentUser(@CurrentUser LocalUser user) {
+        return ResponseEntity.ok(GeneralUtils.buildUserInfo(user));
+    }
 
     /**
      * Provides a new user registration with UserDetailsDTO. Checks if user email is not already in database.
@@ -179,8 +191,7 @@ public class UserController {
                         principalExtractor.getPrincipalNameAndSurname()[0],
                         principalExtractor.getPrincipalNameAndSurname()[1],
                         "",
-                        email,
-                        SocialProvider.LOCAL);
+                        email);
                 try {
                     userService.newUserRegistration(user);
                 } catch (EntityNotFoundException | EntityAlreadyExistsException ex) {
@@ -201,6 +212,4 @@ public class UserController {
     public String logoutSuccess() {
         return "Logout successful";
     }
-
-
 }

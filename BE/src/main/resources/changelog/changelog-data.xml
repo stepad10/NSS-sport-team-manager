@@ -41,4 +41,26 @@
         </insert>
     </changeSet>
 
+    <!-- SOCIAL_ENUM -->
+    <!--
+    1=LOCAL
+    2=GOOGLE
+    3=FACEBOOK
+    4=GITHUB
+    -->
+    <changeSet id="11-1" author="dstepanek">
+        <insert tableName="t_social_enum">
+            <column name="c_enum" value="LOCAL"/>
+        </insert>
+        <insert tableName="t_social_enum">
+            <column name="c_enum" value="GOOGLE"/>
+        </insert>
+        <insert tableName="t_social_enum">
+            <column name="c_enum" value="FACEBOOK"/>
+        </insert>
+        <insert tableName="t_social_enum">
+            <column name="c_enum" value="GITHUB"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>

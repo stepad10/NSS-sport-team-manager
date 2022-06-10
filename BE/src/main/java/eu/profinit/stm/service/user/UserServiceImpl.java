@@ -10,7 +10,7 @@ package eu.profinit.stm.service.user;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import eu.profinit.stm.crypto.Aes;
 import eu.profinit.stm.dto.SignUpRequest;
-import eu.profinit.stm.dto.SocialProvider;
+import eu.profinit.stm.model.user.SocialProviderEnum;
 import eu.profinit.stm.dto.user.LocalUser;
 import eu.profinit.stm.exception.*;
 import eu.profinit.stm.model.user.Guest;
@@ -19,19 +19,15 @@ import eu.profinit.stm.repository.user.UserRepository;
 import eu.profinit.stm.model.user.User;
 import eu.profinit.stm.security.oauth2.user.OAuth2UserInfo;
 import eu.profinit.stm.security.oauth2.user.OAuth2UserInfoFactory;
-import eu.profinit.stm.util.GeneralUtils;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Map;
 
 
@@ -259,7 +255,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LocalUser processUserRegistration(SocialProvider socialProvider, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo) throws EntityAlreadyExistsException {
+    public LocalUser processUserRegistration(SocialProviderEnum socialProvider, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo) throws EntityAlreadyExistsException {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(socialProvider, attributes);
         if (StringUtils.isBlank(oAuth2UserInfo.getName())) {
             throw new OAuth2AuthenticationProcessingException("Name not found from OAuth2 provider");
@@ -270,7 +266,7 @@ public class UserServiceImpl implements UserService {
         User user;
         try {
             user = findUserByEmail(oAuth2UserInfo.getEmail());
-            if (!socialProvider.equals(user.getSocialProvider()) && !SocialProvider.LOCAL.equals(user.getSocialProvider())) {
+            if (!socialProvider.equals(user.getSocialProvider()) && !SocialProviderEnum.LOCAL.equals(user.getSocialProvider())) {
                 throw new OAuth2AuthenticationProcessingException(
                         "Looks like you're signed up with " + user.getSocialProvider() + " account. Please use your " + user.getSocialProvider() + " account to login.");
             }
@@ -281,13 +277,15 @@ public class UserServiceImpl implements UserService {
         return LocalUser.create(user, attributes, idToken, userInfo);
     }
 
-    private void updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) throws EntityAlreadyExistsException {
+    @SneakyThrows
+    private void updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setName(oAuth2UserInfo.getName());
-        userRepository.insertUser(existingUser);
+        userRepository.updateUser(existingUser);
     }
 
-    private SignUpRequest toUserRegistrationObject(SocialProvider socialProvider, OAuth2UserInfo oAuth2UserInfo) {
-        return SignUpRequest.getBuilder().addProviderUserID(oAuth2UserInfo.getId()).addName(oAuth2UserInfo.getName()).addEmail(oAuth2UserInfo.getEmail())
+    private SignUpRequest toUserRegistrationObject(SocialProviderEnum socialProvider, OAuth2UserInfo oAuth2UserInfo) {
+        String[] nameParts = oAuth2UserInfo.getName().split("\\s+", 2);
+        return SignUpRequest.getBuilder().addProviderUserID(oAuth2UserInfo.getId()).addName(nameParts[0]).addSurname(nameParts[1]).addEmail(oAuth2UserInfo.getEmail())
                 .addSocialProvider(socialProvider).addPassword("changeit").build(); // TODO change it
     }
 }

@@ -10,6 +10,7 @@
         <result property="password" column="c_password"/>
         <result property="email" column="c_email"/>
         <result property="role" column="c_role"/>
+        <result property="socialProvider" column="c_social"/>
     </resultMap>
 
     <select id="findUserByEmail" parameterType="String" resultMap="userResultMap">
@@ -21,8 +22,8 @@
     </select>
 
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="entityId">
-        INSERT INTO t_user (c_name, c_surname, c_password, c_email, c_role)
-        VALUES (#{name}, #{surname}, #{password}, #{email}, #{role})
+        INSERT INTO t_user (c_name, c_surname, c_password, c_email, c_role, c_social)
+        VALUES (#{name}, #{surname}, #{password}, #{email}, #{role}, #{socialProvider})
     </insert>
     
     <delete id="deleteUserById" parameterType="Long">
@@ -34,7 +35,7 @@
     </delete>
 
     <update id="updateUser" parameterType="User">
-        UPDATE t_user SET c_name = #{name}, c_surname = #{surname}, c_password = #{password}, c_email = #{email}, c_role = #{role}
+        UPDATE t_user SET c_name = #{name}, c_surname = #{surname}, c_password = #{password}<!--, c_email = #{email}-->, c_role = #{role}
         WHERE c_id = #{entityId}
     </update>
 </mapper>

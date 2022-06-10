@@ -12,8 +12,6 @@ import Validation from '../../shared/validation';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
-  isFormSubmitted = false;
-  isRegisterFailed = false;
   errorMessage = '';
 
   constructor(
@@ -50,21 +48,15 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
-    if (this.registerForm.invalid) {
-      return;
-    }
     this.authService.register(this.registerForm).subscribe({
       next: (data) => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data.user);
-        this.isRegisterFailed = false;
         this.router.navigate(['/login']);
         window.location.reload;
       },
       error: (err) => {
         this.errorMessage = err.message;
-        this.isRegisterFailed = true;
       },
     });
   }

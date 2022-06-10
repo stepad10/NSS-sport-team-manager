@@ -1,11 +1,10 @@
 package eu.profinit.stm.dto.user;
 
+import eu.profinit.stm.model.user.RoleEnum;
 import lombok.Value;
-
-import java.util.List;
 
 @Value
 public class UserInfo {
-	String name, surname, email;
-	List<String> roles;
+    String name, surname, email;
+    RoleEnum role;
 }

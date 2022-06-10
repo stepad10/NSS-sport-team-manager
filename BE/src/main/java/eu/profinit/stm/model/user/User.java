@@ -1,6 +1,5 @@
 package eu.profinit.stm.model.user;
 
-import eu.profinit.stm.dto.SocialProvider;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,9 +11,9 @@ public class User extends UserParent {
     private String surname;
     private String password;
     private String email;
-    private SocialProvider socialProvider;
+    private SocialProviderEnum socialProvider;
 
-    public User(String name, String surname, String password, String email, SocialProvider socialProvider) {
+    public User(String name, String surname, String password, String email, SocialProviderEnum socialProvider) {
         super(name, RoleEnum.USER);
         this.surname = surname;
         this.password = password;
@@ -27,6 +26,6 @@ public class User extends UserParent {
         this.surname = surname;
         this.password = password;
         this.email = email;
-        this.socialProvider = SocialProvider.LOCAL;
+        this.socialProvider = SocialProviderEnum.LOCAL;
     }
 }

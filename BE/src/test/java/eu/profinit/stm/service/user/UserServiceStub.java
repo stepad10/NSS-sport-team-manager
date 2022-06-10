@@ -9,7 +9,7 @@ package eu.profinit.stm.service.user;
 
 import eu.profinit.stm.crypto.Aes;
 import eu.profinit.stm.dto.SignUpRequest;
-import eu.profinit.stm.dto.SocialProvider;
+import eu.profinit.stm.model.user.SocialProviderEnum;
 import eu.profinit.stm.dto.user.LocalUser;
 import eu.profinit.stm.exception.EmailExistsException;
 import eu.profinit.stm.exception.EntityAlreadyExistsException;
@@ -195,7 +195,7 @@ public class UserServiceStub implements UserService {
     }
 
     @Override
-    public LocalUser processUserRegistration(SocialProvider socialProvider, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo) throws EntityNotFoundException, EntityAlreadyExistsException {
+    public LocalUser processUserRegistration(SocialProviderEnum socialProvider, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo) throws EntityNotFoundException, EntityAlreadyExistsException {
         return null;
     }
 

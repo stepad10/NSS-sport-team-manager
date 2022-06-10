@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   constructor(private tokenStorageService: TokenStorageService) {}
 
   ngOnInit(): void {
-    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    this.isLoggedIn = this.tokenStorageService.isAuthenticated();
   }
 
   logout(): void {

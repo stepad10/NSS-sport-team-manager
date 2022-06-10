@@ -19,11 +19,11 @@
                     formControlName="email"
                     class="form-control"
                     [ngClass]="{
-                      'is-invalid': isFormSubmitted && f['email'].errors
+                      'is-invalid': f['email'].touched && f['email'].errors
                     }"
                   />
                   <div
-                    *ngIf="isFormSubmitted && f['email'].errors"
+                    *ngIf="f['email'].touched && f['email'].errors"
                     class="invalid-feedback"
                   >
                     <div *ngIf="f['email'].errors['required']">
@@ -43,11 +43,11 @@
                     placeholder="Password"
                     formControlName="password"
                     [ngClass]="{
-                      'is-invalid': isFormSubmitted && f['password'].errors
+                      'is-invalid': f['password'].touched && f['password'].errors
                     }"
                   />
                   <div
-                    *ngIf="isFormSubmitted && f['password'].errors"
+                    *ngIf="f['password'].touched && f['password'].errors"
                     class="invalid-feedback"
                   >
                     <div *ngIf="f['password'].errors['required']">
@@ -67,7 +67,8 @@
                   <button
                     class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2"
                     type="submit"
-                  >
+                    [disabled]="loginForm.invalid"
+                    >
                     Sign in
                   </button>
                   <div class="text-center">
@@ -123,7 +124,7 @@
                   <div
                     class="alert alert-danger"
                     role="alert"
-                    *ngIf="isLoginFailed"
+                    *ngIf="!!errorMessage"
                   >
                     Login failed: {{ errorMessage }}
                   </div>

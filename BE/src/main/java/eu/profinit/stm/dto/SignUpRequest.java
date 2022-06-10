@@ -1,5 +1,6 @@
 package eu.profinit.stm.dto;
 
+import eu.profinit.stm.model.user.SocialProviderEnum;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -24,11 +25,11 @@ public class SignUpRequest {
     @NotEmpty
     private String email;
 
-    private SocialProvider socialProvider;
+    private SocialProviderEnum socialProvider;
 
     private String password;
 
-    public SignUpRequest(String providerUserId, String name, String surname, String email, String password, SocialProvider socialProvider) {
+    public SignUpRequest(String providerUserId, String name, String surname, String email, String password, SocialProviderEnum socialProvider) {
         this.providerUserId = providerUserId;
         this.name = name;
         this.surname = surname;
@@ -47,7 +48,7 @@ public class SignUpRequest {
         private String surname;
         private String email;
         private String password;
-        private SocialProvider socialProvider;
+        private SocialProviderEnum socialProvider;
 
         public Builder addProviderUserID(final String userID) {
             this.providerUserID = userID;
@@ -74,7 +75,7 @@ public class SignUpRequest {
             return this;
         }
 
-        public Builder addSocialProvider(final SocialProvider socialProvider) {
+        public Builder addSocialProvider(final SocialProviderEnum socialProvider) {
             this.socialProvider = socialProvider;
             return this;
         }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { TokenStorageService } from '../services/token-storage.service';
+import { UserService } from '../services/user.service';
 import { AppConstants } from '../shared/app.constants';
+import { User } from '../shared/user';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +14,6 @@ import { AppConstants } from '../shared/app.constants';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  isFormSubmitted = false;
-  isLoginFailed = false;
   errorMessage = '';
 
   googleURL = AppConstants.GOOGLE_AUTH_URL;
@@ -22,12 +22,31 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private tokenStorage: TokenStorageService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    const token = this.route.snapshot.queryParamMap.get('token');
+    const error = this.route.snapshot.queryParamMap.get('error');
+
+    if (token) {
+      this.userService.getCurrentUser().subscribe({
+        next: (data) => {
+          this.login(data);
+          this.tokenStorage.saveToken(token);
+        },
+        error: (err) => {
+          this.errorMessage = err.error.message;
+        },
+      });
+    } else if (error) {
+      this.errorMessage = error;
+    }
+
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -46,23 +65,21 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
-    if (this.loginForm.invalid) {
-      return;
-    }
     console.log(this.loginForm.value);
     this.authService.login(this.loginForm).subscribe({
       next: (data) => {
         this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUser(data.user);
-        this.isLoginFailed = false;
-        window.location.reload;
-        this.router.navigate(['/']);
+        this.login(data.user);
       },
       error: (err) => {
-        this.errorMessage = err.message;
-        this.isLoginFailed = true;
+        this.errorMessage = err.error.message;
       },
     });
+  }
+
+  login(user: User) {
+    this.tokenStorage.saveUser(user);
+    window.location.reload();
+    this.router.navigate(['/']);
   }
 }

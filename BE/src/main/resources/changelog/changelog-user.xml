@@ -21,6 +21,23 @@
             </column>
         </createTable>
     </changeSet>
+
+    <!--
+    1=LOCAL
+    2=GOOGLE
+    3=FACEBOOK
+    4=GITHUB
+    -->
+    <changeSet id="2_1-1" author="dstepanek">
+        <createTable tableName="t_social_enum">
+            <column name="c_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="social_enum_pk"/>
+            </column>
+            <column name="c_enum" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
     
     <!-- USER -->
     <changeSet id="1-1" author="dstepanek">
@@ -40,6 +57,9 @@
             </column>
             <column name="c_role" type="INT">
                 <constraints nullable="false" foreignKeyName="user_role_enum_fk" references="t_role_enum(c_id)"/>
+            </column>
+            <column name="c_social" type="INT">
+                <constraints nullable="true" foreignKeyName="user_social_enum_fk" references="t_social_enum(c_id)"/>
             </column>
         </createTable>
     </changeSet>
