@@ -1,6 +1,7 @@
 package eu.profinit.stm.security.jwt;
 
 import eu.profinit.stm.service.user.LocalUserDetailService;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 			String jwt = getJwtFromRequest(request);
 
 			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-				String userEmail = tokenProvider.getUserEmailFromToken(jwt);
+				Long userId = tokenProvider.getUserEmailFromToken(jwt);
 
-				UserDetails userDetails = customUserDetailsService.loadUserByEmail(userEmail);
+				UserDetails userDetails = customUserDetailsService.loadUserById(userId);
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
 		} catch (Exception ex) {

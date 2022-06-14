@@ -127,6 +127,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByEmail(email);
     }
 
+    public User findUserById(Long id) throws EntityNotFoundException {
+        return userRepository.findUserById(id);
+    }
+
     /**
      * Changes user name.
      *
@@ -279,7 +283,7 @@ public class UserServiceImpl implements UserService {
 
     @SneakyThrows
     private void updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setName(oAuth2UserInfo.getName());
+        existingUser.setName(oAuth2UserInfo.getName().split("\\s+", 2)[0]);
         userRepository.updateUser(existingUser);
     }
 

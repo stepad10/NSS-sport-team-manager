@@ -19,15 +19,22 @@ import java.util.stream.Collectors;
 public class GeneralUtils {
 
     public static List<SimpleGrantedAuthority> buildSimpleGrantedAuthorities(final Set<RoleEnum> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.toString())).collect(Collectors.toList());
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toString()))
+                .collect(Collectors.toList());
     }
 
     public static SocialProviderEnum toSocialProvider(String providerType) {
-        return Arrays.stream(SocialProviderEnum.values()).filter(provider -> provider.getProviderType().equals(providerType)).findFirst().orElse(SocialProviderEnum.LOCAL);
+        return Arrays.stream(SocialProviderEnum.values())
+                .filter(provider -> provider.getProviderType().equals(providerType))
+                .findFirst().orElse(SocialProviderEnum.LOCAL);
     }
 
     public static UserInfo buildUserInfo(LocalUser localUser) {
-        RoleEnum role = localUser.getAuthorities().stream().map(GrantedAuthority::getAuthority).map(RoleEnum::valueOf).findFirst().orElse(RoleEnum.NO_ROLE);
+        RoleEnum role = localUser.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .map(authority -> RoleEnum.valueOf(authority.split("ROLE_")[1]))
+                .findFirst().orElse(RoleEnum.NO_ROLE);
         User user = localUser.getUser();
         return new UserInfo(user.getName(), user.getSurname(), user.getEmail(), role);
     }

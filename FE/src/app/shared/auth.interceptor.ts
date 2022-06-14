@@ -18,14 +18,14 @@ const TOKEN_HEADER_KEY = 'Authorization';
   providedIn: 'root',
 })
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private token: TokenStorageService, private router: Router) {}
+  constructor(private tokenStorageService: TokenStorageService, private router: Router) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let authReq = req;
-    const token = this.token.getToken();
+    const token = this.tokenStorageService.getToken();
     if (token != null) {
       authReq = req.clone({
         headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token),
@@ -39,7 +39,7 @@ export class AuthInterceptor implements HttpInterceptor {
             if (err.status !== 401 || window.location.pathname === loginPath) {
               return;
             }
-            this.token.signOut();
+            this.tokenStorageService.signOut();
             window.location.href = loginPath;
           }
         },

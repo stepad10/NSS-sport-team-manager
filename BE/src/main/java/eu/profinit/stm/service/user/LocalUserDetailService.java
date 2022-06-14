@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -23,23 +22,29 @@ public class LocalUserDetailService implements UserDetailsService {
     private UserService userService;
 
     @Override
-    @Transactional
-    public LocalUser loadUserByUsername(final String email) throws UsernameNotFoundException {
+    public LocalUser loadUserByUsername(final String username) throws UsernameNotFoundException {
         User user;
         try {
-            user = userService.findUserByEmail(email);
+            user = userService.findUserByEmail(username);
         } catch (EntityNotFoundException e) {
-            throw new UsernameNotFoundException("User " + email + " was not found in the database");
+            throw new UsernameNotFoundException("User " + username + " was not found in the database");
         }
         return createLocalUser(user);
     }
 
-    @Transactional
     public LocalUser loadUserByEmail(String email) {
         try {
             return createLocalUser(userService.findUserByEmail(email));
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("User", "email", email);
+        }
+    }
+
+    public LocalUser loadUserById(Long id) {
+        try {
+            return createLocalUser(userService.findUserById(id));
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("User", "id", id);
         }
     }
 

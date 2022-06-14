@@ -27,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ComponentScan(basePackageClasses = AuthenticationFacade.class)
 @Profile("Main")
 public class AuthenticationConfiguration {
+/*
 
     @Autowired
     private UserRepository userRepository;
@@ -34,9 +35,6 @@ public class AuthenticationConfiguration {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /**
-     * Initialize Authentication provider.
-     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -47,13 +45,13 @@ public class AuthenticationConfiguration {
     }
 
     @Bean
-    AuthenticationFacade authenticationFacade() {
-        return new AuthenticationFacadeImpl();
-    }
-
-    @Bean
     PrincipalExtractorImpl principalExtractor() {
         return new PrincipalExtractorImpl();
     }
-}
+*/
 
+    @Bean
+    AuthenticationFacade authenticationFacade() {
+        return new AuthenticationFacadeImpl();
+    }
+}

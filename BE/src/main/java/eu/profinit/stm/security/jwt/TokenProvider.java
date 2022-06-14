@@ -31,10 +31,10 @@ public class TokenProvider {
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret()).compact();
     }
 
-    public String getUserEmailFromToken(String token) {
+    public Long getUserEmailFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(token).getBody();
 
-        return (String) claims.get("email");
+        return Long.parseLong(claims.getSubject());
     }
 
     public boolean validateToken(String authToken) {

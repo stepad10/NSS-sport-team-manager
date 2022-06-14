@@ -33,7 +33,7 @@ public class OAuth2AccessTokenResponseConverterWithDefaults implements Converter
         long expiresIn = 0;
         if (tokenResponseParameters.containsKey(OAuth2ParameterNames.EXPIRES_IN)) {
             try {
-                expiresIn = Long.parseLong(tokenResponseParameters.get(OAuth2ParameterNames.EXPIRES_IN));
+                expiresIn = Long.valueOf(tokenResponseParameters.get(OAuth2ParameterNames.EXPIRES_IN));
             } catch (NumberFormatException ex) {
                 ex.printStackTrace();
             }

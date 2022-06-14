@@ -9,8 +9,6 @@ package eu.profinit.stm.controller.user;
 
 import eu.profinit.stm.configuration.CurrentUser;
 import eu.profinit.stm.dto.user.LocalUser;
-import eu.profinit.stm.dto.user.UserInfo;
-import eu.profinit.stm.model.user.SocialProviderEnum;
 import eu.profinit.stm.dto.user.UserDetailsDto;
 import eu.profinit.stm.dto.user.UserDto;
 import eu.profinit.stm.exception.EntityAlreadyExistsException;
@@ -22,10 +20,9 @@ import eu.profinit.stm.oauth.PrincipalExtractorImpl;
 import eu.profinit.stm.service.user.AuthenticationFacade;
 import eu.profinit.stm.service.user.UserService;
 import eu.profinit.stm.util.GeneralUtils;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -43,11 +40,11 @@ import java.util.ArrayList;
  * TODO not all features implemented
  */
 @RestController
-@Profile({"Main", "test"})
+@RequestMapping("/api")
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
+    //@Autowired
     private DaoAuthenticationProvider authenticationProvider;
     @Autowired
     private PrincipalExtractorImpl principalExtractor;
@@ -55,8 +52,7 @@ public class UserController {
     private AuthenticationFacade authenticationFacade;
 
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<UserInfo> getCurrentUser(@CurrentUser LocalUser user) {
+    public ResponseEntity<?> getCurrentUser(@CurrentUser @NonNull LocalUser user) {
         return ResponseEntity.ok(GeneralUtils.buildUserInfo(user));
     }
 

@@ -14,8 +14,10 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 /**
  * Enables aspects.
  */
+/*
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan("eu.profinit.stm.aspect")
 public class AspectConfiguration {
 }
+*/

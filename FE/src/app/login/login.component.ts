@@ -32,15 +32,16 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     const token = this.route.snapshot.queryParamMap.get('token');
     const error = this.route.snapshot.queryParamMap.get('error');
-
-    if (token) {
+    if (this.tokenStorage.getToken()) {
+    } else if (token) {
+      this.tokenStorage.saveToken(token);
       this.userService.getCurrentUser().subscribe({
         next: (data) => {
           this.login(data);
-          this.tokenStorage.saveToken(token);
         },
         error: (err) => {
           this.errorMessage = err.error.message;
+          this.tokenStorage.signOut();
         },
       });
     } else if (error) {
@@ -65,11 +66,11 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
     this.authService.login(this.loginForm).subscribe({
       next: (data) => {
         this.tokenStorage.saveToken(data.accessToken);
         this.login(data.user);
+        this.userService.getCurrentUser();
       },
       error: (err) => {
         this.errorMessage = err.error.message;

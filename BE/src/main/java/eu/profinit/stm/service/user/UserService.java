@@ -30,6 +30,8 @@ public interface UserService {
 
     User findUserByEmail(String email) throws EntityNotFoundException;
 
+    User findUserById(Long id) throws EntityNotFoundException;
+
     User changeUserName(String email, String newName) throws EntityNotFoundException;
     User changeUserSurname(String email, String newSurname) throws EntityNotFoundException;
     User changeUserEmail(String email, String newEmail) throws EntityNotFoundException;
