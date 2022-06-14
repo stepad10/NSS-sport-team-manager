@@ -33,16 +33,29 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
         try {
+            Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
             SocialProviderEnum provider = SocialProviderEnum.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase(Locale.ROOT));
-            return userService.processUserRegistration(provider, new HashMap<>(oAuth2User.getAttributes()), null, null);
+            if (provider.equals(SocialProviderEnum.GITHUB)) {
+                populateGithubEmail(oAuth2UserRequest, attributes);
+            }
+            return userService.processUserRegistration(provider, attributes, null, null);
         } catch (AuthenticationException ex) {
             throw ex;
         } catch (Exception ex) {
             ex.printStackTrace();
-            // Throwing an instance of AuthenticationException will trigger the
-            // OAuth2AuthenticationFailureHandler
             throw new OAuth2AuthenticationProcessingException(ex.getMessage(), ex.getCause());
         }
+    }
+
+    public void populateGithubEmail(OAuth2UserRequest oAuth2UserRequest, Map<String, Object> attributes) {
+        String githubApiEmailEndpoint = env.getProperty("github.email-address-uri");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + oAuth2UserRequest.getAccessToken().getTokenValue());
+        HttpEntity<?> entity = new HttpEntity<>("", headers);
+        ResponseEntity<List> response = restTemplate.exchange(Objects.requireNonNull(githubApiEmailEndpoint), HttpMethod.GET, entity, List.class);
+        HashMap<String, String> hashMap = (HashMap<String, String>) Objects.requireNonNull(Objects.requireNonNull(response.getBody()).get(0));
+        attributes.put("email", hashMap.get("email"));
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})

@@ -61,21 +61,4 @@ public class AuthController {
         }
         return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
     }
-
-    @GetMapping(value = "/github/email", produces = "application/json")
-    public String getEmails(OAuth2AuthenticationToken authentication) {
-        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(
-                authentication.getAuthorizedClientRegistrationId(),
-                authentication.getPrincipal().getName());
-
-        String getEmailUrl = "https://api.github.com/user/emails";
-
-        // send HTTP request with Bearer token to get user emails
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + client.getAccessToken().getTokenValue());
-        HttpEntity<String> entity = new HttpEntity<>("", headers);
-        ResponseEntity<String> response = restTemplate.exchange(getEmailUrl, HttpMethod.GET, entity, String.class);
-        return response.getBody();
-    }
 }
