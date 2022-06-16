@@ -16,6 +16,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Event extends Entity {
+public class Event extends Entity implements Serializable {
 
     private LocalDateTime date;
     private Integer capacity;

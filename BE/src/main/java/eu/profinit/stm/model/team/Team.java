@@ -15,6 +15,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Team extends Entity {
+public class Team extends Entity implements Serializable {
     private String name;
     private String sport;
     private List<Subgroup> subgroupList;

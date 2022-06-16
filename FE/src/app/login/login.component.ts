@@ -80,7 +80,11 @@ export class LoginComponent implements OnInit {
 
   login(user: User) {
     this.tokenStorage.saveUser(user);
-    window.location.reload();
-    this.router.navigate(['/']);
+    //window.location.reload();
+    this.router
+      .navigate([user.role.toString().toLowerCase(), 'dashboard'])
+      .then(() => {
+        window.location.reload();
+      });
   }
 }

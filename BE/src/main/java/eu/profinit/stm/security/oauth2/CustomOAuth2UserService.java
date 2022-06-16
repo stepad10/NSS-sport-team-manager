@@ -49,10 +49,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     public void populateGithubEmail(OAuth2UserRequest oAuth2UserRequest, Map<String, Object> attributes) {
         String githubApiEmailEndpoint = env.getProperty("github.email-address-uri");
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + oAuth2UserRequest.getAccessToken().getTokenValue());
         HttpEntity<?> entity = new HttpEntity<>("", headers);
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List> response = restTemplate.exchange(Objects.requireNonNull(githubApiEmailEndpoint), HttpMethod.GET, entity, List.class);
         HashMap<String, String> hashMap = (HashMap<String, String>) Objects.requireNonNull(Objects.requireNonNull(response.getBody()).get(0));
         attributes.put("email", hashMap.get("email"));
@@ -62,10 +62,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public void populateEmailAddressFromLinkedIn(OAuth2UserRequest oAuth2UserRequest, Map<String, Object> attributes) throws OAuth2AuthenticationException {
         String emailEndpointUri = env.getProperty("linkedin.email-address-uri");
         Assert.notNull(emailEndpointUri, "LinkedIn email address end point required");
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + oAuth2UserRequest.getAccessToken().getTokenValue());
         HttpEntity<?> entity = new HttpEntity<>("", headers);
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Map> response = restTemplate.exchange(emailEndpointUri, HttpMethod.GET, entity, Map.class);
         List<?> list = (List<?>) Objects.requireNonNull(response.getBody()).get("elements");
         Map map = (Map<?, ?>) ((Map<?, ?>) list.get(0)).get("handle~");

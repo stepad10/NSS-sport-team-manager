@@ -15,13 +15,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Invitation extends Entity  {
+public class Invitation extends Entity implements Serializable {
 
     private LocalDateTime created;
     private LocalDateTime changed;

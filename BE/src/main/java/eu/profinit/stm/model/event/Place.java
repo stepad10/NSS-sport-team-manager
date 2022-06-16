@@ -13,6 +13,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * Class representing Place entity. Contains name and address.
  */
@@ -20,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Place extends Entity {
+public class Place extends Entity implements Serializable {
 
     private String name;
     private String address;

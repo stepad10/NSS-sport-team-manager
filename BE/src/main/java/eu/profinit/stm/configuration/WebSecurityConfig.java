@@ -2,6 +2,7 @@ package eu.profinit.stm.configuration;
 
 import eu.profinit.stm.security.jwt.TokenAuthenticationFilter;
 import eu.profinit.stm.security.oauth2.*;
+import eu.profinit.stm.service.LoggingInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @Import({PasswordEncoderConfiguration.class})
@@ -34,6 +36,8 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private LoggingInterceptor loggingInterceptor;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -124,13 +128,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> authorizationCodeTokenResponseClient() {
+    @Bean
+    public RestTemplate restTemplate() {
+
+        RestTemplate restTemplate = new RestTemplate();
         OAuth2AccessTokenResponseHttpMessageConverter tokenResponseHttpMessageConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
-		tokenResponseHttpMessageConverter.setAccessTokenResponseConverter(new DefaultMapOAuth2AccessTokenResponseConverter());
-        RestTemplate restTemplate = new RestTemplate(Arrays.asList(new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
+        tokenResponseHttpMessageConverter.setAccessTokenResponseConverter(new DefaultMapOAuth2AccessTokenResponseConverter());
+        restTemplate.setMessageConverters(Arrays.asList(new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
+        restTemplate.setInterceptors(Collections.singletonList(loggingInterceptor));
         restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
+        return restTemplate;
+    }
+
+    private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> authorizationCodeTokenResponseClient() {
+
         DefaultAuthorizationCodeTokenResponseClient tokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
-        tokenResponseClient.setRestOperations(restTemplate);
+
+        tokenResponseClient.setRestOperations(restTemplate());
         return tokenResponseClient;
     }
 }

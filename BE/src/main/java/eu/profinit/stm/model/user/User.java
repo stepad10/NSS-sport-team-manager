@@ -4,10 +4,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @EqualsAndHashCode(callSuper = false)
 @Data
 @NoArgsConstructor
-public class User extends UserParent {
+public class User extends UserParent implements Serializable {
     private String surname;
     private String password;
     private String email;

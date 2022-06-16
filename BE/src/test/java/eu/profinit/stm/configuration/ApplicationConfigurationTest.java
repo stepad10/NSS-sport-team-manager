@@ -14,8 +14,7 @@ import org.springframework.context.annotation.Import;
  * Basic configuration of an application for tests.
  */
 @Configuration
-@Import({WebApplicationConfigurationTest.class,
-        AspectConfiguration.class})
+@Import({WebApplicationConfigurationTest.class})
 public class ApplicationConfigurationTest {
 
 }

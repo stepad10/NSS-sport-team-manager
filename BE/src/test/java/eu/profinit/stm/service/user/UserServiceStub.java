@@ -225,6 +225,11 @@ public class UserServiceStub implements UserService {
         }
     }
 
+    @Override
+    public User findUserById(Long id) throws EntityNotFoundException {
+        return null;
+    }
+
     /**
      * Finds if user exists in database by email.
      *

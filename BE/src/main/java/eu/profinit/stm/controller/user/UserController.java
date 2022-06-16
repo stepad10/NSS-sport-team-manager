@@ -21,6 +21,7 @@ import eu.profinit.stm.service.user.AuthenticationFacade;
 import eu.profinit.stm.service.user.UserService;
 import eu.profinit.stm.util.GeneralUtils;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
  * Maps incoming user requests.
  * TODO not all features implemented
  */
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -53,6 +55,7 @@ public class UserController {
 
     @GetMapping("/user/me")
     public ResponseEntity<?> getCurrentUser(@CurrentUser @NonNull LocalUser user) {
+        log.debug("endpoint /user/me hit!");
         return ResponseEntity.ok(GeneralUtils.buildUserInfo(user));
     }
 

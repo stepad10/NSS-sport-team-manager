@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message extends Entity {
+public class Message extends Entity implements Serializable {
 
     private User user;
     private String text;
