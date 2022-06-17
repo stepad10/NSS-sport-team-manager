@@ -2,7 +2,7 @@ name: Build Dependencies
 on:
   push:
     branches:
-      - dstepanek # todo master
+      - dstepanek-github-action # todo master
 jobs:
   Build-Dependecies-Action
     runs-on: ubuntu-latest
