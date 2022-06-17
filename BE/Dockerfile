@@ -1,5 +1,5 @@
 FROM openjdk:11-jdk-alpine
-EXPOSE 8080
+ARG PORT
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)

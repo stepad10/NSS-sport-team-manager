@@ -1,0 +1,13 @@
+# build:
+#   docker:
+#     web: BE/Dockerfile
+#   config:
+#     PORT: 8080
+
+build:
+  docker:
+    database: DB/Dockerfile
+  config:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_DB: stm/db
