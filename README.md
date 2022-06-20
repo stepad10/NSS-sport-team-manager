@@ -27,3 +27,12 @@ Popis funkcí je uveden na wiki.
 
 
 TODO přidat odkazy na místa, HEROKU, init postup
+## Init postup
+
+1. Stáhněte si Docker a spusťte.
+2. V source složce pusťte tento příkaz:
+```
+docker-compose up
+```
+3. V Dockeru by se měla spustit multi-container applikace.
+4. Applikace je dostupná na http://localhost:4200.
