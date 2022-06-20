@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sport-team-manager",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -90,6 +90,19 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
             "scripts": []
+          }
+        },
+        "ngsscbuild": {
+          "builder": "angular-server-side-configuration:ngsscbuild",
+          "options": {
+            "additionalEnvironmentVariables": [],
+            "ngsscEnvironmentFile": "src/environments/environment.prod.ts",
+            "browserTarget": "sport-team-manager:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "sport-team-manager:build:production"
+            }
           }
         }
       }

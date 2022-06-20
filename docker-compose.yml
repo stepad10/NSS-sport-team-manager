@@ -16,6 +16,7 @@ services:
       SPRING_DATASOURCE_JDBC-URL: jdbc:postgresql://app-db:5432/stm-db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+      PORT: 8080
     networks:
       - backend
       - frontend
@@ -26,7 +27,7 @@ services:
       context: FE
       dockerfile: Dockerfile
       args:
-        API_BASE_URL: http://127.0.0.1:8080/
+        CONFIGURATION: development
     ports:
       - "4200:80"
     environment:

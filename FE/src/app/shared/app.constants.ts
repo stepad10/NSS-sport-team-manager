@@ -1,8 +1,9 @@
 import { HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export class AppConstants {
-  public static BASE_URL = `http://localhost:4200`;
-  private static API_BASE_URL = `http://localhost:8080`;
+  public static BASE_URL = `${environment.BASE_URL}`;
+  private static API_BASE_URL = `${environment.API_BASE_URL}`;
   private static OAUTH2_URL = `${this.API_BASE_URL}/oauth2/authorization`;
   private static REDIRECT_URL = `?redirect_uri=${this.BASE_URL}/login`;
 

@@ -4,9 +4,4 @@ setup:
       as: DATABASE
 build:
   docker:
-    app-be: BE/Dockerfile
-    app-fe: FE/Dockerfile
-  config:
-    SPRING_DATASOURCE_JDBC-URL: jdbc:postgresql://app-db:5432/stm-db
-    SPRING_DATASOURCE_USERNAME: postgres
-    SPRING_DATASOURCE_PASSWORD: postgres
+    web: BE/Dockerfile
