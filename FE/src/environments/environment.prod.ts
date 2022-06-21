@@ -19,7 +19,7 @@ export const environment = {
   production: true,
   BASE_URL:
     process.env['BASE_URL'] ||
-    'https://shesucke.github.io/Spring-Boot-Angular-Application',
+    'https://shesucke.github.io:443/Spring-Boot-Angular-Application',
   API_BASE_URL:
     process.env['API_BASE_URL'] ||
     'https://sport-team-manager-fel.herokuapp.com',
