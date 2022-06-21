@@ -1,38 +1,38 @@
 name: Deploy to GitHub Pages and Heroku
 on:
-  push:	
-    branches:	
+  push:
+    branches:
       - master
 
 jobs:
   deploy:
     name: Deploy to GitHub Pages and Heroku
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16.x
+      - uses: actions/checkout@master
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
 
-    - name: npm install and build
-      run: |
-        cd FE
-        npm install
-        npm run build
+      - name: npm install and build
+        run: |
+          cd FE
+          npm install
+          npm run build -- --base-href='https://shesucke.github.io/Spring-Boot-Angular-Application/'
 
-    - name: Deploy GitHub Pages
-      uses: s0/git-publish-subdir-action@develop
-      env:
-        REPO: self
-        BRANCH: gh-pages
-        FOLDER: FE/dist
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Deploy Backend
-      uses: s0/git-publish-subdir-action@develop
-      env:
-        REPO: self
-        BRANCH: heroku
-        FOLDER: BE
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy GitHub Pages
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: gh-pages
+          FOLDER: FE/dist
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy Backend
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: heroku
+          FOLDER: BE
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
