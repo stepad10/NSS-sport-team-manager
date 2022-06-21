@@ -2,7 +2,7 @@
 version: "3.8"
 
 services:
-  # App backend service
+  # Backend service
   app-be:
     build:
       context: BE
@@ -21,7 +21,7 @@ services:
       - backend
       - frontend
 
-  # Frontend Service
+  # Frontend service
   app-fe:
     build:
       context: FE
@@ -38,7 +38,7 @@ services:
     networks:
       - frontend
 
-  # Database Service
+  # Database service
   app-db:
     build:
       context: DB
