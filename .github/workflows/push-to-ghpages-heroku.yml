@@ -20,6 +20,8 @@ jobs:
           cd FE
           npm install
           npm run build -- --base-href='https://shesucke.github.io/Spring-Boot-Angular-Application/'
+          cd FE
+          cp index.html 404.html
 
       - name: Deploy GitHub Pages
         uses: s0/git-publish-subdir-action@develop
