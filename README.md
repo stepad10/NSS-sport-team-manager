@@ -2,11 +2,15 @@
 
 Aplikace slouží k podpoře organizace týmových aktivit.
 
-Popis funkcí je uveden na wiki.
+Popis funkcí, technologií, ... je uveden na wiki.
+
+Repo (master branch) je mirrorováno z GitLab na GitHub, kde se pomocí GitHub Actions deployne BE složka na Heroku a FE se buildne do branche gh-pages, kde se hostují GitHub Pages.
+
+Tedy aplikace funguje následovně, na GH Pages je web server, který komunikuje s BE, který běží, společně s databází, na Heroku.
 
 ##  Požadavky
 
-- [ ] HEROKU
+- [X] HEROKU
 - [X] Aplikace: Java - Spring Boot, Angular
 - [X] DB: PostgreSQL
 - [X] Cache: EhCache jako MyBatis extension, v resources/mapperMyBatis/*/*.xml
@@ -15,7 +19,7 @@ Popis funkcí je uveden na wiki.
 - [X] Interceptor - Využit pro logging (SLF4J) request a response. Vložen do RestTemplate.
 - [X] Controller: REST
 - [X] Architektura - Vícevrstevnatá
-- [ ] Init postup: zde
+- [X] Init postup: níže
 - [ ] Elasticsearch: X
 - [X] Design patterns: X => domluvili jsme se na náhradě technologiemi.
 - Liquibase - Pro verzování databáze, enum data.
@@ -26,13 +30,14 @@ Popis funkcí je uveden na wiki.
 
 
 
-TODO přidat odkazy na místa, HEROKU, init postup
+TODO přidat odkazy na místa
 ## Init postup
 
 1. Stáhněte si Docker a spusťte.
-2. V source složce pusťte tento příkaz:
+2. Z branche "docker-compose" si stáhněte "docker-compose.yml" a vložte do source složky.
+3. V source složce pusťte tento příkaz:
 ```
 docker-compose up
 ```
-3. V Dockeru by se měla spustit multi-container applikace.
-4. Applikace je dostupná na http://localhost:4200.
+4. V Dockeru by se měla spustit multi-container applikace.
+5. Applikace je nyní dostupná na http://localhost:4200.
