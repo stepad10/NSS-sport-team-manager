@@ -17,6 +17,7 @@ jobs:
 
     - name: npm install and build
       run: |
+        cd FE
         npm install
         npm run build
 
@@ -25,7 +26,7 @@ jobs:
       env:
         REPO: self
         BRANCH: gh-pages
-        FOLDER: dist
+        FOLDER: FE/dist
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Deploy Backend
