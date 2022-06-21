@@ -1,0 +1,60 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+version: "3.8"
+
+services:
+  # Backend service
+  app-be:
+    build:
+      context: BE
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - app-db
+    environment:
+      JDBC_DATABASE_URL: jdbc:postgresql://app-db:5432/stm-db
+      JDBC_DATABASE_USERNAME: postgres
+      JDBC_DATABASE_PASSWORD: postgres
+      FACEBOOK_CLIENT_ID: 433381031553105
+      FACEBOOK_CLIENT_SECRET: 39e8e11b27414caa2a8f2d779a13fea5
+      GOOGLE_CLIENT_ID: 25103423271-qajc34472grro1hutijpjosnf9h3svap.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      GITHUB_CLIENT_ID: 3015988429db9de6df1c
+      GITHUB_CLIENT_SECRET: cb8876582d179d370d4b15dfc4ff977912b7006d
+      PORT: 8080
+    networks:
+      - backend
+      - frontend
+
+  # Frontend service
+  app-fe:
+    build:
+      context: FE
+      dockerfile: Dockerfile
+      args:
+        CONFIGURATION: development
+    ports:
+      - "4200:80"
+    environment:
+      - PORT=80
+    restart: always
+    depends_on:
+      - app-be
+    networks:
+      - frontend
+
+  # Database service
+  app-db:
+    build:
+      context: DB
+      dockerfile: Dockerfile
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - backend
+
+networks:
+  backend:
+  frontend:
