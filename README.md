@@ -1,46 +1,42 @@
 # Sport Team Manager
 
-Aplikace slouží k podpoře organizace týmových aktivit.
+The application is used to support the organization of team activities.
 
-Popis funkcí, technologií... je uveden na wiki.
-
-Repo (master branch) je mirrorováno z GitLab na GitHub, kde se auto deployne BE složka na Heroku a FE se pomocí GitHub Actions buildne do branche gh-pages, odkud se hostují GitHub Pages.
-
-Tedy aplikace funguje následovně, na GH Pages je web server, který komunikuje s BE, který běží, společně s databází, na Heroku.
+A description of functions, technologies... is provided on the wiki.
 
 ## Known issues
 
-GitHub OAuth nefunguje, bohužel je jen 1 adresa na redirect, tak jsem nechal localhost.
+GitHub OAuth isn't working, unfortunately there's only 1 redirect address, so I left localhost.
 
-## Požadavky
+## Requirements
 
 - [x] HEROKU
-- [x] Aplikace: Java - Spring Boot, Angular
+- [x] Application: Java - Spring Boot, Angular
 - [x] DB: PostgreSQL
-- [x] [Cache](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/tree/master/BE/src/main/resources/eu/profinit/stm/mapperMyBatis): EhCache jako MyBatis extension, v resources/mapperMyBatis/_/_.xml
+- [x] [Cache](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/tree/master/BE/src/main/resources/eu/profinit/stm/mapperMyBatis): EhCache as MyBatis extension, in resources/mapperMyBatis/_/_.xml
 - [ ] Messaging: X
-- [x] [Security](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/tree/master/BE/src/main/java/eu/profinit/stm/security): OAuth2 - local, Google, Facebook, Github (nevrací private email => volání Github API)
-- [x] [Interceptor](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/blob/master/BE/src/main/java/eu/profinit/stm/service/LoggingInterceptor.java) - Využit pro logging (SLF4J) request a response. Vložen do RestTemplate.
+- [x] [Security](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/tree/master/BE/src/main/java/eu/profinit/stm/security): OAuth2 - local, Google, Facebook, Github (doesn't return private email => calls Github API)
+- [x] [Interceptor](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/blob/master/BE/src/main/java/eu/profinit/stm/service/LoggingInterceptor.java) - Used for logging (SLF4J) requests and responses. Inserted into RestTemplate.
 - [x] [Controller](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/tree/master/BE/src/main/java/eu/profinit/stm/controller): REST
-- [x] Architektura - Vícevrstevnatá
-- [x] Init postup: níže
+- [x] Architecture - Multilayered
+- [x] Init procedure: below
 - [ ] Elasticsearch: X
-- [x] Design patterns: X => domluvili jsme se na náhradě technologiemi.
-- [Liquibase](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/tree/master/BE/src/main/resources) - Pro verzování databáze, enum data.
-- H2 - Embedded databáze pro testování, při inicializaci se nahrají changelogy a testovací data. Nastavení v testovacích .properties.
-- [Docker](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/blob/docker-compose/docker-compose.yml) - BE, FE, DB. Dockerfile v jednotlivých složkách.
-- [MyBatis](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/tree/master/BE/src/main/java/eu/profinit/stm/mapperMyBatis) - Interface pro komunikaci s DB, využívá cache.
+- [x] Design patterns: X => we agreed on replacement with technologies.
+- [x] [Liquibase](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/tree/master/BE/src/main/resources) - For database versioning, enum data.
+- [x] H2 - Embedded database for testing, on initialization changelogs and test data are loaded. Settings in test .properties.
+- [x] [Docker](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/blob/docker-compose/docker-compose.yml) - BE, FE, DB. Dockerfile in individual folders.
+- [x] [MyBatis](https://gitlab.fel.cvut.cz/stepad10/nss-projekt/-/tree/master/BE/src/main/java/eu/profinit/stm/mapperMyBatis) - Interface for communication with DB, uses cache.
 - [ ] Cloud services: X
 
-## Init postup
+## Initial Procedure
 
-1. Stáhněte si Docker a spusťte.
-2. Z branche "docker-compose" si stáhněte "docker-compose.yml" a vložte do source složky.
-3. V source složce pusťte tento příkaz:
+1. Download Docker and run it.
+2. From the "docker-compose" branch, download the "docker-compose.yml" file and place it in the source folder.
+3. In the source folder, run this command:
 
-```
+```bash
 docker-compose up
 ```
 
-4. V Dockeru by se měla spustit multi-container applikace.
-5. Applikace je nyní dostupná na http://localhost:4200.
+4. A multi-container application should start in Docker.
+5. The application is now available at http://localhost:4200.
